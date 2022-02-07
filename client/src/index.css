@@ -1,5 +1,9 @@
+/* Default: Phones from 0px to 549px */
+
+/* Typography */
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
+/* Colors */
 :root {
   --primary-color: hsl(29, 65%, 37%);
   --secondary-color: #fff;
