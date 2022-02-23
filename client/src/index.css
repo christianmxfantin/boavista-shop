@@ -5,11 +5,12 @@
 
 /* Colors */
 :root {
-  --primary-color: hsl(29, 65%, 37%);
-  --secondary-color: #fff;
+  --primary-color: hsl(207, 90%, 36%);
+  --secondary-color: hsl(50, 90%, 54%);
+  --tertiary-color: hsl(0, 0%, 100%);
   --grey-color: grey;
-  --success-color: green;
-  --error-color: red;
+  --success-color: hsl(117, 36%, 54%);
+  --error-color: hsl(358, 72%, 45%);
 }
 
 body {
@@ -17,5 +18,5 @@ body {
   padding: 0;
   font-family: "Roboto", sans-serif;
   background-color: var(--primary-color);
-  color: var(--secondary-color);
+  color: var(--tertiary-color);
 }
