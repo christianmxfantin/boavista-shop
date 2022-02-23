@@ -1,0 +1,10 @@
+.navbar-container {
+  background-color: var(--primary-color);
+  padding: 2em;
+}
+
+.navbar-links {
+  text-decoration: none;
+  color: white;
+  padding: 0.5em;
+}
