@@ -1,5 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "./store";
 
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
@@ -11,51 +13,53 @@ import PageNotFound from "./pages/PageNotFound";
 const App = () => {
   return (
     <>
-      <Router>
-        <Routes>
-          <Route
-            exact
-            path="/"
-            element={
-              <>
-                <Navbar />
-                <Home />
-              </>
-            }
-          />
-          <Route
-            exact
-            path="/products"
-            element={
-              <>
-                <Navbar />
-                <Products />
-              </>
-            }
-          />
-          <Route
-            exact
-            path="/login"
-            element={
-              <>
-                <Navbar />
-                <Login />
-              </>
-            }
-          />
-          <Route
-            exact
-            path="/cart"
-            element={
-              <>
-                <Navbar />
-                <Cart />
-              </>
-            }
-          />
-          <Route exact path="*" element={<PageNotFound />} />
-        </Routes>
-      </Router>
+      <Provider store={store}>
+        <Router>
+          <Routes>
+            <Route
+              exact
+              path="/"
+              element={
+                <>
+                  <Navbar />
+                  <Home />
+                </>
+              }
+            />
+            <Route
+              exact
+              path="/products"
+              element={
+                <>
+                  <Navbar />
+                  <Products />
+                </>
+              }
+            />
+            <Route
+              exact
+              path="/login"
+              element={
+                <>
+                  <Navbar />
+                  <Login />
+                </>
+              }
+            />
+            <Route
+              exact
+              path="/cart"
+              element={
+                <>
+                  <Navbar />
+                  <Cart />
+                </>
+              }
+            />
+            <Route exact path="*" element={<PageNotFound />} />
+          </Routes>
+        </Router>
+      </Provider>
     </>
   );
 };
