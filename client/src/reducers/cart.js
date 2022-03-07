@@ -6,8 +6,12 @@ import {
 } from "../types";
 
 export const initialState = {
-  //traer de la BD, porque esta enviando un array vacío
-  products: [],
+  //traer data de la BD
+  products: [
+    { id: 1, name: "Producto 1", price: 300 },
+    { id: 2, name: "Producto 2", price: 500 },
+    { id: 3, name: "Producto 3", price: 900 },
+  ],
   cart: [],
 };
 
@@ -44,14 +48,9 @@ export const cartReducer = (state = initialState, action) => {
                 : item
             ),
           }
-        : {
-            ...state,
-            cart: state.cart.filter((item) => item.id !== action.payload),
-          };
+        : {};
     }
     case REMOVE_ALL_FROM_CART: {
-      //ver si se puede refactorizar
-      //es igual a la parte negativa de arriba
       return {
         ...state,
         cart: state.cart.filter((item) => item.id !== action.payload),

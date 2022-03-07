@@ -5,6 +5,7 @@ import ProductItem from "../components/ProductItem";
 import "../styles/pages/Products.css";
 
 const Products = () => {
+  //traer data de la BD
   let products = [
     { id: 1, name: "Producto 1", price: 300 },
     { id: 2, name: "Producto 2", price: 500 },

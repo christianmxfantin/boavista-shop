@@ -6,7 +6,7 @@ const ProductItem = ({ data, addToCart }) => {
     <>
       <div className="product-item__container">
         <div>{name}</div>
-        <div>{price}</div>
+        <div>$ {price}</div>
         <button onClick={() => addToCart(id)}>Agregar</button>
       </div>
     </>

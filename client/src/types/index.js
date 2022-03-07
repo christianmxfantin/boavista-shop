@@ -1,5 +1,12 @@
 //AUTH
 
+//PRODUCTS
+export const ADD_PRODUCT = "CREATE_PRODUCT";
+export const READ_ALL_PRODUCTS = "READ_ALL_PRODUCTS";
+export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
+export const DELETE_PRODUCT = "DELETE_PRODUCT";
+export const NO_PRODUCT = "NO_PRODUCT";
+
 //CART
 export const ADD_TO_CART = "ADD_TO_CART";
 export const REMOVE_ONE_FROM_CART = "REMOVE_ONE_FROM_CART";
