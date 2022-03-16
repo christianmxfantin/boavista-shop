@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import Icon from "./Icon";
 import "../styles/components/Navbar.css";
 
 const Navbar = () => {
@@ -16,7 +17,7 @@ const Navbar = () => {
           Login
         </NavLink>
         <NavLink to="/cart" className="navbar-links">
-          Carrito
+          <Icon name="fa-solid fa-cart-shopping" />
         </NavLink>
       </div>
     </>
