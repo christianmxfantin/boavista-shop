@@ -2,7 +2,6 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart } from "../actions/cart";
 import ProductItem from "../components/ProductItem";
-import "../styles/pages/Products.css";
 
 const Products = () => {
   //traer data de la BD

@@ -1,16 +1,18 @@
 import React from "react";
-import "../styles/pages/Home.css";
+import { Typography } from "@mui/material";
 
-import Hero from "../components/home/Hero";
-import About from "../components/home/About";
-import Contact from "../components/home/Contact";
+import Hero from "../components/Home/Hero";
+import About from "../components/Home/About";
+import Contact from "../components/Home/Contact";
 
 const Home = () => {
   return (
     <>
-      <Hero />
-      <About />
-      <Contact />
+      <Typography sx={{ color: "primary.main" }}>
+        <Hero />
+        <About />
+        <Contact />
+      </Typography>
     </>
   );
 };

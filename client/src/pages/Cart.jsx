@@ -2,7 +2,6 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { clearCart, delFromCart } from "../actions/cart";
 import CartItem from "../components/CartItem";
-import "../styles/pages/Cart.css";
 
 const Cart = () => {
   //ver de donde traer la data de cart

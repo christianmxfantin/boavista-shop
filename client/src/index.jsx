@@ -5,7 +5,11 @@ import App from "./App";
 
 ReactDOM.render(
   <React.StrictMode>
-    <GlobalStyles />
+    <GlobalStyles
+      styles={{
+        body: { margin: 0, padding: 0 },
+      }}
+    />
     <App />
   </React.StrictMode>,
   document.getElementById("root")

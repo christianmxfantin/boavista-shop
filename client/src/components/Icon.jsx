@@ -1,15 +1,13 @@
 import React from "react";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
-const icons = [{ name: "fa-solid fa-cart-shopping" }];
+const icons = [{ name: "ShoppingCartIcon", img: ShoppingCartIcon }];
 
 const Icon = ({ name }) => {
   let icon = icons.find((icon) => icon.name === name);
+  console.log(icon);
 
-  return (
-    <>
-      <i className={icon.name}></i>
-    </>
-  );
+  return <>{icon.img.render}</>;
 };
 
 export default Icon;
