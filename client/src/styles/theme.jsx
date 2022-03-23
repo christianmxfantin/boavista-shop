@@ -1,8 +1,6 @@
 import { createTheme } from "@mui/material/styles";
-//import { purple } from "@mui/material//colors";
 
 const theme = createTheme({
-  //Colors
   palette: {
     primary: {
       main: "hsl(207, 90%, 36%)",
@@ -14,7 +12,7 @@ const theme = createTheme({
       main: "hsl(0, 0%, 100%)",
     },
     grey: {
-      main: "grey",
+      main: "hsl(227, 5%, 54%)",
     },
     success: {
       main: "hsl(117, 36%, 54%)",

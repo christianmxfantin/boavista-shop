@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useTheme } from "@emotion/react";
 import {
   AppBar,
   Avatar,
@@ -11,24 +12,25 @@ import {
   Menu,
   MenuItem,
   Toolbar,
-  Tooltip,
   Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import Icon from "../Icon";
+import Icon from "./Icon";
 
-// const pages = ["products", "login", "cart"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const Navbar = () => {
+  const theme = useTheme();
+
+  const [isLogged, setIsLogged] = useState(false);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
+  const handleOpenNavMenu = (e) => {
+    setAnchorElNav(e.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
+  const handleOpenUserMenu = (e) => {
+    setAnchorElUser(e.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
@@ -40,7 +42,7 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: "primary" }}>
+    <AppBar position="static" sx={{ backgroundColor: theme.palette.primary }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -49,7 +51,13 @@ const Navbar = () => {
             component="div"
             sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
           >
-            <Link style={{ textDecoration: "none", color: "white" }} to="/">
+            <Link
+              style={{
+                textDecoration: "none",
+                color: `${theme.palette.tertiary.main}`,
+              }}
+              to="/"
+            >
               LOGO
             </Link>
           </Typography>
@@ -83,22 +91,13 @@ const Navbar = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {/* {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">
-                    <Link
-                      style={{ textDecoration: "none", color: "white" }}
-                      to={`${page}`}
-                    >
-                      {page}
-                    </Link>
-                  </Typography>
-                </MenuItem>
-              ))} */}
               <MenuItem onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">
                   <Link
-                    style={{ textDecoration: "none", color: "white" }}
+                    style={{
+                      textDecoration: "none",
+                      color: `${theme.palette.tertiary.main}`,
+                    }}
                     to="/products"
                   >
                     Productos
@@ -108,7 +107,10 @@ const Navbar = () => {
               <MenuItem onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">
                   <Link
-                    style={{ textDecoration: "none", color: "white" }}
+                    style={{
+                      textDecoration: "none",
+                      color: `${theme.palette.tertiary.main}`,
+                    }}
                     to="/cart"
                   >
                     Carrito
@@ -125,31 +127,26 @@ const Navbar = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
           >
-            <Link style={{ textDecoration: "none", color: "white" }} to="/">
+            <Link
+              style={{
+                textDecoration: "none",
+                color: `${theme.palette.tertiary.main}`,
+              }}
+              to="/"
+            >
               LOGO
             </Link>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {/* {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                <Link
-                  style={{ textDecoration: "none", color: "white" }}
-                  to={`${page}`}
-                >
-                  {page}
-                </Link>
-              </Button>
-            ))} */}
             <Button
               onClick={handleCloseNavMenu}
               sx={{ my: 2, color: "white", display: "block" }}
             >
               <Link
-                style={{ textDecoration: "none", color: "white" }}
+                style={{
+                  textDecoration: "none",
+                  color: `${theme.palette.tertiary.main}`,
+                }}
                 to="/products"
               >
                 Productos
@@ -160,7 +157,10 @@ const Navbar = () => {
               sx={{ my: 2, color: "white", display: "block" }}
             >
               <Link
-                style={{ textDecoration: "none", color: "white" }}
+                style={{
+                  textDecoration: "none",
+                  color: `${theme.palette.tertiary.main}`,
+                }}
                 to="/cart"
               >
                 <Icon name="ShoppingCartIcon" />
@@ -168,35 +168,41 @@ const Navbar = () => {
             </Button>
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+          {isLogged ? (
+            <Box sx={{ flexGrow: 0 }}>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+          ) : (
+            <Box>
+              <Button sx={{ my: 2, color: "white", display: "block" }}>
+                Login
+              </Button>
+            </Box>
+          )}
         </Toolbar>
       </Container>
     </AppBar>

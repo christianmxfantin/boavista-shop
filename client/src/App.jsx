@@ -6,7 +6,7 @@ import store from "./store";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "./styles/theme";
 
-import Navbar from "./components/Navbar/Navbar";
+import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Products from "./pages/Products";
 import Login from "./pages/Login";
