@@ -13,7 +13,7 @@ const Home = () => {
       <Typography sx={{ color: `${theme.palette.primary.main}` }}>
         <Hero />
         <About />
-        <Contact />
+        {/* <Contact /> */}
       </Typography>
     </>
   );

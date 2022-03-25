@@ -8,13 +8,21 @@ const Hero = () => {
 
   return (
     <>
-      <Container sx={{ padding: "0px !important", height: "", width: "" }}>
+      <Container
+        sx={{
+          padding: "0px !important",
+          margin: "0px",
+          height: "100vh",
+          maxWidth: "100%",
+        }}
+      >
         <img
           src={Photo}
           alt=""
           style={{
+            width: "100%",
+            height: "100%",
             objectFit: "cover",
-            objectPosition: "left top",
           }}
         />
       </Container>
