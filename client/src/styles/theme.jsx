@@ -4,6 +4,7 @@ const theme = createTheme({
   palette: {
     primary: {
       main: "hsl(207, 90%, 36%)",
+      second: "hsl(207, 50%, 55%)",
     },
     secondary: {
       main: "hsl(50, 90%, 54%)",

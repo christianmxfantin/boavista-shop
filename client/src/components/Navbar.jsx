@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Icon from "./Icon";
+import Logo from "../images/logo.png";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -42,7 +43,10 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: theme.palette.primary }}>
+    <AppBar
+      position="fixed"
+      sx={{ backgroundColor: `${theme.palette.primary.main}` }}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -58,7 +62,15 @@ const Navbar = () => {
               }}
               to="/"
             >
-              LOGO
+              <Container sx={{ width: 270, height: 60, paddingTop: "3px" }}>
+                <img
+                  src={Logo}
+                  alt=""
+                  style={{
+                    maxWidth: "100%",
+                  }}
+                />
+              </Container>
             </Link>
           </Typography>
 
@@ -69,7 +81,7 @@ const Navbar = () => {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="inherit"
+              sx={{ color: `${theme.palette.tertiary.main}` }}
             >
               <MenuIcon />
             </IconButton>
@@ -96,7 +108,7 @@ const Navbar = () => {
                   <Link
                     style={{
                       textDecoration: "none",
-                      color: `${theme.palette.tertiary.main}`,
+                      color: `${theme.palette.primary.main}`,
                     }}
                     to="/products"
                   >
@@ -109,7 +121,7 @@ const Navbar = () => {
                   <Link
                     style={{
                       textDecoration: "none",
-                      color: `${theme.palette.tertiary.main}`,
+                      color: `${theme.palette.primary.main}`,
                     }}
                     to="/cart"
                   >
@@ -122,7 +134,7 @@ const Navbar = () => {
             {/* MENU DESKTOP   */}
           </Box>
           <Typography
-            variant="h6"
+            variant="h5"
             noWrap
             component="div"
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
@@ -134,13 +146,25 @@ const Navbar = () => {
               }}
               to="/"
             >
-              LOGO
+              <Container sx={{ width: 270, height: 60, paddingTop: "3px" }}>
+                <img
+                  src={Logo}
+                  alt=""
+                  style={{
+                    maxWidth: "100%",
+                  }}
+                />
+              </Container>
             </Link>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button
               onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: "white", display: "block" }}
+              sx={{
+                my: 2,
+                display: "block",
+                fontSize: "16px",
+              }}
             >
               <Link
                 style={{
@@ -154,11 +178,13 @@ const Navbar = () => {
             </Button>
             <Button
               onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: "white", display: "block" }}
+              sx={{ my: 2, display: "block" }}
             >
               <Link
                 style={{
                   textDecoration: "none",
+                  display: "flex",
+                  alignItems: "center",
                   color: `${theme.palette.tertiary.main}`,
                 }}
                 to="/cart"
@@ -191,15 +217,38 @@ const Navbar = () => {
               >
                 {settings.map((setting) => (
                   <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
+                    <Typography
+                      textAlign="center"
+                      sx={{
+                        color: `${theme.palette.primary.main}`,
+                      }}
+                    >
+                      {setting}
+                    </Typography>
                   </MenuItem>
                 ))}
               </Menu>
             </Box>
           ) : (
             <Box>
-              <Button sx={{ my: 2, color: "white", display: "block" }}>
-                Login
+              <Button
+                sx={{
+                  my: 2,
+                  backgroundColor: `${theme.palette.primary.second}`,
+                  color: `${theme.palette.tertiary.main}`,
+                  display: "block",
+                  fontSize: "16px",
+                }}
+              >
+                <Link
+                  style={{
+                    textDecoration: "none",
+                    color: `${theme.palette.tertiary.main}`,
+                  }}
+                  to="/login"
+                >
+                  Login
+                </Link>
               </Button>
             </Box>
           )}
