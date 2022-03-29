@@ -1,7 +1,7 @@
 import React from "react";
 import { useTheme } from "@emotion/react";
 import { Container, Typography } from "@mui/material";
-import Shop from "../../images/about-shop.jpg";
+import AboutImage from "../../images/about-image.jpg";
 
 const About = () => {
   const theme = useTheme();
@@ -9,40 +9,72 @@ const About = () => {
   return (
     <>
       <Container
+        maxWidth="xl"
         sx={{
           padding: "0px !important",
           margin: "0px",
-          height: "100vh",
-          width: "100vw",
           display: "flex",
         }}
       >
-        <Container>
-          <Container>
-            <Typography variant="h3">¿Quiénes somos?</Typography>
+        <Container
+          maxWidth="xl"
+          sx={{
+            padding: "0px !important",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignContent: "center",
+          }}
+        >
+          <Container
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              marginBottom: "15px",
+            }}
+          >
+            <Typography
+              variant="h3"
+              sx={{
+                fontWeight: "bold",
+              }}
+            >
+              ¿Quiénes somos?
+            </Typography>
           </Container>
-          <Container>
-            <Typography>
-              Más de diez años en el mercado, avalan nuestro compromiso de
-              brindar un mejor servicio cada día
+          <Container
+            sx={{
+              width: "600px",
+            }}
+          >
+            <Typography
+              sx={{
+                textAlign: "justify",
+              }}
+            >
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+              sunt in culpa qui officia deserunt mollit anim id est laborum.
             </Typography>
           </Container>
         </Container>
+
         <Container
           sx={{
             padding: "0px !important",
-            margin: "10px",
-            height: "300px",
-            width: "700px",
+            margin: "50px",
           }}
         >
           <img
-            src={Shop}
+            src={AboutImage}
             alt=""
             style={{
               width: "100%",
               height: "100%",
-              border: `5px solid ${theme.palette.primary.main}`,
               borderRadius: "30px",
               objectFit: "cover",
             }}
