@@ -5,6 +5,7 @@ import { useTheme } from "@emotion/react";
 import {
   AppBar,
   Avatar,
+  Badge,
   Box,
   Button,
   Container,
@@ -43,10 +44,7 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar
-      position="fixed"
-      sx={{ backgroundColor: `${theme.palette.primary.main}` }}
-    >
+    <AppBar position="fixed" color="primary">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -76,12 +74,12 @@ const Navbar = () => {
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
+              color="tertiary"
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              sx={{ color: `${theme.palette.tertiary.main}` }}
             >
               <MenuIcon />
             </IconButton>
@@ -189,7 +187,12 @@ const Navbar = () => {
                 }}
                 to="/cart"
               >
-                <Icon name="ShoppingCartIcon" />
+                <Badge badgeContent={105} max={99} color="secondary">
+                  <Icon
+                    name="ShoppingCartIcon"
+                    color={theme.palette.tertiary.main}
+                  />
+                </Badge>
               </Link>
             </Button>
           </Box>

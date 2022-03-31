@@ -36,7 +36,7 @@ const About = () => {
             <Typography
               variant="h3"
               sx={{
-                fontWeight: "bold",
+                fontWeight: 500,
               }}
             >
               ¿Quiénes somos?

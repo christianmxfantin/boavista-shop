@@ -18,7 +18,7 @@ const Contact = () => {
             display: "flex",
             justifyContent: "center",
             padding: "40px",
-            fontWeight: "bold",
+            fontWeight: 500,
             color: `${theme.palette.tertiary.main}`,
           }}
         >
@@ -59,7 +59,7 @@ const Contact = () => {
                 color: `${theme.palette.tertiary.main}`,
               }}
             >
-              Comunicáte con Nosotros
+              Comunicate con Nosotros
             </Typography>
           </Container>
         </Container>
