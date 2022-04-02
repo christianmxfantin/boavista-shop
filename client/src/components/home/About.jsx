@@ -39,7 +39,7 @@ const About = () => {
                 fontWeight: 500,
               }}
             >
-              ¿Quiénes somos?
+              Sobre Nosotros
             </Typography>
           </Container>
           <Container

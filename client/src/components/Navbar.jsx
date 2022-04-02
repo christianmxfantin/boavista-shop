@@ -16,7 +16,7 @@ import {
   Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import Icon from "./Icon";
+import { Icon as CartIcon } from "./Icon";
 import Logo from "../images/logo.png";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -188,9 +188,10 @@ const Navbar = () => {
                 to="/cart"
               >
                 <Badge badgeContent={105} max={99} color="secondary">
-                  <Icon
-                    name="ShoppingCartIcon"
+                  <CartIcon
+                    name="Cart"
                     color={theme.palette.tertiary.main}
+                    size={30}
                   />
                 </Badge>
               </Link>

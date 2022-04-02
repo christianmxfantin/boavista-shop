@@ -1,6 +1,22 @@
 import React from "react";
 import { useTheme } from "@emotion/react";
-import { Container, Typography } from "@mui/material";
+import {
+  Container as ContactContainer,
+  Container as DataContainer,
+  Container as SocialContainer,
+  Container as AddressCard,
+  Container as EmailCard,
+  Container as WhatsappCard,
+  Typography as ContactTitle,
+  Typography as AddressData,
+  Typography as EmailData,
+  Typography as WhatsappData,
+} from "@mui/material";
+import {
+  Icon as AddressIcon,
+  Icon as EmailIcon,
+  Icon as WhatsappIcon,
+} from "../Icon";
 import ContactImage from "../../images/contact-image.jpg";
 
 const Contact = () => {
@@ -8,11 +24,11 @@ const Contact = () => {
 
   return (
     <>
-      <Container
+      <ContactContainer
         maxWidth="xl"
         sx={{ backgroundColor: `${theme.palette.primary.main}` }}
       >
-        <Typography
+        <ContactTitle
           variant="h3"
           sx={{
             display: "flex",
@@ -22,48 +38,102 @@ const Contact = () => {
             color: `${theme.palette.tertiary.main}`,
           }}
         >
-          Contacto
-        </Typography>
-        <Container
+          Contactanos
+        </ContactTitle>
+        <DataContainer
           sx={{
             display: "flex",
             paddingBottom: "60px",
           }}
         >
-          <Container
-            sx={{
+          <img
+            src={ContactImage}
+            alt=""
+            style={{
               padding: "0px !important",
               margin: "10px",
+              width: "50%",
+              height: "50%",
+              borderRadius: "30px",
+              objectFit: "cover",
             }}
-          >
-            <img
-              src={ContactImage}
-              alt=""
-              style={{
-                width: "100%",
-                height: "100%",
-                borderRadius: "30px",
-                objectFit: "cover",
-              }}
-            />
-          </Container>
-          <Container
+          />
+          <SocialContainer
             sx={{
               display: "flex",
+              flexDirection: "column",
               justifyContent: "center",
             }}
           >
-            <Typography
-              variant="h4"
+            <AddressCard
               sx={{
-                color: `${theme.palette.tertiary.main}`,
+                display: "flex",
+                margin: "30px",
               }}
             >
-              Comunicate con Nosotros
-            </Typography>
-          </Container>
-        </Container>
-      </Container>
+              <AddressIcon
+                name="Address"
+                color={theme.palette.tertiary.main}
+                size={40}
+              />
+              <AddressData
+                variant="h5"
+                sx={{
+                  color: `${theme.palette.tertiary.main}`,
+                  fontWeight: 300,
+                  marginLeft: "15px",
+                }}
+              >
+                Leandro N. Alem 916, CABA
+              </AddressData>
+            </AddressCard>
+            <EmailCard
+              sx={{
+                display: "flex",
+                margin: "30px",
+              }}
+            >
+              <EmailIcon
+                name="Email"
+                color={theme.palette.tertiary.main}
+                size={40}
+              />
+              <EmailData
+                variant="h5"
+                sx={{
+                  color: `${theme.palette.tertiary.main}`,
+                  fontWeight: 300,
+                  marginLeft: "15px",
+                }}
+              >
+                info@libreriaboavista.com.ar
+              </EmailData>
+            </EmailCard>
+            <WhatsappCard
+              sx={{
+                display: "flex",
+                margin: "30px",
+              }}
+            >
+              <WhatsappIcon
+                name="Whatsapp"
+                color={theme.palette.tertiary.main}
+                size={40}
+              />
+              <WhatsappData
+                variant="h5"
+                sx={{
+                  color: `${theme.palette.tertiary.main}`,
+                  fontWeight: 300,
+                  marginLeft: "15px",
+                }}
+              >
+                (+54 11) 3832-3832
+              </WhatsappData>
+            </WhatsappCard>
+          </SocialContainer>
+        </DataContainer>
+      </ContactContainer>
     </>
   );
 };
