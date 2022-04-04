@@ -17,6 +17,7 @@ import {
   Icon as EmailIcon,
   Icon as WhatsappIcon,
 } from "../Icon";
+import Underline from "../ui/Underline";
 import ContactImage from "../../images/contact-image.jpg";
 
 const Contact = () => {
@@ -33,16 +34,18 @@ const Contact = () => {
           sx={{
             display: "flex",
             justifyContent: "center",
-            padding: "40px",
+            padding: "40px 40px 0 40px",
             fontWeight: 500,
             color: `${theme.palette.tertiary.main}`,
           }}
         >
           Contactanos
         </ContactTitle>
+        <Underline width={230} height={5} color={theme.palette.tertiary.main} />
         <DataContainer
           sx={{
             display: "flex",
+            marginTop: "40px",
             paddingBottom: "60px",
           }}
         >
@@ -68,6 +71,7 @@ const Contact = () => {
             <AddressCard
               sx={{
                 display: "flex",
+                alignItems: "center",
                 margin: "30px",
               }}
             >
@@ -90,6 +94,7 @@ const Contact = () => {
             <EmailCard
               sx={{
                 display: "flex",
+                alignItems: "center",
                 margin: "30px",
               }}
             >
@@ -112,6 +117,7 @@ const Contact = () => {
             <WhatsappCard
               sx={{
                 display: "flex",
+                alignItems: "center",
                 margin: "30px",
               }}
             >

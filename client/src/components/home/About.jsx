@@ -1,6 +1,12 @@
 import React from "react";
 import { useTheme } from "@emotion/react";
-import { Container, Typography } from "@mui/material";
+import {
+  Container as AboutContainer,
+  Container as AboutData,
+  Typography as AboutTitle,
+  Typography as AboutInfo,
+} from "@mui/material";
+import Underline from "../ui/Underline";
 import AboutImage from "../../images/about-image.jpg";
 
 const About = () => {
@@ -8,7 +14,7 @@ const About = () => {
 
   return (
     <>
-      <Container
+      <AboutContainer
         maxWidth="xl"
         sx={{
           padding: "0px !important",
@@ -16,71 +22,58 @@ const About = () => {
           display: "flex",
         }}
       >
-        <Container
-          maxWidth="xl"
+        <AboutData
           sx={{
-            padding: "0px !important",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            alignContent: "center",
+            marginLeft: "30px",
           }}
         >
-          <Container
+          <AboutTitle
+            variant="h3"
             sx={{
-              display: "flex",
-              justifyContent: "center",
-              marginBottom: "15px",
+              marginBottom: "",
+              textAlign: "center",
+              fontWeight: 500,
             }}
           >
-            <Typography
-              variant="h3"
-              sx={{
-                fontWeight: 500,
-              }}
-            >
-              Sobre Nosotros
-            </Typography>
-          </Container>
-          <Container
+            Sobre Nosotros
+          </AboutTitle>
+          <Underline
+            width={300}
+            height={5}
+            color={theme.palette.primary.main}
+          />
+          <AboutInfo
             sx={{
-              width: "600px",
+              marginTop: "20px",
+              textAlign: "justify",
             }}
           >
-            <Typography
-              sx={{
-                textAlign: "justify",
-              }}
-            >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </Typography>
-          </Container>
-        </Container>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum.
+          </AboutInfo>
+        </AboutData>
 
-        <Container
-          sx={{
+        <img
+          src={AboutImage}
+          alt=""
+          style={{
             padding: "0px !important",
             margin: "50px",
+            width: "50%",
+            height: "50%",
+            borderRadius: "30px",
+            objectFit: "cover",
           }}
-        >
-          <img
-            src={AboutImage}
-            alt=""
-            style={{
-              width: "100%",
-              height: "100%",
-              borderRadius: "30px",
-              objectFit: "cover",
-            }}
-          />
-        </Container>
-      </Container>
+        />
+      </AboutContainer>
     </>
   );
 };
