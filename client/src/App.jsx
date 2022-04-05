@@ -15,57 +15,55 @@ import PageNotFound from "./pages/PageNotFound";
 
 const App = () => {
   return (
-    <>
-      <ThemeProvider theme={theme}>
-        <Provider store={store}>
-          <Router>
-            <Routes>
-              <Route
-                exact
-                path="/"
-                element={
-                  <>
-                    <Navbar />
-                    <Home />
-                  </>
-                }
-              />
-              <Route
-                exact
-                path="/products"
-                element={
-                  <>
-                    <Navbar />
-                    <Products />
-                  </>
-                }
-              />
-              <Route
-                exact
-                path="/login"
-                element={
-                  <>
-                    <Navbar />
-                    <Login />
-                  </>
-                }
-              />
-              <Route
-                exact
-                path="/cart"
-                element={
-                  <>
-                    <Navbar />
-                    <Cart />
-                  </>
-                }
-              />
-              <Route exact path="*" element={<PageNotFound />} />
-            </Routes>
-          </Router>
-        </Provider>
-      </ThemeProvider>
-    </>
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>
+        <Router>
+          <Routes>
+            <Route
+              exact
+              path="/"
+              element={
+                <>
+                  <Navbar />
+                  <Home />
+                </>
+              }
+            />
+            <Route
+              exact
+              path="/products"
+              element={
+                <>
+                  <Navbar />
+                  <Products />
+                </>
+              }
+            />
+            <Route
+              exact
+              path="/login"
+              element={
+                <>
+                  <Navbar />
+                  <Login />
+                </>
+              }
+            />
+            <Route
+              exact
+              path="/cart"
+              element={
+                <>
+                  <Navbar />
+                  <Cart />
+                </>
+              }
+            />
+            <Route exact path="*" element={<PageNotFound />} />
+          </Routes>
+        </Router>
+      </Provider>
+    </ThemeProvider>
   );
 };
 

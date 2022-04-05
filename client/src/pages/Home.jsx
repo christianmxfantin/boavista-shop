@@ -9,13 +9,11 @@ import Contact from "../components/Home/Contact";
 const Home = () => {
   const theme = useTheme();
   return (
-    <>
-      <Typography sx={{ color: `${theme.palette.primary.main}` }}>
-        <Hero />
-        <About />
-        <Contact />
-      </Typography>
-    </>
+    <Typography sx={{ color: `${theme.palette.primary.main}` }}>
+      <Hero />
+      <About />
+      <Contact />
+    </Typography>
   );
 };
 
