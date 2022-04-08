@@ -21,13 +21,13 @@ import {
 } from "../Icon";
 import Underline from "../ui/Underline";
 import ContactImage from "../../images/contact-image.jpg";
+import "../../styles/styles.css";
 
 const Contact = () => {
   const theme = useTheme();
 
-  const address = () => {
-    window.location.href =
-      "https://www.google.com.ar/maps/place/Av.+Leandro+N.+Alem+916,+C1001AAR+CABA";
+  const handleLink = (e) => {
+    e.target.style.color = "yellow";
   };
 
   return (
@@ -86,11 +86,13 @@ const Contact = () => {
               }}
             >
               <AddressIcon
+                className="contact-card"
                 name="Address"
                 color={theme.palette.tertiary.main}
                 size={40}
               />
               <AddressData
+                className="contact-card"
                 variant="h5"
                 sx={{
                   color: `${theme.palette.tertiary.main}`,
