@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTheme } from "@emotion/react";
 import {
   Container as ContactContainer,
@@ -21,14 +21,16 @@ import {
 } from "../Icon";
 import Underline from "../ui/Underline";
 import ContactImage from "../../images/contact-image.jpg";
-import "../../styles/styles.css";
+import "../../styles/components/Contact.css";
 
 const Contact = () => {
   const theme = useTheme();
 
-  const handleLink = (e) => {
-    e.target.style.color = "yellow";
-  };
+  const [isHover, setIsHover] = useState(false);
+
+  //posible useEffect para que renderize nuevamente el elemento Icon
+
+  // const handleIconHover = () => {};
 
   return (
     <ContactContainer
@@ -79,6 +81,7 @@ const Contact = () => {
             rel="noreferrer"
           >
             <AddressCard
+              // className="address-card"
               sx={{
                 display: "flex",
                 alignItems: "center",
@@ -86,13 +89,18 @@ const Contact = () => {
               }}
             >
               <AddressIcon
-                className="contact-card"
                 name="Address"
-                color={theme.palette.tertiary.main}
+                color={
+                  !isHover
+                    ? theme.palette.tertiary.main
+                    : theme.palette.secondary.main
+                }
                 size={40}
+                onMouseEnter={() => setIsHover(true)}
+                onMouseLeave={() => setIsHover(false)}
               />
               <AddressData
-                className="contact-card"
+                className="address-data"
                 variant="h5"
                 sx={{
                   color: `${theme.palette.tertiary.main}`,
