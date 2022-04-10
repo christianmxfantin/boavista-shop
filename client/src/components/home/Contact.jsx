@@ -13,6 +13,8 @@ import {
   Typography as EmailData,
   Typography as WhatsappData,
   Link as AddressLink,
+  Link as EmailLink,
+  Link as WhatsappLink,
 } from "@mui/material";
 import {
   Icon as AddressIcon,
@@ -21,7 +23,6 @@ import {
 } from "../Icon";
 import Underline from "../ui/Underline";
 import ContactImage from "../../images/contact-image.jpg";
-import "../../styles/components/Contact.css";
 
 const Contact = () => {
   const theme = useTheme();
@@ -81,7 +82,6 @@ const Contact = () => {
             rel="noreferrer"
           >
             <AddressCard
-              // className="address-card"
               sx={{
                 display: "flex",
                 alignItems: "center",
@@ -100,64 +100,87 @@ const Contact = () => {
                 onMouseLeave={() => setIsHover(false)}
               />
               <AddressData
-                className="address-data"
                 variant="h5"
                 sx={{
                   color: `${theme.palette.tertiary.main}`,
                   fontWeight: 300,
                   marginLeft: "15px",
+                  "&:hover": {
+                    color: `${theme.palette.secondary.main}`,
+                    fontWeight: 400,
+                  },
                 }}
               >
                 Leandro N. Alem 916, CABA
               </AddressData>
             </AddressCard>
           </AddressLink>
-          <EmailCard
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              margin: "30px",
-            }}
+          <EmailLink
+            href="mailto:info@libreriaboavista.com.ar"
+            target="_blank"
+            rel="noreferrer"
           >
-            <EmailIcon
-              name="Email"
-              color={theme.palette.tertiary.main}
-              size={40}
-            />
-            <EmailData
-              variant="h5"
+            <EmailCard
               sx={{
-                color: `${theme.palette.tertiary.main}`,
-                fontWeight: 300,
-                marginLeft: "15px",
+                display: "flex",
+                alignItems: "center",
+                margin: "30px",
               }}
             >
-              info@libreriaboavista.com.ar
-            </EmailData>
-          </EmailCard>
-          <WhatsappCard
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              margin: "30px",
-            }}
+              <EmailIcon
+                name="Email"
+                color={theme.palette.tertiary.main}
+                size={40}
+              />
+              <EmailData
+                variant="h5"
+                sx={{
+                  color: `${theme.palette.tertiary.main}`,
+                  fontWeight: 300,
+                  marginLeft: "15px",
+                  "&:hover": {
+                    color: `${theme.palette.secondary.main}`,
+                    fontWeight: 400,
+                  },
+                }}
+              >
+                info@libreriaboavista.com.ar
+              </EmailData>
+            </EmailCard>
+          </EmailLink>
+          <WhatsappLink
+            href="https://api.whatsapp.com/send?phone=541138323832"
+            target="_blank"
+            rel="noreferrer"
           >
-            <WhatsappIcon
-              name="Whatsapp"
-              color={theme.palette.tertiary.main}
-              size={40}
-            />
-            <WhatsappData
-              variant="h5"
+            <WhatsappCard
               sx={{
-                color: `${theme.palette.tertiary.main}`,
-                fontWeight: 300,
-                marginLeft: "15px",
+                display: "flex",
+                alignItems: "center",
+                margin: "30px",
               }}
             >
-              (+54 11) 3832-3832
-            </WhatsappData>
-          </WhatsappCard>
+              <WhatsappIcon
+                name="Whatsapp"
+                color={theme.palette.tertiary.main}
+                size={40}
+              />
+              <WhatsappData
+                variant="h5"
+                sx={{
+                  color: `${theme.palette.tertiary.main}`,
+                  fontWeight: 300,
+                  marginLeft: "15px",
+                  "&:hover": {
+                    color: `${theme.palette.secondary.main}`,
+                    fontWeight: 400,
+                  },
+                }}
+              >
+                (+54 11) 3832-3832
+              </WhatsappData>
+            </WhatsappCard>
+          </WhatsappLink>
         </SocialContainer>
       </DataContainer>
       <Footer
