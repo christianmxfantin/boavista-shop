@@ -1,9 +1,20 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart } from "../actions/cart";
-import ProductItem from "../components/ProductItem";
+import ProductFilter from "../components/products/ProductFilter";
+import ProductItem from "../components/products/ProductItem";
+import { useTheme } from "@emotion/react";
+import {
+  Container as ProductContainer,
+  Container as ProductFilters,
+  Container as ProductData,
+  Typography as ProductTitle,
+  Grid,
+} from "@mui/material";
 
 const Products = () => {
+  const theme = useTheme();
+
   //traer data de la BD
   let products = [
     { id: 1, name: "Producto 1", price: 300 },
@@ -18,16 +29,46 @@ const Products = () => {
 
   return (
     <>
-      <div className="products-title">Products</div>
-      <div className="products-container">
-        {products.map((product) => (
-          <ProductItem
-            key={product.id}
-            data={product}
-            addToCart={() => dispatch(addToCart(product.id))}
-          />
-        ))}
-      </div>
+      <ProductTitle
+        variant="h4"
+        sx={{
+          color: `${theme.palette.primary.main}`,
+          marginTop: "100px",
+          textAlign: "center",
+          fontWeight: 500,
+        }}
+      >
+        Productos
+      </ProductTitle>
+      <ProductContainer
+        sx={{
+          padding: "0px !important",
+          display: "flex",
+          marginTop: "20px",
+          color: `${theme.palette.primary.main}`,
+        }}
+      >
+        <ProductFilters>
+          <ProductFilter />
+        </ProductFilters>
+        <ProductData
+          sx={{
+            padding: "0px !important",
+          }}
+        >
+          <Grid container spacing={3}>
+            {products.map((product) => (
+              <Grid item>
+                <ProductItem
+                  key={product.id}
+                  data={product}
+                  addToCart={() => dispatch(addToCart(product.id))}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </ProductData>
+      </ProductContainer>
     </>
   );
 };

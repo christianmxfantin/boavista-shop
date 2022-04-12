@@ -32,6 +32,7 @@ const About = () => {
         <AboutTitle
           variant="h3"
           sx={{
+            color: `${theme.palette.primary.main}`,
             textAlign: "center",
             fontWeight: 500,
           }}

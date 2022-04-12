@@ -5,6 +5,7 @@ import store from "./store";
 
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "./styles/theme";
+import { Typography } from "@mui/material";
 
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
@@ -23,43 +24,51 @@ const App = () => {
               exact
               path="/"
               element={
-                <>
+                <Typography>
                   <Navbar />
                   <Home />
-                </>
+                </Typography>
               }
             />
             <Route
               exact
               path="/products"
               element={
-                <>
+                <Typography>
                   <Navbar />
                   <Products />
-                </>
+                </Typography>
               }
             />
             <Route
               exact
               path="/login"
               element={
-                <>
+                <Typography>
                   <Navbar />
                   <Login />
-                </>
+                </Typography>
               }
             />
             <Route
               exact
               path="/cart"
               element={
-                <>
+                <Typography>
                   <Navbar />
                   <Cart />
-                </>
+                </Typography>
               }
             />
-            <Route exact path="*" element={<PageNotFound />} />
+            <Route
+              exact
+              path="*"
+              element={
+                <Typography>
+                  <PageNotFound />
+                </Typography>
+              }
+            />
           </Routes>
         </Router>
       </Provider>
