@@ -48,7 +48,13 @@ const Products = () => {
           color: `${theme.palette.primary.main}`,
         }}
       >
-        <ProductFilters>
+        <ProductFilters
+          sx={{
+            padding: "0px !important",
+            width: "30%",
+            display: "flex",
+          }}
+        >
           <ProductFilter />
         </ProductFilters>
         <ProductData
@@ -56,9 +62,21 @@ const Products = () => {
             padding: "0px !important",
           }}
         >
-          <Grid container spacing={3}>
+          <Grid
+            container
+            spacing={3}
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr 1fr !important",
+            }}
+          >
             {products.map((product) => (
-              <Grid item>
+              <Grid
+                item
+                sx={{
+                  padding: "10px !important",
+                }}
+              >
                 <ProductItem
                   key={product.id}
                   data={product}
