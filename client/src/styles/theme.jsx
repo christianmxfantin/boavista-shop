@@ -1,3 +1,5 @@
+//Spacing(1) is equals to 8px
+
 import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({

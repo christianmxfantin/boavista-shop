@@ -1,12 +1,13 @@
 import React from "react";
 import { useTheme } from "@emotion/react";
 import {
-  Button,
-  Card,
-  CardContent,
-  CardMedia,
-  Container,
-  Typography,
+  Button as ProductAddToCart,
+  Card as ProductCard,
+  CardContent as ProductCardContent,
+  CardMedia as ProductCardImage,
+  Container as ProductCardData,
+  Typography as ProductName,
+  Typography as ProductPrice,
 } from "@mui/material";
 import { Icon as CartIcon } from "../ui/Icon";
 import ProductImage from "../../images/product.jpg";
@@ -16,20 +17,20 @@ const ProductItem = ({ data, addToCart }) => {
   let { id, name, price } = data;
 
   return (
-    <Card
+    <ProductCard
       sx={{
         borderRadius: `${theme.spacing(0.5)}`,
       }}
     >
-      <CardMedia
+      <ProductCardImage
         component="img"
         alt="prueba"
         height="140"
         image={ProductImage}
         sx={{ height: "180px" }}
       />
-      <CardContent sx={{ padding: `${theme.spacing(1)} !important` }}>
-        <Typography
+      <ProductCardContent sx={{ padding: `${theme.spacing(1)} !important` }}>
+        <ProductName
           gutterBottom
           variant="h6"
           component="div"
@@ -43,31 +44,35 @@ const ProductItem = ({ data, addToCart }) => {
           }}
         >
           {name}
-        </Typography>
-        <Container
+        </ProductName>
+        <ProductCardData
           sx={{
             display: "flex",
             justifyContent: "space-between",
             padding: "0px !important",
           }}
         >
-          <Typography
+          <ProductPrice
             variant="body1"
             sx={{ color: `${theme.palette.primary.main}` }}
           >
             $ {price}
-          </Typography>
+          </ProductPrice>
 
-          <Button size="small" onClick={() => addToCart(id)}>
+          <ProductAddToCart
+            size="small"
+            onClick={() => addToCart(id)}
+            sx={{ marginRight: 0 }}
+          >
             <CartIcon
               name="Cart"
               color={theme.palette.primary.main}
               size={25}
             />
-          </Button>
-        </Container>
-      </CardContent>
-    </Card>
+          </ProductAddToCart>
+        </ProductCardData>
+      </ProductCardContent>
+    </ProductCard>
   );
 };
 

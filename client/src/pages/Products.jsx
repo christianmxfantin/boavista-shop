@@ -9,6 +9,7 @@ import {
   Container as ProductFilters,
   Container as ProductData,
   Typography as ProductTitle,
+  Typography as ProductFilterArticles,
   Grid,
 } from "@mui/material";
 
@@ -17,9 +18,16 @@ const Products = () => {
 
   //traer data de la BD
   let products = [
-    { id: 1, name: "Producto 1", price: 300 },
-    { id: 2, name: "Producto 2", price: 500 },
-    { id: 3, name: "Producto 3", price: 900 },
+    { id: 1, name: "Lapicera Bic x 24 unidades", price: 500 },
+    { id: 2, name: "Marcador Schneider Trazo fino x 6 unidades", price: 400 },
+    { id: 3, name: "Lápices Staedtler x 24 unidades", price: 500 },
+    {
+      id: 4,
+      name: "Goma de borrar Staedtler Tinta/Lápiz x 12 unidades",
+      price: 600,
+    },
+    { id: 5, name: "Transportador Pizzini x 12 unidades", price: 700 },
+    { id: 6, name: "Compáses Pizzini x 12 unidades", price: 900 },
   ];
 
   //const state = useSelector((state) => state);
@@ -44,7 +52,7 @@ const Products = () => {
         sx={{
           padding: "0px !important",
           display: "flex",
-          marginTop: `${theme.spacing(2.5)}`, //20px
+          marginTop: `${theme.spacing(4.5)}`, //36px
           color: `${theme.palette.primary.main}`,
         }}
       >
@@ -62,19 +70,31 @@ const Products = () => {
             padding: "0px !important",
           }}
         >
+          <ProductFilterArticles
+            variant="h6"
+            sx={{
+              // marginBottom: `${theme.spacing(2)}`, //36px
+              padding: `${theme.spacing(1)} !important`, //12px
+              color: `${theme.palette.primary.main}`,
+              fontWeight: 500,
+            }}
+          >
+            50 artículos
+          </ProductFilterArticles>
           <Grid
             container
             spacing={3}
             sx={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr 1fr !important",
+              margin: "0px !important",
             }}
           >
             {products.map((product) => (
               <Grid
                 item
                 sx={{
-                  padding: `${theme.spacing(1.5)} !important`, //12px
+                  padding: `${theme.spacing(1)} !important`, //12px
                 }}
               >
                 <ProductItem
