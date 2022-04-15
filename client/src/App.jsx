@@ -7,7 +7,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import theme from "./styles/theme";
 import { Typography } from "@mui/material";
 
-import Navbar from "./components/Navbar";
+import Navbar from "./components/layout/Navbar";
 import Home from "./pages/Home";
 import Products from "./pages/Products";
 import Login from "./pages/Login";

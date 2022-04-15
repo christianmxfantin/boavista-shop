@@ -16,8 +16,8 @@ import {
   Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Icon as CartIcon } from "./Icon";
-import Logo from "../images/logo.png";
+import { Icon as CartIcon } from "../ui/Icon";
+import Logo from "../../images/logo.png";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -60,7 +60,13 @@ const Navbar = () => {
               }}
               to="/"
             >
-              <Container sx={{ width: 270, height: 60, paddingTop: "3px" }}>
+              <Container
+                sx={{
+                  width: 270,
+                  height: 60,
+                  paddingTop: `${theme.spacing(0.5)}`, //4px
+                }}
+              >
                 <img
                   src={Logo}
                   alt=""
@@ -144,7 +150,13 @@ const Navbar = () => {
               }}
               to="/"
             >
-              <Container sx={{ width: 270, height: 60, paddingTop: "3px" }}>
+              <Container
+                sx={{
+                  width: 270,
+                  height: 60,
+                  paddingTop: `${theme.spacing(0.5)}`, //4px
+                }}
+              >
                 <img
                   src={Logo}
                   alt=""
@@ -161,7 +173,7 @@ const Navbar = () => {
               sx={{
                 my: 2,
                 display: "block",
-                fontSize: "16px",
+                fontSize: `${theme.spacing(2)}`, //16px
               }}
             >
               <Link
@@ -204,7 +216,7 @@ const Navbar = () => {
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
               <Menu
-                sx={{ mt: "45px" }}
+                sx={{ mt: `${theme.spacing(5.5)}` }} //44px
                 id="menu-appbar"
                 anchorEl={anchorElUser}
                 anchorOrigin={{
@@ -241,7 +253,7 @@ const Navbar = () => {
                   backgroundColor: `${theme.palette.primary.second}`,
                   color: `${theme.palette.tertiary.main}`,
                   display: "block",
-                  fontSize: "16px",
+                  fontSize: `${theme.spacing(2)}`, //16px
                 }}
               >
                 <Link

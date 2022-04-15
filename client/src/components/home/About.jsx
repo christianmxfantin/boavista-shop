@@ -26,7 +26,7 @@ const About = () => {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          marginLeft: "30px",
+          marginLeft: `${theme.spacing(4)}`, //32px
         }}
       >
         <AboutTitle
@@ -42,7 +42,8 @@ const About = () => {
         <Underline width={300} height={5} color={theme.palette.primary.main} />
         <AboutInfo
           sx={{
-            marginTop: "20px",
+            color: `${theme.palette.primary.main}`,
+            marginTop: `${theme.spacing(2.5)}`, //20px
             textAlign: "justify",
           }}
         >
@@ -64,7 +65,7 @@ const About = () => {
           margin: "50px",
           width: "50%",
           height: "50%",
-          borderRadius: "30px",
+          borderRadius: `${theme.spacing(4)}`, //32px
           objectFit: "cover",
         }}
       />

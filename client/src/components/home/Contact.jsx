@@ -20,7 +20,7 @@ import {
   Icon as AddressIcon,
   Icon as EmailIcon,
   Icon as WhatsappIcon,
-} from "../Icon";
+} from "../ui/Icon";
 import Underline from "../ui/Underline";
 import ContactImage from "../../images/contact-image.jpg";
 
@@ -54,7 +54,7 @@ const Contact = () => {
       <DataContainer
         sx={{
           display: "flex",
-          marginTop: "40px",
+          marginTop: `${theme.spacing(5)}`, //40px
         }}
       >
         <img
@@ -62,10 +62,10 @@ const Contact = () => {
           alt=""
           style={{
             padding: "0px !important",
-            margin: "10px",
+            margin: `${theme.spacing(1.5)}`, //12px
             width: "50%",
             height: "50%",
-            borderRadius: "30px",
+            borderRadius: `${theme.spacing(4)}`, //32px
             objectFit: "cover",
           }}
         />
@@ -85,7 +85,7 @@ const Contact = () => {
               sx={{
                 display: "flex",
                 alignItems: "center",
-                margin: "30px",
+                margin: `${theme.spacing(4)}`, //32px
               }}
             >
               <AddressIcon
@@ -104,7 +104,7 @@ const Contact = () => {
                 sx={{
                   color: `${theme.palette.tertiary.main}`,
                   fontWeight: 300,
-                  marginLeft: "15px",
+                  marginLeft: `${theme.spacing(2)}`, //16px
                   "&:hover": {
                     color: `${theme.palette.secondary.main}`,
                     fontWeight: 400,
@@ -124,7 +124,7 @@ const Contact = () => {
               sx={{
                 display: "flex",
                 alignItems: "center",
-                margin: "30px",
+                margin: `${theme.spacing(4)}`, //32px
               }}
             >
               <EmailIcon
@@ -137,7 +137,7 @@ const Contact = () => {
                 sx={{
                   color: `${theme.palette.tertiary.main}`,
                   fontWeight: 300,
-                  marginLeft: "15px",
+                  marginLeft: `${theme.spacing(2)}`, //16px
                   "&:hover": {
                     color: `${theme.palette.secondary.main}`,
                     fontWeight: 400,
@@ -157,7 +157,7 @@ const Contact = () => {
               sx={{
                 display: "flex",
                 alignItems: "center",
-                margin: "30px",
+                margin: `${theme.spacing(4)}`, //32px
               }}
             >
               <WhatsappIcon
@@ -170,7 +170,7 @@ const Contact = () => {
                 sx={{
                   color: `${theme.palette.tertiary.main}`,
                   fontWeight: 300,
-                  marginLeft: "15px",
+                  marginLeft: `${theme.spacing(2)}`, //16px
                   "&:hover": {
                     color: `${theme.palette.secondary.main}`,
                     fontWeight: 400,
@@ -187,7 +187,7 @@ const Contact = () => {
         sx={{
           color: `${theme.palette.tertiary.main}`,
           textAlign: "center",
-          padding: "20px",
+          padding: `${theme.spacing(2.5)}`, //20px
         }}
       >
         Copyright 2022 - Librería Boa Vista

@@ -44,7 +44,7 @@ const Products = () => {
         sx={{
           padding: "0px !important",
           display: "flex",
-          marginTop: "20px",
+          marginTop: `${theme.spacing(2.5)}`, //20px
           color: `${theme.palette.primary.main}`,
         }}
       >
@@ -74,7 +74,7 @@ const Products = () => {
               <Grid
                 item
                 sx={{
-                  padding: "10px !important",
+                  padding: `${theme.spacing(1.5)} !important`, //12px
                 }}
               >
                 <ProductItem

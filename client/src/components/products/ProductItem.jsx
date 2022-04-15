@@ -3,13 +3,12 @@ import { useTheme } from "@emotion/react";
 import {
   Button,
   Card,
-  CardActions,
   CardContent,
   CardMedia,
   Container,
   Typography,
 } from "@mui/material";
-import { Icon as CartIcon } from "../Icon";
+import { Icon as CartIcon } from "../ui/Icon";
 import ProductImage from "../../images/product.jpg";
 
 const ProductItem = ({ data, addToCart }) => {
@@ -19,8 +18,7 @@ const ProductItem = ({ data, addToCart }) => {
   return (
     <Card
       sx={{
-        // border: `0.1px solid ${theme.palette.grey.main}`,
-        borderRadius: "5px",
+        borderRadius: `${theme.spacing(0.5)}`,
       }}
     >
       <CardMedia
@@ -30,7 +28,7 @@ const ProductItem = ({ data, addToCart }) => {
         image={ProductImage}
         sx={{ height: "180px" }}
       />
-      <CardContent sx={{ padding: "10px !important" }}>
+      <CardContent sx={{ padding: `${theme.spacing(1)} !important` }}>
         <Typography
           gutterBottom
           variant="h6"
@@ -59,17 +57,16 @@ const ProductItem = ({ data, addToCart }) => {
           >
             $ {price}
           </Typography>
-          <CartIcon
-            name="Cart"
-            color={theme.palette.primary.main}
-            size={25}
-            onClick={() => addToCart(id)}
-          />
+
+          <Button size="small" onClick={() => addToCart(id)}>
+            <CartIcon
+              name="Cart"
+              color={theme.palette.primary.main}
+              size={25}
+            />
+          </Button>
         </Container>
       </CardContent>
-      {/* <Button size="small" onClick={() => addToCart(id)}>
-          Agregar
-        </Button> */}
     </Card>
   );
 };
