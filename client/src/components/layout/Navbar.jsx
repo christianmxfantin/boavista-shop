@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Icon as CartIcon } from "../ui/Icon";
+import Search from "./Search";
 import Logo from "../../images/logo.png";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -208,6 +209,9 @@ const Navbar = () => {
                 </Badge>
               </Link>
             </Button>
+          </Box>
+          <Box sx={{ marginRight: `${theme.spacing(1.5)}` }}>
+            <Search />
           </Box>
 
           {isLogged ? (

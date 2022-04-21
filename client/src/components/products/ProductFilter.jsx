@@ -2,10 +2,12 @@ import React from "react";
 import { useTheme } from "@emotion/react";
 import {
   Container as ProductCategory,
+  Container as ProductCategoryData,
   Container as ProductDiscount,
   Container as ProductDiscountData,
   Container as ProductPrice,
   Container as ProductPriceMinMax,
+  Typography as ProductCategoryTitle,
   Typography as ProductDiscountTitle,
   Typography as ProductPriceTitle,
 } from "@mui/material";
@@ -22,6 +24,23 @@ const ProductFilter = () => {
         }}
       >
         {`Hojas > Cuadriculadas`}
+        <ProductCategoryTitle
+          sx={{
+            padding: "0px !important",
+            marginTop: `${theme.spacing(2)} !important`, //16px
+            fontWeight: 600,
+          }}
+        >
+          Seleccionar Categoría
+        </ProductCategoryTitle>
+        <ProductCategoryData
+          sx={{
+            paddingLeft: `${theme.spacing(0.5)} !important`, //4px
+          }}
+        >
+          {/* Selector de elementos */}
+          Categoría 1
+        </ProductCategoryData>
       </ProductCategory>
       <ProductPrice
         sx={{

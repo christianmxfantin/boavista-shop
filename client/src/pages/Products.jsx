@@ -5,13 +5,13 @@ import ProductFilter from "../components/products/ProductFilter";
 import ProductItem from "../components/products/ProductItem";
 import { useTheme } from "@emotion/react";
 import {
-  Container as ProductArticlesContainer,
+  Container as ProductCategoryContainer,
   Container as ProductContainer,
   Container as ProductFilters,
   Container as ProductFilterContainer,
   Container as ProductData,
-  Typography as ProductArticlesData,
-  Typography as ProductArticlesTitle,
+  Typography as ProductCategoryData,
+  Typography as ProductCategoryTitle,
   Typography as ProductOrderBy,
   Grid,
 } from "@mui/material";
@@ -68,13 +68,13 @@ const Products = () => {
             display: "flex",
           }}
         >
-          <ProductArticlesContainer
+          <ProductCategoryContainer
             sx={{
               padding: "0px !important",
               // width: "50%",
             }}
           >
-            <ProductArticlesTitle
+            <ProductCategoryTitle
               variant="h5"
               sx={{
                 paddingLeft: `${theme.spacing(1)} !important`, //12px
@@ -82,9 +82,9 @@ const Products = () => {
                 fontWeight: 500,
               }}
             >
-              Productos
-            </ProductArticlesTitle>
-            <ProductArticlesData
+              Categoría
+            </ProductCategoryTitle>
+            <ProductCategoryData
               variant="subtitle1"
               sx={{
                 paddingLeft: `${theme.spacing(1)} !important`, //12px
@@ -93,8 +93,8 @@ const Products = () => {
               }}
             >
               50 artículos
-            </ProductArticlesData>
-          </ProductArticlesContainer>
+            </ProductCategoryData>
+          </ProductCategoryContainer>
           <ProductOrderBy
             sx={
               {

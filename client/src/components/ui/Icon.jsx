@@ -5,6 +5,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import StoreIcon from "@mui/icons-material/Store";
 import EmailIcon from "@mui/icons-material/Email";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import SearchIcon from "@mui/icons-material/Search";
 
 export const Icon = ({ name, color, size }) => {
   const icons = [
@@ -36,6 +37,12 @@ export const Icon = ({ name, color, size }) => {
           component={WhatsAppIcon}
           sx={{ color: color, fontSize: size }}
         />
+      ),
+    },
+    {
+      name: "Search",
+      img: (
+        <SvgIcon component={SearchIcon} sx={{ color: color, fontSize: size }} />
       ),
     },
   ];
