@@ -13,8 +13,10 @@ import Products from "./pages/Products";
 import Login from "./pages/Login";
 import Cart from "./pages/Cart";
 import PageNotFound from "./pages/PageNotFound";
+import ProductItem from "./components/products/ProductItem";
 
 const App = () => {
+  let id;
   return (
     <ThemeProvider theme={theme}>
       <Provider store={store}>
@@ -32,6 +34,16 @@ const App = () => {
             />
             <Route
               exact
+              path="/login"
+              element={
+                <Typography>
+                  <Navbar />
+                  <Login />
+                </Typography>
+              }
+            />
+            <Route
+              exact
               path="/products"
               element={
                 <Typography>
@@ -42,11 +54,11 @@ const App = () => {
             />
             <Route
               exact
-              path="/login"
+              path={`/products/:id`}
               element={
                 <Typography>
                   <Navbar />
-                  <Login />
+                  <ProductItem />
                 </Typography>
               }
             />

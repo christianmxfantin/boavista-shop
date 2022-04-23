@@ -1,5 +1,5 @@
-import { Container } from "@mui/material";
 import React from "react";
+import { Container } from "@mui/material";
 
 const CartItem = ({ data, delOneFromCart, delAllFromCart }) => {
   let { id, name, price, quantity } = data;

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import {
   Button as ProductAddToCart,
@@ -22,13 +23,15 @@ const ProductItem = ({ data, addToCart }) => {
         borderRadius: `${theme.spacing(0.5)}`,
       }}
     >
-      <ProductCardImage
-        component="img"
-        alt="prueba"
-        height="140"
-        image={ProductImage}
-        sx={{ height: "180px" }}
-      />
+      <Link to={`/products/${id}`}>
+        <ProductCardImage
+          component="img"
+          alt="prueba"
+          height="140"
+          image={ProductImage}
+          sx={{ height: "180px" }}
+        />
+      </Link>
       <ProductCardContent sx={{ padding: `${theme.spacing(1)} !important` }}>
         <ProductName
           gutterBottom
@@ -61,6 +64,7 @@ const ProductItem = ({ data, addToCart }) => {
 
           <ProductAddToCart
             size="small"
+            data={data}
             onClick={() => addToCart(id)}
             sx={{ marginRight: 0 }}
           >
