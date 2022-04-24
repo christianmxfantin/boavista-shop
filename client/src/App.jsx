@@ -7,13 +7,13 @@ import { ThemeProvider } from "@mui/material/styles";
 import theme from "./styles/theme";
 import { Typography } from "@mui/material";
 
+import Login from "./pages/Login";
 import Navbar from "./components/layout/Navbar";
 import Home from "./pages/Home";
 import Products from "./pages/Products";
-import Login from "./pages/Login";
+import ProductItem from "./pages/ProductItem";
 import Cart from "./pages/Cart";
 import PageNotFound from "./pages/PageNotFound";
-import ProductItem from "./components/products/ProductItem";
 
 const App = () => {
   let id;
