@@ -16,7 +16,6 @@ import Cart from "./pages/Cart";
 import PageNotFound from "./pages/PageNotFound";
 
 const App = () => {
-  let id;
   return (
     <ThemeProvider theme={theme}>
       <Provider store={store}>
@@ -56,7 +55,9 @@ const App = () => {
               exact
               path={`/products/:id`}
               element={
-                <Typography>
+                <Typography
+                  sx={{ backgroundColor: `${theme.palette.primary.third}` }}
+                >
                   <Navbar />
                   <ProductItem />
                 </Typography>

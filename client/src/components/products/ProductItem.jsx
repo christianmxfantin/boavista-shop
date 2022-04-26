@@ -41,7 +41,7 @@ const ProductItem = ({ data, addToCart }) => {
             color: `${theme.palette.primary.main}`,
             fontWeight: 500,
             "&:hover": {
-              color: `${theme.palette.primary.second}`,
+              color: `${theme.palette.secondary.main}`,
               fontWeight: 600,
             },
           }}

@@ -1,7 +1,7 @@
 import React from "react";
 import { Container } from "@mui/material";
 
-const Underline = ({ width, height, color }) => {
+const Underline = ({ width, height, color, hover }) => {
   return (
     <Container
       sx={{
@@ -9,6 +9,9 @@ const Underline = ({ width, height, color }) => {
         width: `${width}px`,
         height: `${height}px`,
         backgroundColor: `${color}`,
+        "&:hover": {
+          backgroundColor: `${hover}`,
+        },
       }}
     />
   );

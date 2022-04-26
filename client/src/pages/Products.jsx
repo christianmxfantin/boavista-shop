@@ -49,10 +49,13 @@ const Products = () => {
     >
       <ProductFilters
         sx={{
-          padding: "0px !important",
+          marginRight: `${theme.spacing(2.5)} !important`, //20px
+          padding: `${theme.spacing(1.5)}`, //12px
           width: "30%",
           display: "flex",
           flexDirection: "column",
+          borderRadius: `${theme.spacing(1.5)}`, //12px
+          backgroundColor: `${theme.palette.primary.third}`,
         }}
       >
         <ProductFilter />
@@ -89,7 +92,6 @@ const Products = () => {
               sx={{
                 paddingLeft: `${theme.spacing(1)} !important`, //12px
                 color: `${theme.palette.primary.main}`,
-                // fontWeight: 500,
               }}
             >
               50 artículos
