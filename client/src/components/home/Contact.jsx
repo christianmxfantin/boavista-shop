@@ -101,14 +101,16 @@ const Contact = () => {
               />
               <AddressData
                 variant="h5"
+                onMouseEnter={() => setIsHover(true)}
+                onMouseLeave={() => setIsHover(false)}
                 sx={{
-                  color: `${theme.palette.tertiary.main}`,
+                  color: `${
+                    !isHover
+                      ? theme.palette.tertiary.main
+                      : theme.palette.secondary.main
+                  }`,
                   fontWeight: 300,
                   marginLeft: `${theme.spacing(2)}`, //16px
-                  "&:hover": {
-                    color: `${theme.palette.secondary.main}`,
-                    fontWeight: 400,
-                  },
                 }}
               >
                 Leandro N. Alem 916, CABA
@@ -129,19 +131,23 @@ const Contact = () => {
             >
               <EmailIcon
                 name="Email"
-                color={theme.palette.tertiary.main}
+                color={
+                  !isHover
+                    ? theme.palette.tertiary.main
+                    : theme.palette.secondary.main
+                }
                 size={40}
+                onMouseEnter={() => setIsHover(true)}
+                onMouseLeave={() => setIsHover(false)}
               />
               <EmailData
                 variant="h5"
+                onMouseEnter={() => setIsHover(true)}
+                onMouseLeave={() => setIsHover(false)}
                 sx={{
                   color: `${theme.palette.tertiary.main}`,
                   fontWeight: 300,
                   marginLeft: `${theme.spacing(2)}`, //16px
-                  "&:hover": {
-                    color: `${theme.palette.secondary.main}`,
-                    fontWeight: 400,
-                  },
                 }}
               >
                 info@libreriaboavista.com.ar
@@ -162,19 +168,23 @@ const Contact = () => {
             >
               <WhatsappIcon
                 name="Whatsapp"
-                color={theme.palette.tertiary.main}
+                color={
+                  !isHover
+                    ? theme.palette.tertiary.main
+                    : theme.palette.secondary.main
+                }
                 size={40}
+                // onMouseEnter={() => setIsHover(true)}
+                // onMouseLeave={() => setIsHover(false)}
               />
               <WhatsappData
                 variant="h5"
+                // onMouseEnter={() => setIsHover(true)}
+                // onMouseLeave={() => setIsHover(false)}
                 sx={{
                   color: `${theme.palette.tertiary.main}`,
                   fontWeight: 300,
                   marginLeft: `${theme.spacing(2)}`, //16px
-                  "&:hover": {
-                    color: `${theme.palette.secondary.main}`,
-                    fontWeight: 400,
-                  },
                 }}
               >
                 (+54 11) 3832-3832

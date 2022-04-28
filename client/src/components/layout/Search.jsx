@@ -1,5 +1,4 @@
 import React from "react";
-import { useTheme } from "@emotion/react";
 import { styled, alpha } from "@mui/material/styles";
 import { InputBase } from "@mui/material";
 
@@ -13,6 +12,7 @@ const SearchContainer = styled("div")(({ theme }) => ({
   backgroundColor: alpha(theme.palette.tertiary.main, 0.15),
   "&:hover": {
     backgroundColor: alpha(theme.palette.tertiary.main, 0.25),
+    color: theme.palette.secondary.main,
   },
   marginLeft: 0,
   width: "100%",
@@ -50,17 +50,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Search = () => {
-  const theme = useTheme();
-
   return (
     <>
       <SearchContainer>
         <SearchIconWrapper>
-          <SearchIcon
-            name="Search"
-            color={theme.palette.tertiary.main}
-            size={22}
-          />
+          <SearchIcon name="Search" size={22} />
         </SearchIconWrapper>
         <StyledInputBase
           placeholder="Search…"

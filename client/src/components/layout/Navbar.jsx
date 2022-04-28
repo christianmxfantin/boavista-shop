@@ -19,11 +19,14 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Icon as CartIcon } from "../ui/Icon";
 import Search from "./Search";
 import Logo from "../../images/logo.png";
+import "../../styles/components/layout/Navbar.css";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const Navbar = () => {
   const theme = useTheme();
+
+  const [isHover, setIsHover] = useState(false);
 
   const [isLogged, setIsLogged] = useState(false);
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -178,6 +181,7 @@ const Navbar = () => {
               }}
             >
               <Link
+                className="nav-link"
                 style={{
                   textDecoration: "none",
                   color: `${theme.palette.tertiary.main}`,
@@ -200,11 +204,30 @@ const Navbar = () => {
                 }}
                 to="/cart"
               >
-                <Badge badgeContent={105} max={99} color="secondary">
+                <Badge
+                  badgeContent={105}
+                  max={99}
+                  color={!isHover ? "secondary" : "tertiary"}
+                  onMouseEnter={() => setIsHover(true)}
+                  onMouseLeave={() => setIsHover(false)}
+                  sx={{
+                    color: `${
+                      !isHover
+                        ? theme.palette.tertiary.main
+                        : theme.palette.secondary.main
+                    }`,
+                  }}
+                >
                   <CartIcon
                     name="Cart"
-                    color={theme.palette.tertiary.main}
+                    color={
+                      !isHover
+                        ? theme.palette.tertiary.main
+                        : theme.palette.secondary.main
+                    }
                     size={30}
+                    onMouseEnter={() => setIsHover(true)}
+                    onMouseLeave={() => setIsHover(false)}
                   />
                 </Badge>
               </Link>

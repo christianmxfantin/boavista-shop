@@ -14,20 +14,35 @@ export const Icon = ({ name, color, size }) => {
       img: (
         <SvgIcon
           component={ShoppingCartIcon}
-          sx={{ color: color, fontSize: size }}
+          sx={{
+            color: color,
+            fontSize: size,
+          }}
         />
       ),
     },
     {
       name: "Address",
       img: (
-        <SvgIcon component={StoreIcon} sx={{ color: color, fontSize: size }} />
+        <SvgIcon
+          component={StoreIcon}
+          sx={{
+            color: color,
+            fontSize: size,
+          }}
+        />
       ),
     },
     {
       name: "Email",
       img: (
-        <SvgIcon component={EmailIcon} sx={{ color: color, fontSize: size }} />
+        <SvgIcon
+          component={EmailIcon}
+          sx={{
+            color: color,
+            fontSize: size,
+          }}
+        />
       ),
     },
     {
@@ -35,14 +50,23 @@ export const Icon = ({ name, color, size }) => {
       img: (
         <SvgIcon
           component={WhatsAppIcon}
-          sx={{ color: color, fontSize: size }}
+          sx={{
+            color: color,
+            fontSize: size,
+          }}
         />
       ),
     },
     {
       name: "Search",
       img: (
-        <SvgIcon component={SearchIcon} sx={{ color: color, fontSize: size }} />
+        <SvgIcon
+          component={SearchIcon}
+          sx={{
+            color: color,
+            fontSize: size,
+          }}
+        />
       ),
     },
   ];
