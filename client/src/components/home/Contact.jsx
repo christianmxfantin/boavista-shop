@@ -29,8 +29,6 @@ const Contact = () => {
 
   const [isHover, setIsHover] = useState(false);
 
-  //posible useEffect para que renderize nuevamente el elemento Icon
-
   // const handleIconHover = () => {};
 
   return (

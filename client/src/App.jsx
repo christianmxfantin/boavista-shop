@@ -25,7 +25,7 @@ const App = () => {
               exact
               path="/"
               element={
-                <Typography>
+                <Typography component="div">
                   <Navbar />
                   <Home />
                 </Typography>
@@ -35,7 +35,7 @@ const App = () => {
               exact
               path="/login"
               element={
-                <Typography>
+                <Typography component="div">
                   <Navbar />
                   <Login />
                 </Typography>
@@ -45,7 +45,7 @@ const App = () => {
               exact
               path="/products"
               element={
-                <Typography>
+                <Typography component="div">
                   <Navbar />
                   <Products />
                 </Typography>
@@ -56,6 +56,7 @@ const App = () => {
               path={`/products/:id`}
               element={
                 <Typography
+                  component="div"
                   sx={{ backgroundColor: `${theme.palette.primary.third}` }}
                 >
                   <Navbar />
@@ -67,7 +68,7 @@ const App = () => {
               exact
               path="/cart"
               element={
-                <Typography>
+                <Typography component="div">
                   <Navbar />
                   <Cart />
                 </Typography>
@@ -77,7 +78,7 @@ const App = () => {
               exact
               path="*"
               element={
-                <Typography>
+                <Typography component="div">
                   <PageNotFound />
                 </Typography>
               }
