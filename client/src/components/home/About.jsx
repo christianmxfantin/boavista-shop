@@ -32,17 +32,17 @@ const About = () => {
         <AboutTitle
           variant="h3"
           sx={{
-            color: `${theme.palette.primary.main}`,
+            color: `${theme.palette.primary[500]}`,
             textAlign: "center",
             fontWeight: 500,
           }}
         >
           Sobre Nosotros
         </AboutTitle>
-        <Underline width={300} height={5} color={theme.palette.primary.main} />
+        <Underline width={300} height={5} color={theme.palette.primary[500]} />
         <AboutInfo
           sx={{
-            color: `${theme.palette.primary.main}`,
+            color: `${theme.palette.primary[500]}`,
             marginTop: `${theme.spacing(2.5)}`, //20px
             textAlign: "justify",
           }}
