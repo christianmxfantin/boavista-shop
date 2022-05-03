@@ -27,7 +27,7 @@ const ProductItem = () => {
         height: "89vh",
         marginTop: "70px",
         paddingTop: "32px",
-        color: `${theme.palette.primary.main}`,
+        color: `${theme.palette.primary[500]}`,
       }}
     >
       <ItemTitle
@@ -36,8 +36,8 @@ const ProductItem = () => {
           justifyContent: "space-between",
           padding: "20px",
           borderRadius: "8px",
-          backgroundColor: `${theme.palette.primary.second}`,
-          color: `${theme.palette.tertiary.main}`,
+          backgroundColor: `${theme.palette.primary[300]}`,
+          color: `${theme.palette.secondary.A100}`,
         }}
       >
         <ItemTitleBack>Volver al listado</ItemTitleBack>
@@ -68,9 +68,9 @@ const ProductItem = () => {
             flexDirection: "column",
             marginTop: "32px !important",
             paddingTop: "16px",
-            border: `1px solid ${theme.palette.primary.second}`,
+            border: `1px solid ${theme.palette.primary[300]}`,
             borderRadius: "8px",
-            backgroundColor: `${theme.palette.tertiary.main}`,
+            backgroundColor: `${theme.palette.secondary.A100}`,
           }}
         >
           <ItemInfoTitle variant="h4" sx={{ fontWeight: 500 }}>
@@ -85,8 +85,8 @@ const ProductItem = () => {
             sx={{
               marginTop: "auto",
               marginBottom: "16px",
-              backgroundColor: `${theme.palette.primary.second}`,
-              color: `${theme.palette.tertiary.main}`,
+              backgroundColor: `${theme.palette.primary[300]}`,
+              color: `${theme.palette.secondary.A100}`,
             }}
           >
             Agregar al Carrito

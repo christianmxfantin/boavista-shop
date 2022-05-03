@@ -57,7 +57,7 @@ const App = () => {
               element={
                 <Typography
                   component="div"
-                  sx={{ backgroundColor: `${theme.palette.primary.third}` }}
+                  sx={{ backgroundColor: `${theme.palette.primary[50]}` }}
                 >
                   <Navbar />
                   <ProductItem />

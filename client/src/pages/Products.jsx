@@ -44,7 +44,7 @@ const Products = () => {
         padding: "0px !important",
         display: "flex",
         marginTop: "100px",
-        color: `${theme.palette.primary.main}`,
+        color: `${theme.palette.primary[500]}`,
       }}
     >
       <ProductFilters
@@ -55,7 +55,7 @@ const Products = () => {
           display: "flex",
           flexDirection: "column",
           borderRadius: `${theme.spacing(1.5)}`, //12px
-          backgroundColor: `${theme.palette.primary.third}`,
+          backgroundColor: `${theme.palette.primary[50]}`,
         }}
       >
         <ProductFilter />
@@ -81,7 +81,7 @@ const Products = () => {
               variant="h5"
               sx={{
                 paddingLeft: `${theme.spacing(1)} !important`, //12px
-                color: `${theme.palette.primary.main}`,
+                color: `${theme.palette.primary[500]}`,
                 fontWeight: 500,
               }}
             >
@@ -91,7 +91,7 @@ const Products = () => {
               variant="subtitle1"
               sx={{
                 paddingLeft: `${theme.spacing(1)} !important`, //12px
-                color: `${theme.palette.primary.main}`,
+                color: `${theme.palette.primary[500]}`,
               }}
             >
               50 artículos

@@ -34,7 +34,7 @@ const CartEmpty = () => {
           sx={{
             marginTop: "32px",
             textAlign: "center",
-            color: `${theme.palette.grey.main}`,
+            color: `${theme.palette.grey[500]}`,
           }}
         >
           Todavía no hay productos por aquí

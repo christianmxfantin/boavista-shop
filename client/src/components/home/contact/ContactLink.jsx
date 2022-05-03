@@ -25,8 +25,8 @@ export const ContactLink = ({ href, icon, data }) => {
             name={icon}
             color={
               !isHover
-                ? theme.palette.tertiary.main
-                : theme.palette.secondary.main
+                ? theme.palette.secondary.A100
+                : theme.palette.secondary[500]
             }
             size={40}
             onMouseEnter={() => setIsHover(true)}
@@ -39,8 +39,8 @@ export const ContactLink = ({ href, icon, data }) => {
             sx={{
               color: `${
                 !isHover
-                  ? theme.palette.tertiary.main
-                  : theme.palette.secondary.main
+                  ? theme.palette.secondary.A100
+                  : theme.palette.secondary[500]
               }`,
               fontWeight: 300,
               marginLeft: `${theme.spacing(2)}`, //16px

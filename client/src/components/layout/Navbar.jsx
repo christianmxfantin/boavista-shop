@@ -60,7 +60,7 @@ const Navbar = () => {
             <Link
               style={{
                 textDecoration: "none",
-                color: `${theme.palette.tertiary.main}`,
+                color: `${theme.palette.secondary.A100}`,
               }}
               to="/"
             >
@@ -84,12 +84,14 @@ const Navbar = () => {
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
-              color="tertiary"
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
+              sx={{
+                color: `${theme.palette.secondary.A100}`,
+              }}
             >
               <MenuIcon />
             </IconButton>
@@ -116,7 +118,7 @@ const Navbar = () => {
                   <Link
                     style={{
                       textDecoration: "none",
-                      color: `${theme.palette.primary.main}`,
+                      color: `${theme.palette.primary[500]}`,
                     }}
                     to="/products"
                   >
@@ -129,7 +131,7 @@ const Navbar = () => {
                   <Link
                     style={{
                       textDecoration: "none",
-                      color: `${theme.palette.primary.main}`,
+                      color: `${theme.palette.primary[500]}`,
                     }}
                     to="/cart"
                   >
@@ -150,7 +152,7 @@ const Navbar = () => {
             <Link
               style={{
                 textDecoration: "none",
-                color: `${theme.palette.tertiary.main}`,
+                color: `${theme.palette.secondary.A100}`,
               }}
               to="/"
             >
@@ -184,7 +186,7 @@ const Navbar = () => {
                 className="nav-link"
                 style={{
                   textDecoration: "none",
-                  color: `${theme.palette.tertiary.main}`,
+                  color: `${theme.palette.secondary.A100}`,
                 }}
                 to="/products"
               >
@@ -200,30 +202,44 @@ const Navbar = () => {
                   textDecoration: "none",
                   display: "flex",
                   alignItems: "center",
-                  color: `${theme.palette.tertiary.main}`,
+                  color: `${theme.palette.secondary.A100}`,
                 }}
                 to="/cart"
               >
                 <Badge
                   badgeContent={105}
                   max={99}
-                  color={!isHover ? "secondary" : "tertiary"}
+                  // color={
+                  //   !isHover ? "secondary" : `${theme.palette.secondary.A100}`
+                  // }
                   onMouseEnter={() => setIsHover(true)}
                   onMouseLeave={() => setIsHover(false)}
                   sx={{
                     color: `${
                       !isHover
-                        ? theme.palette.tertiary.main
-                        : theme.palette.secondary.main
+                        ? theme.palette.secondary.A100
+                        : theme.palette.secondary[500]
                     }`,
+                    "& .MuiBadge-badge": {
+                      color: `${
+                        !isHover
+                          ? theme.palette.secondary.A100
+                          : theme.palette.secondary[500]
+                      }`,
+                      backgroundColor: `${
+                        !isHover
+                          ? theme.palette.secondary[500]
+                          : theme.palette.secondary.A100
+                      }`,
+                    },
                   }}
                 >
                   <CartIcon
                     name="Cart"
                     color={
                       !isHover
-                        ? theme.palette.tertiary.main
-                        : theme.palette.secondary.main
+                        ? theme.palette.secondary.A100
+                        : theme.palette.secondary[500]
                     }
                     size={30}
                     onMouseEnter={() => setIsHover(true)}
@@ -263,7 +279,7 @@ const Navbar = () => {
                     <Typography
                       textAlign="center"
                       sx={{
-                        color: `${theme.palette.primary.main}`,
+                        color: `${theme.palette.primary[500]}`,
                       }}
                     >
                       {setting}
@@ -277,8 +293,8 @@ const Navbar = () => {
               <Button
                 sx={{
                   my: 2,
-                  backgroundColor: `${theme.palette.primary.second}`,
-                  color: `${theme.palette.tertiary.main}`,
+                  backgroundColor: `${theme.palette.primary[300]}`,
+                  color: `${theme.palette.secondary.A100}`,
                   display: "block",
                   fontSize: `${theme.spacing(2)}`, //16px
                 }}
@@ -286,7 +302,7 @@ const Navbar = () => {
                 <Link
                   style={{
                     textDecoration: "none",
-                    color: `${theme.palette.tertiary.main}`,
+                    color: `${theme.palette.secondary.A100}`,
                   }}
                   to="/login"
                 >

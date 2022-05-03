@@ -9,10 +9,10 @@ import { Icon as SearchIcon } from "../ui/Icon";
 const SearchContainer = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.tertiary.main, 0.15),
+  backgroundColor: alpha(theme.palette.secondary.A100, 0.15),
   "&:hover": {
-    backgroundColor: alpha(theme.palette.tertiary.main, 0.25),
-    color: theme.palette.secondary.main,
+    backgroundColor: alpha(theme.palette.secondary.A100, 0.25),
+    color: theme.palette.secondary[500],
   },
   marginLeft: 0,
   width: "100%",

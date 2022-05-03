@@ -21,7 +21,7 @@ const Contact = () => {
   return (
     <ContactContainer
       maxWidth="xl"
-      sx={{ backgroundColor: `${theme.palette.primary.main}` }}
+      sx={{ backgroundColor: `${theme.palette.primary[500]}` }}
     >
       <ContactTitle
         variant="h3"
@@ -30,12 +30,12 @@ const Contact = () => {
           justifyContent: "center",
           padding: "40px 40px 0 40px",
           fontWeight: 500,
-          color: `${theme.palette.tertiary.main}`,
+          color: `${theme.palette.secondary.A100}`,
         }}
       >
         Contactanos
       </ContactTitle>
-      <Underline width={230} height={5} color={theme.palette.tertiary.main} />
+      <Underline width={230} height={5} color={theme.palette.secondary.A100} />
       <DataContainer
         sx={{
           display: "flex",
@@ -80,7 +80,7 @@ const Contact = () => {
       </DataContainer>
       <Footer
         sx={{
-          color: `${theme.palette.tertiary.main}`,
+          color: `${theme.palette.secondary.A100}`,
           textAlign: "center",
           padding: `${theme.spacing(2.5)}`, //20px
         }}

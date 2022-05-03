@@ -38,10 +38,10 @@ const ProductItem = ({ data, addToCart }) => {
           variant="h6"
           component="div"
           sx={{
-            color: `${theme.palette.primary.main}`,
+            color: `${theme.palette.primary[500]}`,
             fontWeight: 500,
             "&:hover": {
-              color: `${theme.palette.secondary.main}`,
+              color: `${theme.palette.secondary[500]}`,
               fontWeight: 600,
             },
           }}
@@ -57,7 +57,7 @@ const ProductItem = ({ data, addToCart }) => {
         >
           <ProductPrice
             variant="body1"
-            sx={{ color: `${theme.palette.primary.main}` }}
+            sx={{ color: `${theme.palette.primary[500]}` }}
           >
             $ {price}
           </ProductPrice>
@@ -70,7 +70,7 @@ const ProductItem = ({ data, addToCart }) => {
           >
             <CartIcon
               name="Cart"
-              color={theme.palette.primary.main}
+              color={theme.palette.primary[500]}
               size={25}
             />
           </ProductAddToCart>
