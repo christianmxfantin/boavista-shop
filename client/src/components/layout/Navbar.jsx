@@ -1,7 +1,8 @@
+/** @jsxImportSource @emotion/react */
 import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useTheme } from "@emotion/react";
+import { useTheme, css } from "@emotion/react";
 import {
   AppBar,
   Avatar,
@@ -19,12 +20,19 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Icon as CartIcon } from "../ui/Icon";
 import Search from "./Search";
 import Logo from "../../images/logo.png";
-import "../../styles/components/layout/Navbar.css";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const Navbar = () => {
   const theme = useTheme();
+
+  const NavbarStyle = css({
+    textDecoration: "none",
+    color: `${theme.palette.secondary.A100}`,
+    "&:hover": {
+      color: `${theme.palette.secondary[500]}`,
+    },
+  });
 
   const [isHover, setIsHover] = useState(false);
 
@@ -57,13 +65,7 @@ const Navbar = () => {
             component="div"
             sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
           >
-            <Link
-              style={{
-                textDecoration: "none",
-                color: `${theme.palette.secondary.A100}`,
-              }}
-              to="/"
-            >
+            <Link to="/">
               <Container
                 sx={{
                   width: 270,
@@ -149,13 +151,7 @@ const Navbar = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
           >
-            <Link
-              style={{
-                textDecoration: "none",
-                color: `${theme.palette.secondary.A100}`,
-              }}
-              to="/"
-            >
+            <Link to="/">
               <Container
                 sx={{
                   width: 270,
@@ -182,14 +178,7 @@ const Navbar = () => {
                 fontSize: `${theme.spacing(2)}`, //16px
               }}
             >
-              <Link
-                className="nav-link"
-                style={{
-                  textDecoration: "none",
-                  color: `${theme.palette.secondary.A100}`,
-                }}
-                to="/products"
-              >
+              <Link css={NavbarStyle} to="/products">
                 Productos
               </Link>
             </Button>

@@ -1,5 +1,6 @@
+/** @jsxImportSource @emotion/react */
 import React from "react";
-import { useTheme } from "@emotion/react";
+import { useTheme, css } from "@emotion/react";
 import {
   Container as AboutContainer,
   Container as AboutData,
@@ -12,9 +13,14 @@ import AboutImage from "../../images/about-image.jpg";
 const About = () => {
   const theme = useTheme();
 
+  const AboutContainerStyle = css({
+    padding: 0,
+  });
+
   return (
     <AboutContainer
       maxWidth="xl"
+      css={AboutContainerStyle}
       sx={{
         padding: "0px !important",
         margin: "0px",
@@ -31,6 +37,7 @@ const About = () => {
       >
         <AboutTitle
           variant="h3"
+          // css={TitleStyle}
           sx={{
             color: `${theme.palette.primary[500]}`,
             textAlign: "center",
