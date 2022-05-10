@@ -2,7 +2,7 @@
 
 import { createTheme } from "@mui/material/styles";
 
-const theme = createTheme({
+export const theme = createTheme({
   palette: {
     primary: {
       50: "hsl(207,50%,92%)",
@@ -86,4 +86,3 @@ const theme = createTheme({
     },
   },
 });
-export default theme;

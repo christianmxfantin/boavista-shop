@@ -27,6 +27,7 @@ const ProductItem = () => {
         height: "89vh",
         marginTop: "70px",
         paddingTop: "32px",
+        backgroundColor: `${theme.palette.primary[50]}`,
         color: `${theme.palette.primary[500]}`,
       }}
     >
