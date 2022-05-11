@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React from "react";
-import { useState } from "react";
+import { React, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTheme, css } from "@emotion/react";
 import {
@@ -23,10 +22,18 @@ import Logo from "../../images/logo.png";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
+// const NavbarLink = styled("a")(({ theme }) => ({
+//   textDecoration: "none",
+//   color: theme.palette.secondary.A100,
+//   "&:hover": {
+//     color: theme.palette.secondary[500],
+//   },
+// }));
+
 const Navbar = () => {
   const theme = useTheme();
 
-  const NavbarStyle = css({
+  const NavbarLink = css({
     textDecoration: "none",
     color: `${theme.palette.secondary.A100}`,
     "&:hover": {
@@ -178,7 +185,7 @@ const Navbar = () => {
                 fontSize: `${theme.spacing(2)}`, //16px
               }}
             >
-              <Link css={NavbarStyle} to="/products">
+              <Link css={NavbarLink} to="/products">
                 Productos
               </Link>
             </Button>
@@ -198,9 +205,6 @@ const Navbar = () => {
                 <Badge
                   badgeContent={105}
                   max={99}
-                  // color={
-                  //   !isHover ? "secondary" : `${theme.palette.secondary.A100}`
-                  // }
                   onMouseEnter={() => setIsHover(true)}
                   onMouseLeave={() => setIsHover(false)}
                   sx={{
