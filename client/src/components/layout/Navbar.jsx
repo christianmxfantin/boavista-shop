@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { React, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useTheme, css } from "@emotion/react";
 import {
@@ -15,20 +15,13 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+// import { styled } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Icon as CartIcon } from "../ui/Icon";
 import Search from "./Search";
 import Logo from "../../images/logo.png";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
-
-// const NavbarLink = styled("a")(({ theme }) => ({
-//   textDecoration: "none",
-//   color: theme.palette.secondary.A100,
-//   "&:hover": {
-//     color: theme.palette.secondary[500],
-//   },
-// }));
 
 const Navbar = () => {
   const theme = useTheme();
@@ -41,8 +34,14 @@ const Navbar = () => {
     },
   });
 
-  const [isHover, setIsHover] = useState(false);
+  const BadgeLink = css({
+    display: "flex",
+    textDecoration: "none",
+    alignItems: "center",
+    color: `${theme.palette.secondary.A100}`,
+  });
 
+  const [isHover, setIsHover] = useState(false);
   const [isLogged, setIsLogged] = useState(false);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -53,11 +52,9 @@ const Navbar = () => {
   const handleOpenUserMenu = (e) => {
     setAnchorElUser(e.currentTarget);
   };
-
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
@@ -73,6 +70,7 @@ const Navbar = () => {
             sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
           >
             <Link to="/">
+              {/* HACER EL COMPONENTE IMAGE */}
               <Container
                 sx={{
                   width: 270,
@@ -124,26 +122,14 @@ const Navbar = () => {
             >
               <MenuItem onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">
-                  <Link
-                    style={{
-                      textDecoration: "none",
-                      color: `${theme.palette.primary[500]}`,
-                    }}
-                    to="/products"
-                  >
+                  <Link css={NavbarLink} to="/products">
                     Productos
                   </Link>
                 </Typography>
               </MenuItem>
               <MenuItem onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">
-                  <Link
-                    style={{
-                      textDecoration: "none",
-                      color: `${theme.palette.primary[500]}`,
-                    }}
-                    to="/cart"
-                  >
+                  <Link css={NavbarLink} to="/cart">
                     Carrito
                   </Link>
                 </Typography>
@@ -193,15 +179,7 @@ const Navbar = () => {
               onClick={handleCloseNavMenu}
               sx={{ my: 2, display: "block" }}
             >
-              <Link
-                style={{
-                  textDecoration: "none",
-                  display: "flex",
-                  alignItems: "center",
-                  color: `${theme.palette.secondary.A100}`,
-                }}
-                to="/cart"
-              >
+              <Link css={BadgeLink} to="/cart">
                 <Badge
                   badgeContent={105}
                   max={99}
@@ -292,13 +270,7 @@ const Navbar = () => {
                   fontSize: `${theme.spacing(2)}`, //16px
                 }}
               >
-                <Link
-                  style={{
-                    textDecoration: "none",
-                    color: `${theme.palette.secondary.A100}`,
-                  }}
-                  to="/login"
-                >
+                <Link css={NavbarLink} to="/login">
                   Login
                 </Link>
               </Button>

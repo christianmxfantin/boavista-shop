@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { useTheme } from "@emotion/react";
-import {
-  Container as LinkCard,
-  Link,
-  Typography as LinkData,
-} from "@mui/material";
+import { Box, Link, Typography as LinkData } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { Icon as LinkIcon } from "../../ui/Icon";
+
+const LinkCard = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  margin: `${theme.spacing(4)}`, //32px
+}));
 
 export const ContactLink = ({ href, icon, data }) => {
   const theme = useTheme();
@@ -14,13 +17,7 @@ export const ContactLink = ({ href, icon, data }) => {
   return (
     <>
       <Link href={href} target="_blank" rel="noreferrer">
-        <LinkCard
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            margin: `${theme.spacing(4)}`, //32px
-          }}
-        >
+        <LinkCard>
           <LinkIcon
             name={icon}
             color={

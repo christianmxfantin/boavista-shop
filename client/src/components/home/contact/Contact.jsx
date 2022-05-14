@@ -1,12 +1,7 @@
 import React from "react";
 import { useTheme } from "@emotion/react";
-import {
-  Container as ContactContainer,
-  Container as DataContainer,
-  Container as SocialContainer,
-  Container as Footer,
-  Typography as ContactTitle,
-} from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import Underline from "../../ui/Underline";
 import ContactImage from "../../../images/contact-image.jpg";
 import {
@@ -15,52 +10,56 @@ import {
   ContactLink as WhatsappLink,
 } from "./ContactLink";
 
+const ContactContainer = styled(Box)(({ theme }) => ({
+  backgroundColor: `${theme.palette.primary[500]}`,
+}));
+
+const ContactTitle = styled(Typography)(({ theme }) => ({
+  display: "flex",
+  justifyContent: "center",
+  padding: "40px 40px 0 40px",
+  fontWeight: 500,
+  color: `${theme.palette.secondary.A100}`,
+}));
+
+const DataContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  justifyContent: "center",
+  marginTop: `${theme.spacing(5)}`, //40px
+}));
+
+const SocialContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+}));
+
+const Footer = styled(Typography)(({ theme }) => ({
+  padding: `${theme.spacing(2.5)}`, //20px
+  textAlign: "center",
+  color: `${theme.palette.secondary.A100}`,
+}));
+
 const Contact = () => {
   const theme = useTheme();
 
   return (
-    <ContactContainer
-      maxWidth="xl"
-      sx={{ backgroundColor: `${theme.palette.primary[500]}` }}
-    >
-      <ContactTitle
-        variant="h3"
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          padding: "40px 40px 0 40px",
-          fontWeight: 500,
-          color: `${theme.palette.secondary.A100}`,
-        }}
-      >
-        Contactanos
-      </ContactTitle>
+    <ContactContainer>
+      <ContactTitle variant="h3">Contactanos</ContactTitle>
       <Underline width={230} height={5} color={theme.palette.secondary.A100} />
-      <DataContainer
-        sx={{
-          display: "flex",
-          marginTop: `${theme.spacing(5)}`, //40px
-        }}
-      >
+      <DataContainer>
         <img
           src={ContactImage}
           alt=""
           style={{
-            padding: "0px !important",
             margin: `${theme.spacing(1.5)}`, //12px
-            width: "50%",
-            height: "50%",
+            width: "40%",
+            height: "40%",
             borderRadius: `${theme.spacing(4)}`, //32px
             objectFit: "cover",
           }}
         />
-        <SocialContainer
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-          }}
-        >
+        <SocialContainer>
           <AddressLink
             href="https://www.google.com.ar/maps/place/Av.+Leandro+N.+Alem+916,+C1001AAR+CABA"
             icon="Address"
@@ -78,15 +77,7 @@ const Contact = () => {
           />
         </SocialContainer>
       </DataContainer>
-      <Footer
-        sx={{
-          color: `${theme.palette.secondary.A100}`,
-          textAlign: "center",
-          padding: `${theme.spacing(2.5)}`, //20px
-        }}
-      >
-        Copyright 2022 - Librería Boa Vista
-      </Footer>
+      <Footer>Copyright 2022 - Librería Boa Vista</Footer>
     </ContactContainer>
   );
 };

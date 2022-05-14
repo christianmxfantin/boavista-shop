@@ -1,59 +1,42 @@
-/** @jsxImportSource @emotion/react */
 import React from "react";
-import { useTheme, css } from "@emotion/react";
-import {
-  Container as AboutContainer,
-  Container as AboutData,
-  Typography as AboutTitle,
-  Typography as AboutInfo,
-} from "@mui/material";
+import { styled } from "@mui/material/styles";
+import { useTheme } from "@emotion/react";
+import { Box, Typography } from "@mui/material";
 import Underline from "../ui/Underline";
 import AboutImage from "../../images/about-image.jpg";
+
+const AboutContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+}));
+
+const AboutData = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  marginLeft: `${theme.spacing(4)}`, //32px
+}));
+
+const AboutTitle = styled(Typography)(({ theme }) => ({
+  textAlign: "center",
+  fontWeight: 500,
+  color: `${theme.palette.primary[500]}`,
+}));
+
+const AboutInfo = styled(Typography)(({ theme }) => ({
+  marginTop: `${theme.spacing(2.5)}`, //20px
+  textAlign: "justify",
+  color: `${theme.palette.primary[500]}`,
+}));
 
 const About = () => {
   const theme = useTheme();
 
-  const AboutContainerStyle = css({
-    padding: 0,
-  });
-
   return (
-    <AboutContainer
-      maxWidth="xl"
-      css={AboutContainerStyle}
-      sx={{
-        padding: "0px !important",
-        margin: "0px",
-        display: "flex",
-      }}
-    >
-      <AboutData
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          marginLeft: `${theme.spacing(4)}`, //32px
-        }}
-      >
-        <AboutTitle
-          variant="h3"
-          // css={TitleStyle}
-          sx={{
-            color: `${theme.palette.primary[500]}`,
-            textAlign: "center",
-            fontWeight: 500,
-          }}
-        >
-          Sobre Nosotros
-        </AboutTitle>
+    <AboutContainer>
+      <AboutData>
+        <AboutTitle variant="h3">Sobre Nosotros</AboutTitle>
         <Underline width={300} height={5} color={theme.palette.primary[500]} />
-        <AboutInfo
-          sx={{
-            color: `${theme.palette.primary[500]}`,
-            marginTop: `${theme.spacing(2.5)}`, //20px
-            textAlign: "justify",
-          }}
-        >
+        <AboutInfo>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
           minim veniam, quis nostrud exercitation ullamco laboris nisi ut
