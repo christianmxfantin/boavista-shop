@@ -5,7 +5,7 @@ import {
   Container,
   Typography as CartEmptyTitle,
 } from "@mui/material";
-import CartImage from "../../images/cart-empty.svg";
+import { Image } from "../ui/Image";
 
 const CartEmpty = () => {
   const theme = useTheme();
@@ -16,9 +16,8 @@ const CartEmpty = () => {
         sx={{ marginTop: "150px", display: "flex", flexDirection: "column" }}
       >
         <CartEmptyImage sx={{ textAlign: "center" }}>
-          <img
-            src={CartImage}
-            alt=""
+          <Image
+            name="cart-empty"
             style={{
               padding: "0px !important",
               margin: "0px",

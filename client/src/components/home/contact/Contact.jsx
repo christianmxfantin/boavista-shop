@@ -2,13 +2,13 @@ import React from "react";
 import { useTheme } from "@emotion/react";
 import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import Underline from "../../ui/Underline";
-import ContactImage from "../../../images/contact-image.jpg";
 import {
   ContactLink as AddressLink,
   ContactLink as EmailLink,
   ContactLink as WhatsappLink,
 } from "./ContactLink";
+import Underline from "../../ui/Underline";
+import { Image } from "../../ui/Image";
 
 const ContactContainer = styled(Box)(({ theme }) => ({
   backgroundColor: `${theme.palette.primary[500]}`,
@@ -48,9 +48,8 @@ const Contact = () => {
       <ContactTitle variant="h3">Contactanos</ContactTitle>
       <Underline width={230} height={5} color={theme.palette.secondary.A100} />
       <DataContainer>
-        <img
-          src={ContactImage}
-          alt=""
+        <Image
+          name="contact"
           style={{
             margin: `${theme.spacing(1.5)}`, //12px
             width: "40%",

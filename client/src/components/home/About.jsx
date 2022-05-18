@@ -3,10 +3,11 @@ import { styled } from "@mui/material/styles";
 import { useTheme } from "@emotion/react";
 import { Box, Typography } from "@mui/material";
 import Underline from "../ui/Underline";
-import AboutImage from "../../images/about-image.jpg";
+import { Image } from "../ui/Image";
 
 const AboutContainer = styled(Box)(({ theme }) => ({
   display: "flex",
+  margin: `${theme.spacing(1)} 0 ${theme.spacing(2)} 0`, //8px y 16px;
 }));
 
 const AboutData = styled(Box)(({ theme }) => ({
@@ -47,9 +48,8 @@ const About = () => {
         </AboutInfo>
       </AboutData>
 
-      <img
-        src={AboutImage}
-        alt=""
+      <Image
+        name="about"
         style={{
           padding: "0px !important",
           margin: "50px",

@@ -19,7 +19,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import { Icon as CartIcon } from "../ui/Icon";
 import Search from "./Search";
-import Logo from "../../images/logo.png";
+import { Image } from "../ui/Image";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -78,9 +78,8 @@ const Navbar = () => {
                   paddingTop: `${theme.spacing(0.5)}`, //4px
                 }}
               >
-                <img
-                  src={Logo}
-                  alt=""
+                <Image
+                  name="logo"
                   style={{
                     maxWidth: "100%",
                   }}
@@ -152,9 +151,8 @@ const Navbar = () => {
                   paddingTop: `${theme.spacing(0.5)}`, //4px
                 }}
               >
-                <img
-                  src={Logo}
-                  alt=""
+                <Image
+                  name="logo"
                   style={{
                     maxWidth: "100%",
                   }}
