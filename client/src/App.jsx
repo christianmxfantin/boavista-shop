@@ -6,8 +6,8 @@ import store from "./store";
 import Login from "./pages/Login";
 import Navbar from "./components/layout/Navbar";
 import Home from "./pages/Home";
-import Products from "./pages/Products";
-import ProductItem from "./pages/ProductItem";
+import Products from "./pages/products/Products";
+import ProductItem from "./pages/products/ProductItem";
 import Cart from "./pages/Cart";
 import PageNotFound from "./pages/PageNotFound";
 

@@ -6,9 +6,19 @@ import Contact from "../components/home/contact/Contact";
 const Home = () => {
   return (
     <>
-      <Hero />
-      <About />
-      <Contact />
+      <main>
+        <section>
+          <Hero />
+        </section>
+        <section>
+          <article>
+            <About />
+          </article>
+        </section>
+        <section>
+          <Contact />
+        </section>
+      </main>
     </>
   );
 };

@@ -1,8 +1,8 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addToCart } from "../actions/cart";
-import ProductFilter from "../components/products/ProductFilter";
-import ProductItem from "../components/products/ProductItem";
+import { addToCart } from "../../actions/cart";
+import ProductFilter from "../../components/products/ProductFilter";
+import ProductItem from "../../components/products/ProductItem";
 import { useTheme } from "@emotion/react";
 import {
   Container as ProductCategoryContainer,

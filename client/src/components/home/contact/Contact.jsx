@@ -76,7 +76,7 @@ const Contact = () => {
           />
         </SocialContainer>
       </DataContainer>
-      <Footer>Copyright 2022 - Librería Boa Vista</Footer>
+      <Footer component="footer">Copyright 2022 - Librería Boa Vista</Footer>
     </ContactContainer>
   );
 };

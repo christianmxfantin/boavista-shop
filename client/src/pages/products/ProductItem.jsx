@@ -14,9 +14,8 @@ import {
   Typography as ItemInfoStock,
   Typography as ItemInfoTitle,
 } from "@mui/material";
-import { Icon as ItemTitleShare } from "../components/ui/Icon";
-// import { Image as ItemImage } from "../components/ui/Image";
-import ProductImage from "../images/product.jpg";
+import { Icon as ItemTitleShare } from "../../components/ui/Icon";
+import ProductImage from "../../images/product.jpg";
 
 const ProductItem = () => {
   const theme = useTheme();

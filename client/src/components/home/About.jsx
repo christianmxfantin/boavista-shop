@@ -47,7 +47,6 @@ const About = () => {
           culpa qui officia deserunt mollit anim id est laborum.
         </AboutInfo>
       </AboutData>
-
       <Image
         name="about"
         style={{
