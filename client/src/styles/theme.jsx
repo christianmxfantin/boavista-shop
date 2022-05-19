@@ -85,4 +85,9 @@ export const theme = createTheme({
       A700: "hsl(359,100%,66%)",
     },
   },
+  // typography: {
+  //   button: {
+  //     fontSize: 9,
+  //   },
+  // },
 });

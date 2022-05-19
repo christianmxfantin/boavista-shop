@@ -27,6 +27,15 @@ const Navbar = () => {
   const theme = useTheme();
 
   const NavbarLink = css({
+    fontSize: "1.2rem",
+    textDecoration: "none",
+    color: `${theme.palette.secondary.A100}`,
+    "&:hover": {
+      color: `${theme.palette.secondary[500]}`,
+    },
+  });
+
+  const ButtonLink = css({
     textDecoration: "none",
     color: `${theme.palette.secondary.A100}`,
     "&:hover": {
@@ -128,7 +137,7 @@ const Navbar = () => {
               </MenuItem>
               <MenuItem onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">
-                  <Link css={NavbarLink} to="/cart">
+                  <Link css={ButtonLink} to="/cart">
                     Carrito
                   </Link>
                 </Typography>
@@ -138,7 +147,7 @@ const Navbar = () => {
             {/* MENU DESKTOP   */}
           </Box>
           <Typography
-            variant="h5"
+            // variant="h5"
             noWrap
             component="div"
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
@@ -268,7 +277,7 @@ const Navbar = () => {
                   fontSize: `${theme.spacing(2)}`, //16px
                 }}
               >
-                <Link css={NavbarLink} to="/login">
+                <Link css={ButtonLink} to="/login">
                   Login
                 </Link>
               </Button>
