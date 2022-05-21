@@ -1,9 +1,15 @@
 import React from "react";
+import { Box, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
+
+const LoginContainer = styled(Typography)(({ theme }) => ({
+  marginTop: "80px",
+}));
 
 const Login = () => {
   return (
     <>
-      <div className="login">Login</div>
+      <LoginContainer>Login</LoginContainer>
     </>
   );
 };

@@ -1,24 +1,14 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart } from "../../actions/cart";
+
+import { Box, Grid, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
+
 import ProductFilter from "../../components/products/ProductFilter";
 import ProductItem from "../../components/products/ProductItem";
-import { useTheme } from "@emotion/react";
-import {
-  Container as ProductCategoryContainer,
-  Container as ProductContainer,
-  Container as ProductFilters,
-  Container as ProductFilterContainer,
-  Container as ProductData,
-  Typography as ProductCategoryData,
-  Typography as ProductCategoryTitle,
-  Typography as ProductOrderBy,
-  Grid,
-} from "@mui/material";
 
 const Products = () => {
-  const theme = useTheme();
-
   //traer data de la BD
   let products = [
     { id: 1, name: "Lapicera Bic x 24 unidades", price: 500 },
@@ -38,99 +28,85 @@ const Products = () => {
   //aca debe ser un state.products
   //const { products } = state.cart;
 
+  const ProductContainer = styled(Box)(({ theme }) => ({
+    display: "flex",
+    marginTop: "100px",
+    color: `${theme.palette.primary[500]}`,
+  }));
+
+  const ProductFilters = styled(Box)(({ theme }) => ({
+    marginRight: `${theme.spacing(2.5)} !important`, //20px
+    padding: `${theme.spacing(1.5)}`, //12px
+    width: "30%",
+    display: "flex",
+    flexDirection: "column",
+    borderRadius: `${theme.spacing(1.5)}`, //12px
+    backgroundColor: `${theme.palette.primary[50]}`,
+  }));
+
+  const ProductData = styled(Box)(({ theme }) => ({
+    //styles
+  }));
+
+  const ProductTitleContainer = styled(Box)(({ theme }) => ({
+    display: "flex",
+  }));
+
+  const ProductTitle = styled(Box)(({ theme }) => ({
+    // width: "50%",
+  }));
+
+  const ProductCategoryTitle = styled(Typography)(({ theme }) => ({
+    paddingLeft: `${theme.spacing(1)} !important`, //12px
+    color: `${theme.palette.primary[500]}`,
+    fontWeight: 500,
+  }));
+
+  const ProductCategoryQuantity = styled(Typography)(({ theme }) => ({
+    paddingLeft: `${theme.spacing(1)} !important`, //12px
+    color: `${theme.palette.primary[500]}`,
+  }));
+
+  const ProductOrderBy = styled(Typography)(({ theme }) => ({
+    // paddingLeft: "100px",
+  }));
+
+  const ProductListContainer = styled(Grid)(({ theme }) => ({
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr 1fr !important",
+    margin: "0px !important",
+  }));
+
+  const ProductListItem = styled(Grid)(({ theme }) => ({
+    padding: `${theme.spacing(1)} !important`, //12px
+  }));
+
   return (
-    <ProductContainer
-      sx={{
-        padding: "0px !important",
-        display: "flex",
-        marginTop: "100px",
-        color: `${theme.palette.primary[500]}`,
-      }}
-    >
-      <ProductFilters
-        sx={{
-          marginRight: `${theme.spacing(2.5)} !important`, //20px
-          padding: `${theme.spacing(1.5)}`, //12px
-          width: "30%",
-          display: "flex",
-          flexDirection: "column",
-          borderRadius: `${theme.spacing(1.5)}`, //12px
-          backgroundColor: `${theme.palette.primary[50]}`,
-        }}
-      >
+    <ProductContainer>
+      <ProductFilters>
         <ProductFilter />
       </ProductFilters>
-      <ProductData
-        sx={{
-          padding: "0px !important",
-        }}
-      >
-        <ProductFilterContainer
-          sx={{
-            padding: "0px !important",
-            display: "flex",
-          }}
-        >
-          <ProductCategoryContainer
-            sx={{
-              padding: "0px !important",
-              // width: "50%",
-            }}
-          >
-            <ProductCategoryTitle
-              variant="h5"
-              sx={{
-                paddingLeft: `${theme.spacing(1)} !important`, //12px
-                color: `${theme.palette.primary[500]}`,
-                fontWeight: 500,
-              }}
-            >
-              Categoría
-            </ProductCategoryTitle>
-            <ProductCategoryData
-              variant="subtitle1"
-              sx={{
-                paddingLeft: `${theme.spacing(1)} !important`, //12px
-                color: `${theme.palette.primary[500]}`,
-              }}
-            >
+      <ProductData>
+        <ProductTitleContainer>
+          <ProductTitle>
+            <ProductCategoryTitle variant="h5">Categoría</ProductCategoryTitle>
+            <ProductCategoryQuantity variant="subtitle1">
               50 artículos
-            </ProductCategoryData>
-          </ProductCategoryContainer>
-          <ProductOrderBy
-            sx={
-              {
-                // paddingLeft: "100px",
-              }
-            }
-          >
-            Ordenar por: Menor Precio
-          </ProductOrderBy>
-        </ProductFilterContainer>
-        <Grid
-          container
-          spacing={3}
-          sx={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr 1fr !important",
-            margin: "0px !important",
-          }}
-        >
+            </ProductCategoryQuantity>
+          </ProductTitle>
+          <ProductOrderBy>Ordenar por: Menor Precio</ProductOrderBy>
+        </ProductTitleContainer>
+        <ProductListContainer container spacing={3}>
           {products.map((product) => (
-            <Grid
-              item
-              sx={{
-                padding: `${theme.spacing(1)} !important`, //12px
-              }}
-            >
+            <ProductListItem item>
               <ProductItem
                 key={product.id}
                 data={product}
                 addToCart={() => dispatch(addToCart(product.id))}
               />
-            </Grid>
+            </ProductListItem>
           ))}
-        </Grid>
+        </ProductListContainer>
       </ProductData>
     </ProductContainer>
   );

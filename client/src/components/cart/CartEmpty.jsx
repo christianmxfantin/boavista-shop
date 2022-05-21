@@ -1,45 +1,43 @@
 import React from "react";
-import { useTheme } from "@emotion/react";
-import {
-  Container as CartEmptyImage,
-  Container,
-  Typography as CartEmptyTitle,
-} from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { Image } from "../ui/Image";
 
-const CartEmpty = () => {
-  const theme = useTheme();
+const CartEmptyContainer = styled(Box)(({ theme }) => ({
+  marginTop: "150px",
+  display: "flex",
+  flexDirection: "column",
+}));
 
+const CartEmptyImage = styled(Box)(({ theme }) => ({
+  textAlign: "center",
+}));
+
+const CartEmptyTitle = styled(Typography)(({ theme }) => ({
+  marginTop: "32px",
+  textAlign: "center",
+  color: `${theme.palette.grey[500]}`,
+}));
+
+const CartEmpty = () => {
   return (
-    <>
-      <Container
-        sx={{ marginTop: "150px", display: "flex", flexDirection: "column" }}
-      >
-        <CartEmptyImage sx={{ textAlign: "center" }}>
-          <Image
-            name="cart-empty"
-            style={{
-              padding: "0px !important",
-              margin: "0px",
-              width: "30%",
-              heigth: "30%",
-              objectFit: "cover",
-            }}
-          />
-        </CartEmptyImage>
-        <CartEmptyTitle
-          component="div"
-          variant="h5"
-          sx={{
-            marginTop: "32px",
-            textAlign: "center",
-            color: `${theme.palette.grey[500]}`,
+    <CartEmptyContainer>
+      <CartEmptyImage>
+        <Image
+          name="cart-empty"
+          style={{
+            padding: "0px !important",
+            margin: "0px",
+            width: "30%",
+            heigth: "30%",
+            objectFit: "cover",
           }}
-        >
-          Todavía no hay productos por aquí
-        </CartEmptyTitle>
-      </Container>
-    </>
+        />
+      </CartEmptyImage>
+      <CartEmptyTitle component="div" variant="h5">
+        Todavía no hay productos por aquí
+      </CartEmptyTitle>
+    </CartEmptyContainer>
   );
 };
 

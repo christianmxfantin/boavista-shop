@@ -1,9 +1,23 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { clearCart, delFromCart } from "../actions/cart";
-import { Container as CartFull } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import CartEmpty from "../components/cart/CartEmpty";
 import CartItem from "../components/cart/CartItem";
+
+const CartFull = styled(Box)(({ theme }) => ({
+  marginTop: "80px",
+}));
+
+const CartTitle = styled(Typography)(({ theme }) => ({
+  //styles
+}));
+
+const CartButtonClean = styled(Button)(({ theme }) => ({
+  color: `${theme.palette.secondary.A100}`,
+  backgroundColor: `${theme.palette.primary[500]}`,
+}));
 
 const Cart = () => {
   //ver de donde traer la data de cart
@@ -11,14 +25,15 @@ const Cart = () => {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const { cart } = state.cart;
-  console.log(cart);
 
   return cart.length === 0 ? (
     <CartEmpty />
   ) : (
-    <CartFull sx={{ marginTop: "80px" }}>
-      <div className="cart">Cart</div>
-      <button onClick={() => dispatch(clearCart())}>Limpiar</button>
+    <CartFull>
+      <CartTitle>Elementos en el Carrito</CartTitle>
+      <CartButtonClean onClick={() => dispatch(clearCart())}>
+        Limpiar
+      </CartButtonClean>
       {cart.map((item, index) => (
         <CartItem
           key={index}
