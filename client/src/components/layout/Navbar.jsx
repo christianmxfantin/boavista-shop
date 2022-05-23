@@ -23,8 +23,23 @@ import { Image } from "../ui/Image";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
+// const MenuItem1 = styled(MenuItem)(({ theme }) => ({
+//   "&:hover": {
+//     color: `${theme.palette.secondary[500]}`,
+//   },
+// }));
+
 const Navbar = () => {
   const theme = useTheme();
+
+  const NavbarMenu = css({
+    fontWeight: 500,
+    textDecoration: "none",
+    color: `${theme.palette.primary[500]}`,
+    "&:hover": {
+      color: `${theme.palette.secondary[500]}`,
+    },
+  });
 
   const NavbarLink = css({
     fontSize: "1.2rem",
@@ -79,7 +94,6 @@ const Navbar = () => {
             sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
           >
             <Link to="/">
-              {/* HACER EL COMPONENTE IMAGE */}
               <Container
                 sx={{
                   width: 270,
@@ -100,7 +114,7 @@ const Navbar = () => {
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
-              aria-label="account of current user"
+              aria-label="Cuenta del Usuario"
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
@@ -130,14 +144,14 @@ const Navbar = () => {
             >
               <MenuItem onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">
-                  <Link css={NavbarLink} to="/products">
+                  <Link css={NavbarMenu} to="/products">
                     Productos
                   </Link>
                 </Typography>
               </MenuItem>
               <MenuItem onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">
-                  <Link css={ButtonLink} to="/cart">
+                  <Link css={NavbarMenu} to="/cart">
                     Carrito
                   </Link>
                 </Typography>

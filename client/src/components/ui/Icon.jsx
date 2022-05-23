@@ -14,6 +14,7 @@ export const Icon = ({ name, color, size }) => {
       name: "Cart",
       img: (
         <SvgIcon
+          aria-label="Carrito de Compras"
           component={ShoppingCartIcon}
           sx={{
             color: color,
@@ -26,6 +27,7 @@ export const Icon = ({ name, color, size }) => {
       name: "Address",
       img: (
         <SvgIcon
+          aria-label="Dirección"
           component={StoreIcon}
           sx={{
             color: color,
@@ -38,6 +40,7 @@ export const Icon = ({ name, color, size }) => {
       name: "Email",
       img: (
         <SvgIcon
+          aria-label="Email"
           component={EmailIcon}
           sx={{
             color: color,
@@ -50,6 +53,7 @@ export const Icon = ({ name, color, size }) => {
       name: "Whatsapp",
       img: (
         <SvgIcon
+          aria-label="Whatsapp"
           component={WhatsAppIcon}
           sx={{
             color: color,
@@ -62,6 +66,7 @@ export const Icon = ({ name, color, size }) => {
       name: "Search",
       img: (
         <SvgIcon
+          aria-label="Buscar"
           component={SearchIcon}
           sx={{
             color: color,
@@ -74,6 +79,7 @@ export const Icon = ({ name, color, size }) => {
       name: "Share",
       img: (
         <SvgIcon
+          aria-label="Compartir"
           component={ShareIcon}
           sx={{
             color: color,

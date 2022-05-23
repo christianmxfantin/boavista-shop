@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTheme } from "@emotion/react";
-import { Box, Link, Typography as LinkData } from "@mui/material";
+import { Box, Link, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Icon as LinkIcon } from "../../ui/Icon";
 
@@ -8,6 +8,10 @@ const LinkCard = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   margin: `${theme.spacing(4)}`, //32px
+}));
+
+const LinkData = styled(Typography)(({ theme }) => ({
+  //styles
 }));
 
 export const ContactLink = ({ href, icon, data }) => {
