@@ -13,27 +13,27 @@ export const Image = ({ name, style }) => {
 
   const images = [
     {
-      name: "logo",
+      name: "Logo",
       src: Logo,
       alt: "Página de Inicio",
     },
     {
-      name: "hero",
+      name: "Hero",
       src: Hero,
       alt: "Página de Inicio",
     },
     {
-      name: "about",
+      name: "About",
       src: About,
       alt: "Página de Inicio",
     },
     {
-      name: "contact",
+      name: "Contact",
       src: Contact,
       alt: "Página de Inicio",
     },
     {
-      name: "cart-empty",
+      name: "CartEmpty",
       src: CartEmpty,
       alt: "Página de Inicio",
     },

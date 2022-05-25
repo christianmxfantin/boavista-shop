@@ -49,7 +49,7 @@ const Contact = () => {
       <Underline width={230} height={5} color={theme.palette.secondary.A100} />
       <DataContainer>
         <Image
-          name="contact"
+          name="Contact"
           style={{
             margin: `${theme.spacing(1.5)}`, //12px
             width: "40%",

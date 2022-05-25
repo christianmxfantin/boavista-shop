@@ -48,7 +48,7 @@ const About = () => {
         </AboutInfo>
       </AboutData>
       <Image
-        name="about"
+        name="About"
         style={{
           padding: "0px !important",
           margin: "50px",

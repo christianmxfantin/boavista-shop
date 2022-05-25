@@ -12,7 +12,7 @@ const Hero = () => {
   return (
     <HeroContainer>
       <Image
-        name="hero"
+        name="Hero"
         style={{
           width: "100%",
           objectFit: "cover",

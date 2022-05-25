@@ -21,28 +21,21 @@ export const ContactLink = ({ href, icon, data }) => {
   return (
     <>
       <Link href={href} target="_blank" rel="noreferrer">
-        <LinkCard>
-          <LinkIcon
-            name={icon}
-            color={
+        <LinkCard
+          onMouseEnter={() => setIsHover(true)}
+          onMouseLeave={() => setIsHover(false)}
+          sx={{
+            color: `${
               !isHover
                 ? theme.palette.secondary.A100
                 : theme.palette.secondary[500]
-            }
-            size={40}
-            onMouseEnter={() => setIsHover(true)}
-            onMouseLeave={() => setIsHover(false)}
-          />
+            }`,
+          }}
+        >
+          <LinkIcon name={icon} size={40} />
           <LinkData
             variant="h5"
-            onMouseEnter={() => setIsHover(true)}
-            onMouseLeave={() => setIsHover(false)}
             sx={{
-              color: `${
-                !isHover
-                  ? theme.palette.secondary.A100
-                  : theme.palette.secondary[500]
-              }`,
               fontWeight: 300,
               marginLeft: `${theme.spacing(2)}`, //16px
             }}

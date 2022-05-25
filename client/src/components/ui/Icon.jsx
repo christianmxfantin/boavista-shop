@@ -1,6 +1,7 @@
 import React from "react";
 import { SvgIcon } from "@mui/material";
 import BrokenImageIcon from "@mui/icons-material/BrokenImage";
+import MenuIcon from "@mui/icons-material/Menu";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import StoreIcon from "@mui/icons-material/Store";
 import EmailIcon from "@mui/icons-material/Email";
@@ -10,6 +11,19 @@ import ShareIcon from "@mui/icons-material/Share";
 
 export const Icon = ({ name, color, size }) => {
   const icons = [
+    {
+      name: "Menu",
+      img: (
+        <SvgIcon
+          aria-label="Menú"
+          component={MenuIcon}
+          sx={{
+            color: color,
+            fontSize: size,
+          }}
+        />
+      ),
+    },
     {
       name: "Cart",
       img: (
