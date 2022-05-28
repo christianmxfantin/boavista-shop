@@ -5,7 +5,6 @@ import { Image } from "../ui/Image";
 
 const HeroContainer = styled(Box)(({ theme }) => ({
   textAlign: "center",
-  marginTop: `${theme.spacing(9)}`, //72px
 }));
 
 const Hero = () => {

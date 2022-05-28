@@ -7,7 +7,7 @@ import {
   Avatar,
   Badge,
   Box,
-  Container,
+  Container as ImageContainer,
   Menu,
   MenuItem,
   Toolbar,
@@ -22,8 +22,30 @@ const Navbar = () => {
   const [isHover, setIsHover] = useState(false);
   const [isLogged, setIsLogged] = useState(false);
 
-  const Appbar = css({
+  const AppbarStyles = css({
     padding: `${theme.spacing(1)}`, //8px;
+    display: "flex",
+    justifyContent: "space-between",
+  });
+
+  const ToolbarStyles = css({
+    display: "flex",
+  });
+
+  const ImageContainerStyles = css({
+    width: 270,
+    height: 60,
+    paddingTop: `${theme.spacing(0.5)}`, //4px
+    display: { xs: "none", md: "flex" },
+  });
+
+  const BadgeStyle = css({
+    marginLeft: `${theme.spacing(2)}`, //16px
+  });
+
+  const SearchStyle = css({
+    marginLeft: "auto",
+    marginRight: `${theme.spacing(2)}`, //16px
   });
 
   const NavbarMenu = css({
@@ -62,6 +84,7 @@ const Navbar = () => {
   });
 
   const LoginLink = css({
+    marginRight: `${theme.spacing(2)}`, //16px
     color: `${theme.palette.secondary.A100}`,
     textDecoration: "none",
     "&:hover": {
@@ -70,24 +93,17 @@ const Navbar = () => {
   });
 
   return (
-    <AppBar position="sticky" css={Appbar}>
-      <Toolbar>
+    <AppBar position="sticky" css={AppbarStyles}>
+      <Toolbar css={ToolbarStyles}>
         <Link to="/">
-          <Container
-            sx={{
-              width: 270,
-              height: 60,
-              paddingTop: `${theme.spacing(0.5)}`, //4px
-              display: { xs: "none", md: "flex" },
-            }}
-          >
+          <ImageContainer css={ImageContainerStyles}>
             <Image
               name="Logo"
               style={{
                 maxWidth: "100%",
               }}
             />
-          </Container>
+          </ImageContainer>
         </Link>
 
         <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -111,11 +127,11 @@ const Navbar = () => {
           onMouseLeave={() => setIsHover(false)}
           to="/cart"
         >
-          <Badge badgeContent={105} max={99}>
+          <Badge badgeContent={105} max={99} css={BadgeStyle}>
             <Icon name="Cart" size={30} />
           </Badge>
         </Link>
-        <Box sx={{ marginRight: `${theme.spacing(1.5)}` }}>
+        <Box css={SearchStyle}>
           <Search />
         </Box>
 
