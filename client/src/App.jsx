@@ -26,16 +26,7 @@ const App = () => {
               </>
             }
           />
-          <Route
-            exact
-            path="/login"
-            element={
-              <>
-                <Navbar />
-                <Login />
-              </>
-            }
-          />
+          <Route exact path="/login" element={<Login />} />
           <Route
             exact
             path="/products"

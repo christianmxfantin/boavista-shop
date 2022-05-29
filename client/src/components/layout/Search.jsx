@@ -1,9 +1,6 @@
 import React from "react";
 import { styled, alpha } from "@mui/material/styles";
 import { InputBase } from "@mui/material";
-
-//el siguiente tiene que venir del componente Icon
-// import SearchIcon from "@mui/icons-material/Search";
 import { Icon as SearchIcon } from "../ui/Icon";
 
 const SearchContainer = styled("div")(({ theme }) => ({

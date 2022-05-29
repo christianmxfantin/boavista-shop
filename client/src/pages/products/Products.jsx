@@ -30,17 +30,17 @@ const Products = () => {
 
   const ProductContainer = styled(Box)(({ theme }) => ({
     display: "flex",
-    color: `${theme.palette.primary[500]}`,
+    color: theme.palette.primary[500],
   }));
 
   const ProductFilters = styled(Box)(({ theme }) => ({
-    margin: `${theme.spacing(4)}`, //32px
-    padding: `${theme.spacing(4)}`, //32px
+    margin: theme.spacing(4), //32px
+    padding: theme.spacing(4), //32px
     width: "30%",
     display: "flex",
     flexDirection: "column",
-    borderRadius: `${theme.spacing(1.5)}`, //12px
-    backgroundColor: `${theme.palette.primary[50]}`,
+    borderRadius: theme.spacing(1.5), //12px
+    backgroundColor: theme.palette.primary[50],
   }));
 
   const ProductData = styled(Box)(({ theme }) => ({
@@ -52,28 +52,28 @@ const Products = () => {
   }));
 
   const ProductTitle = styled(Box)(({ theme }) => ({
-    paddingTop: `${theme.spacing(4)}`, //32px,
+    paddingTop: theme.spacing(4), //32px,
   }));
 
   const ProductCategoryTitle = styled(Typography)(({ theme }) => ({
-    paddingLeft: `${theme.spacing(1)}`, //12px
-    color: `${theme.palette.primary[500]}`,
+    paddingLeft: theme.spacing(1), //12px
+    color: theme.palette.primary[500],
     fontWeight: 500,
   }));
 
   const ProductCategoryQuantity = styled(Typography)(({ theme }) => ({
-    paddingLeft: `${theme.spacing(1)}`, //12px
-    color: `${theme.palette.primary[500]}`,
+    paddingLeft: theme.spacing(1), //12px
+    color: theme.palette.primary[500],
   }));
 
   const ProductOrderBy = styled(Typography)(({ theme }) => ({
     marginLeft: "auto",
-    paddingTop: `${theme.spacing(6)}`, //48px,
+    paddingTop: theme.spacing(6), //48px,
   }));
 
   const ProductListContainer = styled(Grid)(({ theme }) => ({
     maxWidth: "100%",
-    margin: "0px !important",
+    margin: `${theme.spacing(0)} !important`,
     display: "grid",
     gridTemplateColumns: "1fr 1fr 1fr",
   }));

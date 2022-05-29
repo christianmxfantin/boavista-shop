@@ -6,20 +6,18 @@ import { Icon as ItemTitleShare } from "../../components/ui/Icon";
 import ProductImage from "../../images/product.jpg";
 
 const ItemCard = styled(Box)(({ theme }) => ({
-  height: "89vh",
-  marginTop: "70px",
-  paddingTop: "32px",
-  backgroundColor: `${theme.palette.primary[50]}`,
-  color: `${theme.palette.primary[500]}`,
+  paddingTop: theme.spacing(4), //32px
+  backgroundColor: theme.palette.primary[50],
+  color: theme.palette.primary[500],
 }));
 
 const ItemTitle = styled(Box)(({ theme }) => ({
   display: "flex",
   justifyContent: "space-between",
-  padding: "20px",
-  borderRadius: "8px",
-  backgroundColor: `${theme.palette.primary[300]}`,
-  color: `${theme.palette.secondary.A100}`,
+  padding: theme.spacing(2.5), //20px
+  borderRadius: theme.spacing(1), //8px,
+  backgroundColor: theme.palette.primary[300],
+  color: theme.palette.secondary.A100,
 }));
 
 const ItemTitleBack = styled(Typography)(({ theme }) => ({
@@ -35,18 +33,17 @@ const ItemData = styled(Box)(({ theme }) => ({
 }));
 
 const ItemImages = styled(Box)(({ theme }) => ({
-  paddingTop: "32px !important",
-  paddingLeft: "0px !important",
+  paddingTop: theme.spacing(4), //32px
 }));
 
 const ItemInfoContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
-  marginTop: "32px !important",
-  paddingTop: "16px",
+  marginTop: theme.spacing(4), //32px
+  paddingTop: theme.spacing(2), //16px
   border: `1px solid ${theme.palette.primary[300]}`,
-  borderRadius: "8px",
-  backgroundColor: `${theme.palette.secondary.A100}`,
+  borderRadius: theme.spacing(1), //8px
+  backgroundColor: theme.palette.secondary.A100,
 }));
 
 const ItemInfoTitle = styled(Typography)(({ theme }) => ({
@@ -67,9 +64,9 @@ const ItemInfoQuantity = styled(Typography)(({ theme }) => ({
 
 const ItemInfoAddToCart = styled(Button)(({ theme }) => ({
   marginTop: "auto",
-  marginBottom: "16px",
-  backgroundColor: `${theme.palette.primary[300]}`,
-  color: `${theme.palette.secondary.A100}`,
+  marginBottom: theme.spacing(2), //16px
+  backgroundColor: theme.palette.primary[300],
+  color: theme.palette.secondary.A100,
 }));
 
 const ProductItem = () => {
@@ -89,11 +86,9 @@ const ProductItem = () => {
             src={ProductImage}
             alt=""
             style={{
-              // padding: "0px !important",
-              // margin: "50px",
               width: "100%",
               height: "100%",
-              borderRadius: `${theme.spacing(1.5)}`, //12px
+              borderRadius: theme.spacing(1.5), //12px
               objectFit: "cover",
             }}
           />

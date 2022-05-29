@@ -4,19 +4,19 @@ import { styled } from "@mui/material/styles";
 import { Image } from "../ui/Image";
 
 const CartEmptyContainer = styled(Box)(({ theme }) => ({
-  marginTop: `${theme.spacing(5)}`, //40px,
+  marginTop: theme.spacing(5), //40px,
   display: "flex",
   flexDirection: "column",
 }));
 
-const CartEmptyImage = styled(Box)(({ theme }) => ({
+const CartEmptyImage = styled(Box)(() => ({
   textAlign: "center",
 }));
 
 const CartEmptyTitle = styled(Typography)(({ theme }) => ({
-  marginTop: `${theme.spacing(4)}`, //32px,
+  marginTop: theme.spacing(4), //32px,
   textAlign: "center",
-  color: `${theme.palette.grey[500]}`,
+  color: theme.palette.grey[500],
 }));
 
 const CartEmpty = () => {
@@ -26,8 +26,6 @@ const CartEmpty = () => {
         <Image
           name="CartEmpty"
           style={{
-            padding: "0px !important",
-            margin: "0px",
             width: "30%",
             heigth: "30%",
             objectFit: "cover",

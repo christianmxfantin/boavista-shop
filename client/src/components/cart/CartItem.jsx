@@ -25,14 +25,14 @@ const CartItemQuantity = styled(Typography)(({ theme }) => ({
 const CartItemDeleteOne = styled(Button)(({ theme }) => ({
   marginTop: "8px",
   marginRight: "8px",
-  color: `${theme.palette.secondary.A100}`,
-  backgroundColor: `${theme.palette.primary[500]}`,
+  color: theme.palette.secondary.A100,
+  backgroundColor: theme.palette.primary[500],
 }));
 
 const CartItemDeleteAll = styled(Button)(({ theme }) => ({
   marginTop: "8px",
-  color: `${theme.palette.secondary.A100}`,
-  backgroundColor: `${theme.palette.primary[500]}`,
+  color: theme.palette.secondary.A100,
+  backgroundColor: theme.palette.primary[500],
 }));
 
 const CartItem = ({ data, delOneFromCart, delAllFromCart }) => {

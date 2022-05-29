@@ -3,16 +3,16 @@ import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 const ProductDiscountCard = styled(Box)(({ theme }) => ({
-  marginTop: `${theme.spacing(2)} !important`, //16px
+  marginTop: theme.spacing(2), //16px
 }));
 
 const ProductDiscountTitle = styled(Typography)(({ theme }) => ({
-  paddingLeft: `${theme.spacing(0.5)} !important`, //4px
+  paddingLeft: theme.spacing(0.5), //4px
   fontWeight: 600,
 }));
 
 const ProductDiscountData = styled(Box)(({ theme }) => ({
-  paddingLeft: `${theme.spacing(0.5)} !important`, //4px
+  paddingLeft: theme.spacing(0.5), //4px
 }));
 
 const ProductDiscount = () => {

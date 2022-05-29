@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Image } from "../ui/Image";
 
-const HeroContainer = styled(Box)(({ theme }) => ({
+const HeroContainer = styled(Box)(() => ({
   textAlign: "center",
 }));
 

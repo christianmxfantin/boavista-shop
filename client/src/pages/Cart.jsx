@@ -6,17 +6,17 @@ import { styled } from "@mui/material/styles";
 import CartEmpty from "../components/cart/CartEmpty";
 import CartItem from "../components/cart/CartItem";
 
-const CartFull = styled(Box)(({ theme }) => ({
-  marginTop: "80px",
+const CartFull = styled(Box)(() => ({
+  //styles
 }));
 
-const CartTitle = styled(Typography)(({ theme }) => ({
+const CartTitle = styled(Typography)(() => ({
   //styles
 }));
 
 const CartButtonClean = styled(Button)(({ theme }) => ({
-  color: `${theme.palette.secondary.A100}`,
-  backgroundColor: `${theme.palette.primary[500]}`,
+  color: theme.palette.secondary.A100,
+  backgroundColor: theme.palette.primary[500],
 }));
 
 const Cart = () => {

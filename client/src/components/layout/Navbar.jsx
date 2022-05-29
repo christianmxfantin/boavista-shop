@@ -23,7 +23,7 @@ const Navbar = () => {
   const [isLogged, setIsLogged] = useState(false);
 
   const AppbarStyles = css({
-    padding: `${theme.spacing(1)}`, //8px;
+    padding: theme.spacing(1), //8px;
     display: "flex",
     justifyContent: "space-between",
   });
@@ -35,34 +35,34 @@ const Navbar = () => {
   const ImageContainerStyles = css({
     width: 270,
     height: 60,
-    paddingTop: `${theme.spacing(0.5)}`, //4px
+    paddingTop: theme.spacing(0.5), //4px
     display: { xs: "none", md: "flex" },
   });
 
   const BadgeStyle = css({
-    marginLeft: `${theme.spacing(2)}`, //16px
+    marginLeft: theme.spacing(2), //16px
   });
 
   const SearchStyle = css({
     marginLeft: "auto",
-    marginRight: `${theme.spacing(2)}`, //16px
+    marginRight: theme.spacing(2), //16px
   });
 
   const NavbarMenu = css({
     fontWeight: 500,
     textDecoration: "none",
-    color: `${theme.palette.primary[500]}`,
+    color: theme.palette.primary[500],
     "&:hover": {
-      color: `${theme.palette.secondary[500]}`,
+      color: theme.palette.secondary[500],
     },
   });
 
   const NavbarLink = css({
     fontSize: "1.2rem",
     textDecoration: "none",
-    color: `${theme.palette.secondary.A100}`,
+    color: theme.palette.secondary.A100,
     "&:hover": {
-      color: `${theme.palette.secondary[500]}`,
+      color: theme.palette.secondary[500],
     },
   });
 
@@ -84,11 +84,11 @@ const Navbar = () => {
   });
 
   const LoginLink = css({
-    marginRight: `${theme.spacing(2)}`, //16px
-    color: `${theme.palette.secondary.A100}`,
+    marginRight: theme.spacing(2), //16px
+    color: theme.palette.secondary.A100,
     textDecoration: "none",
     "&:hover": {
-      color: `${theme.palette.secondary[500]}`,
+      color: theme.palette.secondary[500],
     },
   });
 

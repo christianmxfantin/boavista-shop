@@ -11,21 +11,21 @@ import Underline from "../../ui/Underline";
 import { Image } from "../../ui/Image";
 
 const ContactContainer = styled(Box)(({ theme }) => ({
-  backgroundColor: `${theme.palette.primary[500]}`,
+  backgroundColor: theme.palette.primary[500],
 }));
 
 const ContactTitle = styled(Typography)(({ theme }) => ({
   display: "flex",
   justifyContent: "center",
-  padding: "40px 40px 0 40px",
+  padding: theme.spacing(5, 5, 0, 5), //40px 40px 0 40px
   fontWeight: 500,
-  color: `${theme.palette.secondary.A100}`,
+  color: theme.palette.secondary.A100,
 }));
 
 const DataContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   justifyContent: "center",
-  marginTop: `${theme.spacing(5)}`, //40px
+  marginTop: theme.spacing(5), //40px
 }));
 
 const SocialContainer = styled(Box)(({ theme }) => ({
@@ -35,9 +35,9 @@ const SocialContainer = styled(Box)(({ theme }) => ({
 }));
 
 const Footer = styled(Typography)(({ theme }) => ({
-  padding: `${theme.spacing(2.5)}`, //20px
+  padding: theme.spacing(2.5), //20px
   textAlign: "center",
-  color: `${theme.palette.secondary.A100}`,
+  color: theme.palette.secondary.A100,
 }));
 
 const Contact = () => {
@@ -51,10 +51,10 @@ const Contact = () => {
         <Image
           name="Contact"
           style={{
-            margin: `${theme.spacing(1.5)}`, //12px
+            margin: theme.spacing(1.5), //12px
             width: "40%",
             height: "40%",
-            borderRadius: `${theme.spacing(4)}`, //32px
+            borderRadius: theme.spacing(4), //32px
             objectFit: "cover",
           }}
         />

@@ -1,9 +1,9 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 const LoginContainer = styled(Typography)(({ theme }) => ({
-  marginTop: "80px",
+  color: theme.palette.primary[500],
 }));
 
 const Login = () => {

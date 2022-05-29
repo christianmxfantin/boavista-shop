@@ -7,26 +7,26 @@ import { Image } from "../ui/Image";
 
 const AboutContainer = styled(Box)(({ theme }) => ({
   display: "flex",
-  margin: `${theme.spacing(1)} 0 ${theme.spacing(2)} 0`, //8px y 16px;
+  margin: theme.spacing(1, 0, 2, 0), //8px y 16px;
 }));
 
 const AboutData = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
-  marginLeft: `${theme.spacing(4)}`, //32px
+  marginLeft: theme.spacing(4), //32px
 }));
 
 const AboutTitle = styled(Typography)(({ theme }) => ({
   textAlign: "center",
   fontWeight: 500,
-  color: `${theme.palette.primary[500]}`,
+  color: theme.palette.primary[500],
 }));
 
 const AboutInfo = styled(Typography)(({ theme }) => ({
-  marginTop: `${theme.spacing(2.5)}`, //20px
+  marginTop: theme.spacing(2.5), //20px
   textAlign: "justify",
-  color: `${theme.palette.primary[500]}`,
+  color: theme.palette.primary[500],
 }));
 
 const About = () => {
@@ -50,11 +50,10 @@ const About = () => {
       <Image
         name="About"
         style={{
-          padding: "0px !important",
-          margin: "50px",
+          margin: theme.spacing(6), //48px,
           width: "50%",
           height: "50%",
-          borderRadius: `${theme.spacing(4)}`, //32px
+          borderRadius: theme.spacing(4), //32px
           objectFit: "cover",
         }}
       />
