@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, Divider, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useTheme } from "@emotion/react";
 import { Icon } from "../components/ui/Icon";
@@ -12,24 +12,24 @@ const LoginContainer = styled(Box)(({ theme }) => ({
   alignItems: "center",
   width: "400px",
   height: "400px",
-  margin: "50px auto",
-  padding: "32px",
-  borderRadius: "12px",
+  margin: `${theme.spacing(6.5)} auto`, //52px
+  padding: theme.spacing(4), //32px
+  borderRadius: theme.spacing(1.5), //12px,
   color: theme.palette.primary[500],
   backgroundColor: theme.palette.primary[50],
 }));
 
-const LoginTitle = styled(Typography)(({ theme }) => ({
+const LoginTitle = styled(Typography)(() => ({
   fontWeight: 500,
 }));
 
-const SocialLogin = styled(Box)(({ theme }) => ({
+const SocialLogin = styled(Box)(() => ({
   display: "flex",
 }));
 
 const GoogleButton = styled(Button)(({ theme }) => ({
   width: "180px",
-  marginRight: "16px",
+  marginRight: theme.spacing(2), //16px
   "&:hover": {
     backgroundColor: theme.palette.primary[500],
     color: theme.palette.secondary[500],
@@ -44,51 +44,28 @@ const FacebookButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-const EmailLogin = styled(Box)(({ theme }) => ({
+const EmailLogin = styled(Box)(() => ({
   display: "flex",
   flexDirection: "column",
 }));
 
 const EmailInput = styled(TextField)(({ theme }) => ({
   width: "376px",
-  marginBottom: "32px",
-  "& .MuiOutlinedInput-root": {
-    "& fieldset": {
-      borderColor: theme.palette.primary[500],
-    },
-    "&:hover fieldset": {
-      borderWidth: "2px",
-      borderColor: theme.palette.primary[500],
-    },
-    "&.Mui-focused fieldset": {
-      borderColor: theme.palette.primary[500],
-    },
-  },
+  marginBottom: theme.spacing(4), //32px
 }));
 
 const PasswordInput = styled(TextField)(({ theme }) => ({
-  "& .MuiOutlinedInput-root": {
-    "& fieldset": {
-      borderColor: theme.palette.primary[500],
-    },
-    "&:hover fieldset": {
-      borderWidth: "2px",
-      borderColor: theme.palette.primary[500],
-    },
-    "&.Mui-focused fieldset": {
-      borderColor: theme.palette.primary[500],
-    },
-  },
+  //styles
 }));
 
-const LoginButtons = styled(Box)(({ theme }) => ({
+const LoginButtons = styled(Box)(() => ({
   display: "flex",
   flexDirection: "column",
 }));
 
 const ContinueButton = styled(Button)(({ theme }) => ({
   width: "376px",
-  marginBottom: "8px",
+  marginBottom: theme.spacing(1), //8px
   "&:hover": {
     color: theme.palette.secondary[500],
   },
@@ -122,13 +99,13 @@ const Login = () => {
         <Underline width={376} height={1} color={theme.palette.primary[500]} />
         <EmailLogin>
           <EmailInput
-            id="outlined-basic"
+            id="email"
             variant="outlined"
             size="small"
             placeholder="Ingrese su Email"
           />
           <PasswordInput
-            id="outlined-basic"
+            id="password"
             variant="outlined"
             size="small"
             placeholder="Ingrese su Contraseña"

@@ -90,4 +90,25 @@ export const theme = createTheme({
   //     fontSize: 9,
   //   },
   // },
+  components: {
+    MuiTextField: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          "& .MuiOutlinedInput-root": {
+            color: theme.palette.primary[500],
+            "& fieldset": {
+              borderColor: theme.palette.primary[500],
+            },
+            "&:hover fieldset": {
+              borderWidth: "2px",
+              borderColor: theme.palette.primary[500],
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: theme.palette.primary[500],
+            },
+          },
+        }),
+      },
+    },
+  },
 });
