@@ -8,6 +8,8 @@ import EmailIcon from "@mui/icons-material/Email";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import SearchIcon from "@mui/icons-material/Search";
 import ShareIcon from "@mui/icons-material/Share";
+import GoogleIcon from "@mui/icons-material/Google";
+import FacebookIcon from "@mui/icons-material/Facebook";
 
 export const Icon = ({ name, color, size }) => {
   const icons = [
@@ -95,6 +97,32 @@ export const Icon = ({ name, color, size }) => {
         <SvgIcon
           aria-label="Compartir"
           component={ShareIcon}
+          sx={{
+            color: color,
+            fontSize: size,
+          }}
+        />
+      ),
+    },
+    {
+      name: "Google",
+      img: (
+        <SvgIcon
+          aria-label="Iniciar sesión con Google"
+          component={GoogleIcon}
+          sx={{
+            color: color,
+            fontSize: size,
+          }}
+        />
+      ),
+    },
+    {
+      name: "Facebook",
+      img: (
+        <SvgIcon
+          aria-label="Iniciar sesión con Facebook"
+          component={FacebookIcon}
           sx={{
             color: color,
             fontSize: size,

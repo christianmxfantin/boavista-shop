@@ -17,7 +17,7 @@ import { Icon } from "../ui/Icon";
 import Search from "./Search";
 import { Image } from "../ui/Image";
 
-const Navbar = () => {
+const Navbar = ({ login }) => {
   const theme = useTheme();
   const [isHover, setIsHover] = useState(false);
   const [isLogged, setIsLogged] = useState(false);
@@ -105,42 +105,43 @@ const Navbar = () => {
             />
           </ImageContainer>
         </Link>
-
-        <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-          <Icon name="Menu" color={theme.palette.secondary.A100} />
-          <Menu>
-            <Link css={NavbarMenu} to="/products">
-              <MenuItem>Productos</MenuItem>
+        {!login && (
+          <>
+            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+              <Icon name="Menu" color={theme.palette.secondary.A100} />
+              <Menu>
+                <Link css={NavbarMenu} to="/products">
+                  <MenuItem>Productos</MenuItem>
+                </Link>
+                <Link css={NavbarMenu} to="/cart">
+                  <MenuItem>Carrito</MenuItem>
+                </Link>
+              </Menu>
+            </Box>
+            <Link css={NavbarLink} to="/products">
+              <Typography variant="h6">PRODUCTOS</Typography>
             </Link>
-            <Link css={NavbarMenu} to="/cart">
-              <MenuItem>Carrito</MenuItem>
+            <Link
+              css={CartLink}
+              onMouseEnter={() => setIsHover(true)}
+              onMouseLeave={() => setIsHover(false)}
+              to="/cart"
+            >
+              <Badge badgeContent={105} max={99} css={BadgeStyle}>
+                <Icon name="Cart" size={30} />
+              </Badge>
             </Link>
-          </Menu>
-        </Box>
-
-        <Link css={NavbarLink} to="/products">
-          <Typography variant="h6">PRODUCTOS</Typography>
-        </Link>
-        <Link
-          css={CartLink}
-          onMouseEnter={() => setIsHover(true)}
-          onMouseLeave={() => setIsHover(false)}
-          to="/cart"
-        >
-          <Badge badgeContent={105} max={99} css={BadgeStyle}>
-            <Icon name="Cart" size={30} />
-          </Badge>
-        </Link>
-        <Box css={SearchStyle}>
-          <Search />
-        </Box>
-
-        {isLogged ? (
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-        ) : (
-          <Link css={LoginLink} to="/login">
-            <Typography variant="h6">LOGIN</Typography>
-          </Link>
+            <Box css={SearchStyle}>
+              <Search />
+            </Box>
+            {isLogged ? (
+              <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+            ) : (
+              <Link css={LoginLink} to="/login">
+                <Typography variant="h6">LOGIN</Typography>
+              </Link>
+            )}
+          </>
         )}
       </Toolbar>
     </AppBar>

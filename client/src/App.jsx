@@ -21,18 +21,27 @@ const App = () => {
             path="/"
             element={
               <>
-                <Navbar />
+                <Navbar login={false} />
                 <Home />
               </>
             }
           />
-          <Route exact path="/login" element={<Login />} />
+          <Route
+            exact
+            path="/login"
+            element={
+              <>
+                <Navbar login={true} />
+                <Login />
+              </>
+            }
+          />
           <Route
             exact
             path="/products"
             element={
               <>
-                <Navbar />
+                <Navbar login={false} />
                 <Products />
               </>
             }
@@ -42,7 +51,7 @@ const App = () => {
             path={`/products/:id`}
             element={
               <>
-                <Navbar />
+                <Navbar login={false} />
                 <ProductItem />
               </>
             }
@@ -52,7 +61,7 @@ const App = () => {
             path="/cart"
             element={
               <>
-                <Navbar />
+                <Navbar login={false} />
                 <Cart />
               </>
             }
