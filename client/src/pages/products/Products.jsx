@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart } from "../../actions/cart";
 
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, MenuItem, Select, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import ProductFilter from "../../components/products/ProductFilter";
@@ -43,12 +43,13 @@ const Products = () => {
     backgroundColor: theme.palette.primary[50],
   }));
 
-  const ProductData = styled(Box)(({ theme }) => ({
+  const ProductData = styled(Box)(() => ({
     //styles
   }));
 
   const ProductTitleContainer = styled(Box)(({ theme }) => ({
     display: "flex",
+    border: "1px solid blue",
   }));
 
   const ProductTitle = styled(Box)(({ theme }) => ({
@@ -66,9 +67,19 @@ const Products = () => {
     color: theme.palette.primary[500],
   }));
 
-  const ProductOrderBy = styled(Typography)(({ theme }) => ({
+  const ProductOrderByContainer = styled(Box)(({ theme }) => ({
     marginLeft: "auto",
-    paddingTop: theme.spacing(6), //48px,
+    padding: theme.spacing(6, 1.5, 0, 0), //48px y 12px,
+    display: "flex",
+    alignItems: "center",
+  }));
+
+  const ProductOrderByTitle = styled(Typography)(({ theme }) => ({
+    //style
+  }));
+
+  const ProductOrderBySelect = styled(Select)(({ theme }) => ({
+    //style
   }));
 
   const ProductListContainer = styled(Grid)(({ theme }) => ({
@@ -95,7 +106,14 @@ const Products = () => {
               50 artículos
             </ProductCategoryQuantity>
           </ProductTitle>
-          <ProductOrderBy>Ordenar por: Menor Precio</ProductOrderBy>
+          <ProductOrderByContainer>
+            <ProductOrderByTitle>Ordenar por:</ProductOrderByTitle>
+            <ProductOrderBySelect>
+              <MenuItem value={1}>Menor precio</MenuItem>
+              <MenuItem value={2}>Mayor precio</MenuItem>
+              <MenuItem value={3}>Más vendido</MenuItem>
+            </ProductOrderBySelect>
+          </ProductOrderByContainer>
         </ProductTitleContainer>
         <ProductListContainer container spacing={3}>
           {products.map((product) => (

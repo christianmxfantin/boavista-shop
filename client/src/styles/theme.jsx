@@ -110,5 +110,24 @@ export const theme = createTheme({
         }),
       },
     },
+    MuiInputBase: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          //change focus and standard
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: theme.palette.primary[500],
+          },
+          //falta cambiar el hover
+        }),
+      },
+    },
+    MuiNativeSelect: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          color: theme.palette.primary[500],
+          //cambiar el color de los textos
+        }),
+      },
+    },
   },
 });
