@@ -66,7 +66,16 @@ const App = () => {
               </>
             }
           />
-          <Route exact path="*" element={<PageNotFound />} />
+          <Route
+            exact
+            path="*"
+            element={
+              <>
+                <Navbar login={false} />
+                <PageNotFound />
+              </>
+            }
+          />
         </Routes>
       </Router>
     </Provider>

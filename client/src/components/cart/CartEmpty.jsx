@@ -1,7 +1,8 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { Image } from "../ui/Image";
+// import { Image } from "../ui/Image";
+import { ReactComponent as Image } from "../../images/cart/cart-empty.svg";
 
 const CartEmptyContainer = styled(Box)(({ theme }) => ({
   marginTop: theme.spacing(5), //40px,
@@ -23,8 +24,18 @@ const CartEmpty = () => {
   return (
     <CartEmptyContainer>
       <CartEmptyImage>
-        <Image
+        {/* <Image
           name="CartEmpty"
+          style={{
+            width: "30%",
+            heigth: "30%",
+            objectFit: "cover",
+            path: {
+              fill: "red",
+            },
+          }}
+        /> */}
+        <Image
           style={{
             width: "30%",
             heigth: "30%",
