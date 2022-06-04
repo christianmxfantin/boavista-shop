@@ -6,8 +6,6 @@ import Logo from "../../images/layout/logo.png";
 import Hero from "../../images/home/hero.jpg";
 import About from "../../images/home/about.jpg";
 import Contact from "../../images/home/contact.jpg";
-import { ReactComponent as CartEmpty } from "../../images/cart/cart-empty.svg";
-import PageNotFound from "../../images/page-not-found.svg";
 
 export const Image = ({ name, style }) => {
   const theme = useTheme();
@@ -33,16 +31,6 @@ export const Image = ({ name, style }) => {
       src: Contact,
       alt: "Imágen de la sección Contacto",
     },
-    {
-      name: "CartEmpty",
-      src: CartEmpty,
-      alt: "Carrito de Compras vacío",
-    },
-    {
-      name: "PageNotFound",
-      src: PageNotFound,
-      alt: "Página no encontrada",
-    },
   ];
 
   let image = images.find((image) => image.name === name);
@@ -61,8 +49,6 @@ export const Image = ({ name, style }) => {
             objectFit: "cover",
           }}
         ></img>
-      ) : image.src === "CartEmpty" ? (
-        <CartEmpty />
       ) : (
         <img src={image.src} alt={image.alt} style={style}></img>
       )}

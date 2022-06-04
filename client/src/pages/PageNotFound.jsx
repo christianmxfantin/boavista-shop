@@ -2,22 +2,15 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useTheme } from "@emotion/react";
-// import { Image } from "../components/ui/Image";
-import { ReactComponent as Image } from "../../images/page-not-found.svg";
+import { PageNotFoundSvg as ImageSvg } from "../components/ui/Svg";
 
 const PageNotFoundContainer = styled(Box)(({ theme }) => ({
-  marginTop: theme.spacing(5), //40px,
-  display: "flex",
-  flexDirection: "column",
-}));
-
-const ImageContainer = styled(Box)(({ theme }) => ({
+  marginTop: theme.spacing(8), //64px,
   textAlign: "center",
 }));
 
 const ImageTitle = styled(Typography)(({ theme }) => ({
   marginTop: theme.spacing(4), //32px,
-  textAlign: "center",
   color: theme.palette.primary[500],
 }));
 
@@ -25,31 +18,18 @@ const PageNotFound = () => {
   const theme = useTheme();
 
   return (
-    <>
-      <PageNotFoundContainer>
-        <ImageContainer>
-          {/* <Image
-            name="CartEmpty"
-            style={{
-              width: "30%",
-              heigth: "30%",
-              objectFit: "cover",
-            }}
-          /> */}
-          <Image
-            style={{
-              width: "30%",
-              heigth: "30%",
-              objectFit: "cover",
-              stroke: `${theme.palette.primary[500]}`,
-            }}
-          />
-        </ImageContainer>
-        <ImageTitle component="div" variant="h5">
-          Página no encontrada
-        </ImageTitle>
-      </PageNotFoundContainer>
-    </>
+    <PageNotFoundContainer>
+      <ImageSvg
+        style={{
+          width: "180px",
+          heigth: "180px",
+          stroke: `${theme.palette.secondary[500]}`,
+        }}
+      />
+      <ImageTitle component="div" variant="h5">
+        Página no encontrada
+      </ImageTitle>
+    </PageNotFoundContainer>
   );
 };
 
