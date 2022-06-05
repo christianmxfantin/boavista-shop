@@ -1,12 +1,15 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
 import { GlobalStyles } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./styles/theme";
 import App from "./App";
 
-ReactDOM.render(
-  <React.StrictMode>
+const rootElement = document.getElementById("root");
+const root = createRoot(rootElement);
+
+root.render(
+  <StrictMode>
     <ThemeProvider theme={theme}>
       <GlobalStyles
         styles={{
@@ -15,6 +18,5 @@ ReactDOM.render(
       />
       <App />
     </ThemeProvider>
-  </React.StrictMode>,
-  document.getElementById("root")
+  </StrictMode>
 );

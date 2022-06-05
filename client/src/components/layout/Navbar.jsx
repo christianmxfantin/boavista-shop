@@ -109,7 +109,7 @@ const Navbar = ({ login }) => {
           <>
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <Icon name="Menu" color={theme.palette.secondary.A100} />
-              <Menu>
+              <Menu open={false}>
                 <Link css={NavbarMenu} to="/products">
                   <MenuItem>Productos</MenuItem>
                 </Link>
