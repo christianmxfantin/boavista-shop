@@ -7,12 +7,11 @@ const ProductDiscountCard = styled(Box)(({ theme }) => ({
 }));
 
 const ProductDiscountTitle = styled(Typography)(({ theme }) => ({
-  paddingLeft: theme.spacing(0.5), //4px
   fontWeight: 600,
 }));
 
 const ProductDiscountData = styled(Box)(({ theme }) => ({
-  paddingLeft: theme.spacing(0.5), //4px
+  //styles
 }));
 
 const ProductDiscount = () => {

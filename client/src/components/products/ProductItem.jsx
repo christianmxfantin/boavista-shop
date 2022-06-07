@@ -15,6 +15,7 @@ import ProductImage from "../../images/product.jpg";
 
 const ProductCard = styled(Card)(({ theme }) => ({
   borderRadius: `${theme.spacing(0.5)}`,
+  height: "100%",
 }));
 
 const ProductCardImage = styled(CardMedia)(({ theme }) => ({
@@ -23,6 +24,9 @@ const ProductCardImage = styled(CardMedia)(({ theme }) => ({
 
 const ProductCardContent = styled(CardContent)(({ theme }) => ({
   padding: `${theme.spacing(1)} !important`,
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between",
 }));
 
 const ProductName = styled(Typography)(({ theme }) => ({
@@ -58,7 +62,7 @@ const ProductItem = ({ data, addToCart }) => {
         />
       </Link>
       <ProductCardContent>
-        <ProductName gutterBottom variant="h6" component="div">
+        <ProductName gutterBottom variant="subtitle1" component="div">
           {name}
         </ProductName>
         <ProductCardData>

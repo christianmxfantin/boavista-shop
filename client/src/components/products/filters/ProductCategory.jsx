@@ -1,10 +1,14 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import React from "react";
+import { styled } from "@mui/material/styles";
+
+const FormCategory = styled(FormControl)(({ theme }) => ({
+  minWidth: 200,
+}));
 
 const ProductCategory = () => {
   return (
     <>
-      <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }}>
+      <FormCategory variant="standard">
         <InputLabel>Seleccionar Categoría</InputLabel>
         <Select
         // value={age}
@@ -13,7 +17,7 @@ const ProductCategory = () => {
         >
           <MenuItem value="">Categoría 1</MenuItem>
         </Select>
-      </FormControl>
+      </FormCategory>
     </>
   );
 };

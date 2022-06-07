@@ -34,7 +34,7 @@ const Products = () => {
   }));
 
   const ProductFilters = styled(Box)(({ theme }) => ({
-    margin: theme.spacing(4), //32px
+    margin: theme.spacing(4, 4, 2, 4), //32px, 32px, 16px, 32px
     padding: theme.spacing(4), //32px
     width: "30%",
     display: "flex",
@@ -43,11 +43,11 @@ const Products = () => {
     backgroundColor: theme.palette.primary[50],
   }));
 
-  const ProductData = styled(Box)(() => ({
-    //styles
-  }));
+  // const ProductData = styled(Box)(() => ({
+  //   //styles
+  // }));
 
-  const ProductTitleContainer = styled(Box)(({ theme }) => ({
+  const ProductTitleContainer = styled(Box)(() => ({
     display: "flex",
     border: "1px solid blue",
   }));
@@ -86,11 +86,12 @@ const Products = () => {
     maxWidth: "100%",
     margin: `${theme.spacing(0)} !important`,
     display: "grid",
-    gridTemplateColumns: "1fr 1fr 1fr",
+    gridTemplateColumns: "repeat(3, 1fr)",
+    gridAutoRows: "1fr",
   }));
 
   const ProductListItem = styled(Grid)(({ theme }) => ({
-    padding: `${theme.spacing(1)} !important`, //12px
+    padding: `${theme.spacing(1.5, 1.5, 2, 0)} !important`, //12px y 12px
   }));
 
   return (
@@ -98,7 +99,7 @@ const Products = () => {
       <ProductFilters>
         <ProductFilter />
       </ProductFilters>
-      <ProductData>
+      <Box>
         <ProductTitleContainer>
           <ProductTitle>
             <ProductCategoryTitle variant="h5">Categoría</ProductCategoryTitle>
@@ -126,7 +127,7 @@ const Products = () => {
             </ProductListItem>
           ))}
         </ProductListContainer>
-      </ProductData>
+      </Box>
     </ProductContainer>
   );
 };
