@@ -1,24 +1,19 @@
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { MenuItem, Select } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-const FormCategory = styled(FormControl)(({ theme }) => ({
-  minWidth: 200,
+const ProductCategorySelect = styled(Select)(({ theme }) => ({
+  width: "100%",
+  marginTop: theme.spacing(4), //32px,
+  padding: theme.spacing(1), //8px,
 }));
 
 const ProductCategory = () => {
   return (
-    <>
-      <FormCategory variant="standard">
-        <InputLabel>Seleccionar Categoría</InputLabel>
-        <Select
-        // value={age}
-        // onChange={handleChange}
-        // displayEmpty
-        >
-          <MenuItem value="">Categoría 1</MenuItem>
-        </Select>
-      </FormCategory>
-    </>
+    <ProductCategorySelect variant="outlined" defaultValue={1}>
+      <MenuItem value={1}>Categoría 1</MenuItem>
+      <MenuItem value={2}>Categoría 2</MenuItem>
+      <MenuItem value={3}>Categoría 3</MenuItem>
+    </ProductCategorySelect>
   );
 };
 

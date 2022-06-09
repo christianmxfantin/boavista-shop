@@ -3,7 +3,7 @@ import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 const ProductDiscountCard = styled(Box)(({ theme }) => ({
-  marginTop: theme.spacing(2), //16px
+  marginTop: theme.spacing(4), //32px
 }));
 
 const ProductDiscountTitle = styled(Typography)(({ theme }) => ({
@@ -20,7 +20,7 @@ const ProductDiscount = () => {
       <ProductDiscountTitle>Descuentos</ProductDiscountTitle>
       <ProductDiscountData>
         {/* COMPONENTE QUE GENERA LA DATA AUTOMATICAMENTE DESDE LA BD */}
-        5% OFF, 10% OFF, 20% OFF
+        <Typography>5% OFF, 10% OFF, 20% OFF</Typography>
       </ProductDiscountData>
     </ProductDiscountCard>
   );

@@ -75,11 +75,13 @@ const Products = () => {
   }));
 
   const ProductOrderByTitle = styled(Typography)(({ theme }) => ({
-    //style
+    paddingRight: theme.spacing(1), //8px,
+    fontWeight: 500,
   }));
 
   const ProductOrderBySelect = styled(Select)(({ theme }) => ({
-    //style
+    width: "150px",
+    padding: theme.spacing(0.5), //4px,
   }));
 
   const ProductListContainer = styled(Grid)(({ theme }) => ({
@@ -109,7 +111,7 @@ const Products = () => {
           </ProductTitle>
           <ProductOrderByContainer>
             <ProductOrderByTitle>Ordenar por:</ProductOrderByTitle>
-            <ProductOrderBySelect>
+            <ProductOrderBySelect variant="standard" defaultValue={1}>
               <MenuItem value={1}>Menor precio</MenuItem>
               <MenuItem value={2}>Mayor precio</MenuItem>
               <MenuItem value={3}>Más vendido</MenuItem>

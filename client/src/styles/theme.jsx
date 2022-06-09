@@ -110,6 +110,15 @@ export const theme = createTheme({
         }),
       },
     },
+    // MuiInput: {
+    //   styleOverrides: {
+    //     root: ({ theme }) => ({
+    //       "&:hover": {
+    //         borderBottom: "none",
+    //       },
+    //     }),
+    //   },
+    // },
     MuiInputBase: {
       styleOverrides: {
         root: ({ theme }) => ({
@@ -117,15 +126,37 @@ export const theme = createTheme({
           "& .MuiOutlinedInput-notchedOutline": {
             borderColor: theme.palette.primary[500],
           },
-          //falta cambiar el hover
+          "& .MuiOutlinedInput-input": {
+            padding: 0,
+          },
+          "&:hover": {
+            borderBottom: "none",
+          },
         }),
       },
     },
-    MuiNativeSelect: {
+    MuiSelect: {
       styleOverrides: {
         root: ({ theme }) => ({
           color: theme.palette.primary[500],
-          //cambiar el color de los textos
+          "&:before": {
+            borderBottom: "none",
+          },
+          "&:hover": {
+            color: theme.palette.secondary[500],
+          },
+          "&:hover:not(.Mui-disabled):before": {
+            borderBottom: "none",
+          },
+          "& .MuiSelect-icon": {
+            color: theme.palette.primary[500],
+          },
+          "&:focus-visible": {
+            border: theme.palette.primary[500],
+          },
+          "& .MuiSelect-icon:hover": {
+            color: theme.palette.secondary[500],
+          },
         }),
       },
     },
