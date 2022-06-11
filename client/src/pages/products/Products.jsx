@@ -34,7 +34,7 @@ const Products = () => {
   }));
 
   const ProductFilters = styled(Box)(({ theme }) => ({
-    margin: theme.spacing(4, 4, 2, 4), //32px, 32px, 16px, 32px
+    margin: theme.spacing(4, 3.5, 2, 3), //32px, 28px, 16px, 24px
     padding: theme.spacing(4), //32px
     width: "30%",
     display: "flex",
@@ -49,7 +49,6 @@ const Products = () => {
 
   const ProductTitleContainer = styled(Box)(() => ({
     display: "flex",
-    border: "1px solid blue",
   }));
 
   const ProductTitle = styled(Box)(({ theme }) => ({

@@ -1,12 +1,16 @@
-import React from "react";
 import { useTheme } from "@emotion/react";
 import { Box, Button, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Icon as ItemTitleShare } from "../../components/ui/Icon";
 import ProductImage from "../../images/product.jpg";
+import NumericInput from "../../components/layout/NumericInput";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const ItemCard = styled(Box)(({ theme }) => ({
-  paddingTop: theme.spacing(4), //32px
+  height: "100%",
+  padding: theme.spacing(4, 2, 0, 3), //32px 16px 0px 24px
   backgroundColor: theme.palette.primary[50],
   color: theme.palette.primary[500],
 }));
@@ -21,7 +25,9 @@ const ItemTitle = styled(Box)(({ theme }) => ({
 }));
 
 const ItemTitleBack = styled(Typography)(({ theme }) => ({
-  //styles
+  "&:hover": {
+    color: theme.palette.secondary[500],
+  },
 }));
 
 const ItemTitleCategories = styled(Typography)(({ theme }) => ({
@@ -29,18 +35,21 @@ const ItemTitleCategories = styled(Typography)(({ theme }) => ({
 }));
 
 const ItemData = styled(Box)(({ theme }) => ({
+  height: "450px",
   display: "flex",
+  justifyContent: "space-between",
+  marginTop: theme.spacing(2), //16px
 }));
 
 const ItemImages = styled(Box)(({ theme }) => ({
-  paddingTop: theme.spacing(4), //32px
+  width: "70%",
+  marginRight: theme.spacing(2), //16px
 }));
 
 const ItemInfoContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
-  marginTop: theme.spacing(4), //32px
-  paddingTop: theme.spacing(2), //16px
+  padding: theme.spacing(2), //16px
   border: `1px solid ${theme.palette.primary[300]}`,
   borderRadius: theme.spacing(1), //8px
   backgroundColor: theme.palette.secondary.A100,
@@ -51,23 +60,35 @@ const ItemInfoTitle = styled(Typography)(({ theme }) => ({
 }));
 
 const ItemInfoPrice = styled(Typography)(({ theme }) => ({
+  marginTop: theme.spacing(2), //16px
   fontWeight: 300,
 }));
 
 const ItemInfoStock = styled(Typography)(({ theme }) => ({
-  //styles
-}));
-
-const ItemInfoQuantity = styled(Typography)(({ theme }) => ({
-  //styles
+  marginTop: theme.spacing(5), //40px
 }));
 
 const ItemInfoAddToCart = styled(Button)(({ theme }) => ({
   marginTop: "auto",
-  marginBottom: theme.spacing(2), //16px
   backgroundColor: theme.palette.primary[300],
   color: theme.palette.secondary.A100,
+  "&:hover": {
+    backgroundColor: theme.palette.secondary[500],
+    color: theme.palette.primary[500],
+  },
 }));
+
+const settings = {
+  // dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  centerMode: true,
+  variableWidth: true,
+  swipeToSlide: true,
+  edgeFriction: 0.15,
+};
 
 const ProductItem = () => {
   const theme = useTheme();
@@ -92,17 +113,23 @@ const ProductItem = () => {
               objectFit: "cover",
             }}
           />
+          {/* <Slider {...settings}>
+            <img
+              src={ProductImage}
+              alt=""
+            />
+          </Slider> */}
         </ItemImages>
         <ItemInfoContainer>
           <ItemInfoTitle variant="h4">
             Resma de Hojas A4 x 500 unidades
           </ItemInfoTitle>
           <ItemInfoPrice variant="h4">$ 600</ItemInfoPrice>
-          <ItemInfoStock>Stock disponible: 1200 unidades</ItemInfoStock>
-          <ItemInfoQuantity>
-            1 (componente para elegir cantidad)
-          </ItemInfoQuantity>
-          <ItemInfoAddToCart sx={{}}>Agregar al Carrito</ItemInfoAddToCart>
+          <ItemInfoStock>
+            <b>Stock disponible:</b> 1200 unidades
+          </ItemInfoStock>
+          <NumericInput />
+          <ItemInfoAddToCart>Agregar al Carrito</ItemInfoAddToCart>
         </ItemInfoContainer>
       </ItemData>
     </ItemCard>

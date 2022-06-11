@@ -6,16 +6,18 @@ const ProductPriceCard = styled(Box)(({ theme }) => ({
   marginTop: theme.spacing(4), //32px
 }));
 
-const ProductPriceTitle = styled(Typography)(({ theme }) => ({
+const ProductPriceTitle = styled(Typography)(() => ({
   fontWeight: 600,
 }));
 
-const ProductPriceContainer = styled(Box)(({ theme }) => ({
+const ProductPriceContainer = styled(Box)(() => ({
   display: "flex",
 }));
 
 const ProductPriceInput = styled(TextField)(({ theme }) => ({
-  margin: theme.spacing(0.5), //4px,
+  "& .MuiOutlinedInput-input": {
+    padding: theme.spacing(1), //8px
+  },
 }));
 
 const ProductPrice = () => {
@@ -29,6 +31,12 @@ const ProductPrice = () => {
           InputProps={{
             startAdornment: <InputAdornment position="start">$</InputAdornment>,
           }}
+          sx={{
+            mr: 2,
+            "& .MuiOutlinedInput-input": {
+              p: 1, //8px
+            },
+          }} //16px
         />
         <ProductPriceInput
           variant="outlined"

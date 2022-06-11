@@ -15,8 +15,10 @@
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.2.1",
     "react-scripts": "^5.0.1",
+    "react-slick": "^0.29.0",
     "redux": "^4.1.2",
     "redux-devtools": "^3.7.0",
+    "slick-carousel": "^1.8.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

@@ -10,6 +10,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import ShareIcon from "@mui/icons-material/Share";
 import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 
 export const Icon = ({ name, color, size }) => {
   const icons = [
@@ -123,6 +125,32 @@ export const Icon = ({ name, color, size }) => {
         <SvgIcon
           aria-label="Iniciar sesión con Facebook"
           component={FacebookIcon}
+          sx={{
+            color: color,
+            fontSize: size,
+          }}
+        />
+      ),
+    },
+    {
+      name: "Add",
+      img: (
+        <SvgIcon
+          aria-label="Aumentar cantidad"
+          component={AddIcon}
+          sx={{
+            color: color,
+            fontSize: size,
+          }}
+        />
+      ),
+    },
+    {
+      name: "Remove",
+      img: (
+        <SvgIcon
+          aria-label="Quitar cantidad"
+          component={RemoveIcon}
           sx={{
             color: color,
             fontSize: size,

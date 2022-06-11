@@ -160,5 +160,14 @@ export const theme = createTheme({
         }),
       },
     },
+    MuiInputAdornment: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          "& .MuiTypography-root": {
+            color: theme.palette.primary[500],
+          },
+        }),
+      },
+    },
   },
 });
