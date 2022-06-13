@@ -12,6 +12,8 @@ import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 export const Icon = ({ name, color, size }) => {
   const icons = [
@@ -151,6 +153,32 @@ export const Icon = ({ name, color, size }) => {
         <SvgIcon
           aria-label="Quitar cantidad"
           component={RemoveIcon}
+          sx={{
+            color: color,
+            fontSize: size,
+          }}
+        />
+      ),
+    },
+    {
+      name: "Arrow-Previous",
+      img: (
+        <SvgIcon
+          aria-label="Ir a la imágen anterior"
+          component={ArrowBackIosNewIcon}
+          sx={{
+            color: color,
+            fontSize: size,
+          }}
+        />
+      ),
+    },
+    {
+      name: "Arrow-Next",
+      img: (
+        <SvgIcon
+          aria-label="Ir a la imágen siguiente"
+          component={ArrowForwardIosIcon}
           sx={{
             color: color,
             fontSize: size,

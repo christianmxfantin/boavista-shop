@@ -1,12 +1,8 @@
-import { useTheme } from "@emotion/react";
 import { Box, Button, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Icon as ItemTitleShare } from "../../components/ui/Icon";
-import ProductImage from "../../images/product.jpg";
 import NumericInput from "../../components/layout/NumericInput";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import ImageSlider from "../../components/layout/ImageSlider";
 
 const ItemCard = styled(Box)(({ theme }) => ({
   height: "100%",
@@ -41,11 +37,6 @@ const ItemData = styled(Box)(({ theme }) => ({
   marginTop: theme.spacing(2), //16px
 }));
 
-const ItemImages = styled(Box)(({ theme }) => ({
-  width: "70%",
-  marginRight: theme.spacing(2), //16px
-}));
-
 const ItemInfoContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -78,21 +69,7 @@ const ItemInfoAddToCart = styled(Button)(({ theme }) => ({
   },
 }));
 
-const settings = {
-  // dots: true,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-  centerMode: true,
-  variableWidth: true,
-  swipeToSlide: true,
-  edgeFriction: 0.15,
-};
-
 const ProductItem = () => {
-  const theme = useTheme();
-
   return (
     <ItemCard>
       <ItemTitle>
@@ -101,25 +78,7 @@ const ProductItem = () => {
         <ItemTitleShare name="Share" size={22} />
       </ItemTitle>
       <ItemData>
-        {/* <ItemImages><ItemImage /></ItemImages> */}
-        <ItemImages>
-          <img
-            src={ProductImage}
-            alt=""
-            style={{
-              width: "100%",
-              height: "100%",
-              borderRadius: theme.spacing(1.5), //12px
-              objectFit: "cover",
-            }}
-          />
-          {/* <Slider {...settings}>
-            <img
-              src={ProductImage}
-              alt=""
-            />
-          </Slider> */}
-        </ItemImages>
+        <ImageSlider />
         <ItemInfoContainer>
           <ItemInfoTitle variant="h4">
             Resma de Hojas A4 x 500 unidades
