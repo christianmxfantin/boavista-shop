@@ -1,9 +1,8 @@
-import React from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useTheme } from "@emotion/react";
-import { Icon } from "../components/ui/Icon";
-import Underline from "../components/ui/Underline";
+import { Icon } from "../../components/ui/Icon";
+import Underline from "../../components/ui/Underline";
 
 const LoginContainer = styled(Box)(({ theme }) => ({
   display: "flex",

@@ -3,7 +3,7 @@ import { styled } from "@mui/material/styles";
 import { Box, Button } from "@mui/material";
 import { Icon } from "../../components/ui/Icon";
 import ProductImage from "../../images/product.jpg";
-import ProductImage2 from "../../images/product2.jpg";
+// import ProductImage2 from "../../images/product2.jpg";
 
 const SliderContainer = styled(Box)(({ theme }) => ({
   width: "60%",
@@ -42,7 +42,7 @@ const ImageSlider = () => {
             objectFit: "cover",
           }}
         />
-        <img
+        {/* <img
           src={ProductImage2}
           alt=""
           style={{
@@ -51,7 +51,7 @@ const ImageSlider = () => {
             borderRadius: theme.spacing(1.5), //12px
             objectFit: "cover",
           }}
-        />
+        /> */}
       </ImagesContainer>
       <ButtonNext>
         <Icon name="Arrow-Next" size={30} />

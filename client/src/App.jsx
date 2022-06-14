@@ -3,8 +3,11 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store";
 
-import Login from "./pages/Login";
 import Navbar from "./components/layout/Navbar";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
+import Dashboard from "./pages/admin/Dashboard";
+import Profile from "./pages/auth/Profile";
 import Home from "./pages/Home";
 import Products from "./pages/products/Products";
 import ProductItem from "./pages/products/ProductItem";
@@ -33,6 +36,36 @@ const App = () => {
               <>
                 <Navbar login={true} />
                 <Login />
+              </>
+            }
+          />
+          <Route
+            exact
+            path="/register"
+            element={
+              <>
+                <Navbar login={true} />
+                <Register />
+              </>
+            }
+          />
+          <Route
+            exact
+            path="/dashboard"
+            element={
+              <>
+                <Navbar login={false} />
+                <Dashboard />
+              </>
+            }
+          />
+          <Route
+            exact
+            path="/profile"
+            element={
+              <>
+                <Navbar login={false} />
+                <Profile />
               </>
             }
           />

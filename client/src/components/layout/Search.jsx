@@ -55,6 +55,7 @@ const Search = () => {
         <StyledInputBase
           placeholder="Buscar…"
           inputProps={{ "aria-label": "Buscar" }}
+          // onKeyPress={{ }} //ir a Search Page
         />
       </SearchContainer>
     </>
