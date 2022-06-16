@@ -1,7 +1,8 @@
-import React from "react";
+import { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import { InputBase } from "@mui/material";
 import { Icon as SearchIcon } from "../ui/Icon";
+import { createSearchParams, useNavigate } from "react-router-dom";
 
 const SearchContainer = styled("div")(({ theme }) => ({
   position: "relative",
@@ -46,6 +47,20 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Search = () => {
+  let query;
+  let navigate = useNavigate();
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      navigate({
+        pathname: "/products/search/",
+        search: `?${createSearchParams({
+          q: query,
+        })}`,
+      });
+    }
+  };
+
   return (
     <>
       <SearchContainer>
@@ -53,9 +68,10 @@ const Search = () => {
           <SearchIcon name="Search" size={22} />
         </SearchIconWrapper>
         <StyledInputBase
-          placeholder="Buscar…"
+          placeholder="Buscar productos…"
           inputProps={{ "aria-label": "Buscar" }}
-          // onKeyPress={{ }} //ir a Search Page
+          onKeyDown={handleKeyDown}
+          onChange={(e) => (query = e.target.value)}
         />
       </SearchContainer>
     </>

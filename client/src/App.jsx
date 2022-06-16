@@ -13,6 +13,7 @@ import Products from "./pages/products/Products";
 import ProductItem from "./pages/products/ProductItem";
 import Cart from "./pages/Cart";
 import PageNotFound from "./pages/PageNotFound";
+import SearchPage from "./pages/SearchPage";
 
 const App = () => {
   return (
@@ -79,13 +80,23 @@ const App = () => {
               </>
             }
           />
-          <Route
+          {/* <Route
             exact
-            path={`/products/:id`}
+            path={"/products/:id"}
             element={
               <>
                 <Navbar login={false} />
                 <ProductItem />
+              </>
+            }
+          /> */}
+          <Route
+            exact
+            path={"/products/search/"}
+            element={
+              <>
+                <Navbar login={false} />
+                <SearchPage />
               </>
             }
           />

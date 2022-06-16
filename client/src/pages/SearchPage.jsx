@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { useLocation } from "react-router-dom";
 
 const SearchContainer = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -13,12 +14,18 @@ const SearchTitle = styled(Typography)(({ theme }) => ({
   fontWeight: "500",
 }));
 
-const Search = () => {
+const SearchPage = () => {
+  let { search } = useLocation();
+  let query = new URLSearchParams(search);
+
   return (
     <SearchContainer>
       <SearchTitle variant="h4">Búsqueda</SearchTitle>
+      <p>
+        Estás buscando: <b>{query}</b>
+      </p>
     </SearchContainer>
   );
 };
 
-export default Search;
+export default SearchPage;
