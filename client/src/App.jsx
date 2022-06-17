@@ -80,7 +80,7 @@ const App = () => {
               </>
             }
           />
-          {/* <Route
+          <Route
             exact
             path={"/products/:id"}
             element={
@@ -89,10 +89,10 @@ const App = () => {
                 <ProductItem />
               </>
             }
-          /> */}
+          />
           <Route
             exact
-            path={"/products/search/"}
+            path={"/products/search"}
             element={
               <>
                 <Navbar login={false} />

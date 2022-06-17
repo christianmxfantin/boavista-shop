@@ -5,25 +5,25 @@ import { useLocation } from "react-router-dom";
 const SearchContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
-  alignItems: "center",
+  // alignItems: "center",
   color: theme.palette.primary[500],
 }));
 
 const SearchTitle = styled(Typography)(({ theme }) => ({
   marginTop: theme.spacing(3), //24px
-  fontWeight: "500",
+  paddingLeft: theme.spacing(3), //24px
+  fontWeight: "400",
 }));
 
 const SearchPage = () => {
   let { search } = useLocation();
-  let query = new URLSearchParams(search);
 
   return (
     <SearchContainer>
-      <SearchTitle variant="h4">Búsqueda</SearchTitle>
-      <p>
-        Estás buscando: <b>{query}</b>
-      </p>
+      <SearchTitle variant="h6">
+        Se muestran resultados para:{" "}
+        <b>{search.slice(3).replace(/\+/g, " ")}</b>
+      </SearchTitle>
     </SearchContainer>
   );
 };

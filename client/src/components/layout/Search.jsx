@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import { InputBase } from "@mui/material";
 import { Icon as SearchIcon } from "../ui/Icon";
@@ -47,17 +46,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Search = () => {
-  let query;
+  let q;
   let navigate = useNavigate();
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       navigate({
-        pathname: "/products/search/",
+        pathname: "/products/search",
         search: `?${createSearchParams({
-          q: query,
+          q,
         })}`,
       });
+      e.target.blur();
     }
   };
 
@@ -69,9 +69,8 @@ const Search = () => {
         </SearchIconWrapper>
         <StyledInputBase
           placeholder="Buscar productos…"
-          inputProps={{ "aria-label": "Buscar" }}
           onKeyDown={handleKeyDown}
-          onChange={(e) => (query = e.target.value)}
+          onChange={(e) => (q = e.target.value)}
         />
       </SearchContainer>
     </>
