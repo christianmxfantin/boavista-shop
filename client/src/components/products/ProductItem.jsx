@@ -1,5 +1,4 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import {
   Box,
@@ -48,8 +47,19 @@ const ProductPrice = styled(Typography)(({ theme }) => ({
 }));
 
 const ProductItem = ({ data, addToCart }) => {
+  //ver si esta logueado para agregar al carrito
+  let auth = false;
+
   const theme = useTheme();
+  const navigate = useNavigate();
   let { id, name, price } = data;
+
+  const handleClic = () => {
+    if (!auth) {
+      navigate("/login");
+    }
+    addToCart(id);
+  };
 
   return (
     <ProductCard>
@@ -70,7 +80,7 @@ const ProductItem = ({ data, addToCart }) => {
           <ProductAddToCart
             size="small"
             data={data}
-            onClick={() => addToCart(id)}
+            onClick={handleClic}
             sx={{ marginRight: 0 }}
           >
             <CartIcon

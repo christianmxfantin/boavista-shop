@@ -14,6 +14,8 @@ import ProductItem from "./pages/products/ProductItem";
 import Cart from "./pages/Cart";
 import PageNotFound from "./pages/PageNotFound";
 import SearchPage from "./pages/SearchPage";
+import PrivateRoute from "./components/auth/PrivateRoute";
+import List from "./pages/admin/List";
 
 const App = () => {
   return (
@@ -52,24 +54,69 @@ const App = () => {
           />
           <Route
             exact
-            path="/dashboard"
+            path="dashboard/users"
             element={
               <>
                 <Navbar login={false} />
-                <Dashboard />
+                <List data="Usuarios" />
               </>
             }
           />
           <Route
             exact
-            path="/profile"
+            path="dashboard/products"
             element={
               <>
                 <Navbar login={false} />
-                <Profile />
+                <List data="Productos" />
               </>
             }
           />
+          <Route exact path="/dashboard" element={<PrivateRoute />}>
+            <Route
+              exact
+              path="/dashboard"
+              element={
+                <>
+                  <Navbar login={false} />
+                  <Dashboard />
+                </>
+              }
+            >
+              {/* <Route
+                exact
+                path="/users"
+                element={
+                  <>
+                    <Navbar login={false} />
+                    <List />
+                  </>
+                }
+              />
+              <Route
+                exact
+                path="/products"
+                element={
+                  <>
+                    <Navbar login={false} />
+                    <List />
+                  </>
+                }
+              /> */}
+            </Route>
+          </Route>
+          <Route exact path="/profile" element={<PrivateRoute />}>
+            <Route
+              exact
+              path="/profile"
+              element={
+                <>
+                  <Navbar login={false} />
+                  <Profile />
+                </>
+              }
+            />
+          </Route>
           <Route
             exact
             path="/products"
@@ -100,16 +147,18 @@ const App = () => {
               </>
             }
           />
-          <Route
-            exact
-            path="/cart"
-            element={
-              <>
-                <Navbar login={false} />
-                <Cart />
-              </>
-            }
-          />
+          <Route exact path="/cart" element={<PrivateRoute />}>
+            <Route
+              exact
+              path="/cart"
+              element={
+                <>
+                  <Navbar login={false} />
+                  <Cart />
+                </>
+              }
+            />
+          </Route>
           <Route
             exact
             path="*"
