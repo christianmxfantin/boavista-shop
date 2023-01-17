@@ -48,7 +48,7 @@ const ProductPrice = styled(Typography)(({ theme }) => ({
 
 const ProductItem = ({ data, addToCart }) => {
   //ver si esta logueado para agregar al carrito
-  let auth = false;
+  let auth = true;
 
   const theme = useTheme();
   const navigate = useNavigate();
@@ -59,6 +59,7 @@ const ProductItem = ({ data, addToCart }) => {
       navigate("/login");
     }
     addToCart(id);
+    console.log(id, name);
   };
 
   return (

@@ -110,15 +110,6 @@ export const theme = createTheme({
         }),
       },
     },
-    // MuiInput: {
-    //   styleOverrides: {
-    //     root: ({ theme }) => ({
-    //       "&:hover": {
-    //         borderBottom: "none",
-    //       },
-    //     }),
-    //   },
-    // },
     MuiInputBase: {
       styleOverrides: {
         root: ({ theme }) => ({

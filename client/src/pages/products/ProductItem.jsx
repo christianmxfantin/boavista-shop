@@ -72,7 +72,7 @@ const ItemInfoAddToCart = styled(Button)(({ theme }) => ({
 
 const ProductItem = () => {
   //ver si esta logueado para agregar al carrito
-  let auth = false;
+  let auth = true;
 
   const navigate = useNavigate();
 
