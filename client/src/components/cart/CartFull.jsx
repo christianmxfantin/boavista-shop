@@ -20,24 +20,24 @@ const CartFull = () => {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const { cart } = state.cart;
-  console.log(cart);
 
-  <>
-    <CartContainer>
-      {cart.map((item, index) => (
-        <CartItem
-          key={index}
-          data={item}
-          delOneFromCart={() => dispatch(delFromCart(item.id))}
-          delAllFromCart={() => dispatch(delFromCart(item.id, true))}
-        />
-      ))}
-    </CartContainer>
-    <CartButtonClean onClick={() => dispatch(clearCart())}>
-      Limpiar
-    </CartButtonClean>
-    ;
-  </>;
+  return (
+    <>
+      <CartContainer>
+        {cart.map((item) => (
+          <CartItem
+            key={item.id}
+            data={item}
+            delOneFromCart={() => dispatch(delFromCart(item.id))}
+            delAllFromCart={() => dispatch(delFromCart(item.id, true))}
+          />
+        ))}
+      </CartContainer>
+      <CartButtonClean onClick={() => dispatch(clearCart())}>
+        Limpiar
+      </CartButtonClean>
+    </>
+  );
 };
 
 export default CartFull;

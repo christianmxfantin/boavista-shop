@@ -59,7 +59,6 @@ const ProductItem = ({ data, addToCart }) => {
       navigate("/login");
     }
     addToCart(id);
-    console.log(id, name);
   };
 
   return (

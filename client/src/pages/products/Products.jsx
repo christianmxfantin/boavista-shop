@@ -118,7 +118,7 @@ const Products = () => {
         </ProductTitleContainer>
         <ProductListContainer container spacing={3}>
           {products.map((product) => (
-            <ProductListItem item>
+            <ProductListItem item key={product.id}>
               <ProductItem
                 key={product.id}
                 data={product}
