@@ -4,44 +4,28 @@ import {
   REMOVE_ALL_FROM_CART,
   REMOVE_ONE_FROM_CART,
 } from "../types";
+import { initialState as products } from "./products";
 
-export const initialState = {
-  //traer data de la BD
-  products: [
-    { id: 1, name: "Lapicera Bic x 24 unidades", price: 500 },
-    { id: 2, name: "Marcador Schneider Trazo fino x 6 unidades", price: 400 },
-    { id: 3, name: "Lápices Staedtler x 24 unidades", price: 500 },
-    {
-      id: 4,
-      name: "Goma de borrar Staedtler Tinta/Lápiz x 12 unidades",
-      price: 600,
-    },
-    { id: 5, name: "Transportador Pizzini x 12 unidades", price: 700 },
-    { id: 6, name: "Compáses Pizzini x 12 unidades", price: 900 },
-  ],
-  cart: [],
-};
+const initialState = [];
 
 export const cartReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_TO_CART: {
-      let newItem = state.products.find(
-        (product) => product.id === action.payload
-      );
-
+      let newItem = products.find((product) => product.id === action.payload);
+      console.log(state);
       //si el item existe en el Cart, agrega cantidad
-      let itemInCart = state.cart.find((item) => item.id === newItem.id);
+      let itemInCart = state.find((item) => item.id === newItem.id);
 
       return itemInCart
         ? {
             ...state,
-            cart: state.cart.map((item) =>
+            cart: state.map((item) =>
               item.id === newItem.id
                 ? { ...item, quantity: item.quantity + 1 }
                 : item
             ),
           }
-        : { ...state, cart: [...state.cart, { ...newItem, quantity: 1 }] };
+        : { ...state, cart: [...state, { ...newItem, quantity: 1 }] };
     }
     case REMOVE_ONE_FROM_CART: {
       let itemToDelete = state.cart.find((item) => item.id === action.payload);
@@ -55,7 +39,10 @@ export const cartReducer = (state = initialState, action) => {
                 : item
             ),
           }
-        : {};
+        : {
+            ...state,
+            cart: state.cart.filter((item) => item.id !== action.payload),
+          };
     }
     case REMOVE_ALL_FROM_CART: {
       return {

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { clearCart, delFromCart } from "../../actions/cart";
 import { Box, Button } from "@mui/material";
@@ -18,17 +19,22 @@ const CartFull = () => {
   //ver de donde traer la data de cart
   //let cart = [];
   const state = useSelector((state) => state);
+  console.log(state);
   const dispatch = useDispatch();
   const { cart } = state.cart;
+
+  useEffect(() => {
+    // console.log("El carrito ha cambiado");
+  }, []);
 
   return (
     <>
       <CartContainer>
-        {cart.map((item) => (
+        {cart.map((item, index) => (
           <CartItem
-            key={item.id}
+            key={index}
             data={item}
-            delOneFromCart={() => dispatch(delFromCart(item.id))}
+            delOneFromCart={() => dispatch(delFromCart(item.id, false))}
             delAllFromCart={() => dispatch(delFromCart(item.id, true))}
           />
         ))}

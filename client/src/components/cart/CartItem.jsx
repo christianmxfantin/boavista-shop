@@ -36,13 +36,14 @@ const CartItemDeleteAll = styled(Button)(({ theme }) => ({
 
 const CartItem = ({ data, delOneFromCart, delAllFromCart }) => {
   let { id, name, price, quantity } = data;
+  console.log(data);
 
   return (
     <CartItemContainer>
       <CartItemTitle>{name}</CartItemTitle>
       <CartItemPrice>$ {price}</CartItemPrice>
       <CartItemQuantity>Cantidad: {quantity}</CartItemQuantity>
-      <CartItemDeleteOne onClick={() => delOneFromCart(id)}>
+      <CartItemDeleteOne onClick={() => delOneFromCart(id, false)}>
         Eliminar Uno
       </CartItemDeleteOne>
       <CartItemDeleteAll onClick={() => delAllFromCart(id, true)}>
