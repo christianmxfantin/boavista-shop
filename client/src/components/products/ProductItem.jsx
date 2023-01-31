@@ -1,3 +1,4 @@
+import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import {
@@ -11,6 +12,7 @@ import {
 import { styled } from "@mui/material/styles";
 import { Icon as CartIcon } from "../ui/Icon";
 import ProductImage from "../../images/product.jpg";
+import { addProductToCart } from "../../reducers/cart";
 
 const ProductCard = styled(Card)(({ theme }) => ({
   borderRadius: `${theme.spacing(0.5)}`,
@@ -46,10 +48,11 @@ const ProductPrice = styled(Typography)(({ theme }) => ({
   color: `${theme.palette.primary[500]}`,
 }));
 
-const ProductItem = ({ data, addToCart }) => {
+const ProductItem = ({ data }) => {
   //ver si esta logueado para agregar al carrito
   let auth = true;
 
+  const dispatch = useDispatch();
   const theme = useTheme();
   const navigate = useNavigate();
   let { id, name, price } = data;
@@ -58,8 +61,7 @@ const ProductItem = ({ data, addToCart }) => {
     if (!auth) {
       navigate("/login");
     }
-    addToCart(id);
-    console.log(data);
+    dispatch(addProductToCart(data));
   };
 
   return (

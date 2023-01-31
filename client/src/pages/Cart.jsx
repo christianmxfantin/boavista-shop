@@ -3,9 +3,10 @@ import CartEmpty from "../components/cart/CartEmpty";
 import CartFull from "../components/cart/CartFull";
 
 const Cart = () => {
-  const state = useSelector((state) => state);
+  const { cart } = useSelector((state) => state);
+  // console.log(cart);
 
-  return state.cart.length === 0 ? <CartEmpty /> : <CartFull />;
+  return cart.total === 0 ? <CartEmpty /> : <CartFull />;
 };
 
 export default Cart;
