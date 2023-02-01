@@ -1,5 +1,3 @@
-import React from "react";
-
 export const CartEmptySvg = (props) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 184 161" {...props}>
     <g strokeLinecap="round" fill="none">

@@ -1,4 +1,3 @@
-import React from "react";
 import { Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Image } from "../ui/Image";

@@ -1,4 +1,3 @@
-import React from "react";
 import { SvgIcon } from "@mui/material";
 import BrokenImageIcon from "@mui/icons-material/BrokenImage";
 import MenuIcon from "@mui/icons-material/Menu";

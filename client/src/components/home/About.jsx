@@ -1,4 +1,3 @@
-import React from "react";
 import { styled } from "@mui/material/styles";
 import { useTheme } from "@emotion/react";
 import { Box, Typography } from "@mui/material";

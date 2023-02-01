@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useTheme } from "@emotion/react";
 import { Box, Link, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
