@@ -1,17 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
-import { Box, Button } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import CartItem from "../cart/CartItem";
-
-const CartContainer = styled(Box)(({ theme }) => ({
-  width: "100%",
-  heigth: "100%",
-}));
-
-const CartButtonClean = styled(Button)(({ theme }) => ({
-  color: theme.palette.secondary.A100,
-  backgroundColor: theme.palette.primary[500],
-}));
+import { CartContainer, CartButtonClean } from "./CartFull.styles";
+import CartItem from "../CartItem/CartItem";
 
 const CartFull = () => {
   // const dispatch = useDispatch();

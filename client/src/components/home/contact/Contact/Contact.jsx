@@ -1,43 +1,18 @@
 import { useTheme } from "@emotion/react";
-import { Box, Typography } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import {
+  ContactContainer,
+  ContactTitle,
+  DataContainer,
+  SocialContainer,
+  Footer,
+} from "../Contact/Contact.styles";
 import {
   ContactLink as AddressLink,
   ContactLink as EmailLink,
   ContactLink as WhatsappLink,
-} from "./ContactLink";
-import Underline from "../../ui/Underline";
-import { Image } from "../../ui/Image";
-
-const ContactContainer = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.primary[500],
-}));
-
-const ContactTitle = styled(Typography)(({ theme }) => ({
-  display: "flex",
-  justifyContent: "center",
-  padding: theme.spacing(5, 5, 0, 5), //40px 40px 0 40px
-  fontWeight: 500,
-  color: theme.palette.secondary.A100,
-}));
-
-const DataContainer = styled(Box)(({ theme }) => ({
-  display: "flex",
-  justifyContent: "center",
-  marginTop: theme.spacing(5), //40px
-}));
-
-const SocialContainer = styled(Box)(({ theme }) => ({
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "center",
-}));
-
-const Footer = styled(Typography)(({ theme }) => ({
-  padding: theme.spacing(2.5), //20px
-  textAlign: "center",
-  color: theme.palette.secondary.A100,
-}));
+} from "../ContactLink/ContactLink";
+import Underline from "../../../ui/Underline";
+import { Image } from "../../../ui/Image";
 
 const Contact = () => {
   const theme = useTheme();

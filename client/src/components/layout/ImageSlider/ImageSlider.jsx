@@ -1,27 +1,13 @@
 import { useTheme } from "@emotion/react";
-import { styled } from "@mui/material/styles";
-import { Box, Button } from "@mui/material";
-import { Icon } from "../../components/ui/Icon";
-import ProductImage from "../../images/product.jpg";
-// import ProductImage2 from "../../images/product2.jpg";
-
-const SliderContainer = styled(Box)(({ theme }) => ({
-  width: "60%",
-  marginRight: theme.spacing(2), //16px
-  display: "flex",
-}));
-
-const ButtonPrevious = styled(Button)(({ theme }) => ({
-  //styles
-}));
-
-const ImagesContainer = styled(Box)(({ theme }) => ({
-  //styles
-}));
-
-const ButtonNext = styled(Button)(({ theme }) => ({
-  //styles
-}));
+import {
+  SliderContainer,
+  ButtonPrevious,
+  ImagesContainer,
+  ButtonNext,
+} from "../ImageSlider/ImageSlider.styles";
+import { Icon } from "../../ui/Icon";
+import ProductImage from "../../../images/product.jpg";
+// import ProductImage2 from "../../../images/product2.jpg";
 
 const ImageSlider = () => {
   const theme = useTheme();

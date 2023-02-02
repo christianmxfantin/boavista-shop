@@ -1,17 +1,6 @@
-import { Box, Typography } from "@mui/material";
-import { styled } from "@mui/material/styles";
 import { useTheme } from "@emotion/react";
-import { CartEmptySvg } from "../ui/Svg";
-
-const CartEmptyContainer = styled(Box)(({ theme }) => ({
-  marginTop: theme.spacing(8), //64px,
-  textAlign: "center",
-}));
-
-const CartEmptyTitle = styled(Typography)(({ theme }) => ({
-  marginTop: theme.spacing(4), //32px,
-  color: theme.palette.primary[500],
-}));
+import { CartEmptyContainer, CartEmptyTitle } from "./CartEmpty.styles";
+import { CartEmptySvg } from "../../ui/Svg";
 
 const CartEmpty = () => {
   const theme = useTheme();

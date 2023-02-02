@@ -3,7 +3,7 @@ import { Box, Button, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Icon as ItemTitleShare } from "../../components/ui/Icon";
 import NumericInput from "../../components/layout/NumericInput";
-import ImageSlider from "../../components/layout/ImageSlider";
+import ImageSlider from "../../components/layout/ImageSlider/ImageSlider";
 
 const ItemCard = styled(Box)(({ theme }) => ({
   height: "100%",
