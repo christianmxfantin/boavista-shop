@@ -1,7 +1,7 @@
-import ProductPath from "./filters/ProductPath";
-import ProductCategory from "./filters/ProductCategory";
-import ProductPrice from "./filters/ProductPrice";
-import ProductDiscount from "./filters/ProductDiscount";
+import ProductPath from "./filters/ProductPath/ProductPath";
+import ProductCategory from "./filters/ProductCategory/ProductCategory";
+import ProductPrice from "./filters/ProductPrice/ProductPrice";
+import ProductDiscount from "./filters/ProductDiscount/ProductDiscount";
 
 const ProductFilter = () => {
   return (

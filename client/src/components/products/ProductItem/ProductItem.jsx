@@ -1,52 +1,18 @@
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
+import { Button as ProductAddToCart } from "@mui/material";
 import {
-  Box,
-  Button as ProductAddToCart,
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-} from "@mui/material";
-import { styled } from "@mui/material/styles";
-import { Icon as CartIcon } from "../ui/Icon";
-import ProductImage from "../../images/product.jpg";
-import { addProductToCart } from "../../reducers/cart";
-
-const ProductCard = styled(Card)(({ theme }) => ({
-  borderRadius: `${theme.spacing(0.5)}`,
-  height: "100%",
-}));
-
-const ProductCardImage = styled(CardMedia)(({ theme }) => ({
-  //styles
-}));
-
-const ProductCardContent = styled(CardContent)(({ theme }) => ({
-  padding: `${theme.spacing(1)} !important`,
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "space-between",
-}));
-
-const ProductName = styled(Typography)(({ theme }) => ({
-  color: `${theme.palette.primary[500]}`,
-  fontWeight: 500,
-  "&:hover": {
-    color: `${theme.palette.secondary[500]}`,
-    fontWeight: 600,
-  },
-}));
-
-const ProductCardData = styled(Box)(({ theme }) => ({
-  display: "flex",
-  justifyContent: "space-between",
-}));
-
-const ProductPrice = styled(Typography)(({ theme }) => ({
-  color: `${theme.palette.primary[500]}`,
-}));
+  ProductCard,
+  ProductCardImage,
+  ProductCardContent,
+  ProductName,
+  ProductCardData,
+  ProductPrice,
+} from "./ProductItem.styles";
+import { Icon as CartIcon } from "../../ui/Icon";
+import ProductImage from "../../../images/product.jpg";
+import { addProductToCart } from "../../../reducers/cart";
 
 const ProductItem = ({ data }) => {
   //ver si esta logueado para agregar al carrito

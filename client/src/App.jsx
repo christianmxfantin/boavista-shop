@@ -4,18 +4,18 @@ import { Provider } from "react-redux";
 import { store } from "./store";
 
 import Navbar from "./components/layout/Navbar";
-import Login from "./pages/auth/Login";
+import Login from "./pages/auth/Login/Login";
 import Register from "./pages/auth/Register";
-import Dashboard from "./pages/admin/Dashboard";
+import Dashboard from "./pages/admin/Dashboard/Dashboard";
 import Profile from "./pages/auth/Profile";
 import Home from "./pages/Home";
 import Products from "./pages/products/Products";
-import ProductItem from "./pages/products/ProductItem";
+import ProductDetails from "./pages/products/ProductDetails";
 import Cart from "./pages/Cart";
 import PageNotFound from "./pages/PageNotFound";
 import SearchPage from "./pages/SearchPage";
 import PrivateRoute from "./components/auth/PrivateRoute";
-import List from "./pages/admin/List";
+import List from "./pages/admin/List/List";
 
 const App = () => {
   return (
@@ -133,7 +133,7 @@ const App = () => {
             element={
               <>
                 <Navbar login={false} />
-                <ProductItem />
+                <ProductDetails />
               </>
             }
           />

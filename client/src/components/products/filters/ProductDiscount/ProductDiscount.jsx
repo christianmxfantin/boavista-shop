@@ -1,17 +1,9 @@
-import { Box, Typography } from "@mui/material";
-import { styled } from "@mui/material/styles";
-
-const ProductDiscountCard = styled(Box)(({ theme }) => ({
-  marginTop: theme.spacing(4), //32px
-}));
-
-const ProductDiscountTitle = styled(Typography)(({ theme }) => ({
-  fontWeight: 600,
-}));
-
-const ProductDiscountData = styled(Box)(({ theme }) => ({
-  //styles
-}));
+import { Typography } from "@mui/material";
+import {
+  ProductDiscountCard,
+  ProductDiscountTitle,
+  ProductDiscountData,
+} from "./ProductDiscount.styles";
 
 const ProductDiscount = () => {
   return (

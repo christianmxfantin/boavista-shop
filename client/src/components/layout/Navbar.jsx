@@ -14,7 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Icon } from "../ui/Icon";
-import Search from "./Search";
+import Search from "./Search/Search";
 import { Image } from "../ui/Image";
 
 const Navbar = ({ login }) => {

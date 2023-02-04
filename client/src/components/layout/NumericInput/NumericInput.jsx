@@ -1,29 +1,12 @@
 import { useTheme } from "@emotion/react";
+import { ToggleButton, Typography } from "@mui/material";
 import {
-  Box,
-  ToggleButton,
-  ToggleButtonGroup,
-  Typography,
-} from "@mui/material";
-import { styled } from "@mui/material/styles";
-import { Icon } from "../ui/Icon";
-
-const NumericInputContainer = styled(ToggleButtonGroup)(({ theme }) => ({
-  marginTop: theme.spacing(4), //32px
-}));
-
-const AddButton = styled(ToggleButton)(({ theme }) => ({
-  //styles
-}));
-
-const Quantity = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(0, 1, 0, 1), //8px
-  color: theme.palette.primary[500],
-}));
-
-const RemoveButton = styled(ToggleButton)(({ theme }) => ({
-  //styles
-}));
+  NumericInputContainer,
+  AddButton,
+  Quantity,
+  RemoveButton,
+} from "./NumericInput.styles";
+import { Icon } from "../../ui/Icon";
 
 const NumericInput = () => {
   const theme = useTheme();

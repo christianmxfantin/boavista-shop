@@ -1,9 +1,7 @@
 import { styled, alpha } from "@mui/material/styles";
 import { InputBase } from "@mui/material";
-import { Icon as SearchIcon } from "../ui/Icon";
-import { createSearchParams, useNavigate } from "react-router-dom";
 
-const SearchContainer = styled("div")(({ theme }) => ({
+export const SearchContainer = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.secondary.A100, 0.15),
@@ -19,7 +17,7 @@ const SearchContainer = styled("div")(({ theme }) => ({
   },
 }));
 
-const SearchIconWrapper = styled("div")(({ theme }) => ({
+export const SearchIconWrapper = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 2),
   height: "100%",
   position: "absolute",
@@ -29,7 +27,7 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   justifyContent: "center",
 }));
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
+export const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
@@ -44,37 +42,3 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
-
-const Search = () => {
-  let q;
-  let navigate = useNavigate();
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      navigate({
-        pathname: "/products/search",
-        search: `?${createSearchParams({
-          q,
-        })}`,
-      });
-      e.target.blur();
-    }
-  };
-
-  return (
-    <>
-      <SearchContainer>
-        <SearchIconWrapper>
-          <SearchIcon name="Search" size={22} />
-        </SearchIconWrapper>
-        <StyledInputBase
-          placeholder="Buscar productos…"
-          onKeyDown={handleKeyDown}
-          onChange={(e) => (q = e.target.value)}
-        />
-      </SearchContainer>
-    </>
-  );
-};
-
-export default Search;

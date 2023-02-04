@@ -1,23 +1,10 @@
-import { Box, InputAdornment, TextField, Typography } from "@mui/material";
-import { styled } from "@mui/material/styles";
-
-const ProductPriceCard = styled(Box)(({ theme }) => ({
-  marginTop: theme.spacing(4), //32px
-}));
-
-const ProductPriceTitle = styled(Typography)(() => ({
-  fontWeight: 600,
-}));
-
-const ProductPriceContainer = styled(Box)(() => ({
-  display: "flex",
-}));
-
-const ProductPriceInput = styled(TextField)(({ theme }) => ({
-  "& .MuiOutlinedInput-input": {
-    padding: theme.spacing(1), //8px
-  },
-}));
+import { InputAdornment } from "@mui/material";
+import {
+  ProductPriceCard,
+  ProductPriceTitle,
+  ProductPriceContainer,
+  ProductPriceInput,
+} from "./ProductPrice.styles";
 
 const ProductPrice = () => {
   return (

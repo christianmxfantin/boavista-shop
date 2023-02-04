@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { Box, Button, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Icon as ItemTitleShare } from "../../components/ui/Icon";
-import NumericInput from "../../components/layout/NumericInput";
+import NumericInput from "../../components/layout/NumericInput/NumericInput";
 import ImageSlider from "../../components/layout/ImageSlider/ImageSlider";
 
 const ItemCard = styled(Box)(({ theme }) => ({
@@ -70,7 +70,7 @@ const ItemInfoAddToCart = styled(Button)(({ theme }) => ({
   },
 }));
 
-const ProductItem = () => {
+const ProductDetails = () => {
   //ver si esta logueado para agregar al carrito
   let auth = true;
 
@@ -110,4 +110,4 @@ const ProductItem = () => {
   );
 };
 
-export default ProductItem;
+export default ProductDetails;
