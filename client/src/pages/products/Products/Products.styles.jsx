@@ -1,4 +1,4 @@
-import { Box, Grid, MenuItem, Select, Typography } from "@mui/material";
+import { Box, Grid, Select, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export const ProductContainer = styled(Box)(({ theme }) => ({

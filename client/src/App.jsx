@@ -5,15 +5,15 @@ import { store } from "./store";
 
 import Navbar from "./components/layout/Navbar";
 import Login from "./pages/auth/Login/Login";
-import Register from "./pages/auth/Register";
+import Register from "./pages/auth/Register/Register";
 import Dashboard from "./pages/admin/Dashboard/Dashboard";
-import Profile from "./pages/auth/Profile";
+import Profile from "./pages/auth/Profile/Profile";
 import Home from "./pages/Home";
-import Products from "./pages/products/Products";
-import ProductDetails from "./pages/products/ProductDetails";
-import Cart from "./pages/Cart";
-import PageNotFound from "./pages/PageNotFound";
-import SearchPage from "./pages/SearchPage";
+import Products from "./pages/products/Products/Products";
+import ProductDetails from "./pages/products/ProductDetails/ProductDetails";
+import Cart from "./pages/cart/Cart";
+import PageNotFound from "./pages/pageNotFound/PageNotFound";
+import SearchPage from "./pages/searchPage/SearchPage";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import List from "./pages/admin/List/List";
 

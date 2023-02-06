@@ -13,9 +13,9 @@ import {
 } from "./Products.styles";
 import { Box, MenuItem } from "@mui/material";
 
-import { products } from "../../components/products/productList";
-import ProductFilter from "../../components/products/ProductFilter";
-import ProductItem from "../../components/products/ProductItem/ProductItem";
+import { products } from "../../../components/products/productList";
+import ProductFilter from "../../../components/products/ProductFilter";
+import ProductItem from "../../../components/products/ProductItem/ProductItem";
 
 const Products = () => {
   return (
