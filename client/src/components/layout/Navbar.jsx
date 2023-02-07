@@ -94,7 +94,7 @@ const Navbar = ({ login }) => {
 
   return (
     <AppBar position="sticky" css={AppbarStyles}>
-      <Toolbar css={ToolbarStyles}>
+      <Toolbar component={"nav"} css={ToolbarStyles}>
         <Link to="/">
           <ImageContainer css={ImageContainerStyles}>
             <Image

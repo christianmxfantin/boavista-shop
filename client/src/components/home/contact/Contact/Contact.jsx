@@ -18,10 +18,10 @@ const Contact = () => {
   const theme = useTheme();
 
   return (
-    <ContactContainer>
+    <ContactContainer component={"section"}>
       <ContactTitle variant="h3">Contactanos</ContactTitle>
       <Underline width={230} height={5} color={theme.palette.secondary.A100} />
-      <DataContainer>
+      <DataContainer component={"article"}>
         <Image
           name="Contact"
           style={{
@@ -32,7 +32,7 @@ const Contact = () => {
             objectFit: "cover",
           }}
         />
-        <SocialContainer>
+        <SocialContainer component={"article"}>
           <AddressLink
             href="https://www.google.com.ar/maps/place/Av.+Leandro+N.+Alem+916,+C1001AAR+CABA"
             icon="Address"

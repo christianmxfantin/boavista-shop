@@ -12,8 +12,8 @@ const About = () => {
   const theme = useTheme();
 
   return (
-    <AboutContainer>
-      <AboutData>
+    <AboutContainer component={"section"}>
+      <AboutData component={"article"}>
         <AboutTitle variant="h3">Sobre Nosotros</AboutTitle>
         <Underline width={300} height={5} color={theme.palette.primary[500]} />
         <AboutInfo>

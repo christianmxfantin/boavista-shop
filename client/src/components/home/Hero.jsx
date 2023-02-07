@@ -8,7 +8,7 @@ const HeroContainer = styled(Box)(() => ({
 
 const Hero = () => {
   return (
-    <HeroContainer>
+    <HeroContainer component={"section"}>
       <Image
         name="Hero"
         style={{

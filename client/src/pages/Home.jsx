@@ -4,21 +4,11 @@ import Contact from "../components/home/contact/Contact/Contact";
 
 const Home = () => {
   return (
-    <>
-      <main>
-        <section>
-          <Hero />
-        </section>
-        <section>
-          <article>
-            <About />
-          </article>
-        </section>
-        <section>
-          <Contact />
-        </section>
-      </main>
-    </>
+    <main>
+      <Hero />
+      <About />
+      <Contact />
+    </main>
   );
 };
 

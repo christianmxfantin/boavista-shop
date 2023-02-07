@@ -6,12 +6,14 @@ const SearchPage = () => {
   let { search } = useLocation();
 
   return (
-    <SearchContainer>
-      <SearchTitle variant="h6">
-        {`Se muestran ${totResults} resultados para la búsqueda: `}
-        <b>{search.slice(3).replace(/\+/g, " ")}</b>
-      </SearchTitle>
-    </SearchContainer>
+    <main>
+      <SearchContainer>
+        <SearchTitle variant="h6">
+          {`Se muestran ${totResults} resultados para la búsqueda: `}
+          <b>{search.slice(3).replace(/\+/g, " ")}</b>
+        </SearchTitle>
+      </SearchContainer>
+    </main>
   );
 };
 

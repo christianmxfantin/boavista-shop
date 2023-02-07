@@ -16,9 +16,9 @@ export const ProductFilters = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.primary[50],
 }));
 
-// export const ProductData = styled(Box)(() => ({
-//   //styles
-// }));
+export const ProductData = styled(Box)(() => ({
+  //styles
+}));
 
 export const ProductTitleContainer = styled(Box)(() => ({
   display: "flex",

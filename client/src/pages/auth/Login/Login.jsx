@@ -19,7 +19,7 @@ const Login = () => {
   const theme = useTheme();
 
   return (
-    <>
+    <main>
       <LoginContainer>
         <LoginTitle variant="h5">Ingresá a tu cuenta a través de</LoginTitle>
         <SocialLogin>
@@ -53,7 +53,7 @@ const Login = () => {
           <CreateAccountButton>Crear Cuenta</CreateAccountButton>
         </ButtonsContainer>
       </LoginContainer>
-    </>
+    </main>
   );
 };
 
