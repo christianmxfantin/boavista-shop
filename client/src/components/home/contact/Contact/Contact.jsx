@@ -4,7 +4,6 @@ import {
   ContactTitle,
   DataContainer,
   SocialContainer,
-  Footer,
 } from "../Contact/Contact.styles";
 import {
   ContactLink as AddressLink,
@@ -50,7 +49,6 @@ const Contact = () => {
           />
         </SocialContainer>
       </DataContainer>
-      <Footer component="footer">Copyright 2022 - Librería Boa Vista</Footer>
     </ContactContainer>
   );
 };

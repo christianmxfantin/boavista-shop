@@ -29,31 +29,29 @@ const ProductDetails = () => {
   };
 
   return (
-    <main>
-      <ItemCard>
-        <ItemTitle>
-          <ItemTitleBack>Volver al listado</ItemTitleBack>
-          <ItemTitleCategories>Hojas - Cuadriculadas</ItemTitleCategories>
-          <ItemTitleShare name="Share" size={22} />
-        </ItemTitle>
-        <ItemData>
-          <ImageSlider />
-          <ItemInfoContainer>
-            <ItemInfoTitle variant="h4">
-              Resma de Hojas A4 x 500 unidades
-            </ItemInfoTitle>
-            <ItemInfoPrice variant="h4">$ 600</ItemInfoPrice>
-            <ItemInfoStock>
-              <b>Stock disponible:</b> 1200 unidades
-            </ItemInfoStock>
-            <NumericInput />
-            <ItemInfoAddToCart onClick={handleClic}>
-              Agregar al Carrito
-            </ItemInfoAddToCart>
-          </ItemInfoContainer>
-        </ItemData>
-      </ItemCard>
-    </main>
+    <ItemCard component={"main"}>
+      <ItemTitle component={"article"}>
+        <ItemTitleBack>Volver al listado</ItemTitleBack>
+        <ItemTitleCategories>Hojas - Cuadriculadas</ItemTitleCategories>
+        <ItemTitleShare name="Share" size={22} />
+      </ItemTitle>
+      <ItemData component={"article"}>
+        <ImageSlider />
+        <ItemInfoContainer>
+          <ItemInfoTitle variant="h4">
+            Resma de Hojas A4 x 500 unidades
+          </ItemInfoTitle>
+          <ItemInfoPrice variant="h4">$ 600</ItemInfoPrice>
+          <ItemInfoStock>
+            <b>Stock disponible:</b> 1200 unidades
+          </ItemInfoStock>
+          <NumericInput />
+          <ItemInfoAddToCart onClick={handleClic}>
+            Agregar al Carrito
+          </ItemInfoAddToCart>
+        </ItemInfoContainer>
+      </ItemData>
+    </ItemCard>
   );
 };
 

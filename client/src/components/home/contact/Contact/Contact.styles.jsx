@@ -24,9 +24,3 @@ export const SocialContainer = styled(Box)(({ theme }) => ({
   flexDirection: "column",
   justifyContent: "center",
 }));
-
-export const Footer = styled(Typography)(({ theme }) => ({
-  padding: theme.spacing(2.5), //20px
-  textAlign: "center",
-  color: theme.palette.secondary.A100,
-}));

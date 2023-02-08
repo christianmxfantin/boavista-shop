@@ -19,41 +19,36 @@ const Login = () => {
   const theme = useTheme();
 
   return (
-    <main>
-      <LoginContainer>
-        <LoginTitle variant="h5">Ingresá a tu cuenta a través de</LoginTitle>
-        <SocialLogin>
-          <GoogleButton variant="outlined" startIcon={<Icon name="Google" />}>
-            Google
-          </GoogleButton>
-          <FacebookButton
-            variant="outlined"
-            startIcon={<Icon name="Facebook" />}
-          >
-            Facebook
-          </FacebookButton>
-        </SocialLogin>
-        <Underline width={376} height={1} color={theme.palette.primary[500]} />
-        <EmailLogin>
-          <EmailInput
-            id="email"
-            variant="outlined"
-            size="small"
-            placeholder="Ingrese su Email"
-          />
-          <PasswordInput
-            id="password"
-            variant="outlined"
-            size="small"
-            placeholder="Ingrese su Contraseña"
-          />
-        </EmailLogin>
-        <ButtonsContainer>
-          <ContinueButton variant="contained">Continuar</ContinueButton>
-          <CreateAccountButton>Crear Cuenta</CreateAccountButton>
-        </ButtonsContainer>
-      </LoginContainer>
-    </main>
+    <LoginContainer component={"main"}>
+      <LoginTitle variant="h5">Ingresá a tu cuenta a través de</LoginTitle>
+      <SocialLogin component={"section"}>
+        <GoogleButton variant="outlined" startIcon={<Icon name="Google" />}>
+          Google
+        </GoogleButton>
+        <FacebookButton variant="outlined" startIcon={<Icon name="Facebook" />}>
+          Facebook
+        </FacebookButton>
+      </SocialLogin>
+      <Underline width={376} height={1} color={theme.palette.primary[500]} />
+      <EmailLogin component={"section"}>
+        <EmailInput
+          id="email"
+          variant="outlined"
+          size="small"
+          placeholder="Ingrese su Email"
+        />
+        <PasswordInput
+          id="password"
+          variant="outlined"
+          size="small"
+          placeholder="Ingrese su Contraseña"
+        />
+      </EmailLogin>
+      <ButtonsContainer component={"section"}>
+        <ContinueButton variant="contained">Continuar</ContinueButton>
+        <CreateAccountButton>Crear Cuenta</CreateAccountButton>
+      </ButtonsContainer>
+    </LoginContainer>
   );
 };
 
