@@ -13,6 +13,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 export const Icon = ({ name, color, size }) => {
   const icons = [
@@ -178,6 +179,19 @@ export const Icon = ({ name, color, size }) => {
         <SvgIcon
           aria-label="Ir a la imágen siguiente"
           component={ArrowForwardIosIcon}
+          sx={{
+            color: color,
+            fontSize: size,
+          }}
+        />
+      ),
+    },
+    {
+      name: "Delete-Product",
+      img: (
+        <SvgIcon
+          aria-label="Borrar producto"
+          component={DeleteForeverIcon}
           sx={{
             color: color,
             fontSize: size,

@@ -22,7 +22,7 @@ export const ProductName = styled(Typography)(({ theme }) => ({
   fontWeight: 500,
   "&:hover": {
     color: `${theme.palette.secondary[500]}`,
-    fontWeight: 600,
+    cursor: "pointer",
   },
 }));
 

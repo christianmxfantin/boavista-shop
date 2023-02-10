@@ -6,7 +6,7 @@ import Hero from "../../images/home/hero.jpg";
 import About from "../../images/home/about.jpg";
 import Contact from "../../images/home/contact.jpg";
 
-export const Image = ({ name, style }) => {
+export const Image = ({ name, style, src, alt }) => {
   const theme = useTheme();
 
   const images = [
@@ -29,6 +29,11 @@ export const Image = ({ name, style }) => {
       name: "Contact",
       src: Contact,
       alt: "Imágen de la sección Contacto",
+    },
+    {
+      name: "Products",
+      src,
+      alt,
     },
   ];
 

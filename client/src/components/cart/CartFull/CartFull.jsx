@@ -8,14 +8,12 @@ const CartFull = () => {
   console.log(cart);
 
   return (
-    <main>
-      <CartContainer>
-        {cart.productsList.map((item, index) => (
-          <CartItem key={index} data={item} />
-        ))}
-      </CartContainer>
-      <CartButtonClean>Limpiar</CartButtonClean>
-    </main>
+    <CartContainer component={"main"}>
+      {cart.productsList.map((item, index) => (
+        <CartItem key={index} data={item} />
+      ))}
+      <CartButtonClean variant="contained">Limpiar</CartButtonClean>
+    </CartContainer>
   );
 };
 

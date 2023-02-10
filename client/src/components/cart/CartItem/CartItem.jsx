@@ -1,26 +1,51 @@
+import { useTheme } from "@emotion/react";
 import {
   CartItemContainer,
+  CartItemImage,
+  CartItemData,
   CartItemTitle,
+  CartItemPriceContainer,
   CartItemPrice,
-  CartItemQuantity,
-  CartItemDeleteOne,
-  CartItemDeleteAll,
+  CartItemButtons,
 } from "./CartItem.styles";
 
-const CartItem = ({ data, delOneFromCart, delAllFromCart }) => {
-  let { id, name, price, quantity } = data;
+import { Image } from "../../ui/Image";
+import { Icon } from "../../ui/Icon";
+import ImagenPrueba from "../../../images/product.jpg";
+import NumericInput from "../../layout/NumericInput/NumericInput";
+
+const CartItem = ({ data }) => {
+  const theme = useTheme();
+  let { id, name, price } = data;
 
   return (
-    <CartItemContainer>
-      <CartItemTitle>{name}</CartItemTitle>
-      <CartItemPrice>$ {price}</CartItemPrice>
-      <CartItemQuantity>Cantidad: {quantity}</CartItemQuantity>
-      <CartItemDeleteOne onClick={() => delOneFromCart(id, false)}>
-        Eliminar Uno
-      </CartItemDeleteOne>
-      <CartItemDeleteAll onClick={() => delAllFromCart(id, true)}>
-        Eliminar Todos
-      </CartItemDeleteAll>
+    <CartItemContainer component={"article"}>
+      <CartItemImage>
+        <Image
+          name="Products"
+          src={ImagenPrueba}
+          alt="Imágen de Prueba"
+          style={{
+            width: "100%",
+            height: "100%",
+            borderRadius: `${theme.spacing(1)}`, //8px
+          }}
+        />
+      </CartItemImage>
+      <CartItemData>
+        <CartItemTitle variant="h5">{name}</CartItemTitle>
+        <CartItemPriceContainer>
+          <CartItemPrice variant="h6">$ {price}</CartItemPrice>
+        </CartItemPriceContainer>
+      </CartItemData>
+      <CartItemButtons>
+        <NumericInput />
+        <Icon
+          name="Delete-Product"
+          size={50}
+          color={theme.palette.error[500]}
+        />
+      </CartItemButtons>
     </CartItemContainer>
   );
 };
