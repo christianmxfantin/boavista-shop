@@ -33,7 +33,7 @@ const CartItem = ({ data }) => {
         />
       </CartItemImage>
       <CartItemData>
-        <CartItemTitle variant="h5">{name}</CartItemTitle>
+        <CartItemTitle variant="h6">{name}</CartItemTitle>
         <CartItemPriceContainer>
           <CartItemPrice variant="h6">$ {price}</CartItemPrice>
         </CartItemPriceContainer>

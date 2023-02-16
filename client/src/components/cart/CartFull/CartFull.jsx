@@ -1,8 +1,13 @@
 import { useSelector, useDispatch } from "react-redux";
-import { CartContainer, CartButtonClean } from "./CartFull.styles";
+import {
+  CartContainer,
+  CartButtonsContainer,
+  CartButtonClean,
+  CartButtonLeft,
+} from "./CartFull.styles";
 import CartItem from "../CartItem/CartItem";
 
-const CartFull = () => {
+const CartFull = ({ title }) => {
   // const dispatch = useDispatch();
   const { cart } = useSelector((state) => state);
   console.log(cart);
@@ -12,7 +17,10 @@ const CartFull = () => {
       {cart.productsList.map((item, index) => (
         <CartItem key={index} data={item} />
       ))}
-      <CartButtonClean variant="contained">Limpiar</CartButtonClean>
+      <CartButtonsContainer>
+        <CartButtonClean variant="contained">Vaciar Carrito</CartButtonClean>
+        <CartButtonLeft variant="contained">{title}</CartButtonLeft>
+      </CartButtonsContainer>
     </CartContainer>
   );
 };

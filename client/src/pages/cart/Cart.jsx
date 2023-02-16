@@ -5,7 +5,7 @@ import CartFull from "../../components/cart/CartFull/CartFull";
 const Cart = () => {
   const { cart } = useSelector((state) => state);
 
-  return cart.total === 0 ? <CartEmpty /> : <CartFull />;
+  return cart.total === 0 ? <CartEmpty /> : <CartFull title="Continuar" />;
 };
 
 export default Cart;
