@@ -9,11 +9,10 @@ import {
   EmailInput,
   PasswordInput,
   ButtonsContainer,
-  ContinueButton,
-  CreateAccountButton,
 } from "./Login.styles";
 import { Icon } from "../../../components/ui/Icon";
 import Underline from "../../../components/ui/Underline";
+import { Button } from "../../../components/ui/Button";
 
 const Login = () => {
   const theme = useTheme();
@@ -45,8 +44,26 @@ const Login = () => {
         />
       </EmailLogin>
       <ButtonsContainer component={"section"}>
-        <ContinueButton variant="contained">Continuar</ContinueButton>
-        <CreateAccountButton>Crear Cuenta</CreateAccountButton>
+        <Button
+          name="Continuar"
+          variant="contained"
+          sx={{
+            width: "376px",
+            marginBottom: theme.spacing(1), //8px
+            "&:hover": {
+              color: theme.palette.secondary[500],
+            },
+          }}
+        />
+        <Button
+          name="Crear Cuenta"
+          sx={{
+            width: "376px",
+            "&:hover": {
+              backgroundColor: theme.palette.secondary[500],
+            },
+          }}
+        />
       </ButtonsContainer>
     </LoginContainer>
   );

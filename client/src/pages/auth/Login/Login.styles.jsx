@@ -58,18 +58,3 @@ export const ButtonsContainer = styled(Box)(() => ({
   display: "flex",
   flexDirection: "column",
 }));
-
-export const ContinueButton = styled(Button)(({ theme }) => ({
-  width: "376px",
-  marginBottom: theme.spacing(1), //8px
-  "&:hover": {
-    color: theme.palette.secondary[500],
-  },
-}));
-
-export const CreateAccountButton = styled(Button)(({ theme }) => ({
-  width: "376px",
-  "&:hover": {
-    backgroundColor: theme.palette.secondary[500],
-  },
-}));
