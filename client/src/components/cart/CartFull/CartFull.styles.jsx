@@ -9,6 +9,10 @@ export const CartContainer = styled(Box)(({ theme }) => ({
   borderRadius: theme.spacing(1.5), //12px
 }));
 
+export const CartItemsContainer = styled(Box)(({ theme }) => ({
+  //styles para scrollear
+}));
+
 export const CartButtonsContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   justifyContent: "space-between",
