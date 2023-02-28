@@ -8,11 +8,11 @@ import {
 } from "./NumericInput.styles";
 import { Icon } from "../../ui/Icon";
 
-const NumericInput = () => {
+const NumericInput = ({ type }) => {
   const theme = useTheme();
 
   return (
-    <NumericInputContainer>
+    <NumericInputContainer sx={{ display: type && "contents" }}>
       <AddButton value="left">
         <Icon name="Add" size={20} color={theme.palette.primary[500]} />
       </AddButton>

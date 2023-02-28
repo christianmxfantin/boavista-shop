@@ -13,13 +13,20 @@ import { Image } from "../../ui/Image";
 import { Icon } from "../../ui/Icon";
 import ImagenPrueba from "../../../images/product.jpg";
 import NumericInput from "../../layout/NumericInput/NumericInput";
+import { borderColor } from "@mui/system";
 
-const CartItem = ({ data }) => {
-  const theme = useTheme();
+const CartItem = ({ data, color }) => {
   let { id, name, price } = data;
+  const theme = useTheme();
 
   return (
-    <CartItemContainer component={"article"}>
+    <CartItemContainer
+      component={"article"}
+      sx={{
+        backgroundColor: color,
+        // borderColor: color.borderColor && color.borderColor,
+      }}
+    >
       <CartItemImage>
         <Image
           name="Products"
@@ -39,7 +46,7 @@ const CartItem = ({ data }) => {
         </CartItemPriceContainer>
       </CartItemData>
       <CartItemButtons>
-        <NumericInput />
+        <NumericInput type="center" />
         <Icon
           name="Delete-Product"
           size={50}

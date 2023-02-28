@@ -1,12 +1,11 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export const CartItemContainer = styled(Box)(({ theme }) => ({
   display: "flex",
+  marginRight: "16px",
   marginBottom: theme.spacing(2), //16px
   padding: theme.spacing(2), //16px
-  backgroundColor: theme.palette.secondary.A100,
-  // border: `1px solid ${theme.palette.primary[500]}`,
   borderRadius: theme.spacing(1), //8px,
 }));
 

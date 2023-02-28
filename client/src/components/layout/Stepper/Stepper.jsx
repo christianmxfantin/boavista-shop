@@ -1,13 +1,22 @@
-import { Step, StepLabel, StepConnector } from "@mui/material";
-import { StepperComponent } from "./Stepper.styles";
+import { useTheme } from "@emotion/react";
+import {
+  Stepper as StepperComponent,
+  StepConnector,
+  Step,
+  StepLabel,
+} from "@mui/material";
 
 const Stepper = () => {
+  const theme = useTheme();
+
   return (
-    <StepperComponent alternativeLabel orientation="linear">
+    <StepperComponent
+      connector={<StepConnector />}
+      sx={{ marginBottom: theme.spacing(3) }} //24px
+    >
       <Step>
         <StepLabel>Carrito de Compras</StepLabel>
       </Step>
-      <StepConnector />
       <Step>
         <StepLabel>Facturación</StepLabel>
       </Step>

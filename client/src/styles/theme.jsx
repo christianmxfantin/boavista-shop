@@ -160,5 +160,47 @@ export const theme = createTheme({
         }),
       },
     },
+    MuiStepLabel: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          "& .MuiStepLabel-label": {
+            fontSize: theme.spacing(2.5), //20px
+          },
+          "& .MuiStepLabel-label.Mui-active": {
+            color: theme.palette.primary[500],
+            position: "relative",
+          },
+          "& .MuiStepLabel-label.Mui-active:hover": {
+            color: theme.palette.secondary[500],
+            cursor: "pointer",
+            transition: "color 0.4s ease-in-out",
+          },
+          "& .MuiStepLabel-label.Mui-active::after": {
+            content: '""',
+            position: "absolute",
+            width: "0%",
+            height: "2px",
+            bottom: "-2px",
+            left: "50%",
+            backgroundColor: theme.palette.secondary[500],
+            transition: "all 0.4s ease-in-out",
+            transform: "translateX(-50%)",
+          },
+          "& .MuiStepLabel-label.Mui-active:hover::after": {
+            width: "100%",
+            transition: "all 0.4s ease-in-out",
+          },
+        }),
+      },
+    },
+    MuiStepConnector: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          "& .MuiStepConnector-line": {
+            borderColor: theme.palette.primary[500],
+          },
+        }),
+      },
+    },
   },
 });

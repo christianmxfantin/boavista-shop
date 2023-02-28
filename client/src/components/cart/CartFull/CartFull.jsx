@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
+import { useTheme } from "@emotion/react";
 import {
   CartContainer,
   CartItemsContainer,
@@ -10,15 +11,24 @@ import Stepper from "../../layout/Stepper/Stepper";
 
 const CartFull = ({ title }) => {
   // const dispatch = useDispatch();
+  const theme = useTheme();
   const { cart } = useSelector((state) => state);
   console.log(cart);
+
+  const colors = [
+    theme.palette.secondary.A100,
+    {
+      // background: theme.palette.primary[100],
+      // borderColor: theme.palette.primary[500],
+    },
+  ];
 
   return (
     <CartContainer component={"main"}>
       <Stepper />
       <CartItemsContainer>
         {cart.productsList.map((item, index) => (
-          <CartItem key={index} data={item} />
+          <CartItem key={index} data={item} color={`${colors[index % 2]}`} />
         ))}
       </CartItemsContainer>
       <CartButtonsContainer>
