@@ -11,7 +11,7 @@ import Profile from "./pages/auth/Profile/Profile";
 import Home from "./pages/Home";
 import Products from "./pages/products/Products/Products";
 import ProductDetails from "./pages/products/ProductDetails/ProductDetails";
-import Cart from "./pages/cart/Cart";
+import Checkout from "./pages/checkout/Checkout";
 import PageNotFound from "./pages/pageNotFound/PageNotFound";
 import SearchPage from "./pages/searchPage/SearchPage";
 import PrivateRoute from "./components/auth/PrivateRoute";
@@ -147,14 +147,14 @@ const App = () => {
               </>
             }
           />
-          <Route exact path="/cart" element={<PrivateRoute />}>
+          <Route exact path="/checkout" element={<PrivateRoute />}>
             <Route
               exact
-              path="/cart"
+              path="/checkout"
               element={
                 <>
                   <Navbar login={false} />
-                  <Cart />
+                  <Checkout />
                 </>
               }
             />

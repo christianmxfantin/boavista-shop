@@ -4,7 +4,6 @@ import { styled } from "@mui/material/styles";
 export const CartItemContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   marginRight: "16px",
-  marginBottom: theme.spacing(2), //16px
   padding: theme.spacing(2), //16px
   borderRadius: theme.spacing(1), //8px,
 }));

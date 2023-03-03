@@ -8,12 +8,10 @@ import {
   CartItemPrice,
   CartItemButtons,
 } from "./CartItem.styles";
-
 import { Image } from "../../ui/Image";
 import { Icon } from "../../ui/Icon";
 import ImagenPrueba from "../../../images/product.jpg";
 import NumericInput from "../../layout/NumericInput/NumericInput";
-import { borderColor } from "@mui/system";
 
 const CartItem = ({ data, color }) => {
   let { id, name, price } = data;
@@ -24,7 +22,6 @@ const CartItem = ({ data, color }) => {
       component={"article"}
       sx={{
         backgroundColor: color,
-        // borderColor: color.borderColor && color.borderColor,
       }}
     >
       <CartItemImage>
