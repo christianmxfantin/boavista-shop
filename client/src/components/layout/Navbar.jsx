@@ -113,7 +113,7 @@ const Navbar = ({ login }) => {
                 <Link css={NavbarMenu} to="/products">
                   <MenuItem>Productos</MenuItem>
                 </Link>
-                <Link css={NavbarMenu} to="/cart">
+                <Link css={NavbarMenu} to="/checkout">
                   <MenuItem>Carrito</MenuItem>
                 </Link>
               </Menu>
@@ -125,7 +125,7 @@ const Navbar = ({ login }) => {
               css={CartLink}
               onMouseEnter={() => setIsHover(true)}
               onMouseLeave={() => setIsHover(false)}
-              to="/cart"
+              to="/checkout"
             >
               <Badge badgeContent={105} max={99} css={BadgeStyle}>
                 <Icon name="Cart" size={30} />

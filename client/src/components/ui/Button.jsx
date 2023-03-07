@@ -1,7 +1,7 @@
 import { useTheme } from "@emotion/react";
 import { Button as ButtonComponent } from "@mui/material";
 
-export const Button = ({ name, variant, type, sx }) => {
+export const Button = ({ name, variant, type, sx, disabled, onClick }) => {
   const theme = useTheme();
 
   const buttonStyles = [
@@ -22,7 +22,12 @@ export const Button = ({ name, variant, type, sx }) => {
   let style = buttonStyles.find((style) => style.name === type);
 
   return (
-    <ButtonComponent variant={variant} sx={!sx ? style.styles : sx}>
+    <ButtonComponent
+      variant={variant}
+      sx={!sx ? style.styles : sx}
+      disabled={disabled}
+      onClick={onClick}
+    >
       {name}
     </ButtonComponent>
   );
