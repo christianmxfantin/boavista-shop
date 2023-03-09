@@ -14,13 +14,9 @@ import { Icon } from "../../ui/Icon";
 import ImagenPrueba from "../../../images/product.jpg";
 import NumericInput from "../../layout/NumericInput/NumericInput";
 
-const CartItem = ({ data, color, totalCount }) => {
+const CartItem = ({ data, color }) => {
   let { id, name, price } = data;
   const theme = useTheme();
-
-  useEffect(() => {
-    totalCount(data.price);
-  }, []);
 
   return (
     <CartItemContainer

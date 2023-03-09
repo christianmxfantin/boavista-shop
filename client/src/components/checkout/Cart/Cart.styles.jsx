@@ -2,6 +2,10 @@ import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export const CartContainer = styled(Box)(({ theme }) => ({
+  //styles
+}));
+
+export const ProductsContainer = styled(Box)(({ theme }) => ({
   maxHeight: "380px",
   overflowY: "auto",
   "&::-webkit-scrollbar": {
@@ -10,13 +14,14 @@ export const CartContainer = styled(Box)(({ theme }) => ({
 }));
 
 export const TotalContainer = styled(Box)(({ theme }) => ({
+  marginTop: theme.spacing(1), //8px
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
 }));
 
 export const TotalTitle = styled(Typography)(({ theme }) => ({
-  marginRigth: theme.spacing(2), //16px
+  marginRight: theme.spacing(2), //16px
   color: `${theme.palette.primary[500]}`,
   fontWeight: 600,
 }));

@@ -8,7 +8,6 @@ export const Button = ({ name, variant, type, sx, disabled, onClick }) => {
     {
       name: "primary",
       styles: {
-        marginTop: theme.spacing(3), //24px
         color: theme.palette.secondary.A100,
         backgroundColor: theme.palette.primary[500],
         "&:hover": {

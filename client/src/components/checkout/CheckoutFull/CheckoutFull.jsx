@@ -1,7 +1,7 @@
 import { CheckoutContainer } from "./CheckoutFull.styles";
 import Stepper from "../../layout/Stepper/Stepper";
 
-const CheckoutFull = ({ nameLeft, nameRight }) => {
+const CheckoutFull = () => {
   return (
     <CheckoutContainer component={"main"}>
       <Stepper />

@@ -15,6 +15,7 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import EditIcon from "@mui/icons-material/Edit";
 
 export const Icon = ({ name, color, size }) => {
   const icons = [
@@ -205,8 +206,21 @@ export const Icon = ({ name, color, size }) => {
       name: "Check-Payment",
       img: (
         <SvgIcon
-          aria-label="Ir a la imágen siguiente"
+          aria-label="Pago aprobado"
           component={CheckCircleIcon}
+          sx={{
+            color: color,
+            fontSize: size,
+          }}
+        />
+      ),
+    },
+    {
+      name: "Edit-Data",
+      img: (
+        <SvgIcon
+          aria-label="Editar información"
+          component={EditIcon}
           sx={{
             color: color,
             fontSize: size,
