@@ -85,16 +85,12 @@ export const theme = createTheme({
       A700: "hsl(359,100%,66%)",
     },
   },
-  // typography: {
-  //   button: {
-  //     fontSize: 9,
-  //   },
-  // },
   components: {
     MuiTextField: {
       styleOverrides: {
         root: ({ theme }) => ({
           "& .MuiOutlinedInput-root": {
+            marginBottom: theme.spacing(1.5), //12px
             color: theme.palette.primary[500],
             "& fieldset": {
               borderColor: theme.palette.primary[500],
@@ -118,7 +114,7 @@ export const theme = createTheme({
             borderColor: theme.palette.primary[500],
           },
           "& .MuiOutlinedInput-input": {
-            padding: 0,
+            padding: theme.spacing(0.5), //4px
           },
           "&:hover": {
             borderBottom: "none",

@@ -224,6 +224,7 @@ export const Icon = ({ name, color, size }) => {
           sx={{
             color: color,
             fontSize: size,
+            "&:hover": { cursor: "pointer" },
           }}
         />
       ),
