@@ -10,7 +10,12 @@ import {
 } from "./Billing.styles";
 
 const Billing = () => {
+  let edit = false;
   const theme = useTheme();
+
+  const handleClick = () => {
+    edit = true;
+  };
 
   return (
     <BillingContainer>
@@ -19,11 +24,12 @@ const Billing = () => {
           name="Edit-Data"
           size={30}
           color={theme.palette.primary[500]}
+          onClick={handleClick}
         />
       </TitleContainer>
       <DataContainer>
         <NameInput placeholder="Nombre" />
-        <SurnameInput disabled placeholder="Apellido" />
+        {/* <SurnameInput {edit && disabled} placeholder="Apellido" /> */}
         <AddressInput disabled placeholder="Dirección" />
       </DataContainer>
     </BillingContainer>

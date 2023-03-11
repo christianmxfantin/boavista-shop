@@ -13,8 +13,9 @@ import Cart from "../../checkout/Cart/Cart";
 import Billing from "../../checkout/Billing/Billing";
 import Shipping from "../../checkout/Shipping/Shipping";
 import Confirmation from "../../checkout/Confirmation/Confirmation";
-import Payment from "../../checkout/Payment/Payment";
-import { Icon } from "../../ui/Icon";
+import Payment from "../../checkout/Payment/Payment/Payment";
+
+import PaymentSuccessful from "../../checkout/Payment/PaymentSuccessful/PaymentSuccessful";
 
 const Stepper = () => {
   let stepperComponent;
@@ -56,40 +57,31 @@ const Stepper = () => {
 
   return (
     <>
-      <StepperComponent
-        activeStep={activeStep}
-        connector={<StepConnector />}
-        sx={{ marginBottom: theme.spacing(3) }} //24px
-      >
-        <Step>
-          <StepLabel>Carrito de Compras</StepLabel>
-        </Step>
-        <Step>
-          <StepLabel>Facturación</StepLabel>
-        </Step>
-        <Step>
-          <StepLabel>Envío</StepLabel>
-        </Step>
-        <Step>
-          <StepLabel>Confirmación</StepLabel>
-        </Step>
-        <Step>
-          <StepLabel>Pago</StepLabel>
-        </Step>
-      </StepperComponent>
-
       {activeStep === 5 ? (
-        <>
-          <Icon
-            name="Check-Payment"
-            size={100}
-            color={theme.palette.success[500]}
-          />
-          <p>Su pago ha sido registrado</p>
-          <p>Muchas Gracias por confiar en nosotros</p>
-        </>
+        <PaymentSuccessful />
       ) : (
         <>
+          <StepperComponent
+            activeStep={activeStep}
+            connector={<StepConnector />}
+            sx={{ marginBottom: theme.spacing(3) }} //24px
+          >
+            <Step>
+              <StepLabel>Carrito de Compras</StepLabel>
+            </Step>
+            <Step>
+              <StepLabel>Facturación</StepLabel>
+            </Step>
+            <Step>
+              <StepLabel>Envío</StepLabel>
+            </Step>
+            <Step>
+              <StepLabel>Confirmación</StepLabel>
+            </Step>
+            <Step>
+              <StepLabel>Pago</StepLabel>
+            </Step>
+          </StepperComponent>
           {stepperComponent}
           <CheckoutButtonsContainer>
             <Button

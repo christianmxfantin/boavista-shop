@@ -166,6 +166,12 @@ export const theme = createTheme({
             color: theme.palette.primary[500],
             position: "relative",
           },
+          "& .MuiStepLabel-label.Mui-completed": {
+            color: theme.palette.success[700],
+          },
+          "& .MuiSvgIcon-root.Mui-completed": {
+            color: theme.palette.success[700],
+          },
           "& .MuiStepLabel-label.Mui-active:hover": {
             color: theme.palette.secondary[500],
             cursor: "pointer",
@@ -195,6 +201,13 @@ export const theme = createTheme({
           "& .MuiStepConnector-line": {
             borderColor: theme.palette.primary[500],
           },
+        }),
+      },
+    },
+    MuiSvgIcon: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          //styles
         }),
       },
     },

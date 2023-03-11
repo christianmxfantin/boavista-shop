@@ -6,7 +6,7 @@ export const CartContainer = styled(Box)(({ theme }) => ({
 }));
 
 export const ProductsContainer = styled(Box)(({ theme }) => ({
-  maxHeight: "380px",
+  maxHeight: "350px",
   overflowY: "auto",
   "&::-webkit-scrollbar": {
     width: "thin",
