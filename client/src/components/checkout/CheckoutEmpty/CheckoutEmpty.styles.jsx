@@ -2,8 +2,11 @@ import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export const CheckoutEmptyContainer = styled(Box)(({ theme }) => ({
-  marginTop: theme.spacing(8), //64px,
-  textAlign: "center",
+  height: "85vh",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
 }));
 
 export const CheckoutEmptyTitle = styled(Typography)(({ theme }) => ({

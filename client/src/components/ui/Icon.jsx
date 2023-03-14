@@ -17,7 +17,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import EditIcon from "@mui/icons-material/Edit";
 
-export const Icon = ({ name, color, size }) => {
+export const Icon = ({ name, color, size, onClick }) => {
   const icons = [
     {
       name: "Menu",
@@ -227,6 +227,7 @@ export const Icon = ({ name, color, size }) => {
             fontSize: size,
             "&:hover": { cursor: "pointer" },
           }}
+          onClick={onClick}
         />
       ),
     },
