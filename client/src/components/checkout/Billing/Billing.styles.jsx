@@ -1,4 +1,4 @@
-import { Box, Select, TextField } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export const BillingContainer = styled(Box)(({ theme }) => ({
@@ -31,20 +31,8 @@ export const AddressInput = styled(TextField)(({ theme }) => ({
   //styles
 }));
 
-export const StateSelect = styled(Select)(({ theme }) => ({
-  //styles
-}));
-
-export const CitySelect = styled(Select)(({ theme }) => ({
-  marginTop: theme.spacing(2), //16px
-}));
-
-export const PostalCodeInput = styled(TextField)(({ theme }) => ({
-  marginTop: theme.spacing(2), //16px
-}));
-
 export const MailInput = styled(TextField)(({ theme }) => ({
-  //styles
+  marginTop: theme.spacing(2), //16px
 }));
 
 export const PhoneInput = styled(TextField)(({ theme }) => ({
