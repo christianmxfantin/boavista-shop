@@ -1,10 +1,13 @@
+/** @jsxImportSource @emotion/react */
 import { useState } from "react";
-import { useTheme } from "@emotion/react";
+import { Link } from "react-router-dom";
+import { useTheme, css } from "@emotion/react";
 import {
   Stepper as StepperComponent,
   StepConnector,
   Step,
   StepLabel,
+  Typography,
 } from "@mui/material";
 import { CheckoutButtonsContainer } from "./Stepper.styles";
 import { Button } from "../../ui/Button";
@@ -12,8 +15,8 @@ import { Button } from "../../ui/Button";
 import Cart from "../../checkout/Cart/Cart";
 import Billing from "../../checkout/Billing/Billing";
 import Shipping from "../../checkout/Shipping/Shipping";
-import Confirmation from "../../checkout/Confirmation/Confirmation";
 import Payment from "../../checkout/Payment/Payment/Payment";
+import Confirmation from "../../checkout/Confirmation/Confirmation";
 
 import PaymentSuccessful from "../../checkout/Payment/PaymentSuccessful/PaymentSuccessful";
 
@@ -46,14 +49,18 @@ const Stepper = () => {
       stepperComponent = <Shipping />;
       break;
     case 3:
-      stepperComponent = <Confirmation />;
+      stepperComponent = <Payment />;
       break;
     case 4:
-      stepperComponent = <Payment />;
+      stepperComponent = <Confirmation />;
       break;
     default:
       stepperComponent = <Cart />;
   }
+
+  const LinkStyle = css({
+    display: activeStep === 4 ? "flex" : "none",
+  });
 
   return (
     <>
@@ -76,20 +83,29 @@ const Stepper = () => {
               <StepLabel>Envío</StepLabel>
             </Step>
             <Step>
-              <StepLabel>Confirmación</StepLabel>
+              <StepLabel>Pago</StepLabel>
             </Step>
             <Step>
-              <StepLabel>Pago</StepLabel>
+              <StepLabel>Confirmación</StepLabel>
             </Step>
           </StepperComponent>
           {stepperComponent}
-          <CheckoutButtonsContainer>
+          <CheckoutButtonsContainer
+            sx={{
+              justifyContent:
+                activeStep === 4 ? "space-between" : "space-between",
+            }}
+          >
+            <Link css={LinkStyle} to="/">
+              <Typography variant="subtitle">Cancelar Compra</Typography>
+            </Link>
             <Button
               name={activeStep === 0 ? "Vaciar Carrito" : "Atrás"}
               variant="contained"
               type="primary"
-              disabled={activeStep === 4}
+              // disabled={activeStep === 4}
               onClick={handleLeft}
+              sx={{ display: activeStep === 4 && "none" }}
             />
             <Button
               name={activeStep === 4 ? "Pagar" : "Continuar"}

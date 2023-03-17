@@ -20,12 +20,12 @@ const Shipping = () => {
     <ShippingContainer>
       <RadioGroup sx={{ marginBottom: theme.spacing(2) }}>
         <FormControlLabel
-          value="female"
+          value="sameShippingAddress"
           control={<Radio onChange={handleSameAddress} />}
           label="Utilizar la misma dirección de Facturación"
         />
         <FormControlLabel
-          value="male"
+          value="newShippingAddress"
           control={<Radio onChange={handleNewAddress} />}
           label="Seleccionar una dirección nueva"
         />

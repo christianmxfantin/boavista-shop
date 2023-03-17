@@ -11,7 +11,6 @@ import {
   MailInput,
   PhoneInput,
 } from "./Billing.styles";
-
 import AddressSearch from "../AddressSearch/AddressSearch";
 
 const Billing = () => {
