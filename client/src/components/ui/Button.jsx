@@ -6,7 +6,7 @@ export const Button = ({ name, variant, type, sx, disabled, onClick }) => {
 
   const buttonStyles = [
     {
-      name: "primary",
+      type: "primary",
       styles: {
         color: theme.palette.secondary.A100,
         backgroundColor: theme.palette.primary[500],
@@ -16,9 +16,20 @@ export const Button = ({ name, variant, type, sx, disabled, onClick }) => {
         },
       },
     },
+    {
+      type: "secondary",
+      styles: {
+        color: theme.palette.primary[500],
+        // backgroundColor: theme.palette.primary[500],
+        "&:hover": {
+          // backgroundColor: theme.palette.secondary[500],
+          // color: theme.palette.primary[500],
+        },
+      },
+    },
   ];
 
-  let style = buttonStyles.find((style) => style.name === type);
+  let style = buttonStyles.find((style) => style.type === type);
 
   return (
     <ButtonComponent

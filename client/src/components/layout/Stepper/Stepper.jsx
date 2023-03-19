@@ -1,7 +1,5 @@
-/** @jsxImportSource @emotion/react */
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { useTheme, css } from "@emotion/react";
+import { useTheme } from "@emotion/react";
 import {
   Stepper as StepperComponent,
   StepConnector,
@@ -25,21 +23,29 @@ const Stepper = () => {
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
 
+  const handleCleanCart = () => {
+    //Vaciar Carrito
+    console.log("Vaciar Carrito");
+  };
+
   const handleLeft = () => {
-    if (activeStep > 0) {
-      setActiveStep((prevActiveStep) => prevActiveStep - 1);
-      console.log(activeStep);
-    }
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
   const handleRight = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    console.log(activeStep);
   };
 
-  // const handleReset = () => {
-  //   setActiveStep(1);
-  // };
+  const handleCancelPurchase = () => {
+    //Cancelar Compra
+    console.log("Cancelar Compra");
+  };
+
+  const handlePayment = () => {
+    //Pagar
+    console.log("Pagar");
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
 
   switch (activeStep) {
     case 1:
@@ -57,10 +63,6 @@ const Stepper = () => {
     default:
       stepperComponent = <Cart />;
   }
-
-  const LinkStyle = css({
-    display: activeStep === 4 ? "flex" : "none",
-  });
 
   return (
     <>
@@ -92,26 +94,32 @@ const Stepper = () => {
           {stepperComponent}
           <CheckoutButtonsContainer
             sx={{
-              justifyContent:
-                activeStep === 4 ? "space-between" : "space-between",
+              justifyContent: activeStep !== 4 ? "space-between" : "flex-end",
             }}
           >
-            <Link css={LinkStyle} to="/">
-              <Typography variant="subtitle">Cancelar Compra</Typography>
-            </Link>
             <Button
-              name={activeStep === 0 ? "Vaciar Carrito" : "Atrás"}
-              variant="contained"
-              type="primary"
-              // disabled={activeStep === 4}
-              onClick={handleLeft}
-              sx={{ display: activeStep === 4 && "none" }}
+              name={
+                activeStep === 0
+                  ? "Vaciar Carrito"
+                  : activeStep === 4
+                  ? "Cancelar Compra"
+                  : "Atrás"
+              }
+              variant={activeStep !== 4 && "contained"}
+              type={activeStep !== 4 ? "primary" : "secondary"}
+              onClick={
+                activeStep === 0
+                  ? handleCleanCart
+                  : activeStep === 4
+                  ? handleCancelPurchase
+                  : handleLeft
+              }
             />
             <Button
               name={activeStep === 4 ? "Pagar" : "Continuar"}
               variant="contained"
               type="primary"
-              onClick={handleRight}
+              onClick={activeStep === 4 ? handlePayment : handleRight}
             />
           </CheckoutButtonsContainer>
         </>
