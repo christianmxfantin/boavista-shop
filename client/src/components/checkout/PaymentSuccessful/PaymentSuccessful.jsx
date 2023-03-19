@@ -1,5 +1,5 @@
 import { useTheme } from "@emotion/react";
-import { Icon } from "../../../ui/Icon";
+import { Icon } from "../../ui/Icon";
 import {
   PaymentSuccessfulContainer,
   PaymentData,

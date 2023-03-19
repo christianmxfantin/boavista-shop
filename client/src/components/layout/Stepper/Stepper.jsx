@@ -5,18 +5,15 @@ import {
   StepConnector,
   Step,
   StepLabel,
-  Typography,
 } from "@mui/material";
 import { CheckoutButtonsContainer } from "./Stepper.styles";
 import { Button } from "../../ui/Button";
 
 import Cart from "../../checkout/Cart/Cart";
 import Billing from "../../checkout/Billing/Billing";
-import Shipping from "../../checkout/Shipping/Shipping";
-import Payment from "../../checkout/Payment/Payment/Payment";
-import Confirmation from "../../checkout/Confirmation/Confirmation";
-
-import PaymentSuccessful from "../../checkout/Payment/PaymentSuccessful/PaymentSuccessful";
+import ShippingPayment from "../../checkout/ShippingPayment/ShippingPayment";
+import Confirmation from "../../checkout/Confirmation/Confirmation/Confirmation";
+import PaymentSuccessful from "../../checkout/PaymentSuccessful/PaymentSuccessful";
 
 const Stepper = () => {
   let stepperComponent;
@@ -52,10 +49,10 @@ const Stepper = () => {
       stepperComponent = <Billing />;
       break;
     case 2:
-      stepperComponent = <Shipping />;
+      stepperComponent = <ShippingPayment data="shipping" />;
       break;
     case 3:
-      stepperComponent = <Payment />;
+      stepperComponent = <ShippingPayment data="payment" />;
       break;
     case 4:
       stepperComponent = <Confirmation />;

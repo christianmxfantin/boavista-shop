@@ -1,25 +1,35 @@
 import { useTheme } from "@emotion/react";
 import {
   ConfirmationDataContainer,
-  DataInfo,
+  DataTitleContainer,
+  DataTitle,
   DataEdit,
+  DataInfoContainer,
 } from "./ConfirmationData.styles";
 import { Icon as EditIcon } from "../../../ui/Icon";
 
-const ConfirmationData = ({ data }) => {
+const ConfirmationData = ({ type, data }) => {
   const theme = useTheme();
+
+  const handleEdit = () => {
+    //Editar Información
+    console.log("Editar Información");
+  };
 
   return (
     <ConfirmationDataContainer>
-      <DataInfo>{data}</DataInfo>
-      <DataEdit>
-        <EditIcon
-          name="Edit-Data"
-          size={30}
-          color={theme.palette.primary[500]}
-          //   onClick={handleEdit}
-        />
-      </DataEdit>
+      <DataTitleContainer>
+        <DataTitle variant="h6">{type}</DataTitle>
+        <DataEdit>
+          <EditIcon
+            name="Edit-Data"
+            size={30}
+            color={theme.palette.primary[500]}
+            onClick={handleEdit}
+          />
+        </DataEdit>
+      </DataTitleContainer>
+      <DataInfoContainer>{data}</DataInfoContainer>
     </ConfirmationDataContainer>
   );
 };

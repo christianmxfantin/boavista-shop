@@ -1,10 +1,16 @@
 import { useState } from "react";
 import { RadioGroup, FormControlLabel, Radio } from "@mui/material";
 import { useTheme } from "@emotion/react";
-import { ShippingContainer, Comments } from "./Shipping.styles";
+import {
+  ShippingPaymentContainer,
+  ShippingData,
+  Comments,
+  PaymentData,
+  PaymentDetails,
+} from "./ShippingPayment.styles";
 import AddressSearch from "../AddressSearch/AddressSearch";
 
-const Shipping = () => {
+const ShippingPayment = ({ data }) => {
   const theme = useTheme();
   const [visible, setVisible] = useState(false);
 
@@ -17,7 +23,7 @@ const Shipping = () => {
   };
 
   return (
-    <ShippingContainer>
+    <ShippingPaymentContainer>
       <RadioGroup sx={{ marginBottom: theme.spacing(2) }}>
         <FormControlLabel
           value="sameShippingAddress"
@@ -30,17 +36,24 @@ const Shipping = () => {
           label="Seleccionar una dirección nueva"
         />
       </RadioGroup>
-      <AddressSearch visible={visible} />
-      <Comments
-        multiline
-        maxRows={4}
-        placeholder="Observaciones"
-        sx={{ visibility: visible ? "visible" : "hidden" }}
+      <ShippingData
+        sx={{ visible: data === "shipping" ? "visible" : "hidden" }}
       >
-        Observaciones
-      </Comments>
-    </ShippingContainer>
+        <AddressSearch visible={visible} />
+        <Comments
+          multiline
+          maxRows={4}
+          placeholder="Observaciones"
+          sx={{ visibility: visible ? "visible" : "hidden" }}
+        >
+          Observaciones
+        </Comments>
+      </ShippingData>
+      <PaymentData sx={{ visible: data === "payment" ? "visible" : "hidden" }}>
+        <PaymentDetails></PaymentDetails>
+      </PaymentData>
+    </ShippingPaymentContainer>
   );
 };
 
-export default Shipping;
+export default ShippingPayment;
