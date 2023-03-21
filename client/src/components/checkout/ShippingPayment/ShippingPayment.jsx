@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { RadioGroup, FormControlLabel, Radio } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import {
@@ -6,52 +6,112 @@ import {
   ShippingData,
   Comments,
   PaymentData,
-  PaymentDetails,
+  PaymentDetailsOtherCard,
+  PaymentDetailsNewCard,
 } from "./ShippingPayment.styles";
 import AddressSearch from "../AddressSearch/AddressSearch";
 
 const ShippingPayment = ({ data }) => {
   const theme = useTheme();
-  const [visible, setVisible] = useState(false);
+  const [visibleShipping, setVisibleShipping] = useState(false);
+  const [visiblePayment, setVisiblePayment] = useState(false);
+  const [value, setValue] = useState(null);
+
+  useEffect(() => {
+    setValue(null);
+    setVisibleShipping(false);
+    setVisiblePayment(false);
+  }, [data]);
+
+  const handleChange = (e) => {
+    setValue(e.target.value);
+  };
 
   const handleSameAddress = () => {
-    setVisible(false);
+    setVisibleShipping(false);
   };
 
   const handleNewAddress = () => {
-    setVisible(true);
+    setVisibleShipping(true);
+  };
+
+  const handleOtherCard = () => {
+    setVisiblePayment("myCards");
+  };
+
+  const handleNewCard = () => {
+    setVisiblePayment("newCard");
   };
 
   return (
     <ShippingPaymentContainer>
-      <RadioGroup sx={{ marginBottom: theme.spacing(2) }}>
+      <RadioGroup
+        value={value}
+        onClick={handleChange}
+        sx={{
+          marginBottom: theme.spacing(2),
+          color: theme.palette.primary[500],
+        }}
+      >
         <FormControlLabel
           value="sameShippingAddress"
-          control={<Radio onChange={handleSameAddress} />}
-          label="Utilizar la misma dirección de Facturación"
+          control={
+            <Radio
+              onChange={
+                data === "shipping" ? handleSameAddress : handleOtherCard
+              }
+            />
+          }
+          label={
+            data === "shipping"
+              ? "Utilizar la misma dirección de Facturación"
+              : "Mis tarjetas"
+          }
         />
         <FormControlLabel
           value="newShippingAddress"
-          control={<Radio onChange={handleNewAddress} />}
-          label="Seleccionar una dirección nueva"
+          control={
+            <Radio
+              onChange={data === "shipping" ? handleNewAddress : handleNewCard}
+            />
+          }
+          label={
+            data === "shipping"
+              ? "Seleccionar una dirección nueva"
+              : "Nueva tarjeta de débito o crédito"
+          }
         />
       </RadioGroup>
-      <ShippingData
-        sx={{ visible: data === "shipping" ? "visible" : "hidden" }}
-      >
-        <AddressSearch visible={visible} />
-        <Comments
-          multiline
-          maxRows={4}
-          placeholder="Observaciones"
-          sx={{ visibility: visible ? "visible" : "hidden" }}
-        >
-          Observaciones
-        </Comments>
-      </ShippingData>
-      <PaymentData sx={{ visible: data === "payment" ? "visible" : "hidden" }}>
-        <PaymentDetails></PaymentDetails>
-      </PaymentData>
+      {data === "shipping" ? (
+        <ShippingData>
+          <AddressSearch visible={visibleShipping} />
+          <Comments
+            multiline
+            maxRows={4}
+            placeholder="Observaciones"
+            sx={{ visibility: visibleShipping ? "visible" : "hidden" }}
+          >
+            Observaciones
+          </Comments>
+        </ShippingData>
+      ) : (
+        <PaymentData>
+          <PaymentDetailsOtherCard
+            sx={{
+              visibility: visiblePayment === "myCards" ? "visible" : "hidden",
+            }}
+          >
+            Mis tarjetas
+          </PaymentDetailsOtherCard>
+          <PaymentDetailsNewCard
+            sx={{
+              visibility: visiblePayment === "newCard" ? "visible" : "hidden",
+            }}
+          >
+            Nueva Tarjeta
+          </PaymentDetailsNewCard>
+        </PaymentData>
+      )}
     </ShippingPaymentContainer>
   );
 };

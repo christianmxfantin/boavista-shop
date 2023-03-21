@@ -1,4 +1,4 @@
-import { Box, FormControl, TextField } from "@mui/material";
+import { Box, FormControl, TextField, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export const ShippingPaymentContainer = styled(FormControl)(({ theme }) => ({
@@ -19,6 +19,10 @@ export const PaymentData = styled(Box)(({ theme }) => ({
   //styles
 }));
 
-export const PaymentDetails = styled(TextField)(({ theme }) => ({
+export const PaymentDetailsOtherCard = styled(Typography)(({ theme }) => ({
+  //styles
+}));
+
+export const PaymentDetailsNewCard = styled(Typography)(({ theme }) => ({
   //styles
 }));
