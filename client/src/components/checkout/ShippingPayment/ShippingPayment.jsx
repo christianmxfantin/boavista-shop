@@ -10,6 +10,7 @@ import {
   PaymentDetailsNewCard,
 } from "./ShippingPayment.styles";
 import AddressSearch from "../AddressSearch/AddressSearch";
+import PaymentDetails from "../Payment/PaymentDetails/PaymentDetails";
 
 const ShippingPayment = ({ data }) => {
   const theme = useTheme();
@@ -95,22 +96,7 @@ const ShippingPayment = ({ data }) => {
           </Comments>
         </ShippingData>
       ) : (
-        <PaymentData>
-          <PaymentDetailsOtherCard
-            sx={{
-              visibility: visiblePayment === "myCards" ? "visible" : "hidden",
-            }}
-          >
-            Mis tarjetas
-          </PaymentDetailsOtherCard>
-          <PaymentDetailsNewCard
-            sx={{
-              visibility: visiblePayment === "newCard" ? "visible" : "hidden",
-            }}
-          >
-            Nueva Tarjeta
-          </PaymentDetailsNewCard>
-        </PaymentData>
+        <PaymentDetails data={visiblePayment} />
       )}
     </ShippingPaymentContainer>
   );

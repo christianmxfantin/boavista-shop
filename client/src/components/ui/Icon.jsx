@@ -16,6 +16,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import EditIcon from "@mui/icons-material/Edit";
+import CreditCardIcon from "@mui/icons-material/CreditCard";
 
 export const Icon = ({ name, color, size, onClick }) => {
   const icons = [
@@ -228,6 +229,19 @@ export const Icon = ({ name, color, size, onClick }) => {
             "&:hover": { cursor: "pointer" },
           }}
           onClick={onClick}
+        />
+      ),
+    },
+    {
+      name: "Credit-Card",
+      img: (
+        <SvgIcon
+          aria-label="Logo de Tarjeta de Débito o Crédito"
+          component={CreditCardIcon}
+          sx={{
+            color: color,
+            fontSize: size,
+          }}
         />
       ),
     },

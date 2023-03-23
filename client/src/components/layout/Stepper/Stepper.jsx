@@ -13,7 +13,7 @@ import Cart from "../../checkout/Cart/Cart";
 import Billing from "../../checkout/Billing/Billing";
 import ShippingPayment from "../../checkout/ShippingPayment/ShippingPayment";
 import Confirmation from "../../checkout/Confirmation/Confirmation/Confirmation";
-import PaymentSuccessful from "../../checkout/PaymentSuccessful/PaymentSuccessful";
+import PaymentSuccessful from "../../checkout/Payment/PaymentSuccessful/PaymentSuccessful";
 
 const Stepper = () => {
   let stepperComponent;
