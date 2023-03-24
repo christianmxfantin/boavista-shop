@@ -10,6 +10,9 @@ export const PageNotFoundContainer = styled(Box)(({ theme }) => ({
 }));
 
 export const ImageTitle = styled(Typography)(({ theme }) => ({
+  padding: theme.spacing(1), //8px
+  borderRadius: theme.spacing(1), //8px
+  backgroundColor: theme.palette.primary[200],
   marginTop: theme.spacing(4), //32px,
-  color: theme.palette.primary[500],
+  color: theme.palette.secondary.A100,
 }));

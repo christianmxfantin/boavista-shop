@@ -46,22 +46,17 @@ const Login = () => {
       <ButtonsContainer component={"section"}>
         <Button
           name="Continuar"
-          variant="contained"
+          type="primary"
           sx={{
             width: "376px",
             marginBottom: theme.spacing(1), //8px
-            "&:hover": {
-              color: theme.palette.secondary[500],
-            },
           }}
         />
         <Button
           name="Crear Cuenta"
+          type="secondary"
           sx={{
             width: "376px",
-            "&:hover": {
-              backgroundColor: theme.palette.secondary[500],
-            },
           }}
         />
       </ButtonsContainer>

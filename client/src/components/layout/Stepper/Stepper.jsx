@@ -104,6 +104,7 @@ const Stepper = () => {
               }
               variant={activeStep !== 4 && "contained"}
               type={activeStep !== 4 ? "primary" : "secondary"}
+              sx={{ marginRight: activeStep === 4 && "8px" }}
               onClick={
                 activeStep === 0
                   ? handleCleanCart

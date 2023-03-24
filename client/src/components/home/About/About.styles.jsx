@@ -19,7 +19,7 @@ export const AboutTitle = styled(Typography)(({ theme }) => ({
   color: theme.palette.primary[500],
 }));
 
-export const AboutInfo = styled(Typography)(({ theme }) => ({
+export const AboutInfoContainer = styled(Typography)(({ theme }) => ({
   marginTop: theme.spacing(2.5), //20px
   textAlign: "justify",
   color: theme.palette.primary[500],

@@ -3,4 +3,5 @@ import { styled } from "@mui/material/styles";
 
 export const CheckoutButtonsContainer = styled(Box)(({ theme }) => ({
   display: "flex",
+  marginTop: "auto",
 }));

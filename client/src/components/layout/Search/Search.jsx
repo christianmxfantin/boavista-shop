@@ -29,7 +29,7 @@ const Search = () => {
           <SearchIcon name="Search" size={22} />
         </SearchIconWrapper>
         <StyledInputBase
-          placeholder="Buscar productos…"
+          placeholder="Buscar"
           onKeyDown={handleKeyDown}
           onChange={(e) => (q = e.target.value)}
         />

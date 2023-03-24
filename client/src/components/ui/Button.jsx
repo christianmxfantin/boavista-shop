@@ -1,4 +1,5 @@
-import { useTheme } from "@emotion/react";
+import { useTheme, merge } from "@emotion/react";
+// import { merge } from "@mui/styles";
 import { Button as ButtonComponent } from "@mui/material";
 
 export const Button = ({ name, variant, type, sx, disabled, onClick }) => {
@@ -20,10 +21,9 @@ export const Button = ({ name, variant, type, sx, disabled, onClick }) => {
       type: "secondary",
       styles: {
         color: theme.palette.primary[500],
-        // backgroundColor: theme.palette.primary[500],
         "&:hover": {
-          // backgroundColor: theme.palette.secondary[500],
-          // color: theme.palette.primary[500],
+          backgroundColor: theme.palette.secondary[500],
+          color: theme.palette.primary[500],
         },
       },
     },
@@ -34,7 +34,7 @@ export const Button = ({ name, variant, type, sx, disabled, onClick }) => {
   return (
     <ButtonComponent
       variant={variant}
-      sx={!sx ? style.styles : sx}
+      sx={sx ? { ...style.styles, ...sx } : style.styles}
       disabled={disabled}
       onClick={onClick}
     >

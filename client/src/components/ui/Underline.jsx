@@ -6,7 +6,7 @@ const Underline = ({ width, height, color, hover }) => {
       component={"hr"}
       sx={{
         display: "flex",
-        borderRadius: "20%",
+        borderRadius: "50%",
         width: `${width}px`,
         height: `${height}px`,
         backgroundColor: `${color}`,
