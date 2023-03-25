@@ -138,7 +138,7 @@ const Navbar = ({ login }) => {
               <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
             ) : (
               <Link css={LoginLink} to="/login">
-                <Typography variant="h6">LOGIN</Typography>
+                <Typography variant="h6">INGRESA</Typography>
               </Link>
             )}
           </>

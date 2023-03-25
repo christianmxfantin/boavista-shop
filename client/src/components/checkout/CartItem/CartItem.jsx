@@ -45,11 +45,7 @@ const CartItem = ({ data, color }) => {
       </CartItemData>
       <CartItemButtons>
         <NumericInput type="center" />
-        <Icon
-          name="Delete-Product"
-          size={50}
-          color={theme.palette.error[500]}
-        />
+        <Icon name="Delete-Data" size={50} color={theme.palette.error[500]} />
       </CartItemButtons>
     </CartItemContainer>
   );

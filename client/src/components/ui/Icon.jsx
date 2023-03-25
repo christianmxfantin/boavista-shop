@@ -190,7 +190,7 @@ export const Icon = ({ name, color, size, onClick }) => {
       ),
     },
     {
-      name: "Delete-Product",
+      name: "Delete-Data",
       img: (
         <SvgIcon
           aria-label="Borrar producto"
