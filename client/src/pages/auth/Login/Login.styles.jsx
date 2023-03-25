@@ -47,7 +47,7 @@ export const EmailLogin = styled(Box)(() => ({
 
 export const EmailInput = styled(TextField)(({ theme }) => ({
   width: "376px",
-  marginBottom: theme.spacing(4), //32px
+  marginBottom: theme.spacing(2), //16px
 }));
 
 export const PasswordInput = styled(TextField)(({ theme }) => ({

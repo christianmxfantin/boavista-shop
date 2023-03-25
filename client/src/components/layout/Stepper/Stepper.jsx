@@ -103,7 +103,7 @@ const Stepper = () => {
                   : "Atrás"
               }
               variant={activeStep !== 4 && "contained"}
-              type={activeStep !== 4 ? "primary" : "secondary"}
+              buttonStyle={activeStep !== 4 ? "primary" : "secondary"}
               sx={{ marginRight: activeStep === 4 && "8px" }}
               onClick={
                 activeStep === 0
@@ -116,7 +116,7 @@ const Stepper = () => {
             <Button
               name={activeStep === 4 ? "Pagar" : "Continuar"}
               variant="contained"
-              type="primary"
+              buttonStyle="primary"
               onClick={activeStep === 4 ? handlePayment : handleRight}
             />
           </CheckoutButtonsContainer>

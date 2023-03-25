@@ -1,30 +1,37 @@
+import { useState } from "react";
 import { InputAdornment } from "@mui/material";
 import {
   ProductPriceCard,
   ProductPriceTitle,
   ProductPriceContainer,
-  ProductPriceInput,
+  ProductMinPrice,
+  ProductMaxPrice,
 } from "./ProductPrice.styles";
 
 const ProductPrice = () => {
+  // const [value, setValue] = useState(0);
+
+  // const handleChange = (event) => {
+  //   setValue(parseFloat(event.target.value));
+  // };
+
   return (
     <ProductPriceCard>
       <ProductPriceTitle>Precio</ProductPriceTitle>
       <ProductPriceContainer>
-        <ProductPriceInput
+        <ProductMinPrice
+          type="number"
           variant="outlined"
           placeholder="Mínimo"
+          step="0.01"
+          // value={value}
+          // onChange={handleChange}
           InputProps={{
             startAdornment: <InputAdornment position="start">$</InputAdornment>,
           }}
-          sx={{
-            mr: 2,
-            "& .MuiOutlinedInput-input": {
-              p: 1, //8px
-            },
-          }} //16px
         />
-        <ProductPriceInput
+        <ProductMaxPrice
+          type="number"
           variant="outlined"
           placeholder="Máximo"
           InputProps={{
