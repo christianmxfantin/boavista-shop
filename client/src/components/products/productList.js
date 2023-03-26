@@ -1,3 +1,14 @@
+export const users = [
+  {
+    id: 1,
+    name: "El Mencho Medina Bello",
+  },
+  {
+    id: 2,
+    name: "Josemir Lukaku",
+  },
+];
+
 export const products = [
   { id: 1, name: "Lapicera Bic x 24 unidades", price: 500 },
   { id: 2, name: "Marcador Schneider Trazo fino x 6 unidades", price: 400 },

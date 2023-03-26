@@ -8,21 +8,19 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-export const ProductsListContainer = styled(Box)(({ theme }) => ({
+export const DashboardTableContainer = styled(Box)(({ theme }) => ({
   maxHeight: "400px",
   overflowY: "auto",
 }));
 
-export const ProductsListTable = styled(Table)(({ theme }) => ({
-  // minWidth: 700,
+export const TableList = styled(Table)(({ theme }) => ({
   borderRadius: theme.spacing(1.5), //12px
-  // backgroundColor: theme.palette.primary[100],
 }));
 
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
+    backgroundColor: theme.palette.primary[500],
+    color: theme.palette.secondary.A100,
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,

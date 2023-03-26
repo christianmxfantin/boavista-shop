@@ -1,60 +1,67 @@
 import { useTheme } from "@emotion/react";
 import {
-  Icon as EditIcon,
-  Icon as DeleteIcon,
-} from "../../../components/ui/Icon";
-import {
-  ProductsListContainer,
-  ProductsListTable,
+  DashboardTableContainer,
   IconsContainer,
   StyledTableCell,
   StyledTableRow,
-  TableNameContainer,
+  TableList,
   TableName,
-} from "./ProductsList.styles";
+  TableNameContainer,
+} from "./DashboardTable.styles";
+import {
+  Icon as EditIcon,
+  Icon as DeleteIcon,
+} from "../../../components/ui/Icon";
 import { Avatar, TableBody, TableHead, TableRow } from "@mui/material";
+import { products, users } from "../../../components/products/productList";
 import AvatarImage from "../../../images/product.jpg";
-import { products } from "../../../components/products/productList";
 
-const ProductsList = () => {
+const DashboardTable = ({ type }) => {
+  let database;
+  if (type === "users") {
+    database = users;
+  } else {
+    database = products;
+  }
+
   const theme = useTheme();
 
-  const handleEditProduct = () => {
-    console.log("Editar Producto");
+  const handleEdit = () => {
+    console.log("Editar");
   };
 
-  const handleDeleteProduct = () => {
-    console.log("Borrar Producto");
+  const handleDelete = () => {
+    console.log("Borrar");
   };
 
   return (
-    <ProductsListContainer>
-      <ProductsListTable>
+    <DashboardTableContainer>
+      <TableList>
         <TableHead>
           <TableRow>
-            <StyledTableCell>ID</StyledTableCell>
             <StyledTableCell>Nombre</StyledTableCell>
-            <StyledTableCell align="right">Precio</StyledTableCell>
+            {type === "products" && (
+              <StyledTableCell align="right">Precio</StyledTableCell>
+            )}
             <StyledTableCell>Acciones</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {products.map((product) => (
-            <StyledTableRow key={product.id}>
-              <StyledTableCell component="th" scope="row">
-                {product.id}
-              </StyledTableCell>
+          {database.map((data) => (
+            <StyledTableRow key={data.id}>
               <StyledTableCell component="th" scope="row">
                 <TableNameContainer>
                   <Avatar
-                    alt={`Imágen del Producto ID ${product.id}`}
+                    alt={`Imágen del Producto ID ${data.id}`}
                     src={AvatarImage}
                     sx={{ marginRight: theme.spacing(2) }}
                   />
-                  <TableName>{product.name}</TableName>
+                  <TableName>{data.name}</TableName>
                 </TableNameContainer>
               </StyledTableCell>
-              <StyledTableCell align="right">$ {product.price}</StyledTableCell>
+              {type === "products" && (
+                <StyledTableCell align="right">$ {data.price}</StyledTableCell>
+              )}
               <StyledTableCell align="right">
                 <IconsContainer>
                   <EditIcon
@@ -62,22 +69,22 @@ const ProductsList = () => {
                     size={30}
                     color={theme.palette.primary[500]}
                     sx={{ marginRight: theme.spacing(1) }}
-                    onClick={handleEditProduct}
+                    onClick={handleEdit}
                   />
                   <DeleteIcon
                     name="Delete-Data"
                     size={30}
                     color={theme.palette.error[500]}
-                    onClick={handleDeleteProduct}
+                    onClick={handleDelete}
                   />
                 </IconsContainer>
               </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
-      </ProductsListTable>
-    </ProductsListContainer>
+      </TableList>
+    </DashboardTableContainer>
   );
 };
 
-export default ProductsList;
+export default DashboardTable;
