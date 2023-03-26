@@ -4,6 +4,7 @@ import {
   TableCell,
   tableCellClasses,
   TableRow,
+  Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
@@ -35,6 +36,15 @@ export const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:last-child td, &:last-child th": {
     border: 0,
   },
+}));
+
+export const TableNameContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+}));
+
+export const TableName = styled(Typography)(({ theme }) => ({
+  //styles
 }));
 
 export const IconsContainer = styled(Box)(({ theme }) => ({

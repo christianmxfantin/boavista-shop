@@ -9,8 +9,11 @@ import {
   IconsContainer,
   StyledTableCell,
   StyledTableRow,
+  TableNameContainer,
+  TableName,
 } from "./ProductsList.styles";
-import { TableBody, TableHead, TableRow } from "@mui/material";
+import { Avatar, TableBody, TableHead, TableRow } from "@mui/material";
+import AvatarImage from "../../../images/product.jpg";
 import { products } from "../../../components/products/productList";
 
 const ProductsList = () => {
@@ -42,7 +45,14 @@ const ProductsList = () => {
                 {product.id}
               </StyledTableCell>
               <StyledTableCell component="th" scope="row">
-                {product.name}
+                <TableNameContainer>
+                  <Avatar
+                    alt={`Imágen del Producto ID ${product.id}`}
+                    src={AvatarImage}
+                    sx={{ marginRight: theme.spacing(2) }}
+                  />
+                  <TableName>{product.name}</TableName>
+                </TableNameContainer>
               </StyledTableCell>
               <StyledTableCell align="right">$ {product.price}</StyledTableCell>
               <StyledTableCell align="right">

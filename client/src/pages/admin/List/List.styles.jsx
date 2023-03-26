@@ -19,5 +19,5 @@ export const ListTitle = styled(Typography)(({ theme }) => ({
 }));
 
 export const ListData = styled(Box)(({ theme }) => ({
-  width: "50%",
+  width: "100%",
 }));

@@ -1,7 +1,7 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Typography, TextField, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-export const LoginContainer = styled(Box)(({ theme }) => ({
+export const FormAuthContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   justifyContent: "space-between",
@@ -15,12 +15,17 @@ export const LoginContainer = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.primary[50],
 }));
 
-export const LoginTitle = styled(Typography)(() => ({
+export const FormAuthTitle = styled(Typography)(() => ({
   fontWeight: 500,
 }));
 
-export const SocialLogin = styled(Box)(() => ({
+export const FormAuthSocial = styled(Box)(() => ({
   display: "flex",
+  flexDirection: "column",
+}));
+
+export const FormAuthSocialButtons = styled(Box)(({ theme }) => ({
+  marginBottom: theme.spacing(4), //32px
 }));
 
 export const GoogleButton = styled(Button)(({ theme }) => ({
@@ -40,7 +45,21 @@ export const FacebookButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-export const EmailLogin = styled(Box)(() => ({
+export const FormAuthName = styled(Box)(({ theme }) => ({
+  width: "376px",
+  display: "flex",
+  flexDirection: "column",
+}));
+
+export const NameInput = styled(TextField)(({ theme }) => ({
+  marginBottom: theme.spacing(2), //16px
+}));
+
+export const SurnameInput = styled(TextField)(({ theme }) => ({
+  //styles
+}));
+
+export const FormAuthEmail = styled(Box)(() => ({
   display: "flex",
   flexDirection: "column",
 }));
@@ -57,4 +76,11 @@ export const PasswordInput = styled(TextField)(({ theme }) => ({
 export const ButtonsContainer = styled(Box)(() => ({
   display: "flex",
   flexDirection: "column",
+}));
+
+export const ButtonsContainerDashboard = styled(Box)(() => ({
+  display: "flex",
+  flexDirection: "column",
+  height: "350px",
+  justifyContent: "center",
 }));
