@@ -200,6 +200,7 @@ export const Icon = ({ name, color, size, onClick }) => {
             fontSize: size,
             "&:hover": { cursor: "pointer" },
           }}
+          onClick={onClick}
         />
       ),
     },
