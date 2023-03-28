@@ -1,8 +1,8 @@
-import { Box, Modal } from "@mui/material";
+import { Box, Modal, TextField, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export const TableActionsModal = styled(Modal)(({ theme }) => ({
-  //   border: 0,
+  // styles
 }));
 
 export const TableActionsContainer = styled(Box)(({ theme }) => ({
@@ -17,4 +17,53 @@ export const TableActionsContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
+}));
+
+export const TableActionsTitle = styled(Typography)(({ theme }) => ({
+  marginBottom: theme.spacing(5),
+  borderRadius: theme.spacing(1),
+  display: "flex",
+  justifyContent: "center",
+  color: theme.palette.secondary.A100,
+  // fontWeight: 500,
+}));
+
+export const TableEditContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  marginBottom: theme.spacing(8),
+}));
+
+export const TableImage = styled(Box)(({ theme }) => ({
+  width: "150px",
+  height: "150px",
+  backgroundColor: theme.palette.primary[300],
+  color: theme.palette.secondary.A100,
+  borderRadius: theme.spacing(1),
+  marginRight: theme.spacing(3),
+}));
+
+export const TableInputContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+}));
+
+export const TableNameInput = styled(TextField)(({ theme }) => ({
+  padding: "8px",
+}));
+
+export const TablePriceInput = styled(TextField)(({ theme }) => ({
+  padding: "8px",
+}));
+
+export const TableButtonsContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+}));
+
+export const TableDeleteContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  marginBottom: theme.spacing(8),
+}));
+
+export const TableDeleteParagraph = styled(Typography)(({ theme }) => ({
+  display: "flex",
 }));

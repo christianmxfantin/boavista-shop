@@ -34,6 +34,28 @@ export const Button = ({
         },
       },
     },
+    {
+      type: "success",
+      styles: {
+        backgroundColor: theme.palette.success[500],
+        color: theme.palette.secondary.A100,
+        "&:hover": {
+          backgroundColor: theme.palette.success[300],
+          color: theme.palette.success[700],
+        },
+      },
+    },
+    {
+      type: "error",
+      styles: {
+        backgroundColor: theme.palette.error[500],
+        color: theme.palette.secondary.A100,
+        "&:hover": {
+          backgroundColor: theme.palette.error[300],
+          color: theme.palette.error[700],
+        },
+      },
+    },
   ];
 
   let style = buttonStyles.find((style) => style.type === buttonStyle);

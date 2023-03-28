@@ -29,13 +29,18 @@ const DashboardTable = ({ type }) => {
   const theme = useTheme();
   const [showModal, setShowModal] = useState(false);
   const [actionType, setActionType] = useState(null);
+  const [selectedName, setSelectedName] = useState("");
+  const [selectedPrice, setSelectedPrice] = useState("");
 
-  const handleEdit = () => {
+  const handleEdit = (name, price) => {
+    setSelectedName(name);
+    setSelectedPrice(price);
     setShowModal(true);
     setActionType("edit");
   };
 
-  const handleDelete = () => {
+  const handleDelete = (name) => {
+    setSelectedName(name);
     setShowModal(true);
     setActionType("delete");
   };
@@ -73,25 +78,21 @@ const DashboardTable = ({ type }) => {
                 )}
                 <StyledTableCell align="right">
                   <IconsContainer>
-                    <div>
-                      <EditIcon
-                        name="Edit-Data"
-                        size={30}
-                        color={theme.palette.primary[500]}
-                        sx={{ marginRight: theme.spacing(1) }}
-                        actionType="edit"
-                        onClick={handleEdit}
-                      />
-                    </div>
-                    <div>
-                      <DeleteIcon
-                        name="Delete-Data"
-                        size={30}
-                        color={theme.palette.error[500]}
-                        actionType="delete"
-                        onClick={handleDelete}
-                      />
-                    </div>
+                    <EditIcon
+                      name="Edit-Data"
+                      size={30}
+                      color={theme.palette.primary[500]}
+                      sx={{ marginRight: theme.spacing(1) }}
+                      actionType="edit"
+                      onClick={() => handleEdit(data.name, data.price)}
+                    />
+                    <DeleteIcon
+                      name="Delete-Data"
+                      size={30}
+                      color={theme.palette.error[500]}
+                      actionType="delete"
+                      onClick={() => handleDelete(data.name)}
+                    />
                   </IconsContainer>
                 </StyledTableCell>
               </StyledTableRow>
@@ -104,6 +105,11 @@ const DashboardTable = ({ type }) => {
         showModal={showModal}
         setShowModal={setShowModal}
         actionType={actionType}
+        data={database}
+        selectedName={selectedName}
+        setSelectedName={setSelectedName}
+        selectedPrice={selectedPrice}
+        setSelectedPrice={setSelectedPrice}
       />
     </>
   );
