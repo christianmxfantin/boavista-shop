@@ -8,13 +8,11 @@ export const BillingContainer = styled(Box)(({ theme }) => ({
 }));
 
 export const TitleContainer = styled(Box)(({ theme }) => ({
-  width: "30%",
   display: "flex",
   flexDirection: "row-reverse",
 }));
 
 export const DataContainer = styled(Box)(({ theme }) => ({
-  width: "30%",
   display: "flex",
   flexDirection: "column",
 }));

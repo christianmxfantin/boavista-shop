@@ -5,19 +5,17 @@ import { Checkbox, FormControlLabel } from "@mui/material";
 import { Button } from "../../ui/Button";
 import { Icon } from "../../ui/Icon";
 import Underline from "../../ui/Underline";
+import LoginData from "../LoginData/LoginData";
 import {
   ButtonsContainer,
-  EmailInput,
   FacebookButton,
   FormAuthContainer,
-  FormAuthEmail,
   FormAuthName,
   FormAuthSocial,
   FormAuthSocialButtons,
   FormAuthTitle,
   GoogleButton,
   NameInput,
-  PasswordInput,
   SurnameInput,
 } from "./FormAuth.styles";
 
@@ -146,26 +144,7 @@ const FormAuth = ({ data }) => {
             />
           </FormAuthName>
         )}
-        {data !== "dashboard" && (
-          <FormAuthEmail component={"section"}>
-            <EmailInput
-              name="email"
-              type="email"
-              variant="outlined"
-              size="small"
-              placeholder="Ingresa tu Email"
-              required
-            />
-            <PasswordInput
-              name="password"
-              type="password"
-              variant="outlined"
-              size="small"
-              placeholder="Ingresa tu Contraseña"
-              required
-            />
-          </FormAuthEmail>
-        )}
+        {data !== "dashboard" && <LoginData />}
         {data === "register" && (
           <FormControlLabel
             control={<Checkbox required />}

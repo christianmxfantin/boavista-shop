@@ -2,7 +2,7 @@ import { Box, List, Select, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export const PaymentDetailsContainer = styled(Box)(({ theme }) => ({
-  width: "25%",
+  //styles
 }));
 
 export const MyCardsList = styled(List)(({ theme }) => ({

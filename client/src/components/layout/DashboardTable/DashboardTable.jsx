@@ -105,7 +105,6 @@ const DashboardTable = ({ type }) => {
         showModal={showModal}
         setShowModal={setShowModal}
         actionType={actionType}
-        data={database}
         selectedName={selectedName}
         setSelectedName={setSelectedName}
         selectedPrice={selectedPrice}

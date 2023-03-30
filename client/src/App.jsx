@@ -82,28 +82,7 @@ const App = () => {
                   <Dashboard />
                 </>
               }
-            >
-              {/* <Route
-                exact
-                path="/users"
-                element={
-                  <>
-                    <Navbar login={false} />
-                    <List />
-                  </>
-                }
-              />
-              <Route
-                exact
-                path="/products"
-                element={
-                  <>
-                    <Navbar login={false} />
-                    <List />
-                  </>
-                }
-              /> */}
-            </Route>
+            ></Route>
           </Route>
           <Route exact path="/profile" element={<PrivateRoute />}>
             <Route

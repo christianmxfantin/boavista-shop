@@ -1,5 +1,4 @@
 import {
-  List,
   ListItem,
   ListItemButton,
   ListItemIcon,
@@ -28,9 +27,14 @@ const myCards = [
   },
 ];
 
-const PaymentDetails = ({ data }) => {
+const PaymentDetails = ({ data, profile }) => {
   return (
-    <PaymentDetailsContainer sx={{ visibility: data ? "visible" : "hidden" }}>
+    <PaymentDetailsContainer
+      sx={{
+        width: !profile ? "25" : "inherit",
+        visibility: data ? "visible" : "hidden",
+      }}
+    >
       {data === "myCards" ? (
         <MyCardsList>
           {myCards.map((card) => (

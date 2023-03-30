@@ -13,28 +13,34 @@ import {
 } from "./Billing.styles";
 import AddressSearch from "../AddressSearch/AddressSearch";
 
-const Billing = () => {
+const Billing = ({ profile }) => {
   const theme = useTheme();
   const nameInput = useRef();
   const [edit, setEdit] = useState(false);
 
   const handleEdit = () => {
     setEdit(true);
-    // console.log(nameInput);
     nameInput.current.focus();
   };
 
   return (
     <BillingContainer>
-      <TitleContainer sx={{ visibility: edit ? "hidden" : "visible" }}>
-        <EditIcon
-          name="Edit-Data"
-          size={30}
-          color={theme.palette.primary[500]}
-          onClick={handleEdit}
-        />
-      </TitleContainer>
-      <DataContainer>
+      {!profile && (
+        <TitleContainer
+          sx={{
+            visibility: edit ? "hidden" : "visible",
+          }}
+        >
+          <EditIcon
+            name="Edit-Data"
+            size={30}
+            color={theme.palette.primary[500]}
+            onClick={handleEdit}
+          />
+        </TitleContainer>
+      )}
+      <DataContainer sx={{ width: !profile ? "30%" : "70%" }}>
+        {/* {console.log(!profile)} */}
         <NameInput
           disabled={!edit}
           placeholder="Nombres"

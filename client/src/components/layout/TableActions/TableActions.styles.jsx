@@ -61,9 +61,25 @@ export const TableButtonsContainer = styled(Box)(({ theme }) => ({
 
 export const TableDeleteContainer = styled(Box)(({ theme }) => ({
   display: "flex",
-  marginBottom: theme.spacing(8),
+  justifyContent: "center",
+  marginBottom: theme.spacing(6),
 }));
 
 export const TableDeleteParagraph = styled(Typography)(({ theme }) => ({
   display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+}));
+
+export const TableDeleteLine1 = styled(Typography)(({ theme }) => ({
+  //style
+}));
+
+export const TableDeleteLine2 = styled(Typography)(({ theme }) => ({
+  fontWeight: "bold",
+  margin: "8px 0 8px 0",
+}));
+
+export const TableDeleteLine3 = styled(Typography)(({ theme }) => ({
+  //style
 }));

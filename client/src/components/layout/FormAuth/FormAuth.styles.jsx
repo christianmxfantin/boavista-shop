@@ -59,20 +59,6 @@ export const SurnameInput = styled(TextField)(({ theme }) => ({
   //styles
 }));
 
-export const FormAuthEmail = styled(Box)(() => ({
-  display: "flex",
-  flexDirection: "column",
-}));
-
-export const EmailInput = styled(TextField)(({ theme }) => ({
-  width: "376px",
-  marginBottom: theme.spacing(2), //16px
-}));
-
-export const PasswordInput = styled(TextField)(({ theme }) => ({
-  //styles
-}));
-
 export const ButtonsContainer = styled(Box)(() => ({
   display: "flex",
   flexDirection: "column",

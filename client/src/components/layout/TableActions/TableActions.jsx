@@ -1,5 +1,6 @@
 import { useTheme } from "@emotion/react";
 import { Button } from "../../ui/Button";
+import { Button as ButtonText } from "@mui/material";
 import {
   TableActionsModal,
   TableActionsContainer,
@@ -12,10 +13,12 @@ import {
   TableButtonsContainer,
   TableDeleteContainer,
   TableDeleteParagraph,
+  TableDeleteLine1,
+  TableDeleteLine2,
+  TableDeleteLine3,
 } from "./TableActions.styles";
 
 const TableActions = ({
-  data,
   type,
   showModal,
   setShowModal,
@@ -31,7 +34,7 @@ const TableActions = ({
     setShowModal(false);
   };
 
-  const handleSaveButton = () => {
+  const handleConfirmButton = () => {
     setShowModal(false);
   };
 
@@ -43,11 +46,13 @@ const TableActions = ({
           sx={{
             backgroundColor:
               actionType === "edit"
-                ? theme.palette.primary[200]
+                ? theme.palette.primary[300]
                 : theme.palette.error[500],
           }}
         >
-          {actionType === "edit" ? "Editar" : "Advertencia"}
+          {actionType === "edit"
+            ? `Editar ${type === "users" ? "Usuario" : "Producto"}`
+            : "Advertencia"}
         </TableActionsTitle>
         {actionType === "edit" ? (
           <TableEditContainer>
@@ -72,31 +77,38 @@ const TableActions = ({
         ) : (
           <TableDeleteContainer>
             <TableDeleteParagraph>
-              {`Está a punto de borrar ${
-                type === "users"
-                  ? `al Usuario: ${selectedName}`
-                  : `el producto: ${selectedName}`
-              }. Esta acción no se puede deshacer.`}
+              <TableDeleteLine1>{`Está a punto de borrar ${
+                type === "users" ? `al Usuario:` : `el producto:`
+              }`}</TableDeleteLine1>
+              <TableDeleteLine2>{selectedName}</TableDeleteLine2>
+              <TableDeleteLine3>
+                Esta acción no se puede deshacer.
+              </TableDeleteLine3>
             </TableDeleteParagraph>
           </TableDeleteContainer>
         )}
         <TableButtonsContainer component={"section"}>
-          <Button
-            name="Guardar"
-            buttonStyle="success"
+          <ButtonText
+            variant="text"
             sx={{
               width: "376px",
+              color:
+                actionType === "edit"
+                  ? theme.palette.primary[500]
+                  : theme.palette.error[500],
               marginRight: theme.spacing(2),
             }}
-            onClick={handleSaveButton}
-          />
+            onClick={handleCancelButton}
+          >
+            Cancelar
+          </ButtonText>
           <Button
-            name="Cancelar"
-            buttonStyle="error"
+            name={actionType === "edit" ? "Guardar" : "Borrar"}
+            buttonStyle={actionType === "edit" ? "success" : "error"}
             sx={{
               width: "376px",
             }}
-            onClick={handleCancelButton}
+            onClick={handleConfirmButton}
           />
         </TableButtonsContainer>
       </TableActionsContainer>
