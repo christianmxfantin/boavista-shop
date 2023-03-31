@@ -7,6 +7,7 @@ import {
 import {
   PaymentDetailsContainer,
   MyCardsList,
+  ListItemTextContainer,
   PaymentNewCard,
   CardNumber,
   CardDataContainer,
@@ -15,6 +16,7 @@ import {
   CardName,
 } from "./PaymentDetails.styles";
 import { Icon } from "../../../ui/Icon";
+import ActionButtons from "../../../layout/ActionButtons/ActionButtons";
 
 const myCards = [
   {
@@ -43,11 +45,17 @@ const PaymentDetails = ({ data, profile }) => {
                 <ListItemIcon>
                   <Icon name="Credit-Card" />
                 </ListItemIcon>
-                <ListItemText
-                  primary={`${
-                    card.typeCard === "credit" ? "Visa Crédito" : "Visa Débito"
-                  } terminada en ${card.finalNumber}`}
-                />
+                <ListItemTextContainer>
+                  <ListItemText
+                    primary={`${
+                      card.typeCard === "credit"
+                        ? "Visa Crédito"
+                        : "Visa Débito"
+                    } terminada en ${card.finalNumber}`}
+                    // sx={{ marginRight: "100px" }}
+                  />
+                  <ActionButtons />
+                </ListItemTextContainer>
               </ListItemButton>
             </ListItem>
           ))}

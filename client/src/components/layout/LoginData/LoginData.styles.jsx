@@ -6,10 +6,14 @@ export const LoginDataContainer = styled(Box)(() => ({
   flexDirection: "column",
 }));
 
-export const EmailInput = styled(TextField)(({ theme }) => ({
+export const FirstInput = styled(TextField)(({ theme }) => ({
   marginBottom: theme.spacing(2), //16px
 }));
 
-export const PasswordInput = styled(TextField)(({ theme }) => ({
+export const SecondInput = styled(TextField)(({ theme }) => ({
   //styles
+}));
+
+export const ThirdInput = styled(TextField)(({ theme }) => ({
+  marginBottom: theme.spacing(2), //16px
 }));

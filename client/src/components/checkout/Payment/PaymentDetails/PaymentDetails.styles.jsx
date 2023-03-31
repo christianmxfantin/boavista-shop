@@ -1,4 +1,4 @@
-import { Box, List, Select, TextField } from "@mui/material";
+import { Box, List, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export const PaymentDetailsContainer = styled(Box)(({ theme }) => ({
@@ -9,6 +9,11 @@ export const MyCardsList = styled(List)(({ theme }) => ({
   borderRadius: theme.spacing(1), //8px
   color: theme.palette.primary[500],
   backgroundColor: theme.palette.primary[100],
+}));
+
+export const ListItemTextContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  // justifyContent: "space-between",
 }));
 
 export const PaymentNewCard = styled(Box)(({ theme }) => ({

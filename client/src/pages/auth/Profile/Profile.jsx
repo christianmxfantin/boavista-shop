@@ -20,7 +20,7 @@ const Profile = () => {
         />
         <ProfileData
           title="Datos de Facturación"
-          component={<Billing profile={true} edit={true} />}
+          component={<Billing profile={true} />}
         />
         <ProfileData
           title="Métodos de Pago"

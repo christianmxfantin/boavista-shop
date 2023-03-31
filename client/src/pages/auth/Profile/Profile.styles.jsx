@@ -9,7 +9,6 @@ export const ProfileContainer = styled(Box)(({ theme }) => ({
 }));
 
 export const ProfileTitle = styled(Typography)(({ theme }) => ({
-  marginTop: theme.spacing(3), //24px
-  marginBottom: theme.spacing(2),
+  margin: `${theme.spacing(3)} 0 ${theme.spacing(2)} 0`, //24px y 16px
   fontWeight: "500",
 }));

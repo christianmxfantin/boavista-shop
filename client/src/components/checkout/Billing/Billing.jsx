@@ -40,7 +40,7 @@ const Billing = ({ profile }) => {
         </TitleContainer>
       )}
       <DataContainer sx={{ width: !profile ? "30%" : "70%" }}>
-        {/* {console.log(!profile)} */}
+        {console.log(!profile)}
         <NameInput
           disabled={!edit}
           placeholder="Nombres"

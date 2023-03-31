@@ -44,7 +44,3 @@ export const TableNameContainer = styled(Box)(({ theme }) => ({
 export const TableName = styled(Typography)(({ theme }) => ({
   //styles
 }));
-
-export const IconsContainer = styled(Box)(({ theme }) => ({
-  display: "flex",
-}));

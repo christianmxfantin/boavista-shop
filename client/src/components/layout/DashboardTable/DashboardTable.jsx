@@ -1,22 +1,16 @@
-import { useState } from "react";
 import { useTheme } from "@emotion/react";
 import {
   DashboardTableContainer,
-  IconsContainer,
   StyledTableCell,
   StyledTableRow,
   TableList,
   TableName,
   TableNameContainer,
 } from "./DashboardTable.styles";
-import {
-  Icon as EditIcon,
-  Icon as DeleteIcon,
-} from "../../../components/ui/Icon";
-import TableActions from "../TableActions/TableActions";
 import { Avatar, TableBody, TableHead, TableRow } from "@mui/material";
 import { products, users } from "../../../components/products/productList";
 import AvatarImage from "../../../images/product.jpg";
+import ActionButtons from "../ActionButtons/ActionButtons";
 
 const DashboardTable = ({ type }) => {
   let database;
@@ -27,24 +21,6 @@ const DashboardTable = ({ type }) => {
   }
 
   const theme = useTheme();
-  const [showModal, setShowModal] = useState(false);
-  const [actionType, setActionType] = useState(null);
-  const [selectedName, setSelectedName] = useState("");
-  const [selectedPrice, setSelectedPrice] = useState("");
-
-  const handleEdit = (name, price) => {
-    setSelectedName(name);
-    setSelectedPrice(price);
-    setShowModal(true);
-    setActionType("edit");
-  };
-
-  const handleDelete = (name) => {
-    setSelectedName(name);
-    setShowModal(true);
-    setActionType("delete");
-  };
-
   return (
     <>
       <DashboardTableContainer>
@@ -77,39 +53,16 @@ const DashboardTable = ({ type }) => {
                   </StyledTableCell>
                 )}
                 <StyledTableCell align="right">
-                  <IconsContainer>
-                    <EditIcon
-                      name="Edit-Data"
-                      size={30}
-                      color={theme.palette.primary[500]}
-                      sx={{ marginRight: theme.spacing(1) }}
-                      actionType="edit"
-                      onClick={() => handleEdit(data.name, data.price)}
-                    />
-                    <DeleteIcon
-                      name="Delete-Data"
-                      size={30}
-                      color={theme.palette.error[500]}
-                      actionType="delete"
-                      onClick={() => handleDelete(data.name)}
-                    />
-                  </IconsContainer>
+                  <ActionButtons
+                    data={{ name: data.name, price: data.price }}
+                    type={type}
+                  />
                 </StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
         </TableList>
       </DashboardTableContainer>
-      <TableActions
-        type={type}
-        showModal={showModal}
-        setShowModal={setShowModal}
-        actionType={actionType}
-        selectedName={selectedName}
-        setSelectedName={setSelectedName}
-        selectedPrice={selectedPrice}
-        setSelectedPrice={setSelectedPrice}
-      />
     </>
   );
 };
