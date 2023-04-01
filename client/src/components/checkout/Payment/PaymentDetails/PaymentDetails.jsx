@@ -1,13 +1,7 @@
-import {
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
+import MyCardsItem from "../../../layout/MyCardsItem/MyCardsItem";
 import {
   PaymentDetailsContainer,
-  MyCardsList,
-  ListItemTextContainer,
+  MyCardsContainer,
   PaymentNewCard,
   CardNumber,
   CardDataContainer,
@@ -15,8 +9,6 @@ import {
   CardCVC,
   CardName,
 } from "./PaymentDetails.styles";
-import { Icon } from "../../../ui/Icon";
-import ActionButtons from "../../../layout/ActionButtons/ActionButtons";
 
 const myCards = [
   {
@@ -38,28 +30,13 @@ const PaymentDetails = ({ data, profile }) => {
       }}
     >
       {data === "myCards" ? (
-        <MyCardsList>
-          {myCards.map((card) => (
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <Icon name="Credit-Card" />
-                </ListItemIcon>
-                <ListItemTextContainer>
-                  <ListItemText
-                    primary={`${
-                      card.typeCard === "credit"
-                        ? "Visa Crédito"
-                        : "Visa Débito"
-                    } terminada en ${card.finalNumber}`}
-                    // sx={{ marginRight: "100px" }}
-                  />
-                  <ActionButtons />
-                </ListItemTextContainer>
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </MyCardsList>
+        <MyCardsContainer>
+          <MyCardsContainer>
+            {myCards.map((card) => (
+              <MyCardsItem key={card.id} card={card} />
+            ))}
+          </MyCardsContainer>
+        </MyCardsContainer>
       ) : (
         <PaymentNewCard>
           <CardNumber placeholder="Número de Tarjeta"></CardNumber>

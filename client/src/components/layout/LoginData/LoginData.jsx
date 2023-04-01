@@ -8,20 +8,28 @@ import {
   ThirdInput,
 } from "./LoginData.styles";
 
-const LoginData = ({ profile }) => {
+const LoginData = ({ profile, edit }) => {
   let database = {
     email: "josemirlukaku@gmail.com",
   };
+  console.log(edit);
 
   const theme = useTheme();
+  const [editMode, setEditMode] = useState(edit);
   const [changePassword, setChangePassword] = useState(false);
 
   const handleChangePassword = () => {
-    if (!changePassword) {
+    if (!editMode) {
+      //save new email
+      setEditMode(!editMode);
+      console.log("guardar mail");
+    } else if (!changePassword) {
       setChangePassword(true);
+      console.log("ir a cambiar pass");
     } else {
-      //save data
+      //save data of new password
       setChangePassword(false);
+      console.log("guardar nuevas pass");
     }
   };
 
@@ -40,7 +48,7 @@ const LoginData = ({ profile }) => {
             : "Ingresa tu Contraseña Anterior"
         }
         required
-        disabled={!changePassword ? true : false}
+        disabled={!changePassword && !edit ? true : false}
         sx={{ width: !profile ? "376px" : "inherit" }}
       />
       {changePassword && (
@@ -53,7 +61,6 @@ const LoginData = ({ profile }) => {
             !changePassword ? "Ingresa tu Email" : "Escribe tu Nueva Contraseña"
           }
           required
-          // disabled={true}
           sx={{
             width: !profile ? "376px" : "inherit",
             marginBottom: changePassword && theme.spacing(2),
@@ -72,11 +79,13 @@ const LoginData = ({ profile }) => {
       )}
       {profile && (
         <Button
-          variant="text"
+          variant={changePassword || edit || editMode ? "contained" : "text"}
           type={changePassword && "submit"}
           onClick={handleChangePassword}
         >
-          {!changePassword ? "Cambiar Contraseña" : "Guardar"}
+          {(!changePassword && !edit) || !editMode
+            ? "Cambiar Contraseña"
+            : "Guardar"}
         </Button>
       )}
     </LoginDataContainer>

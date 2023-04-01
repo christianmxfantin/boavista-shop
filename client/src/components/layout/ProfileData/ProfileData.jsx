@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, cloneElement } from "react";
 import { Button } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import { Icon as EditIcon } from "../../../components/ui/Icon";
@@ -6,12 +6,14 @@ import {
   ProfileDataContainer,
   ProfileDataTitleContainer,
   ProfileDataTitle,
+  EditIconContainer,
 } from "./ProfileData.styles";
 import PaymentDetails from "../../checkout/Payment/PaymentDetails/PaymentDetails";
 
 const ProfileData = ({ title, type, component }) => {
   const theme = useTheme();
   const [newPayment, setNewPayment] = useState(false);
+  const [edit, setEdit] = useState(false);
 
   const handleClic = () => {
     if (!newPayment) {
@@ -22,8 +24,12 @@ const ProfileData = ({ title, type, component }) => {
     }
   };
 
+  const toggleEditMode = () => {
+    setEdit(!edit);
+  };
+
   const handleEdit = () => {
-    //editData
+    toggleEditMode();
   };
 
   return (
@@ -31,18 +37,24 @@ const ProfileData = ({ title, type, component }) => {
       <ProfileDataTitleContainer>
         <ProfileDataTitle variant="h6">{title}</ProfileDataTitle>
         {type !== "payment" && (
-          <EditIcon
-            name="Edit-Data"
-            size={30}
-            color={theme.palette.primary[500]}
-            onClick={handleEdit}
-          />
+          <EditIconContainer sx={{ visibility: edit ? "hidden" : "visible" }}>
+            <EditIcon
+              name="Edit-Data"
+              size={30}
+              color={theme.palette.primary[500]}
+              onClick={handleEdit}
+            />
+          </EditIconContainer>
         )}
       </ProfileDataTitleContainer>
-      {!newPayment ? component : <PaymentDetails data="newCard" />}
+      {!newPayment ? (
+        cloneElement(component, { edit })
+      ) : (
+        <PaymentDetails data="newCard" />
+      )}
       {type === "payment" && (
         <Button
-          variant="text"
+          variant={newPayment ? "contained" : "text"}
           sx={{ margin: `${theme.spacing(2)} 0 ${theme.spacing(2)} 0` }}
           onClick={handleClic}
         >
