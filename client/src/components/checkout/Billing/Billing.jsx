@@ -12,8 +12,9 @@ import {
   PhoneInput,
 } from "./Billing.styles";
 import AddressSearch from "../AddressSearch/AddressSearch";
+import { Button } from "@mui/material";
 
-const Billing = ({ profile }) => {
+const Billing = ({ profile, editMode, onEditChange }) => {
   const theme = useTheme();
   const nameInput = useRef();
   const [edit, setEdit] = useState(false);
@@ -21,6 +22,11 @@ const Billing = ({ profile }) => {
   const handleEdit = () => {
     setEdit(true);
     nameInput.current.focus();
+  };
+
+  const handleSave = () => {
+    //save billing data
+    onEditChange(false);
   };
 
   return (
@@ -42,16 +48,26 @@ const Billing = ({ profile }) => {
       <DataContainer sx={{ width: !profile ? "30%" : "70%" }}>
         {console.log(!profile)}
         <NameInput
-          disabled={!edit}
+          disabled={!edit && !editMode}
           placeholder="Nombres"
           inputRef={nameInput}
         />
-        <SurnameInput disabled={!edit} placeholder="Apellidos" />
-        <AddressInput disabled={!edit} placeholder="Dirección" />
-        <AddressSearch disabled={!edit} visible={true} />
-        <MailInput disabled={!edit} placeholder="Mail" />
-        <PhoneInput disabled={!edit} placeholder="Teléfono" />
+        <SurnameInput disabled={!edit && !editMode} placeholder="Apellidos" />
+        <AddressInput disabled={!edit && !editMode} placeholder="Dirección" />
+        <AddressSearch disabled={!edit && !editMode} visible={true} />
+        <MailInput disabled={!edit && !editMode} placeholder="Mail" />
+        <PhoneInput disabled={!edit && !editMode} placeholder="Teléfono" />
       </DataContainer>
+      {editMode && (
+        <Button
+          variant="contained"
+          type="submit"
+          onClick={handleSave}
+          sx={{ width: "70%", marginTop: theme.spacing(2) }}
+        >
+          Guardar
+        </Button>
+      )}
     </BillingContainer>
   );
 };

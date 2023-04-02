@@ -13,7 +13,7 @@ import PaymentDetails from "../../checkout/Payment/PaymentDetails/PaymentDetails
 const ProfileData = ({ title, type, component }) => {
   const theme = useTheme();
   const [newPayment, setNewPayment] = useState(false);
-  const [edit, setEdit] = useState(false);
+  const [editMode, setEditMode] = useState(false);
 
   const handleClic = () => {
     if (!newPayment) {
@@ -25,11 +25,15 @@ const ProfileData = ({ title, type, component }) => {
   };
 
   const toggleEditMode = () => {
-    setEdit(!edit);
+    setEditMode(!editMode);
   };
 
   const handleEdit = () => {
     toggleEditMode();
+  };
+
+  const handleEditChange = (value) => {
+    setEditMode(value);
   };
 
   return (
@@ -37,7 +41,9 @@ const ProfileData = ({ title, type, component }) => {
       <ProfileDataTitleContainer>
         <ProfileDataTitle variant="h6">{title}</ProfileDataTitle>
         {type !== "payment" && (
-          <EditIconContainer sx={{ visibility: edit ? "hidden" : "visible" }}>
+          <EditIconContainer
+            sx={{ visibility: editMode ? "hidden" : "visible" }}
+          >
             <EditIcon
               name="Edit-Data"
               size={30}
@@ -48,7 +54,7 @@ const ProfileData = ({ title, type, component }) => {
         )}
       </ProfileDataTitleContainer>
       {!newPayment ? (
-        cloneElement(component, { edit })
+        cloneElement(component, { editMode, onEditChange: handleEditChange })
       ) : (
         <PaymentDetails data="newCard" />
       )}

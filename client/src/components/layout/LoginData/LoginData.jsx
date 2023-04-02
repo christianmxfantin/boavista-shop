@@ -8,28 +8,27 @@ import {
   ThirdInput,
 } from "./LoginData.styles";
 
-const LoginData = ({ profile, edit }) => {
+const LoginData = ({ profile, editMode, onEditChange }) => {
   let database = {
     email: "josemirlukaku@gmail.com",
   };
-  console.log(edit);
 
   const theme = useTheme();
-  const [editMode, setEditMode] = useState(edit);
   const [changePassword, setChangePassword] = useState(false);
 
-  const handleChangePassword = () => {
-    if (!editMode) {
-      //save new email
-      setEditMode(!editMode);
-      console.log("guardar mail");
+  const handleClic = () => {
+    if (editMode) {
+      //save the username
+      console.log("Editar usuario");
+      setChangePassword(false);
+      onEditChange(false);
     } else if (!changePassword) {
       setChangePassword(true);
-      console.log("ir a cambiar pass");
+      onEditChange(true);
     } else {
       //save data of new password
       setChangePassword(false);
-      console.log("guardar nuevas pass");
+      onEditChange(false);
     }
   };
 
@@ -48,7 +47,7 @@ const LoginData = ({ profile, edit }) => {
             : "Ingresa tu Contraseña Anterior"
         }
         required
-        disabled={!changePassword && !edit ? true : false}
+        disabled={!editMode && !changePassword ? true : false}
         sx={{ width: !profile ? "376px" : "inherit" }}
       />
       {changePassword && (
@@ -79,13 +78,11 @@ const LoginData = ({ profile, edit }) => {
       )}
       {profile && (
         <Button
-          variant={changePassword || edit || editMode ? "contained" : "text"}
+          variant={editMode || changePassword ? "contained" : "text"}
           type={changePassword && "submit"}
-          onClick={handleChangePassword}
+          onClick={handleClic}
         >
-          {(!changePassword && !edit) || !editMode
-            ? "Cambiar Contraseña"
-            : "Guardar"}
+          {editMode || changePassword ? "Guardar" : "Cambiar Contraseña"}
         </Button>
       )}
     </LoginDataContainer>
