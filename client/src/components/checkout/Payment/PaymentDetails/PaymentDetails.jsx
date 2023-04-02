@@ -12,10 +12,12 @@ import {
 
 const myCards = [
   {
+    id: 1,
     finalNumber: 1142,
     typeCard: "debit",
   },
   {
+    id: 2,
     finalNumber: 5454,
     typeCard: "credit",
   },

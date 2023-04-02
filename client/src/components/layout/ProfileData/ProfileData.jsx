@@ -15,7 +15,7 @@ const ProfileData = ({ title, type, component }) => {
   const [newPayment, setNewPayment] = useState(false);
   const [editMode, setEditMode] = useState(false);
 
-  const handleClic = () => {
+  const handleClick = () => {
     if (!newPayment) {
       setNewPayment(true);
     } else {
@@ -62,7 +62,7 @@ const ProfileData = ({ title, type, component }) => {
         <Button
           variant={newPayment ? "contained" : "text"}
           sx={{ margin: `${theme.spacing(2)} 0 ${theme.spacing(2)} 0` }}
-          onClick={handleClic}
+          onClick={handleClick}
         >
           {!newPayment ? "Agregar Método de Pago" : "Guardar"}
         </Button>

@@ -22,7 +22,7 @@ const MyCardsItem = ({ card }) => {
           card.typeCard === "credit" ? "Visa Crédito" : "Visa Débito"
         } terminada en ${card.finalNumber}`}
       </MyCardsItemText>
-      <ActionButtons />
+      <ActionButtons type="payment" data={card} />
     </MyCardsItemContainer>
   );
 };

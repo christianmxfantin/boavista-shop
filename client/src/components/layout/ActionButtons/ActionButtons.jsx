@@ -13,35 +13,44 @@ const ActionButtons = ({ data, type }) => {
   const [selectedPrice, setSelectedPrice] = useState("");
 
   const handleEdit = (name, price) => {
+    //TIENE QUE ENVIAR EL ID CON LA DATA
+    setActionType("edit");
     setSelectedName(name);
     setSelectedPrice(price);
     setShowModal(true);
-    setActionType("edit");
   };
 
-  const handleDelete = (name) => {
-    setSelectedName(name);
+  const handleDelete = (data) => {
+    //TIENE QUE ENVIAR SOLO EL ID PARA BORRAR
+    if (type === "payment") {
+      setActionType("delete-payment");
+      setSelectedName(data.id);
+    } else {
+      setActionType("delete");
+      setSelectedName(data.id);
+    }
     setShowModal(true);
-    setActionType("delete");
   };
 
   return (
     <>
       <ActionButtonsContainer>
-        <EditIcon
-          name="Edit-Data"
-          size={30}
-          color={theme.palette.primary[500]}
-          sx={{ marginRight: theme.spacing(1) }}
-          actionType="edit"
-          onClick={() => handleEdit(data.name, data.price)}
-        />
+        {type !== "payment" && (
+          <EditIcon
+            name="Edit-Data"
+            size={30}
+            color={theme.palette.primary[500]}
+            sx={{ marginRight: theme.spacing(1) }}
+            actionType="edit"
+            onClick={() => handleEdit(data.name, data.price)}
+          />
+        )}
         <DeleteIcon
           name="Delete-Data"
           size={30}
           color={theme.palette.error[500]}
           actionType="delete"
-          onClick={() => handleDelete(data.name)}
+          onClick={() => handleDelete(data)}
         />
       </ActionButtonsContainer>
       <TableActions

@@ -32,10 +32,12 @@ const TableActions = ({
 
   const handleCancelButton = () => {
     setShowModal(false);
+    console.log("Cancel");
   };
 
   const handleConfirmButton = () => {
     setShowModal(false);
+    console.log("Confirm");
   };
 
   return (
@@ -45,13 +47,19 @@ const TableActions = ({
           variant="h4"
           sx={{
             backgroundColor:
-              actionType === "edit"
+              actionType === "edit" && actionType === "edit-payment"
                 ? theme.palette.primary[300]
                 : theme.palette.error[500],
           }}
         >
-          {actionType === "edit"
-            ? `Editar ${type === "users" ? "Usuario" : "Producto"}`
+          {actionType === "edit" && actionType === "edit-payment"
+            ? `Editar ${
+                type === "edit-payment"
+                  ? "Tarjeta"
+                  : type === "users"
+                  ? "Usuario"
+                  : "Producto"
+              }`
             : "Advertencia"}
         </TableActionsTitle>
         {actionType === "edit" ? (
@@ -78,7 +86,13 @@ const TableActions = ({
           <TableDeleteContainer>
             <TableDeleteParagraph>
               <TableDeleteLine1>{`Está a punto de borrar ${
-                type === "users" ? `al Usuario:` : `el producto:`
+                actionType === "delete-account"
+                  ? "su cuenta de usuario."
+                  : actionType === "delete-payment"
+                  ? "la siguiente tarjeta:"
+                  : type === "users"
+                  ? `al usuario:`
+                  : `el producto:`
               }`}</TableDeleteLine1>
               <TableDeleteLine2>{selectedName}</TableDeleteLine2>
               <TableDeleteLine3>

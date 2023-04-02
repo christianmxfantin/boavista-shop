@@ -54,7 +54,7 @@ const DashboardTable = ({ type }) => {
                 )}
                 <StyledTableCell align="right">
                   <ActionButtons
-                    data={{ name: data.name, price: data.price }}
+                    data={{ id: data.id, name: data.name, price: data.price }}
                     type={type}
                   />
                 </StyledTableCell>

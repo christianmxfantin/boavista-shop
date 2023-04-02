@@ -46,7 +46,6 @@ const Billing = ({ profile, editMode, onEditChange }) => {
         </TitleContainer>
       )}
       <DataContainer sx={{ width: !profile ? "30%" : "70%" }}>
-        {console.log(!profile)}
         <NameInput
           disabled={!edit && !editMode}
           placeholder="Nombres"
