@@ -14,14 +14,14 @@ export const ProductPriceContainer = styled(Box)(() => ({
 }));
 
 export const ProductMinPrice = styled(TextField)(({ theme }) => ({
-  marginRight: theme.spacing(1), //8px
   "& .MuiOutlinedInput-input": {
-    padding: theme.spacing(1), //8px
+    // padding: theme.spacing(1), //8px
   },
 }));
 
 export const ProductMaxPrice = styled(TextField)(({ theme }) => ({
+  marginLeft: theme.spacing(1), //8px
   "& .MuiOutlinedInput-input": {
-    padding: theme.spacing(1), //8px
+    // padding: theme.spacing(1), //8px
   },
 }));

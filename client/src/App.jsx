@@ -1,4 +1,4 @@
-import React from "react";
+// import { useLocation } from "react-router-dom";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./store";
@@ -18,6 +18,8 @@ import PrivateRoute from "./components/auth/PrivateRoute";
 import List from "./pages/admin/List/List";
 
 const App = () => {
+  // const { state } = useLocation();
+
   return (
     <Provider store={store}>
       <Router>

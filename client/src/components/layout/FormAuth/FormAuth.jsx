@@ -7,6 +7,7 @@ import { Icon } from "../../ui/Icon";
 import Underline from "../../ui/Underline";
 import LoginData from "../LoginData/LoginData";
 import {
+  Form1,
   ButtonsContainer,
   FacebookButton,
   FormAuthContainer,
@@ -38,13 +39,37 @@ const FormAuth = ({ data }) => {
     console.log("Inicio con Facebook");
   };
 
-  const handleTopButton = () => {
+  const handleTopButton = (e) => {
+    e.preventDefault();
+
+    console.log(e);
     if (data === "login") {
-      navigate("/");
+      //SE LOGUEA EL USUARIO
+      let credentials = {
+        email: e.target.parentElement.parentElement[2].value,
+        password: e.target.parentElement.parentElement[4].value,
+      };
+      console.log(credentials);
+
+      let role = "";
+      if (role === "admin") {
+        navigate("/dashboard", { state: { isLogged: true } });
+      } else {
+        navigate("/", { state: { isLogged: true } });
+      }
     } else if (data === "register") {
-      navigate("/");
+      //SE LOGUEA EL USUARIO DESPUES DE REGISTRARSE
+      let credentials = {
+        name: e.target.parentElement.parentElement[0].value,
+        surname: e.target.parentElement.parentElement[2].value,
+        email: e.target.parentElement.parentElement[4].value,
+        password: e.target.parentElement.parentElement[6].value,
+        terms: e.target.parentElement.parentElement[8].checked,
+      };
+      console.log(credentials);
+      navigate("/", { state: { isLogged: true } });
     } else {
-      navigate("/dashboard/users");
+      navigate("/dashboard/users", { state: { isLogged: true } });
     }
   };
 
@@ -56,40 +81,12 @@ const FormAuth = ({ data }) => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (data === "login") {
-      let credentials = {
-        email: e.target[2].value,
-        password: e.target[4].value,
-      };
-      console.log(credentials);
-    } else {
-      let credentials = {
-        name: e.target[0].value,
-        surname: e.target[2].value,
-        email: e.target[4].value,
-        password: e.target[6].value,
-        terms: e.target[8].checked,
-      };
-      console.log(credentials);
-    }
-
-    let role = "";
-    if (role === "admin") {
-      navigate("/dashboard");
-    } else {
-      navigate("/");
-    }
-  };
-
   return (
     <main>
       <FormAuthContainer
         component={"form"}
         autoComplete="off"
-        onSubmit={handleSubmit}
+        onSubmit={handleTopButton}
       >
         <FormAuthTitle variant={data !== "dashboard" ? "h5" : "h4"}>
           {data === "login"

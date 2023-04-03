@@ -41,7 +41,7 @@ const ProductItem = ({ data }) => {
         />
       </Link>
       <ProductCardContent>
-        <ProductName gutterBottom variant="subtitle1" component="div">
+        <ProductName gutterBottom variant="subtitle1">
           {name}
         </ProductName>
         <ProductCardData>

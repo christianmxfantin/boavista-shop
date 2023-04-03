@@ -17,10 +17,9 @@ import { Icon } from "../ui/Icon";
 import Search from "./Search/Search";
 import { Image } from "../ui/Image";
 
-const Navbar = ({ login }) => {
+const Navbar = ({ login, isLogged }) => {
   const theme = useTheme();
   const [isHover, setIsHover] = useState(false);
-  const [isLogged, setIsLogged] = useState(false);
 
   const AppbarStyles = css({
     padding: theme.spacing(1), //8px;
@@ -135,7 +134,12 @@ const Navbar = ({ login }) => {
               <Search />
             </Box>
             {isLogged ? (
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              <>
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Link css={LoginLink} to="/login">
+                  <Typography variant="h6">SALIR</Typography>
+                </Link>
+              </>
             ) : (
               <Link css={LoginLink} to="/login">
                 <Typography variant="h6">INGRESA</Typography>

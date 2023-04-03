@@ -47,17 +47,21 @@ const LoginData = ({ profile, editMode, onEditChange }) => {
             : "Ingresa tu Contraseña Anterior"
         }
         required
-        disabled={!editMode && !changePassword ? true : false}
+        disabled={
+          !profile ? false : !editMode && !changePassword ? true : false
+        }
         sx={{ width: !profile ? "376px" : "inherit" }}
       />
-      {changePassword && (
+      {(!profile || changePassword) && (
         <SecondInput
-          name="email"
-          type="email"
+          name={!profile ? "password" : "new-password"}
+          type="password"
           variant="outlined"
           size="small"
           placeholder={
-            !changePassword ? "Ingresa tu Email" : "Escribe tu Nueva Contraseña"
+            !changePassword
+              ? "Ingresa tu Contraseña"
+              : "Escribe tu Nueva Contraseña"
           }
           required
           sx={{
@@ -66,9 +70,9 @@ const LoginData = ({ profile, editMode, onEditChange }) => {
           }}
         />
       )}
-      {(!profile || changePassword) && (
+      {changePassword && (
         <ThirdInput
-          name="password"
+          name="repit-password"
           type="password"
           variant="outlined"
           size="small"

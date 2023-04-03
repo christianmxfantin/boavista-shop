@@ -1,6 +1,10 @@
 import { Box, Typography, TextField, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
+// export const Form1 = styled(Box)(() => ({
+//   //styles
+// }));
+
 export const FormAuthContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
