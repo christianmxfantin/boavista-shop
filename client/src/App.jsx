@@ -1,4 +1,4 @@
-// import { useLocation } from "react-router-dom";
+import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./store";
@@ -18,7 +18,11 @@ import PrivateRoute from "./components/auth/PrivateRoute";
 import List from "./pages/admin/List/List";
 
 const App = () => {
-  // const { state } = useLocation();
+  const [isLogged, setIsLogged] = useState(false);
+
+  const handleAuth = (isLogged) => {
+    setIsLogged(isLogged);
+  };
 
   return (
     <Provider store={store}>
@@ -29,7 +33,11 @@ const App = () => {
             path="/"
             element={
               <>
-                <Navbar login={false} />
+                <Navbar
+                  login={false}
+                  isLogged={isLogged}
+                  handleAuth={handleAuth}
+                />
                 <Home />
               </>
             }
@@ -40,7 +48,7 @@ const App = () => {
             element={
               <>
                 <Navbar login={true} />
-                <Login />
+                <Login handleAuth={handleAuth} />
               </>
             }
           />
@@ -50,37 +58,53 @@ const App = () => {
             element={
               <>
                 <Navbar login={true} />
-                <Register />
+                <Register handleAuth={handleAuth} />
               </>
             }
           />
-          <Route
-            exact
-            path="dashboard/users"
-            element={
-              <>
-                <Navbar login={false} />
-                <List data="Usuarios" />
-              </>
-            }
-          />
-          <Route
-            exact
-            path="dashboard/products"
-            element={
-              <>
-                <Navbar login={false} />
-                <List data="Productos" />
-              </>
-            }
-          />
+          <Route exact path="/dashboard/users" element={<PrivateRoute />}>
+            <Route
+              exact
+              path="dashboard/users"
+              element={
+                <>
+                  <Navbar
+                    login={false}
+                    isLogged={isLogged}
+                    handleAuth={handleAuth}
+                  />
+                  <List data="Usuarios" />
+                </>
+              }
+            />
+          </Route>
+          <Route exact path="/dashboard/products" element={<PrivateRoute />}>
+            <Route
+              exact
+              path="dashboard/products"
+              element={
+                <>
+                  <Navbar
+                    login={false}
+                    isLogged={isLogged}
+                    handleAuth={handleAuth}
+                  />
+                  <List data="Productos" />
+                </>
+              }
+            />
+          </Route>
           <Route exact path="/dashboard" element={<PrivateRoute />}>
             <Route
               exact
               path="/dashboard"
               element={
                 <>
-                  <Navbar login={false} />
+                  <Navbar
+                    login={false}
+                    isLogged={isLogged}
+                    handleAuth={handleAuth}
+                  />
                   <Dashboard />
                 </>
               }
@@ -92,7 +116,11 @@ const App = () => {
               path="/profile"
               element={
                 <>
-                  <Navbar login={false} />
+                  <Navbar
+                    login={false}
+                    isLogged={isLogged}
+                    handleAuth={handleAuth}
+                  />
                   <Profile />
                 </>
               }
@@ -103,7 +131,11 @@ const App = () => {
             path="/products"
             element={
               <>
-                <Navbar login={false} />
+                <Navbar
+                  login={false}
+                  isLogged={isLogged}
+                  handleAuth={handleAuth}
+                />
                 <Products />
               </>
             }
@@ -113,7 +145,11 @@ const App = () => {
             path={"/products/:id"}
             element={
               <>
-                <Navbar login={false} />
+                <Navbar
+                  login={false}
+                  isLogged={isLogged}
+                  handleAuth={handleAuth}
+                />
                 <ProductDetails />
               </>
             }
@@ -123,7 +159,11 @@ const App = () => {
             path={"/products/search"}
             element={
               <>
-                <Navbar login={false} />
+                <Navbar
+                  login={false}
+                  isLogged={isLogged}
+                  handleAuth={handleAuth}
+                />
                 <SearchPage />
               </>
             }
@@ -134,7 +174,11 @@ const App = () => {
               path="/checkout"
               element={
                 <>
-                  <Navbar login={false} />
+                  <Navbar
+                    login={false}
+                    isLogged={isLogged}
+                    handleAuth={handleAuth}
+                  />
                   <Checkout />
                 </>
               }
@@ -145,7 +189,11 @@ const App = () => {
             path="*"
             element={
               <>
-                <Navbar login={false} />
+                <Navbar
+                  login={false}
+                  isLogged={isLogged}
+                  handleAuth={handleAuth}
+                />
                 <PageNotFound />
               </>
             }

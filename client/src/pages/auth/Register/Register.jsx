@@ -1,7 +1,7 @@
 import FormAuth from "../../../components/layout/FormAuth/FormAuth";
 
-const Register = () => {
-  return <FormAuth data="register" />;
+const Register = ({ handleAuth }) => {
+  return <FormAuth data="register" handleAuth={handleAuth} />;
 };
 
 export default Register;

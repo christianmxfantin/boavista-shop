@@ -1,13 +1,12 @@
-import { useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
-import { Checkbox, FormControlLabel } from "@mui/material";
+import { Alert, Checkbox, FormControlLabel, Snackbar } from "@mui/material";
 import { Button } from "../../ui/Button";
 import { Icon } from "../../ui/Icon";
 import Underline from "../../ui/Underline";
 import LoginData from "../LoginData/LoginData";
 import {
-  Form1,
   ButtonsContainer,
   FacebookButton,
   FormAuthContainer,
@@ -20,8 +19,17 @@ import {
   SurnameInput,
 } from "./FormAuth.styles";
 
-const FormAuth = ({ data }) => {
+const FormAuth = ({ data, handleAuth }) => {
   const nameInputRef = useRef(null);
+  // const [open, setOpen] = useState(false);
+
+  // const handleClose = (reason) => {
+  //   if (reason === "clickaway") {
+  //     return;
+  //   }
+  //   setOpen(false);
+  // };
+
   useEffect(() => {
     if (data === "register") {
       nameInputRef.current.focus();
@@ -53,9 +61,11 @@ const FormAuth = ({ data }) => {
 
       let role = "";
       if (role === "admin") {
-        navigate("/dashboard", { state: { isLogged: true } });
+        navigate("/dashboard");
       } else {
-        navigate("/", { state: { isLogged: true } });
+        navigate("/");
+        handleAuth(true);
+        // setOpen(true);
       }
     } else if (data === "register") {
       //SE LOGUEA EL USUARIO DESPUES DE REGISTRARSE
@@ -67,9 +77,10 @@ const FormAuth = ({ data }) => {
         terms: e.target.parentElement.parentElement[8].checked,
       };
       console.log(credentials);
-      navigate("/", { state: { isLogged: true } });
+      navigate("/");
+      handleAuth(true);
     } else {
-      navigate("/dashboard/users", { state: { isLogged: true } });
+      navigate("/dashboard/users");
     }
   };
 
@@ -179,6 +190,11 @@ const FormAuth = ({ data }) => {
           />
         </ButtonsContainer>
       </FormAuthContainer>
+      {/* <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          This is a success message!
+        </Alert>
+      </Snackbar> */}
     </main>
   );
 };

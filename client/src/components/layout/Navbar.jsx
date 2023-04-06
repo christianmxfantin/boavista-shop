@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme, css } from "@emotion/react";
 import {
   AppBar,
@@ -17,8 +17,9 @@ import { Icon } from "../ui/Icon";
 import Search from "./Search/Search";
 import { Image } from "../ui/Image";
 
-const Navbar = ({ login, isLogged }) => {
+const Navbar = ({ login, isLogged, handleAuth }) => {
   const theme = useTheme();
+  const navigate = useNavigate();
   const [isHover, setIsHover] = useState(false);
 
   const AppbarStyles = css({
@@ -91,6 +92,16 @@ const Navbar = ({ login, isLogged }) => {
     },
   });
 
+  const handleClic = () => {
+    if (!isLogged) {
+      navigate("/login");
+    } else {
+      //LOGOUT
+      handleAuth(false);
+      navigate("/");
+    }
+  };
+
   return (
     <AppBar position="sticky" css={AppbarStyles}>
       <Toolbar component={"nav"} css={ToolbarStyles}>
@@ -133,18 +144,18 @@ const Navbar = ({ login, isLogged }) => {
             <Box css={SearchStyle}>
               <Search />
             </Box>
-            {isLogged ? (
-              <>
+            {isLogged && (
+              <Link css={LoginLink} to="/profile">
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                <Link css={LoginLink} to="/login">
-                  <Typography variant="h6">SALIR</Typography>
-                </Link>
-              </>
-            ) : (
-              <Link css={LoginLink} to="/login">
-                <Typography variant="h6">INGRESA</Typography>
               </Link>
             )}
+            <Typography
+              variant="h6"
+              sx={{ cursor: "pointer" }}
+              onClick={handleClic}
+            >
+              {!isLogged ? "INGRESA" : "SALIR"}
+            </Typography>
           </>
         )}
       </Toolbar>
