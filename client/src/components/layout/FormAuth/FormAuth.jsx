@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
-import { Alert, Checkbox, FormControlLabel, Snackbar } from "@mui/material";
+import { Checkbox, FormControlLabel } from "@mui/material";
 import { Button } from "../../ui/Button";
 import { Icon } from "../../ui/Icon";
 import Underline from "../../ui/Underline";
@@ -20,24 +20,15 @@ import {
 } from "./FormAuth.styles";
 
 const FormAuth = ({ data, handleAuth }) => {
+  const theme = useTheme();
+  const navigate = useNavigate();
   const nameInputRef = useRef(null);
-  // const [open, setOpen] = useState(false);
-
-  // const handleClose = (reason) => {
-  //   if (reason === "clickaway") {
-  //     return;
-  //   }
-  //   setOpen(false);
-  // };
 
   useEffect(() => {
     if (data === "register") {
       nameInputRef.current.focus();
     }
   });
-
-  const theme = useTheme();
-  const navigate = useNavigate();
 
   const handleGoogleAuth = () => {
     console.log("Inicio con Google");
@@ -190,11 +181,6 @@ const FormAuth = ({ data, handleAuth }) => {
           />
         </ButtonsContainer>
       </FormAuthContainer>
-      {/* <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
-          This is a success message!
-        </Alert>
-      </Snackbar> */}
     </main>
   );
 };

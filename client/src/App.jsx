@@ -13,7 +13,6 @@ import Products from "./pages/products/Products/Products";
 import ProductDetails from "./pages/products/ProductDetails/ProductDetails";
 import Checkout from "./pages/checkout/Checkout";
 import PageNotFound from "./pages/pageNotFound/PageNotFound";
-import SearchPage from "./pages/searchPage/SearchPage";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import List from "./pages/admin/List/List";
 
@@ -151,20 +150,6 @@ const App = () => {
                   handleAuth={handleAuth}
                 />
                 <ProductDetails />
-              </>
-            }
-          />
-          <Route
-            exact
-            path={"/products/search"}
-            element={
-              <>
-                <Navbar
-                  login={false}
-                  isLogged={isLogged}
-                  handleAuth={handleAuth}
-                />
-                <SearchPage />
               </>
             }
           />
