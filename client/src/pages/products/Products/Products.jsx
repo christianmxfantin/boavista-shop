@@ -17,6 +17,7 @@ import ProductTitle from "../../../components/products/ProductTitle/ProductTitle
 const Products = () => {
   let totResults = 2;
   let { search } = useLocation();
+  let searchData = decodeURIComponent(search.slice(3).replace(/\+/g, " "));
 
   if (search) {
     let searchProducts = products.find((product) => product.name === search);
@@ -28,16 +29,10 @@ const Products = () => {
         <ProductFilter />
       </ProductFilters>
       <ProductData component={"section"}>
-        <ProductTitle />
-        {search && (
-          <ProductSearchTitle variant="h6">
-            {`Se muestran ${totResults} resultados para la búsqueda: `}
-            <b>{search.slice(3).replace(/\+/g, " ")}</b>
-          </ProductSearchTitle>
-        )}
+        <ProductTitle search={search && searchData} />
         <ProductListContainer container spacing={3}>
           {search ? (
-            <div>coso</div>
+            <div>Tiene que mostrar el map de products según la busqueda</div>
           ) : (
             // searchProducts.map((product) => (
             //     <ProductListItem item key={product.id}>

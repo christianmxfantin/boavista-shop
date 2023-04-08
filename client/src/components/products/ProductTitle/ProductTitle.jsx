@@ -9,11 +9,13 @@ import {
 } from "./ProductTitle.styles";
 import { MenuItem } from "@mui/material";
 
-const ProductTitle = () => {
+const ProductTitle = ({ search }) => {
   return (
     <ProductTitleContainer component={"article"}>
       <ProductCategory>
-        <ProductCategoryTitle variant="h5">Categoría</ProductCategoryTitle>
+        <ProductCategoryTitle variant="h5">
+          {search ? search : "Categoría"}
+        </ProductCategoryTitle>
         <ProductCategoryQuantity variant="subtitle1">
           50 artículos
         </ProductCategoryQuantity>

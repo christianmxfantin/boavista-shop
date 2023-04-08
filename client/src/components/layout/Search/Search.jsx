@@ -18,39 +18,70 @@ const Search = () => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
   const inputRef = useRef(null);
 
+  const handleCleanInput = () => {
+    setSearchResults([]);
+    setSelectedItemIndex(-1);
+    setSearchValue("");
+    inputRef.current.blur();
+  };
+
+  const handleListItemClick = (index) => {
+    setSelectedItemIndex(index);
+    setSearchValue(searchResults[index]?.name);
+    console.log(setSearchValue(searchResults[index]?.name));
+  };
+
   const handleKeyDown = (e) => {
-    let q = e.target.value;
     if (e.key === "ArrowUp" && selectedItemIndex > 0) {
       setSelectedItemIndex(selectedItemIndex - 1);
+      setSearchValue(searchResults[selectedItemIndex - 1]?.name || "");
     } else if (
       e.key === "ArrowDown" &&
       selectedItemIndex < searchResults.length - 1
     ) {
       setSelectedItemIndex(selectedItemIndex + 1);
+      setSearchValue(searchResults[selectedItemIndex + 1]?.name || "");
     } else if (e.key === "Enter") {
+      let q = e.target.value;
       navigate({
         pathname: "/products",
         search: `?${createSearchParams({
           q,
         })}`,
       });
-      e.target.blur();
+      handleCleanInput();
     }
   };
 
   const handleSearch = (e) => {
-    const query = e.target.value.toLowerCase();
+    const query = e.target.value
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, (char) => "");
+    const queryWords = query.split(" ");
     const filteredResults = products.filter((product) => {
-      const nameWords = product.name.toLowerCase().split(" ");
-      return nameWords.some((word) => word.startsWith(query));
+      const nameWords = product.name
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, (char) => "")
+        .split(" ");
+      return queryWords.every((queryWord) =>
+        nameWords.some((nameWord) => nameWord.startsWith(queryWord))
+      );
     });
     setSearchResults(filteredResults.slice(0, 3));
     setSearchValue(query);
   };
 
   const renderResultText = (text) => {
-    const lowerText = text.toLowerCase();
-    const lowerQuery = searchValue.toLowerCase();
+    const lowerText = text
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, (char) => "");
+    const lowerQuery = searchValue
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, (char) => "");
     const startIndex = lowerText.indexOf(lowerQuery);
     if (startIndex === -1) {
       return text;
@@ -68,48 +99,61 @@ const Search = () => {
   };
 
   return (
-    <>
-      <SearchContainer>
-        <SearchIconWrapper>
-          <SearchIcon name="Search" size={22} />
-        </SearchIconWrapper>
-        <StyledInputBase
-          placeholder="Buscar"
-          value={searchValue}
-          onChange={handleSearch}
-          onKeyDown={handleKeyDown}
-          inputRef={inputRef}
-          endAdornment={
-            <Popper
-              open={searchValue !== "" && searchResults.length > 0}
-              anchorEl={inputRef.current}
-              placement="top-start"
-              sx={{ zIndex: theme.zIndex.appBar + 1 }}
-            >
-              <Paper sx={{ width: inputRef.current?.offsetWidth || "auto" }}>
-                <List>
-                  {searchResults.map((result) => (
-                    <ListItem
-                      key={result.id}
-                      // onClick={() => handleResultClick(result)}
-                    >
-                      <ListItemText
-                        primary={renderResultText(result.name)}
-                        sx={{
-                          backgroundColor: !selectedItemIndex
-                            ? theme.palette.primary[200]
-                            : "inherit",
-                        }}
-                      />
-                    </ListItem>
-                  ))}
-                </List>
-              </Paper>
-            </Popper>
-          }
-        />
-      </SearchContainer>
-    </>
+    <SearchContainer>
+      <SearchIconWrapper>
+        <SearchIcon name="Search" size={22} />
+      </SearchIconWrapper>
+      <StyledInputBase
+        placeholder="Buscar"
+        value={searchValue}
+        inputRef={inputRef}
+        onChange={handleSearch}
+        onKeyDown={handleKeyDown}
+        onBlur={handleCleanInput}
+        endAdornment={
+          <Popper
+            open={searchValue !== "" && searchResults.length > 0}
+            anchorEl={inputRef.current}
+            placement="top-start"
+            sx={{
+              display: searchResults.length === 0 && "none",
+              zIndex: theme.zIndex.appBar + 1,
+            }}
+          >
+            <Paper sx={{ width: inputRef.current?.offsetWidth || "auto" }}>
+              <List>
+                {searchResults.map((result, index) => (
+                  <ListItem
+                    key={result.id}
+                    sx={{
+                      cursor: "pointer",
+                      backgroundColor:
+                        selectedItemIndex === index
+                          ? theme.palette.primary[100]
+                          : "inherit",
+                      color:
+                        selectedItemIndex === index
+                          ? theme.palette.primary[600]
+                          : "inherit",
+                      "&:hover": {
+                        fontWeight: 500,
+                        backgroundColor: theme.palette.primary[100],
+                        color: theme.palette.primary[600],
+                      },
+                    }}
+                  >
+                    <ListItemText
+                      primary={renderResultText(result.name)}
+                      onClick={() => handleListItemClick(index)}
+                    />
+                  </ListItem>
+                ))}
+              </List>
+            </Paper>
+          </Popper>
+        }
+      />
+    </SearchContainer>
   );
 };
 
