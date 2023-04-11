@@ -9,7 +9,7 @@ import {
 } from "./ProductTitle.styles";
 import { MenuItem } from "@mui/material";
 
-const ProductTitle = ({ search }) => {
+const ProductTitle = ({ search, totResults }) => {
   return (
     <ProductTitleContainer component={"article"}>
       <ProductCategory>
@@ -17,7 +17,7 @@ const ProductTitle = ({ search }) => {
           {search ? search : "Categoría"}
         </ProductCategoryTitle>
         <ProductCategoryQuantity variant="subtitle1">
-          50 artículos
+          {totResults} artículos
         </ProductCategoryQuantity>
       </ProductCategory>
       <ProductOrderByContainer>

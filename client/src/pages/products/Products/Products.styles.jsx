@@ -20,11 +20,6 @@ export const ProductData = styled(Box)(() => ({
   //styles
 }));
 
-export const ProductSearchTitle = styled(Typography)(({ theme }) => ({
-  paddingLeft: theme.spacing(1), //8px
-  fontWeight: "400",
-}));
-
 export const ProductListContainer = styled(Grid)(({ theme }) => ({
   maxWidth: "100%",
   margin: `${theme.spacing(0)} !important`,

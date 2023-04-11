@@ -3,7 +3,6 @@ import {
   ProductContainer,
   ProductFilters,
   ProductData,
-  ProductSearchTitle,
   ProductListContainer,
   ProductListItem,
 } from "./Products.styles";
@@ -15,13 +14,22 @@ import ProductItem from "../../../components/products/ProductItem/ProductItem";
 import ProductTitle from "../../../components/products/ProductTitle/ProductTitle";
 
 const Products = () => {
-  let totResults = 2;
+  // let totResults = 2;
   let { search } = useLocation();
   let searchData = decodeURIComponent(search.slice(3).replace(/\+/g, " "));
 
-  if (search) {
-    let searchProducts = products.find((product) => product.name === search);
-  }
+  let searchProducts = products.filter(
+    (product) =>
+      product.name
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, (char) => "") ===
+      searchData
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, (char) => "")
+  );
+  console.log(searchProducts);
 
   return (
     <ProductContainer component={"main"}>
@@ -29,22 +37,22 @@ const Products = () => {
         <ProductFilter />
       </ProductFilters>
       <ProductData component={"section"}>
-        <ProductTitle search={search && searchData} />
+        <ProductTitle
+          search={search && searchData}
+          totResults={search ? searchProducts.length : products.length}
+        />
         <ProductListContainer container spacing={3}>
-          {search ? (
-            <div>Tiene que mostrar el map de products según la busqueda</div>
-          ) : (
-            // searchProducts.map((product) => (
-            //     <ProductListItem item key={product.id}>
-            //       <ProductItem data={product} />
-            //     </ProductListItem>
-            //   ))
-            products.map((product) => (
-              <ProductListItem item key={product.id}>
-                <ProductItem data={product} />
-              </ProductListItem>
-            ))
-          )}
+          {!searchData
+            ? products.map((product) => (
+                <ProductListItem item key={product.id}>
+                  <ProductItem data={product} />
+                </ProductListItem>
+              ))
+            : searchProducts.map((product) => (
+                <ProductListItem item key={product.id}>
+                  <ProductItem data={product} />
+                </ProductListItem>
+              ))}
         </ProductListContainer>
       </ProductData>
     </ProductContainer>
