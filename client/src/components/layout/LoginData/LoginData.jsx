@@ -8,7 +8,15 @@ import {
   ThirdInput,
 } from "./LoginData.styles";
 
-const LoginData = ({ profile, editMode, onEditChange }) => {
+const LoginData = ({
+  profile,
+  editMode,
+  onEditChange,
+  errors,
+  form,
+  handleBlur,
+  handleChange,
+}) => {
   let database = {
     email: "josemirlukaku@gmail.com",
   };
@@ -51,6 +59,11 @@ const LoginData = ({ profile, editMode, onEditChange }) => {
           !profile ? false : !editMode && !changePassword ? true : false
         }
         sx={{ width: !profile ? "376px" : "inherit" }}
+        error={errors.email ? true : false}
+        helperText={errors.email}
+        value={form.email}
+        onBlur={handleBlur}
+        onChange={handleChange}
       />
       {(!profile || changePassword) && (
         <SecondInput
@@ -68,6 +81,11 @@ const LoginData = ({ profile, editMode, onEditChange }) => {
             width: !profile ? "376px" : "inherit",
             marginBottom: changePassword && theme.spacing(2),
           }}
+          error={errors.password ? true : false}
+          helperText={errors.password}
+          value={form.password}
+          onBlur={handleBlur}
+          onChange={handleChange}
         />
       )}
       {changePassword && (
