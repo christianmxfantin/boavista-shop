@@ -18,49 +18,25 @@ import {
   SurnameInput,
 } from "./FormAuth.styles";
 import { useForm } from "../../hooks/useForm";
-
-const initialForm = {
-  name: "",
-  surname: "",
-  email: "",
-  password: "",
-};
-
-const validationsForm = (form) => {
-  let errors = {};
-  let regexName = /^[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$/;
-  let regexEmail = /^(\w+[/./-]?){1,}@[a-z]+[/.]\w{2,}$/;
-  let regexPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
-
-  if (!form.name.trim()) {
-    errors.name = "El campo no puede estar vacío";
-  } else if (!regexName.test(form.name.trim())) {
-    errors.name = "Los datos ingresados no son válidos";
-  }
-
-  if (!form.surname.trim()) {
-    errors.surname = "El campo no puede estar vacío";
-  } else if (!regexName.test(form.surname.trim())) {
-    errors.surname = "Los datos ingresados no son válidos";
-  }
-
-  if (!form.email.trim()) {
-    errors.email = "El campo no puede estar vacío";
-  } else if (!regexEmail.test(form.email.trim())) {
-    errors.email = "Los datos ingresados no son válidos";
-  }
-
-  if (!form.password.trim()) {
-    errors.password = "El campo no puede estar vacío";
-  } else if (!regexPassword.test(form.password.trim())) {
-    errors.password =
-      "El campo debe contener al menos 8 caracteres, incluyendo al menos un número, una letra minúscula y una letra mayúscula";
-  }
-
-  return errors;
-};
+import { validationsForm } from "../../helpers/validationsForm";
 
 const FormAuth = ({ data, handleAuth }) => {
+  let initialForm;
+  if (data === "register") {
+    initialForm = {
+      name: "",
+      surname: "",
+      email: "",
+      password: "",
+      terms: "",
+    };
+  } else {
+    initialForm = {
+      email: "",
+      password: "",
+    };
+  }
+
   const theme = useTheme();
   const navigate = useNavigate();
   const {
@@ -68,6 +44,7 @@ const FormAuth = ({ data, handleAuth }) => {
     errors,
     loading,
     response,
+    handleError,
     handleChange,
     handleBlur,
     handleSubmit,
@@ -167,8 +144,9 @@ const FormAuth = ({ data, handleAuth }) => {
               size="small"
               placeholder="Ingresa tu Nombre"
               required
-              error={errors.name ? true : false}
-              helperText={errors.name}
+              // error={errors.name ? true : false}
+              error={handleError}
+              // helperText={errors.name}
               value={form.name}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -188,13 +166,15 @@ const FormAuth = ({ data, handleAuth }) => {
             />
           </FormAuthName>
         )}
-        {data !== "dashboard" && (
+        {data !== "dashboard" ? (
           <LoginData
-            errors={errors}
-            form={form}
-            handleBlur={handleBlur}
-            handleChange={handleChange}
+          // errorsAuth={errors}
+          // formAuth={form}
+          // handleBlurAuth={handleBlur}
+          // handleChangeAuth={handleChange}
           />
+        ) : (
+          <LoginData />
         )}
         {data === "register" && (
           <FormControlLabel

@@ -7,19 +7,40 @@ import {
   SecondInput,
   ThirdInput,
 } from "./LoginData.styles";
+import { useForm } from "../../hooks/useForm";
+import { validationsForm } from "../../helpers/validationsForm";
 
 const LoginData = ({
   profile,
   editMode,
   onEditChange,
-  errors,
-  form,
-  handleBlur,
-  handleChange,
+  errorsAuth,
+  formAuth,
+  handleBlurAuth,
+  handleChangeAuth,
 }) => {
   let database = {
     email: "josemirlukaku@gmail.com",
   };
+
+  const initialForm = {
+    // dashboard && name: ",
+    name: "",
+    surname: "",
+    email: "",
+    password: "",
+    terms: "",
+  };
+
+  const {
+    form,
+    errors,
+    loading,
+    response,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+  } = useForm(initialForm, validationsForm);
 
   const theme = useTheme();
   const [changePassword, setChangePassword] = useState(false);
