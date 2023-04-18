@@ -24,18 +24,22 @@ const FormAuth = ({ data, handleAuth }) => {
   let initialForm;
   if (data === "register") {
     initialForm = {
+      type: "register",
       name: "",
       surname: "",
       email: "",
       password: "",
       terms: "",
     };
-  } else {
+  } else if (data === "login") {
     initialForm = {
+      type: "login",
       email: "",
       password: "",
     };
   }
+
+  console.log(initialForm);
 
   const theme = useTheme();
   const navigate = useNavigate();
@@ -44,7 +48,6 @@ const FormAuth = ({ data, handleAuth }) => {
     errors,
     loading,
     response,
-    handleError,
     handleChange,
     handleBlur,
     handleSubmit,
@@ -61,15 +64,8 @@ const FormAuth = ({ data, handleAuth }) => {
   const handleTopButton = (e) => {
     e.preventDefault();
 
-    console.log(e);
     if (data === "login") {
       //SE LOGUEA EL USUARIO
-      let credentials = {
-        email: e.target.parentElement.parentElement[2].value,
-        password: e.target.parentElement.parentElement[4].value,
-      };
-      console.log(credentials);
-
       let role = "";
       if (role === "admin") {
         navigate("/dashboard");
@@ -144,9 +140,8 @@ const FormAuth = ({ data, handleAuth }) => {
               size="small"
               placeholder="Ingresa tu Nombre"
               required
-              // error={errors.name ? true : false}
-              error={handleError}
-              // helperText={errors.name}
+              error={errors.name ? true : false}
+              helperText={errors.name}
               value={form.name}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -166,15 +161,13 @@ const FormAuth = ({ data, handleAuth }) => {
             />
           </FormAuthName>
         )}
-        {data !== "dashboard" ? (
+        {data !== "dashboard" && (
           <LoginData
-          // errorsAuth={errors}
-          // formAuth={form}
-          // handleBlurAuth={handleBlur}
-          // handleChangeAuth={handleChange}
+            errors={errors}
+            form={form}
+            handleBlur={handleBlur}
+            handleChange={handleChange}
           />
-        ) : (
-          <LoginData />
         )}
         {data === "register" && (
           <FormControlLabel

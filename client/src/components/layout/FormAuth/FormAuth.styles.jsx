@@ -59,6 +59,10 @@ export const SurnameInput = styled(TextField)(({ theme }) => ({
   //styles
 }));
 
+export const LoginDataForm = styled(Box)(({ theme }) => ({
+  //styles
+}));
+
 export const ButtonsContainer = styled(Box)(() => ({
   display: "flex",
   flexDirection: "column",
