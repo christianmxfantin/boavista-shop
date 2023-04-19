@@ -59,7 +59,7 @@ const LoginData = ({
           !profile ? false : !editMode && !changePassword ? true : false
         }
         sx={{ width: !profile ? "376px" : "inherit" }}
-        error={errors.email ? true : false}
+        error={!!errors.email}
         helperText={errors.email}
         value={form.email}
         onBlur={handleBlur}
@@ -81,7 +81,7 @@ const LoginData = ({
             width: !profile ? "376px" : "inherit",
             marginBottom: changePassword && theme.spacing(2),
           }}
-          error={errors.password ? true : false}
+          error={!!errors.password}
           helperText={errors.password}
           value={form.password}
           onBlur={handleBlur}

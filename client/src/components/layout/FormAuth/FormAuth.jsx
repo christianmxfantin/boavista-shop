@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import { Checkbox, FormControlLabel } from "@mui/material";
@@ -18,7 +19,10 @@ import {
   SurnameInput,
 } from "./FormAuth.styles";
 import { useForm } from "../../hooks/useForm";
-import { validationsForm } from "../../helpers/validationsForm";
+import {
+  validateLoginForm,
+  validateRegisterForm,
+} from "../../helpers/validationsForm";
 
 const FormAuth = ({ data, handleAuth }) => {
   let initialForm;
@@ -39,19 +43,15 @@ const FormAuth = ({ data, handleAuth }) => {
     };
   }
 
-  console.log(initialForm);
-
   const theme = useTheme();
   const navigate = useNavigate();
-  const {
-    form,
-    errors,
-    loading,
-    response,
-    handleChange,
-    handleBlur,
-    handleSubmit,
-  } = useForm(initialForm, validationsForm);
+
+  const { form, errors, handleChange, handleBlur, handleSubmit } = useForm(
+    initialForm,
+    validateLoginForm,
+    validateRegisterForm
+  );
+  // const [errors, setErrors] = useState({});
 
   const handleGoogleAuth = () => {
     console.log("Inicio con Google");
@@ -140,11 +140,11 @@ const FormAuth = ({ data, handleAuth }) => {
               size="small"
               placeholder="Ingresa tu Nombre"
               required
-              error={errors.name ? true : false}
-              helperText={errors.name}
               value={form.name}
-              onBlur={handleBlur}
               onChange={handleChange}
+              error={!!errors.name}
+              helperText={errors.name}
+              onBlur={handleBlur}
             />
             <SurnameInput
               name="surname"
@@ -153,11 +153,11 @@ const FormAuth = ({ data, handleAuth }) => {
               size="small"
               placeholder="Ingresa tu Apellido"
               required
-              error={errors.surname ? true : false}
-              helperText={errors.surname}
               value={form.surname}
-              onBlur={handleBlur}
               onChange={handleChange}
+              error={!!errors.surname}
+              helperText={errors.surname}
+              onBlur={handleBlur}
             />
           </FormAuthName>
         )}
