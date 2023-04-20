@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import { Checkbox, FormControlLabel } from "@mui/material";
@@ -19,10 +18,6 @@ import {
   SurnameInput,
 } from "./FormAuth.styles";
 import { useForm } from "../../hooks/useForm";
-import {
-  validateLoginForm,
-  validateRegisterForm,
-} from "../../helpers/validationsForm";
 
 const FormAuth = ({ data, handleAuth }) => {
   let initialForm;
@@ -45,13 +40,8 @@ const FormAuth = ({ data, handleAuth }) => {
 
   const theme = useTheme();
   const navigate = useNavigate();
-
-  const { form, errors, handleChange, handleBlur, handleSubmit } = useForm(
-    initialForm,
-    validateLoginForm,
-    validateRegisterForm
-  );
-  // const [errors, setErrors] = useState({});
+  const { form, errors, handleChange, handleBlur, handleSubmit } =
+    useForm(initialForm);
 
   const handleGoogleAuth = () => {
     console.log("Inicio con Google");
@@ -61,26 +51,8 @@ const FormAuth = ({ data, handleAuth }) => {
     console.log("Inicio con Facebook");
   };
 
-  const handleTopButton = (e) => {
-    e.preventDefault();
-
-    if (data === "login") {
-      //SE LOGUEA EL USUARIO
-      let role = "";
-      if (role === "admin") {
-        navigate("/dashboard");
-      } else {
-        navigate("/");
-        handleAuth(true);
-        // setOpen(true);
-      }
-    } else if (data === "register") {
-      //SE LOGUEA EL USUARIO DESPUES DE REGISTRARSE
-      navigate("/");
-      handleAuth(true);
-    } else {
-      navigate("/dashboard/users");
-    }
+  const handleTopButton = () => {
+    navigate("/dashboard/users");
   };
 
   const handleBottomButton = () => {
@@ -97,7 +69,7 @@ const FormAuth = ({ data, handleAuth }) => {
         component={"form"}
         autoComplete="off"
         noValidate
-        onSubmit={handleSubmit}
+        onSubmit={(e) => handleSubmit(e, handleAuth)}
       >
         <FormAuthTitle variant={data !== "dashboard" ? "h5" : "h4"}>
           {data === "login"
@@ -163,8 +135,8 @@ const FormAuth = ({ data, handleAuth }) => {
         )}
         {data !== "dashboard" && (
           <LoginData
-            errors={errors}
             form={form}
+            errors={errors}
             handleBlur={handleBlur}
             handleChange={handleChange}
           />
@@ -182,18 +154,29 @@ const FormAuth = ({ data, handleAuth }) => {
             justifyContent: data === "dashboard" ? "center" : "initial",
           }}
         >
-          <Button
-            name={data === "dashboard" ? "Usuarios" : "Continuar"}
-            type={data !== "dashboard" && "submit"}
-            buttonStyle="primary"
-            sx={{
-              width: "376px",
-              marginBottom:
-                data === "dashboard" ? theme.spacing(4) : theme.spacing(1),
-              fontSize: data === "dashboard" && theme.spacing(3), //24px
-            }}
-            // onClick={handleTopButton}
-          />
+          {data !== "dashboard" && (
+            <Button
+              name="Continuar"
+              type="submit"
+              buttonStyle="primary"
+              sx={{
+                width: "376px",
+                marginBottom: theme.spacing(1),
+              }}
+            />
+          )}
+          {data === "dashboard" && (
+            <Button
+              name="Usuarios"
+              buttonStyle="primary"
+              sx={{
+                width: "376px",
+                marginBottom: theme.spacing(4),
+                fontSize: theme.spacing(3), //24px
+              }}
+              onClick={handleTopButton}
+            />
+          )}
           <Button
             name={data === "dashboard" ? "Productos" : "Crear Cuenta"}
             buttonStyle={data === "dashboard" ? "primary" : "secondary"}
@@ -205,6 +188,7 @@ const FormAuth = ({ data, handleAuth }) => {
             onClick={handleBottomButton}
           />
         </ButtonsContainer>
+        {/* {data === "login" ? response && handleAuth(true) : null} */}
       </FormAuthContainer>
     </main>
   );

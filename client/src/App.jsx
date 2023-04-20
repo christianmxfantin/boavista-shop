@@ -64,7 +64,7 @@ const App = () => {
           <Route exact path="/dashboard/users" element={<PrivateRoute />}>
             <Route
               exact
-              path="dashboard/users"
+              path="/dashboard/users"
               element={
                 <>
                   <Navbar
@@ -80,7 +80,7 @@ const App = () => {
           <Route exact path="/dashboard/products" element={<PrivateRoute />}>
             <Route
               exact
-              path="dashboard/products"
+              path="/dashboard/products"
               element={
                 <>
                   <Navbar
