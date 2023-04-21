@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  validateForm,
+  validateAuthForm,
   validateLoginForm,
   validateRegisterForm,
 } from "../helpers/validationsForm";
@@ -35,7 +35,7 @@ export const useForm = (initialForm) => {
 
   const handleSubmit = (e, handleAuth) => {
     e.preventDefault();
-    const errors = validateForm(form);
+    const errors = validateAuthForm(form);
     setErrors(errors);
 
     if (Object.keys(errors).length === 0) {

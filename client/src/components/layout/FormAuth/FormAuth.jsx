@@ -135,10 +135,10 @@ const FormAuth = ({ data, handleAuth }) => {
         )}
         {data !== "dashboard" && (
           <LoginData
-            form={form}
-            errors={errors}
-            handleBlur={handleBlur}
-            handleChange={handleChange}
+            formLogin={form}
+            errorsLogin={errors}
+            handleBlurLogin={handleBlur}
+            handleChangeLogin={handleChange}
           />
         )}
         {data === "register" && (
