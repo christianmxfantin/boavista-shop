@@ -4,6 +4,7 @@ import {
   validateAuthForm,
   validateLoginForm,
   validateRegisterForm,
+  validateChangePasswordForm,
 } from "../helpers/validationsForm";
 
 export const useForm = (initialForm) => {
@@ -23,12 +24,17 @@ export const useForm = (initialForm) => {
 
   const handleBlur = (e) => {
     const fieldName = e.target.name;
+
     handleChange(e);
     if (e.target.type !== "submit") {
+      console.log(form);
       const fieldError =
         form.type === "login"
           ? validateLoginForm(form, fieldName)
-          : validateRegisterForm(form, fieldName);
+          : form.type === "register"
+          ? validateRegisterForm(form, fieldName)
+          : validateChangePasswordForm(form, fieldName);
+
       setErrors((prevErrors) => ({ ...prevErrors, [fieldName]: fieldError }));
     }
   };

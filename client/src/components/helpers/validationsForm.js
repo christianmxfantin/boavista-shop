@@ -75,6 +75,7 @@ export const validateAuthForm = (form) => {
   return errors;
 };
 
+//Fruta
 export const validateChangePasswordField = (form, fieldName) => {
   const value = form[fieldName];
   const errors = {};
@@ -82,7 +83,12 @@ export const validateChangePasswordField = (form, fieldName) => {
 
   if (!value.trim()) {
     errors[fieldName] = "El campo no puede estar vacío";
-  } else if (fieldName === "password" && !regexPassword.test(value.trim())) {
+  } else if (
+    fieldName === "last-password" &&
+    fieldName === "new-password" &&
+    fieldName === "confirm-password" &&
+    !regexPassword.test(value.trim())
+  ) {
     errors[fieldName] =
       "El campo debe contener al menos 8 caracteres, incluyendo al menos un número, una letra minúscula y una letra mayúscula";
   }

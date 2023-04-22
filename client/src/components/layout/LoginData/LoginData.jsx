@@ -21,19 +21,24 @@ const LoginData = ({
   let database = {
     email: "josemirlukaku@gmail.com",
   };
+  const theme = useTheme();
+  const [changePassword, setChangePassword] = useState(false);
 
   let initialForm;
-  if (profile) {
+  if (!changePassword) {
+    initialForm = {
+      type: "change-email",
+      email: "",
+    };
+  } else {
     initialForm = {
       type: "change-password",
-      lastPassword: "",
+      password: "",
       newPassword: "",
       confirmPassword: "",
     };
   }
 
-  const theme = useTheme();
-  const [changePassword, setChangePassword] = useState(false);
   const { form, errors, handleChange, handleBlur, handleSubmit } =
     useForm(initialForm);
 
@@ -77,29 +82,30 @@ const LoginData = ({
         }
         sx={{ width: !profile ? "376px" : "inherit" }}
         error={
-          !profile
-            ? errorsLogin.email
-            : !changePassword
+          !changePassword
             ? !!errors.email
-            : !!errors.password
+            : changePassword
+            ? !!errors.password
+            : !!errorsLogin.email
         }
         helperText={
-          !profile
-            ? errorsLogin.email
-            : !changePassword
+          !changePassword
             ? errors.email
-            : errors.password
+            : changePassword
+            ? errors.password
+            : errorsLogin.email
         }
         value={
-          !profile
-            ? formLogin.email
-            : !changePassword
+          !changePassword
             ? form.email
-            : form.password
+            : changePassword
+            ? form.password
+            : formLogin.email
         }
         onBlur={!profile ? handleBlurLogin : handleBlur}
         onChange={!profile ? handleChangeLogin : handleChange}
       />
+      {/* {console.log(errors)} */}
       {(!profile || changePassword) && (
         <SecondInput
           name={!profile ? "password" : "new-password"}
