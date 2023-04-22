@@ -17,7 +17,7 @@ import {
   NameInput,
   SurnameInput,
 } from "./FormAuth.styles";
-import { useForm } from "../../hooks/useForm";
+import { useForm } from "../../../hooks/useForm";
 
 const FormAuth = ({ data, handleAuth }) => {
   let initialForm;
@@ -28,7 +28,7 @@ const FormAuth = ({ data, handleAuth }) => {
       surname: "",
       email: "",
       password: "",
-      terms: "",
+      // terms: "",
     };
   } else if (data === "login") {
     initialForm = {

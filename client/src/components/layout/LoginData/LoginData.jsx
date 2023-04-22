@@ -7,7 +7,7 @@ import {
   SecondInput,
   ThirdInput,
 } from "./LoginData.styles";
-import { useForm } from "../../hooks/useForm";
+import { useForm } from "../../../hooks/useForm";
 
 const LoginData = ({
   profile,
@@ -33,7 +33,7 @@ const LoginData = ({
   } else {
     initialForm = {
       type: "change-password",
-      password: "",
+      lastPassword: "",
       newPassword: "",
       confirmPassword: "",
     };
@@ -42,12 +42,13 @@ const LoginData = ({
   const { form, errors, handleChange, handleBlur, handleSubmit } =
     useForm(initialForm);
 
-  const handleClick = (e) => {
+  const handleClick = (editMode, changePassword) => {
     if (editMode) {
       //save the username
       console.log("Editar usuario");
       setChangePassword(false);
       onEditChange(false);
+      console.log(form.type);
     } else if (!changePassword) {
       //open the form for change password
       setChangePassword(true);
@@ -62,8 +63,13 @@ const LoginData = ({
   return (
     <LoginDataContainer
       component={changePassword ? "form" : undefined}
-      onSubmit={changePassword ? (e) => handleSubmit(e, true) : undefined}
+      onSubmit={
+        editMode || changePassword
+          ? (e) => handleSubmit(e, true, handleClick(false, true))
+          : undefined
+      }
     >
+      {/* {console.log("1ro: ", errorsLogin)} */}
       <FirstInput
         name={!changePassword ? "email" : "last-password"}
         type={!changePassword ? "email" : "password"}
@@ -82,25 +88,25 @@ const LoginData = ({
         }
         sx={{ width: !profile ? "376px" : "inherit" }}
         error={
-          !changePassword
+          !profile
+            ? !!errorsLogin.email
+            : !changePassword
             ? !!errors.email
-            : changePassword
-            ? !!errors.password
-            : !!errorsLogin.email
+            : !!errors["last-password"]
         }
         helperText={
-          !changePassword
+          !profile
+            ? errorsLogin.email
+            : !changePassword
             ? errors.email
-            : changePassword
-            ? errors.password
-            : errorsLogin.email
+            : errors["last-password"]
         }
         value={
-          !changePassword
+          !profile
+            ? formLogin.email
+            : !changePassword
             ? form.email
-            : changePassword
-            ? form.password
-            : formLogin.email
+            : form["last-password"]
         }
         onBlur={!profile ? handleBlurLogin : handleBlur}
         onChange={!profile ? handleChangeLogin : handleChange}
@@ -122,9 +128,13 @@ const LoginData = ({
             width: !profile ? "376px" : "inherit",
             marginBottom: changePassword && theme.spacing(2),
           }}
-          error={!changePassword ? !!errorsLogin.password : !!errors.password}
-          helperText={!changePassword ? errorsLogin.password : errors.password}
-          value={!changePassword ? formLogin.password : form.password}
+          error={
+            !changePassword ? !!errorsLogin.password : !!errors["new-password"]
+          }
+          helperText={
+            !changePassword ? errorsLogin.password : errors["new-password"]
+          }
+          value={!changePassword ? formLogin.password : form["new-password"]}
           onBlur={!profile ? handleBlurLogin : handleBlur}
           onChange={!profile ? handleChangeLogin : handleChange}
         />
@@ -137,9 +147,9 @@ const LoginData = ({
           size="small"
           placeholder="Repite la Nueva Contraseña"
           required
-          error={!!errors.password}
-          helperText={errors.password}
-          value={form.password}
+          error={!!errors["confirm-password"]}
+          helperText={errors["confirm-password"]}
+          value={form["confirm-password"]}
           onBlur={handleBlur}
           onChange={handleChange}
         />
@@ -147,8 +157,8 @@ const LoginData = ({
       {profile && (
         <Button
           variant={editMode || changePassword ? "contained" : "text"}
-          type={changePassword ? "submit" : undefined}
-          onClick={handleClick}
+          type={editMode || changePassword ? "submit" : undefined}
+          onClick={!editMode || !changePassword ? handleClick(false) : null}
         >
           {editMode || changePassword ? "Guardar" : "Cambiar Contraseña"}
         </Button>

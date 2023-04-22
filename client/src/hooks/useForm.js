@@ -1,11 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  validateAuthForm,
-  validateLoginForm,
-  validateRegisterForm,
-  validateChangePasswordForm,
-} from "../helpers/validationsForm";
+import { validateField, validateForm } from "../helpers/validationsForm";
 
 export const useForm = (initialForm) => {
   const navigate = useNavigate();
@@ -24,25 +19,18 @@ export const useForm = (initialForm) => {
 
   const handleBlur = (e) => {
     const fieldName = e.target.name;
-
     handleChange(e);
     if (e.target.type !== "submit") {
-      console.log(form);
-      const fieldError =
-        form.type === "login"
-          ? validateLoginForm(form, fieldName)
-          : form.type === "register"
-          ? validateRegisterForm(form, fieldName)
-          : validateChangePasswordForm(form, fieldName);
-
+      const fieldError = validateField(fieldName, form[fieldName]);
       setErrors((prevErrors) => ({ ...prevErrors, [fieldName]: fieldError }));
     }
   };
 
-  const handleSubmit = (e, handleAuth) => {
+  const handleSubmit = (e, handleAuth, handleClick) => {
     e.preventDefault();
-    const errors = validateAuthForm(form);
+    const errors = validateForm(form);
     setErrors(errors);
+    console.log(handleClick);
 
     if (Object.keys(errors).length === 0) {
       if (form.type === "login") {
@@ -62,7 +50,7 @@ export const useForm = (initialForm) => {
           navigate("/");
           handleAuth(true);
         }
-      } else {
+      } else if (form.type === "register") {
         //SE REGISTRA EL USUARIO Y SE LOGUEA
         let credentials = {
           name: e.target[0].value,
@@ -75,6 +63,12 @@ export const useForm = (initialForm) => {
 
         navigate("/");
         handleAuth(true);
+      } else if (form.type === "change-email") {
+        handleClick();
+        console.log("Se cambió la dirección de email");
+      } else if (form.type === "change-password") {
+        handleClick();
+        console.log("Se cambió la contraseña");
       }
     }
   };
