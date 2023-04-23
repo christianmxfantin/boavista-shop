@@ -28,50 +28,42 @@ const LoginData = ({
   if (!changePassword) {
     initialForm = {
       type: "change-email",
-      email: "",
+      "new-email": "",
     };
   } else {
     initialForm = {
       type: "change-password",
-      lastPassword: "",
-      newPassword: "",
-      confirmPassword: "",
+      "last-password": "",
+      "new-password": "",
+      "confirm-password": "",
     };
   }
 
   const { form, errors, handleChange, handleBlur, handleSubmit } =
     useForm(initialForm);
 
-  const handleClick = (editMode, changePassword) => {
-    if (editMode) {
-      //save the username
-      console.log("Editar usuario");
-      setChangePassword(false);
-      onEditChange(false);
-      console.log(form.type);
-    } else if (!changePassword) {
-      //open the form for change password
-      setChangePassword(true);
-      onEditChange(true);
-    } else {
-      //save data of new password
-      setChangePassword(false);
-      onEditChange(false);
-    }
+  const handleSendData = () => {
+    setChangePassword(false);
+    onEditChange(false);
   };
 
+  const handleClick = () => {
+    setChangePassword(true);
+    onEditChange(true);
+  };
+
+  console.log(form);
   return (
     <LoginDataContainer
-      component={changePassword ? "form" : undefined}
-      onSubmit={
-        editMode || changePassword
-          ? (e) => handleSubmit(e, true, handleClick(false, true))
-          : undefined
-      }
+      autoComplete={editMode || changePassword ? "off" : undefined}
+      noValidate={editMode || changePassword ? true : false}
+      component={editMode || changePassword ? "form" : undefined}
+      onSubmit={(e) => handleSubmit(e, true, handleSendData)}
     >
-      {/* {console.log("1ro: ", errorsLogin)} */}
       <FirstInput
-        name={!changePassword ? "email" : "last-password"}
+        name={
+          !profile ? "email" : !changePassword ? "new-email" : "last-password"
+        }
         type={!changePassword ? "email" : "password"}
         variant="outlined"
         size="small"
@@ -91,21 +83,21 @@ const LoginData = ({
           !profile
             ? !!errorsLogin.email
             : !changePassword
-            ? !!errors.email
+            ? !!errors["new-email"]
             : !!errors["last-password"]
         }
         helperText={
           !profile
             ? errorsLogin.email
             : !changePassword
-            ? errors.email
+            ? errors["new-email"]
             : errors["last-password"]
         }
         value={
           !profile
             ? formLogin.email
             : !changePassword
-            ? form.email
+            ? form["new-email"]
             : form["last-password"]
         }
         onBlur={!profile ? handleBlurLogin : handleBlur}
@@ -134,7 +126,7 @@ const LoginData = ({
           helperText={
             !changePassword ? errorsLogin.password : errors["new-password"]
           }
-          value={!changePassword ? formLogin.password : form["new-password"]}
+          // value={!changePassword ? formLogin.password : form["new-password"]}
           onBlur={!profile ? handleBlurLogin : handleBlur}
           onChange={!profile ? handleChangeLogin : handleChange}
         />
@@ -149,18 +141,19 @@ const LoginData = ({
           required
           error={!!errors["confirm-password"]}
           helperText={errors["confirm-password"]}
-          value={form["confirm-password"]}
+          // value={form["confirm-password"]}
           onBlur={handleBlur}
           onChange={handleChange}
         />
       )}
-      {profile && (
-        <Button
-          variant={editMode || changePassword ? "contained" : "text"}
-          type={editMode || changePassword ? "submit" : undefined}
-          onClick={!editMode || !changePassword ? handleClick(false) : null}
-        >
-          {editMode || changePassword ? "Guardar" : "Cambiar Contraseña"}
+      {/* Boton de Editar Usuario */}
+      {editMode || changePassword ? (
+        <Button variant="contained" type="submit">
+          Guardar
+        </Button>
+      ) : (
+        <Button variant="text" onClick={handleClick}>
+          Cambiar Contraseña
         </Button>
       )}
     </LoginDataContainer>

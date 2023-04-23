@@ -26,11 +26,12 @@ export const useForm = (initialForm) => {
     }
   };
 
-  const handleSubmit = (e, handleAuth, handleClick) => {
+  const handleSubmit = (e, handleAuth, handleSendData) => {
     e.preventDefault();
     const errors = validateForm(form);
     setErrors(errors);
-    console.log(handleClick);
+    console.log(form);
+    console.log(errors);
 
     if (Object.keys(errors).length === 0) {
       if (form.type === "login") {
@@ -64,10 +65,10 @@ export const useForm = (initialForm) => {
         navigate("/");
         handleAuth(true);
       } else if (form.type === "change-email") {
-        handleClick();
+        handleSendData();
         console.log("Se cambió la dirección de email");
       } else if (form.type === "change-password") {
-        handleClick();
+        handleSendData();
         console.log("Se cambió la contraseña");
       }
     }

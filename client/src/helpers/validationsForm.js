@@ -18,13 +18,17 @@ const rules = [
 ];
 
 const validateRules = (fieldName, value) => {
+  console.log(fieldName);
   if (
     ["last-password", "new-password", "confirm-password"].includes(fieldName)
   ) {
     fieldName = "password";
   } else if (["name", "surname"].includes(fieldName)) {
     fieldName = "names";
+  } else if (["new-email"].includes(fieldName)) {
+    fieldName = "email";
   }
+  console.log(fieldName);
 
   const fieldRules = rules.filter((rule) => rule.type === fieldName);
   const fieldErrors = [];
