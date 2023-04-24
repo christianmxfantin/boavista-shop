@@ -24,23 +24,39 @@ const LoginData = ({
   const theme = useTheme();
   const [changePassword, setChangePassword] = useState(false);
 
-  let initialForm;
-  if (!changePassword) {
-    initialForm = {
-      type: "change-email",
-      "new-email": "",
-    };
-  } else {
-    initialForm = {
-      type: "change-password",
-      "last-password": "",
-      "new-password": "",
-      "confirm-password": "",
-    };
-  }
+  // let initialForm;
+  // if (!changePassword) {
+  //   initialForm = {
+  //     type: "change-email",
+  //     "new-email": "",
+  //   };
+  // } else {
+  //   initialForm = {
+  //     type: "change-password",
+  //     "last-password": "",
+  //     "new-password": "",
+  //     "confirm-password": "",
+  //   };
+  // }
+  let changeEmailForm = {
+    type: "change-email",
+    "new-email": "",
+  };
 
-  const { form, errors, handleChange, handleBlur, handleSubmit } =
-    useForm(initialForm);
+  let changePasswordForm = {
+    type: "change-password",
+    "last-password": "",
+    "new-password": "",
+    "confirm-password": "",
+  };
+
+  const { form, errors, handleChange, handleBlur, handleSubmit } = useForm(
+    formLogin
+      ? formLogin
+      : !changePassword
+      ? changeEmailForm
+      : changePasswordForm
+  );
 
   const handleSendData = () => {
     setChangePassword(false);
@@ -58,7 +74,7 @@ const LoginData = ({
       autoComplete={editMode || changePassword ? "off" : undefined}
       noValidate={editMode || changePassword ? true : false}
       component={editMode || changePassword ? "form" : undefined}
-      onSubmit={(e) => handleSubmit(e, true, handleSendData)}
+      onSubmit={(e) => handleSubmit(e, true, false, handleSendData)}
     >
       <FirstInput
         name={
@@ -103,7 +119,6 @@ const LoginData = ({
         onBlur={!profile ? handleBlurLogin : handleBlur}
         onChange={!profile ? handleChangeLogin : handleChange}
       />
-      {/* {console.log(errors)} */}
       {(!profile || changePassword) && (
         <SecondInput
           name={!profile ? "password" : "new-password"}
@@ -146,16 +161,15 @@ const LoginData = ({
           onChange={handleChange}
         />
       )}
-      {/* Boton de Editar Usuario */}
-      {editMode || changePassword ? (
+      {profile && (editMode || changePassword) ? (
         <Button variant="contained" type="submit">
           Guardar
         </Button>
-      ) : (
+      ) : profile && (!editMode || !changePassword) ? (
         <Button variant="text" onClick={handleClick}>
           Cambiar Contraseña
         </Button>
-      )}
+      ) : null}
     </LoginDataContainer>
   );
 };

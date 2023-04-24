@@ -18,7 +18,6 @@ const rules = [
 ];
 
 const validateRules = (fieldName, value) => {
-  console.log(fieldName);
   if (
     ["last-password", "new-password", "confirm-password"].includes(fieldName)
   ) {
@@ -28,10 +27,14 @@ const validateRules = (fieldName, value) => {
   } else if (["new-email"].includes(fieldName)) {
     fieldName = "email";
   }
-  console.log(fieldName);
 
   const fieldRules = rules.filter((rule) => rule.type === fieldName);
   const fieldErrors = [];
+  console.log(fieldName, value);
+  if (fieldName === "terms" && value === false) {
+    fieldErrors.push("Debe seleccionar una opción para continuar");
+    return fieldErrors;
+  }
 
   if (!value.trim()) {
     fieldErrors.push("El campo no puede estar vacío");

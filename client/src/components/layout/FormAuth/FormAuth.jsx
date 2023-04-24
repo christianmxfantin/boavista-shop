@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
-import { Checkbox, FormControlLabel } from "@mui/material";
+import { Checkbox, FormControlLabel, FormHelperText } from "@mui/material";
 import { Button } from "../../ui/Button";
 import { Icon } from "../../ui/Icon";
 import Underline from "../../ui/Underline";
@@ -18,6 +18,7 @@ import {
   SurnameInput,
 } from "./FormAuth.styles";
 import { useForm } from "../../../hooks/useForm";
+import { useState } from "react";
 
 const FormAuth = ({ data, handleAuth }) => {
   let initialForm;
@@ -28,7 +29,7 @@ const FormAuth = ({ data, handleAuth }) => {
       surname: "",
       email: "",
       password: "",
-      // terms: "",
+      terms: "",
     };
   } else if (data === "login") {
     initialForm = {
@@ -40,6 +41,7 @@ const FormAuth = ({ data, handleAuth }) => {
 
   const theme = useTheme();
   const navigate = useNavigate();
+  const [isChecked, setIsChecked] = useState(false);
   const { form, errors, handleChange, handleBlur, handleSubmit } =
     useForm(initialForm);
 
@@ -69,7 +71,7 @@ const FormAuth = ({ data, handleAuth }) => {
         component={"form"}
         autoComplete="off"
         noValidate
-        onSubmit={(e) => handleSubmit(e, handleAuth)}
+        onSubmit={(e) => handleSubmit(e, handleAuth, isChecked, null)}
       >
         <FormAuthTitle variant={data !== "dashboard" ? "h5" : "h4"}>
           {data === "login"
@@ -142,10 +144,24 @@ const FormAuth = ({ data, handleAuth }) => {
           />
         )}
         {data === "register" && (
-          <FormControlLabel
-            control={<Checkbox required />}
-            label="Acepto los Términos y Condiciones"
-          />
+          <>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  required
+                  checked={isChecked}
+                  onChange={(e) => {
+                    setIsChecked(e.target.checked);
+                    console.log(isChecked);
+                  }}
+                />
+              }
+              label="Acepto los Términos y Condiciones"
+            />
+            <FormHelperText error={!!errors.terms}>
+              {errors.terms}
+            </FormHelperText>
+          </>
         )}
         <ButtonsContainer
           component={"section"}
