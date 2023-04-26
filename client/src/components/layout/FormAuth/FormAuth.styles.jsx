@@ -59,7 +59,11 @@ export const SurnameInput = styled(TextField)(({ theme }) => ({
   //styles
 }));
 
-export const LoginDataForm = styled(Box)(({ theme }) => ({
+export const EmailInput = styled(TextField)(({ theme }) => ({
+  marginBottom: theme.spacing(2), //16px
+}));
+
+export const PasswordInput = styled(TextField)(({ theme }) => ({
   //styles
 }));
 

@@ -4,9 +4,7 @@ import { Checkbox, FormControlLabel, FormHelperText } from "@mui/material";
 import { Button } from "../../ui/Button";
 import { Icon } from "../../ui/Icon";
 import Underline from "../../ui/Underline";
-import LoginData from "../LoginData/LoginData";
 import {
-  ButtonsContainer,
   FacebookButton,
   FormAuthContainer,
   FormAuthName,
@@ -16,6 +14,9 @@ import {
   GoogleButton,
   NameInput,
   SurnameInput,
+  EmailInput,
+  PasswordInput,
+  ButtonsContainer,
 } from "./FormAuth.styles";
 import { useForm } from "../../../hooks/useForm";
 import { useState } from "react";
@@ -31,7 +32,8 @@ const FormAuth = ({ data, handleAuth }) => {
       password: "",
       terms: "",
     };
-  } else if (data === "login") {
+    // } else if (data === "login") {
+  } else {
     initialForm = {
       type: "login",
       email: "",
@@ -114,10 +116,10 @@ const FormAuth = ({ data, handleAuth }) => {
               size="small"
               placeholder="Ingresa tu Nombre"
               required
-              value={form.name}
-              onChange={handleChange}
               error={!!errors.name}
               helperText={errors.name}
+              value={form.name}
+              onChange={handleChange}
               onBlur={handleBlur}
             />
             <SurnameInput
@@ -127,21 +129,43 @@ const FormAuth = ({ data, handleAuth }) => {
               size="small"
               placeholder="Ingresa tu Apellido"
               required
-              value={form.surname}
-              onChange={handleChange}
               error={!!errors.surname}
               helperText={errors.surname}
+              value={form.surname}
+              onChange={handleChange}
               onBlur={handleBlur}
             />
           </FormAuthName>
         )}
         {data !== "dashboard" && (
-          <LoginData
-            formLogin={form}
-            errorsLogin={errors}
-            handleBlurLogin={handleBlur}
-            handleChangeLogin={handleChange}
-          />
+          <>
+            <EmailInput
+              name="email"
+              type="email"
+              variant="outlined"
+              size="small"
+              placeholder="Ingresa tu Email"
+              required
+              error={!!errors.email}
+              helperText={errors.email}
+              value={form.email}
+              onBlur={handleBlur}
+              onChange={handleChange}
+            />
+            <PasswordInput
+              name="password"
+              type="password"
+              variant="outlined"
+              size="small"
+              placeholder="Ingresa tu Contraseña"
+              required
+              error={!!errors.password}
+              helperText={errors.password}
+              value={form.password}
+              onBlur={handleBlur}
+              onChange={handleChange}
+            />
+          </>
         )}
         {data === "register" && (
           <>
@@ -170,39 +194,51 @@ const FormAuth = ({ data, handleAuth }) => {
             justifyContent: data === "dashboard" ? "center" : "initial",
           }}
         >
-          {data !== "dashboard" && (
-            <Button
-              name="Continuar"
-              type="submit"
-              buttonStyle="primary"
-              sx={{
-                width: "376px",
-                marginBottom: theme.spacing(1),
-              }}
-            />
+          {data !== "dashboard" ? (
+            <>
+              <Button
+                name="Continuar"
+                type="submit"
+                buttonStyle="primary"
+                sx={{
+                  width: "376px",
+                  marginBottom: theme.spacing(1),
+                }}
+              />
+              {data === "login" && (
+                <Button
+                  name="Crear Cuenta"
+                  buttonStyle="secondary"
+                  sx={{
+                    width: "376px",
+                  }}
+                  onClick={handleBottomButton}
+                />
+              )}
+            </>
+          ) : (
+            <>
+              <Button
+                name="Usuarios"
+                buttonStyle="primary"
+                sx={{
+                  width: "376px",
+                  marginBottom: theme.spacing(4),
+                  fontSize: theme.spacing(3), //24px
+                }}
+                onClick={handleTopButton}
+              />
+              <Button
+                name="Productos"
+                buttonStyle="primary"
+                sx={{
+                  width: "376px",
+                  fontSize: theme.spacing(3), //24px
+                }}
+                onClick={handleBottomButton}
+              />
+            </>
           )}
-          {data === "dashboard" && (
-            <Button
-              name="Usuarios"
-              buttonStyle="primary"
-              sx={{
-                width: "376px",
-                marginBottom: theme.spacing(4),
-                fontSize: theme.spacing(3), //24px
-              }}
-              onClick={handleTopButton}
-            />
-          )}
-          <Button
-            name={data === "dashboard" ? "Productos" : "Crear Cuenta"}
-            buttonStyle={data === "dashboard" ? "primary" : "secondary"}
-            sx={{
-              width: "376px",
-              display: data === "register" ? "none" : "flex",
-              fontSize: data === "dashboard" && theme.spacing(3), //24px
-            }}
-            onClick={handleBottomButton}
-          />
         </ButtonsContainer>
         {/* {data === "login" ? response && handleAuth(true) : null} */}
       </FormAuthContainer>

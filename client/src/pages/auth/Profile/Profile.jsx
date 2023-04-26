@@ -4,7 +4,7 @@ import { Button } from "@mui/material";
 import { ProfileContainer, ProfileTitle } from "./Profile.styles";
 
 import ProfileData from "../../../components/layout/ProfileData/ProfileData";
-import LoginData from "../../../components/layout/LoginData/LoginData";
+import AccountData from "../../../components/layout/AccountData/AccountData";
 import Billing from "../../../components/checkout/Billing/Billing";
 import PaymentDetails from "../../../components/checkout/Payment/PaymentDetails/PaymentDetails";
 import TableActions from "../../../components/layout/TableActions/TableActions";
@@ -23,7 +23,7 @@ const Profile = () => {
         <ProfileTitle variant="h4">Mi Perfil</ProfileTitle>
         <ProfileData
           title="Datos de Cuenta"
-          component={<LoginData profile={true} />}
+          component={<AccountData data={"change-email"} />}
         />
         <ProfileData
           title="Datos de Facturación"
