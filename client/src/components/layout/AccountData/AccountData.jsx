@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useForm } from "../../../hooks/useForm";
 import { Button } from "@mui/material";
 import {
   AccountDataContainer,
@@ -14,28 +13,26 @@ const AccountData = ({ data, editMode, onEditChange }) => {
     email: "josemirlukaku@gmail.com",
   };
 
-  const [initialForm, setInitialForm] = useState("change-email");
+  // const [initialForm, setInitialForm] = useState("change-email");
 
-  console.log(initialForm);
-  let changeForm;
-  if (initialForm === "change-email") {
-    changeForm = {
-      type: "change-email",
-      "new-email": "",
-    };
-  } else if (initialForm === "change-password") {
-    changeForm = {
-      type: "change-password",
-      "last-password": "",
-      "new-password": "",
-      "confirm-password": "",
-    };
-  }
-  console.log(initialForm);
+  // console.log(initialForm);
+  // let changeForm;
+  // if (initialForm === "change-email") {
+  //   changeForm = {
+  //     type: "change-email",
+  //     "new-email": "",
+  //   };
+  // } else if (initialForm === "change-password") {
+  //   changeForm = {
+  //     type: "change-password",
+  //     "last-password": "",
+  //     "new-password": "",
+  //     "confirm-password": "",
+  //   };
+  // }
+  // console.log(initialForm);
 
   const [changePassword, setChangePassword] = useState(false);
-  const { form, errors, handleChange, handleBlur, handleSubmit } =
-    useForm(initialForm);
 
   const handleSendData = () => {
     setChangePassword(false);
@@ -57,7 +54,7 @@ const AccountData = ({ data, editMode, onEditChange }) => {
         autoComplete="off"
         noValidate
         component={"form"}
-        onSubmit={(e) => handleSubmit(e, true, false, handleSendData)}
+        // onSubmit={(e) => handleSubmit(e, true, false, handleSendData)}
       >
         {!changePassword ? (
           <ChangeEmailInput

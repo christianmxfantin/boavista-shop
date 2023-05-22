@@ -33,7 +33,7 @@ const App = () => {
             element={
               <>
                 <Navbar
-                  login={false}
+                  isLoginForm={false}
                   isLogged={isLogged}
                   handleAuth={handleAuth}
                 />
@@ -46,7 +46,7 @@ const App = () => {
             path="/login"
             element={
               <>
-                <Navbar login={true} />
+                <Navbar isLoginForm={true} />
                 <Login handleAuth={handleAuth} />
               </>
             }
@@ -56,7 +56,7 @@ const App = () => {
             path="/register"
             element={
               <>
-                <Navbar login={true} />
+                <Navbar isLoginForm={true} />
                 <Register handleAuth={handleAuth} />
               </>
             }
@@ -68,7 +68,7 @@ const App = () => {
               element={
                 <>
                   <Navbar
-                    login={false}
+                    isLoginForm={false}
                     isLogged={isLogged}
                     handleAuth={handleAuth}
                   />
@@ -84,7 +84,7 @@ const App = () => {
               element={
                 <>
                   <Navbar
-                    login={false}
+                    isLoginForm={false}
                     isLogged={isLogged}
                     handleAuth={handleAuth}
                   />
@@ -100,7 +100,7 @@ const App = () => {
               element={
                 <>
                   <Navbar
-                    login={false}
+                    isLoginForm={false}
                     isLogged={isLogged}
                     handleAuth={handleAuth}
                   />
@@ -116,7 +116,7 @@ const App = () => {
               element={
                 <>
                   <Navbar
-                    login={false}
+                    isLoginForm={false}
                     isLogged={isLogged}
                     handleAuth={handleAuth}
                   />
@@ -131,7 +131,7 @@ const App = () => {
             element={
               <>
                 <Navbar
-                  login={false}
+                  isLoginForm={false}
                   isLogged={isLogged}
                   handleAuth={handleAuth}
                 />
@@ -145,7 +145,7 @@ const App = () => {
             element={
               <>
                 <Navbar
-                  login={false}
+                  isLoginForm={false}
                   isLogged={isLogged}
                   handleAuth={handleAuth}
                 />
@@ -160,7 +160,7 @@ const App = () => {
               element={
                 <>
                   <Navbar
-                    login={false}
+                    isLoginForm={false}
                     isLogged={isLogged}
                     handleAuth={handleAuth}
                   />
@@ -175,7 +175,7 @@ const App = () => {
             element={
               <>
                 <Navbar
-                  login={false}
+                  isLoginForm={false}
                   isLogged={isLogged}
                   handleAuth={handleAuth}
                 />

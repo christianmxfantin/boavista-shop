@@ -1,5 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
 
+//check if user is logged, true is logged
 let auth = true;
 
 const PrivateRoute = () => {

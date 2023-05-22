@@ -17,7 +17,7 @@ import { Icon } from "../ui/Icon";
 import Search from "./Search/Search";
 import { Image } from "../ui/Image";
 
-const Navbar = ({ login, isLogged, handleAuth }) => {
+const Navbar = ({ isLoginForm, isLogged, handleAuth }) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const [isHover, setIsHover] = useState(false);
@@ -115,7 +115,7 @@ const Navbar = ({ login, isLogged, handleAuth }) => {
             />
           </ImageContainer>
         </Link>
-        {!login && (
+        {!isLoginForm && (
           <>
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <Icon name="Menu" color={theme.palette.secondary.A100} />

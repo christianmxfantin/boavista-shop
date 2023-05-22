@@ -56,15 +56,17 @@ export const NameInput = styled(TextField)(({ theme }) => ({
 }));
 
 export const SurnameInput = styled(TextField)(({ theme }) => ({
-  //styles
+  marginBottom: theme.spacing(1), //8px
 }));
 
 export const EmailInput = styled(TextField)(({ theme }) => ({
-  marginBottom: theme.spacing(2), //16px
+  width: "376px",
+  marginBottom: theme.spacing(1), //8px
 }));
 
 export const PasswordInput = styled(TextField)(({ theme }) => ({
-  //styles
+  width: "376px",
+  marginBottom: theme.spacing(1), //8px
 }));
 
 export const ButtonsContainer = styled(Box)(() => ({
