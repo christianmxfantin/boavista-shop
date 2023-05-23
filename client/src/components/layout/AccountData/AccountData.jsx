@@ -7,110 +7,124 @@ import {
   LastPasswordInput,
   NewPasswordInput,
 } from "./AccountData.styles";
+import { useForm } from "react-hook-form";
 
 const AccountData = ({ data, editMode, onEditChange }) => {
   let database = {
     email: "josemirlukaku@gmail.com",
   };
 
-  // const [initialForm, setInitialForm] = useState("change-email");
-
-  // console.log(initialForm);
-  // let changeForm;
-  // if (initialForm === "change-email") {
-  //   changeForm = {
-  //     type: "change-email",
-  //     "new-email": "",
-  //   };
-  // } else if (initialForm === "change-password") {
-  //   changeForm = {
-  //     type: "change-password",
-  //     "last-password": "",
-  //     "new-password": "",
-  //     "confirm-password": "",
-  //   };
-  // }
-  // console.log(initialForm);
-
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm({ mode: "onBlur" });
   const [changePassword, setChangePassword] = useState(false);
 
-  const handleSendData = () => {
-    setChangePassword(false);
-    onEditChange(false);
-    setInitialForm("change-email");
-  };
-
-  const handleClick = () => {
+  const handleClick = (e) => {
+    e.preventDefault();
     setChangePassword(true);
     onEditChange(true);
-    setInitialForm("change-password");
   };
 
-  // console.log(form);
+  const onSubmit = (formValues) => {
+    if (!changePassword) {
+      //Change Email Form
+      console.log("CHANGE EMAIL", formValues);
+    } else {
+      //Change Password Form
+      console.log("CHANGE PASSWORD", formValues);
+    }
+
+    setChangePassword(false);
+    onEditChange(false);
+    reset();
+  };
 
   return (
     <>
       <AccountDataContainer
+        component={"form"}
         autoComplete="off"
         noValidate
-        component={"form"}
-        // onSubmit={(e) => handleSubmit(e, true, false, handleSendData)}
+        onSubmit={handleSubmit(onSubmit)}
       >
         {!changePassword ? (
           <ChangeEmailInput
-            name="new-email"
+            name="newEmail"
             type="email"
             variant="outlined"
             size="small"
             placeholder={database.email}
-            required
             disabled={!editMode ? true : false}
-            error={!!errors["new-email"]}
-            helperText={errors["new-email"]}
-            value={form["new-email"]}
-            onBlur={handleBlur}
-            onChange={handleChange}
+            required
+            {...register("newEmail", {
+              required: true,
+              pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+            })}
+            error={!!errors.newEmail}
+            helperText={
+              watch("newEmail")
+                ? errors.newEmail && "Los datos ingresados son inválidos"
+                : errors.newEmail && "El campo no puede estar vacío"
+            }
           />
         ) : (
           <>
             <LastPasswordInput
-              name="last-password"
+              name="lastPassword"
               type="password"
               variant="outlined"
               size="small"
               placeholder="Ingresa tu Contraseña Anterior"
               required
-              error={!!errors["last-password"]}
-              helperText={errors["last-password"]}
-              value={form["last-password"]}
-              onBlur={handleBlur}
-              onChange={handleChange}
+              {...register("lastPassword", {
+                required: true,
+                pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+              })}
+              error={!!errors.lastPassword}
+              helperText={
+                watch("lastPassword")
+                  ? errors.lastPassword &&
+                    "El campo debe contener al menos 8 caracteres, incluyendo al menos un número, una letra minúscula y una letra mayúscula"
+                  : errors.lastPassword && "El campo no puede estar vacío"
+              }
             />
             <NewPasswordInput
-              name="new-password"
+              name="newPassword"
               type="password"
               variant="outlined"
               size="small"
               placeholder="Escribe tu Nueva Contraseña"
               required
-              error={!!errors["new-password"]}
-              helperText={errors["new-password"]}
-              value={form["new-password"]}
-              onBlur={handleBlur}
-              onChange={handleChange}
+              {...register("newPassword", {
+                required: true && "El campo no puede estar vacío",
+                validate: (value) =>
+                  value !== watch("lastPassword") ||
+                  "La contraseña ingresada debe ser diferente a la contraseña anterior",
+              })}
+              error={!!errors.newPassword}
+              helperText={errors.newPassword && errors.newPassword.message}
             />
             <ConfirmPasswordInput
-              name="confirm-password"
+              name="confirmPassword"
               type="password"
               variant="outlined"
               size="small"
               placeholder="Repite la Nueva Contraseña"
               required
-              error={!!errors["confirm-password"]}
-              helperText={errors["confirm-password"]}
-              value={form["confirm-password"]}
-              onBlur={handleBlur}
-              onChange={handleChange}
+              {...register("confirmPassword", {
+                required: true && "El campo no puede estar vacío",
+                validate: (value) =>
+                  value === watch("newPassword") ||
+                  "La contraseña ingresada debe coincidir con la nueva contraseña",
+              })}
+              error={!!errors.confirmPassword}
+              helperText={
+                errors.confirmPassword && errors.confirmPassword.message
+              }
             />
           </>
         )}
@@ -119,7 +133,7 @@ const AccountData = ({ data, editMode, onEditChange }) => {
             Guardar
           </Button>
         ) : !editMode || !changePassword ? (
-          <Button variant="text" onClick={handleClick}>
+          <Button variant="text" type="button" onClick={handleClick}>
             Cambiar Contraseña
           </Button>
         ) : null}

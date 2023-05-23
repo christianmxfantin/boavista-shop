@@ -242,7 +242,7 @@ const FormAuth = ({ formType, handleAuth }) => {
                 buttonStyle="primary"
                 sx={{
                   width: "376px",
-                  marginBottom: theme.spacing(1),
+                  marginBottom: theme.spacing(2),
                 }}
               />
               {formType === "login" && (
