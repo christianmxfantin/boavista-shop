@@ -13,61 +13,131 @@ import {
 } from "./Billing.styles";
 import AddressSearch from "../AddressSearch/AddressSearch";
 import { Button } from "@mui/material";
+import { useForm } from "react-hook-form";
 
 const Billing = ({ profile, editMode, onEditChange }) => {
   const theme = useTheme();
   const nameInput = useRef();
   const [edit, setEdit] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm({ mode: "onBlur" });
 
   const handleEdit = () => {
     setEdit(true);
     nameInput.current.focus();
   };
 
-  const handleSave = () => {
+  const onSubmit = (formValues) => {
+    console.log(formValues);
     //save billing data
     onEditChange(false);
   };
 
   return (
-    <BillingContainer>
-      {!profile && (
-        <TitleContainer
-          sx={{
-            visibility: edit ? "hidden" : "visible",
-          }}
+    <section>
+      <BillingContainer>
+        {!profile && (
+          <TitleContainer
+            sx={{
+              visibility: edit ? "hidden" : "visible",
+            }}
+          >
+            <EditIcon
+              name="Edit-Data"
+              size={30}
+              color={theme.palette.primary[500]}
+              onClick={handleEdit}
+            />
+          </TitleContainer>
+        )}
+        <DataContainer
+          component={"form"}
+          autoComplete="off"
+          noValidate
+          onSubmit={handleSubmit(onSubmit)}
+          sx={{ width: !profile ? "30%" : "100%" }}
         >
-          <EditIcon
-            name="Edit-Data"
-            size={30}
-            color={theme.palette.primary[500]}
-            onClick={handleEdit}
+          <NameInput
+            name="names"
+            type="text"
+            variant="outlined"
+            size="small"
+            placeholder="Ingresa tus Nombres"
+            disabled={!edit && !editMode}
+            inputRef={nameInput}
+            required
+            {...register("names", {
+              required: true,
+              pattern: /^[\p{L} -]+$/u,
+            })}
+            error={!!errors.names}
+            helperText={
+              watch("names")
+                ? errors.names && "Los datos ingresados son inválidos"
+                : errors.names && "El campo no puede estar vacío"
+            }
           />
-        </TitleContainer>
-      )}
-      <DataContainer sx={{ width: !profile ? "30%" : "70%" }}>
-        <NameInput
-          disabled={!edit && !editMode}
-          placeholder="Nombres"
-          inputRef={nameInput}
-        />
-        <SurnameInput disabled={!edit && !editMode} placeholder="Apellidos" />
-        <AddressInput disabled={!edit && !editMode} placeholder="Dirección" />
-        <AddressSearch disabled={!edit && !editMode} visible={true} />
-        <MailInput disabled={!edit && !editMode} placeholder="Mail" />
-        <PhoneInput disabled={!edit && !editMode} placeholder="Teléfono" />
-      </DataContainer>
-      {editMode && (
-        <Button
-          variant="contained"
-          type="submit"
-          onClick={handleSave}
-          sx={{ width: "70%", marginTop: theme.spacing(2) }}
-        >
-          Guardar
-        </Button>
-      )}
-    </BillingContainer>
+          <SurnameInput
+            name="surnames"
+            type="text"
+            variant="outlined"
+            size="small"
+            placeholder="Ingresa tus Apellidos"
+            disabled={!edit && !editMode}
+            {...register("surnames", {
+              pattern: /^[\p{L} -]+$/u,
+            })}
+            error={!!errors.surnames}
+            helperText={errors.surnames && "Los datos ingresados son inválidos"}
+          />
+          <AddressInput
+            name="address"
+            type="text"
+            variant="outlined"
+            size="small"
+            placeholder="Ingresa tu Dirección"
+            disabled={!edit && !editMode}
+            required
+            {...register("address", {
+              required: true,
+              pattern: /^[\p{L}\d\s.,'#-]+$/u,
+            })}
+            error={!!errors.address}
+            helperText={
+              watch("address")
+                ? errors.address &&
+                  "La dirección solo puede contener caracteres alfanuméricos, comas, puntos, guiones medios (-), apóstrofes (') y el símbolo numeral (#)"
+                : errors.address && "El campo no puede estar vacío"
+            }
+          />
+          <AddressSearch disabled={!edit && !editMode} visible={true} />
+          <MailInput
+            name="mail"
+            disabled={!edit && !editMode}
+            placeholder="Mail"
+          />
+          <PhoneInput
+            name="phone"
+            disabled={!edit && !editMode}
+            placeholder="Teléfono"
+          />
+          {editMode && (
+            <Button
+              variant="contained"
+              type="submit"
+              sx={{ width: "70%", marginTop: theme.spacing(2) }}
+            >
+              Guardar
+            </Button>
+          )}
+        </DataContainer>
+      </BillingContainer>
+    </section>
   );
 };
 

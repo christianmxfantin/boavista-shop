@@ -1,6 +1,14 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
-import { Checkbox, FormControlLabel, FormHelperText } from "@mui/material";
+import {
+  Checkbox,
+  FormControlLabel,
+  FormHelperText,
+  IconButton,
+  InputAdornment,
+  Tooltip,
+} from "@mui/material";
 import { Button } from "../../ui/Button";
 import { Icon } from "../../ui/Icon";
 import Underline from "../../ui/Underline";
@@ -19,10 +27,14 @@ import {
   ButtonsContainer,
 } from "./FormAuth.styles";
 import { Controller, useForm } from "react-hook-form";
+import InfoIcon from "@mui/icons-material/Info";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const FormAuth = ({ formType, handleAuth }) => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
   const {
     register,
     handleSubmit,
@@ -31,6 +43,16 @@ const FormAuth = ({ formType, handleAuth }) => {
     reset,
     formState: { errors },
   } = useForm({ mode: "onBlur" });
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (e) => {
+    e.preventDefault();
+  };
+
+  const handleClickSurnameHelper = () => {
+    //coso
+  };
 
   const handleGoogleAuth = () => {
     console.log("Inicio con Google");
@@ -126,39 +148,47 @@ const FormAuth = ({ formType, handleAuth }) => {
         {formType === "register" && (
           <FormAuthName>
             <NameInput
-              name="name"
+              name="names"
               type="text"
               variant="outlined"
               size="small"
-              placeholder="Ingresa tu Nombre"
+              placeholder="Ingresa tus Nombres"
               required
-              {...register("name", {
+              {...register("names", {
                 required: true,
-                pattern: /^[a-zA-Z]{2,}$/,
+                pattern: /^[\p{L} -]+$/u,
               })}
-              error={!!errors.name}
+              error={!!errors.names}
               helperText={
-                watch("name")
-                  ? errors.name && "Los datos ingresados son inválidos"
-                  : errors.name && "El campo no puede estar vacío"
+                watch("names")
+                  ? errors.names && "Los datos ingresados son inválidos"
+                  : errors.names && "El campo no puede estar vacío"
               }
             />
             <SurnameInput
-              name="surname"
+              name="surnames"
               type="text"
               variant="outlined"
               size="small"
-              placeholder="Ingresa tu Apellido"
-              required
-              {...register("surname", {
-                required: true,
-                pattern: /^[a-zA-Z]{2,}$/,
+              placeholder="Ingresa tus Apellidos"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <Tooltip title="En el mundo hay varias personas sin apellidos, por ese motivo no es un campo requerido. De igual modo, te sugerimos que completes este campo si lo tienes.">
+                      <IconButton edge="end">
+                        <InfoIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </InputAdornment>
+                ),
+              }}
+              {...register("surnames", {
+                pattern: /^[\p{L} -]+$/u,
+                // pattern: /^[a-zA-Z]{2,}$/,
               })}
-              error={!!errors.surname}
+              error={!!errors.surnames}
               helperText={
-                watch("surname")
-                  ? errors.surname && "Los datos ingresados son inválidos"
-                  : errors.surname && "El campo no puede estar vacío"
+                errors.surnames && "Los datos ingresados son inválidos"
               }
             />
           </FormAuthName>
@@ -185,11 +215,24 @@ const FormAuth = ({ formType, handleAuth }) => {
             />
             <PasswordInput
               name="password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               variant="outlined"
               size="small"
               placeholder="Ingresa tu Contraseña"
               required
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
               {...register("password", {
                 required: true,
                 pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
