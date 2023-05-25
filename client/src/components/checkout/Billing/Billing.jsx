@@ -12,10 +12,10 @@ import {
   PhoneInput,
 } from "./Billing.styles";
 import AddressSearch from "../AddressSearch/AddressSearch";
-import { Button } from "@mui/material";
 import { useForm } from "react-hook-form";
+import ButtonsContainer from "../../layout/ButtonsContainer/ButtonsContainer";
 
-const Billing = ({ profile, editMode, onEditChange }) => {
+const Billing = ({ isProfile, editMode, onEditChange }) => {
   const theme = useTheme();
   const nameInput = useRef();
   const [edit, setEdit] = useState(false);
@@ -32,16 +32,22 @@ const Billing = ({ profile, editMode, onEditChange }) => {
     nameInput.current.focus();
   };
 
+  const handleClickCancel = () => {
+    reset();
+    onEditChange(false);
+  };
+
   const onSubmit = (formValues) => {
     console.log(formValues);
     //save billing data
-    onEditChange(false);
+
+    handleClickCancel();
   };
 
   return (
     <section>
       <BillingContainer>
-        {!profile && (
+        {!isProfile && (
           <TitleContainer
             sx={{
               visibility: edit ? "hidden" : "visible",
@@ -60,7 +66,7 @@ const Billing = ({ profile, editMode, onEditChange }) => {
           autoComplete="off"
           noValidate
           onSubmit={handleSubmit(onSubmit)}
-          sx={{ width: !profile ? "30%" : "100%" }}
+          sx={{ width: !isProfile ? "30%" : "100%" }}
         >
           <NameInput
             name="names"
@@ -126,15 +132,7 @@ const Billing = ({ profile, editMode, onEditChange }) => {
             disabled={!edit && !editMode}
             placeholder="Teléfono"
           />
-          {editMode && (
-            <Button
-              variant="contained"
-              type="submit"
-              sx={{ width: "70%", marginTop: theme.spacing(2) }}
-            >
-              Guardar
-            </Button>
-          )}
+          {editMode && <ButtonsContainer onClick={handleClickCancel} />}
         </DataContainer>
       </BillingContainer>
     </section>

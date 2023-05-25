@@ -1,3 +1,5 @@
+import { useState } from "react";
+import ButtonsContainer from "../../../layout/ButtonsContainer/ButtonsContainer";
 import MyCardsItem from "../../../layout/MyCardsItem/MyCardsItem";
 import {
   PaymentDetailsContainer,
@@ -9,6 +11,7 @@ import {
   CardCVC,
   CardName,
 } from "./PaymentDetails.styles";
+import { Button } from "@mui/material";
 
 const myCards = [
   {
@@ -23,22 +26,40 @@ const myCards = [
   },
 ];
 
-const PaymentDetails = ({ data, profile }) => {
+const PaymentDetails = ({ typeData, isProfile }) => {
+  const [newPayment, setNewPayment] = useState(false);
+
+  const handleClickNewPayment = () => {
+    setNewPayment(true);
+  };
+
+  const handleClickCancel = () => {
+    // reset();
+    setNewPayment(false);
+  };
+
   return (
     <PaymentDetailsContainer
       sx={{
-        width: !profile ? "25" : "inherit",
-        visibility: data ? "visible" : "hidden",
+        width: !isProfile ? "25" : "inherit",
+        // visibility: typeData ? "visible" : "hidden",
       }}
     >
-      {data === "myCards" ? (
-        <MyCardsContainer>
+      {!newPayment ? (
+        <>
           <MyCardsContainer>
             {myCards.map((card) => (
               <MyCardsItem key={card.id} card={card} />
             ))}
           </MyCardsContainer>
-        </MyCardsContainer>
+          <Button
+            variant="text"
+            onClick={handleClickNewPayment}
+            sx={{ width: "100%", marginTop: "16px" }}
+          >
+            Agregar Método de Pago
+          </Button>
+        </>
       ) : (
         <PaymentNewCard>
           <CardNumber placeholder="Número de Tarjeta"></CardNumber>
@@ -47,6 +68,8 @@ const PaymentDetails = ({ data, profile }) => {
             <CardCVC placeholder="CVC"></CardCVC>
           </CardDataContainer>
           <CardName placeholder="Nombre Completo Tarjeta"></CardName>
+
+          <ButtonsContainer onClick={handleClickCancel} />
         </PaymentNewCard>
       )}
     </PaymentDetailsContainer>

@@ -27,9 +27,6 @@ import {
   ButtonsContainer,
 } from "./FormAuth.styles";
 import { Controller, useForm } from "react-hook-form";
-import InfoIcon from "@mui/icons-material/Info";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const FormAuth = ({ formType, handleAuth }) => {
   const theme = useTheme();
@@ -48,10 +45,6 @@ const FormAuth = ({ formType, handleAuth }) => {
 
   const handleMouseDownPassword = (e) => {
     e.preventDefault();
-  };
-
-  const handleClickSurnameHelper = () => {
-    //coso
   };
 
   const handleGoogleAuth = () => {
@@ -176,7 +169,7 @@ const FormAuth = ({ formType, handleAuth }) => {
                   <InputAdornment position="end">
                     <Tooltip title="En el mundo hay varias personas sin apellidos, por ese motivo no es un campo requerido. De igual modo, te sugerimos que completes este campo si lo tienes.">
                       <IconButton edge="end">
-                        <InfoIcon />
+                        <Icon name="Info" color={theme.palette.primary[300]} />
                       </IconButton>
                     </Tooltip>
                   </InputAdornment>
@@ -228,7 +221,17 @@ const FormAuth = ({ formType, handleAuth }) => {
                       onMouseDown={handleMouseDownPassword}
                       edge="end"
                     >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                      {showPassword ? (
+                        <Icon
+                          name="Visibility-off"
+                          color={theme.palette.primary[300]}
+                        />
+                      ) : (
+                        <Icon
+                          name="Visibility"
+                          color={theme.palette.primary[300]}
+                        />
+                      )}
                     </IconButton>
                   </InputAdornment>
                 ),

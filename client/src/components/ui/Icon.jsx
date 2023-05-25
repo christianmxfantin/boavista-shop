@@ -17,6 +17,9 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import EditIcon from "@mui/icons-material/Edit";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
+import InfoIcon from "@mui/icons-material/Info";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 export const Icon = ({ name, color, size, onClick }) => {
   const icons = [
@@ -239,6 +242,45 @@ export const Icon = ({ name, color, size, onClick }) => {
         <SvgIcon
           aria-label="Logo de Tarjeta de Débito o Crédito"
           component={CreditCardIcon}
+          sx={{
+            color: color,
+            fontSize: size,
+          }}
+        />
+      ),
+    },
+    {
+      name: "Info",
+      img: (
+        <SvgIcon
+          aria-label="Logo de Información"
+          component={InfoIcon}
+          sx={{
+            color: color,
+            fontSize: size,
+          }}
+        />
+      ),
+    },
+    {
+      name: "Visibility",
+      img: (
+        <SvgIcon
+          aria-label="Mostrar la contraseña"
+          component={Visibility}
+          sx={{
+            color: color,
+            fontSize: size,
+          }}
+        />
+      ),
+    },
+    {
+      name: "Visibility-off",
+      img: (
+        <SvgIcon
+          aria-label="No mostrar la contraseña"
+          component={VisibilityOff}
           sx={{
             color: color,
             fontSize: size,

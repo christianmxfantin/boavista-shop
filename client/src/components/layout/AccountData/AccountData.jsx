@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Button } from "@mui/material";
+import { useTheme } from "@emotion/react";
+import { Button, IconButton, InputAdornment } from "@mui/material";
 import {
   AccountDataContainer,
   ChangeEmailInput,
@@ -8,12 +9,17 @@ import {
   NewPasswordInput,
 } from "./AccountData.styles";
 import { useForm } from "react-hook-form";
+import { Icon } from "../../ui/Icon";
+import ButtonsContainer from "../ButtonsContainer/ButtonsContainer";
 
-const AccountData = ({ data, editMode, onEditChange }) => {
+const AccountData = ({ editMode, onEditChange }) => {
   let database = {
     email: "josemirlukaku@gmail.com",
   };
 
+  const theme = useTheme();
+  const [changePassword, setChangePassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const {
     register,
     handleSubmit,
@@ -21,12 +27,23 @@ const AccountData = ({ data, editMode, onEditChange }) => {
     reset,
     formState: { errors },
   } = useForm({ mode: "onBlur" });
-  const [changePassword, setChangePassword] = useState(false);
 
-  const handleClick = (e) => {
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (e) => {
+    e.preventDefault();
+  };
+
+  const handleClickChangePassword = (e) => {
     e.preventDefault();
     setChangePassword(true);
     onEditChange(true);
+  };
+
+  const handleClickCancel = () => {
+    reset();
+    setChangePassword(false);
+    onEditChange(false);
   };
 
   const onSubmit = (formValues) => {
@@ -38,9 +55,7 @@ const AccountData = ({ data, editMode, onEditChange }) => {
       console.log("CHANGE PASSWORD", formValues);
     }
 
-    setChangePassword(false);
-    onEditChange(false);
-    reset();
+    handleClickCancel();
   };
 
   return (
@@ -80,6 +95,29 @@ const AccountData = ({ data, editMode, onEditChange }) => {
               size="small"
               placeholder="Ingresa tu Contraseña Anterior"
               required
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? (
+                        <Icon
+                          name="Visibility-off"
+                          color={theme.palette.primary[300]}
+                        />
+                      ) : (
+                        <Icon
+                          name="Visibility"
+                          color={theme.palette.primary[300]}
+                        />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
               {...register("lastPassword", {
                 required: true,
                 pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
@@ -99,6 +137,29 @@ const AccountData = ({ data, editMode, onEditChange }) => {
               size="small"
               placeholder="Escribe tu Nueva Contraseña"
               required
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? (
+                        <Icon
+                          name="Visibility-off"
+                          color={theme.palette.primary[300]}
+                        />
+                      ) : (
+                        <Icon
+                          name="Visibility"
+                          color={theme.palette.primary[300]}
+                        />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
               {...register("newPassword", {
                 required: true && "El campo no puede estar vacío",
                 validate: (value) =>
@@ -115,6 +176,29 @@ const AccountData = ({ data, editMode, onEditChange }) => {
               size="small"
               placeholder="Repite la Nueva Contraseña"
               required
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? (
+                        <Icon
+                          name="Visibility-off"
+                          color={theme.palette.primary[300]}
+                        />
+                      ) : (
+                        <Icon
+                          name="Visibility"
+                          color={theme.palette.primary[300]}
+                        />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
               {...register("confirmPassword", {
                 required: true && "El campo no puede estar vacío",
                 validate: (value) =>
@@ -129,11 +213,13 @@ const AccountData = ({ data, editMode, onEditChange }) => {
           </>
         )}
         {editMode || changePassword ? (
-          <Button variant="contained" type="submit">
-            Guardar
-          </Button>
+          <ButtonsContainer onClick={handleClickCancel} />
         ) : !editMode || !changePassword ? (
-          <Button variant="text" type="button" onClick={handleClick}>
+          <Button
+            variant="text"
+            type="button"
+            onClick={handleClickChangePassword}
+          >
             Cambiar Contraseña
           </Button>
         ) : null}

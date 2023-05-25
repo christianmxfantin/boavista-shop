@@ -1,5 +1,4 @@
 import { useState, cloneElement } from "react";
-import { Button } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import { Icon as EditIcon } from "../../../components/ui/Icon";
 import {
@@ -8,21 +7,10 @@ import {
   ProfileDataTitle,
   EditIconContainer,
 } from "./ProfileData.styles";
-import PaymentDetails from "../../checkout/Payment/PaymentDetails/PaymentDetails";
 
 const ProfileData = ({ title, type, component }) => {
   const theme = useTheme();
-  const [newPayment, setNewPayment] = useState(false);
   const [editMode, setEditMode] = useState(false);
-
-  const handleClick = () => {
-    if (!newPayment) {
-      setNewPayment(true);
-    } else {
-      //save the new card
-      setNewPayment(false);
-    }
-  };
 
   const toggleEditMode = () => {
     setEditMode(!editMode);
@@ -53,20 +41,7 @@ const ProfileData = ({ title, type, component }) => {
           </EditIconContainer>
         )}
       </ProfileDataTitleContainer>
-      {!newPayment ? (
-        cloneElement(component, { editMode, onEditChange: handleEditChange })
-      ) : (
-        <PaymentDetails data="newCard" />
-      )}
-      {type === "payment" && (
-        <Button
-          variant={newPayment ? "contained" : "text"}
-          sx={{ margin: `${theme.spacing(2)} 0 ${theme.spacing(2)} 0` }}
-          onClick={handleClick}
-        >
-          {!newPayment ? "Agregar Método de Pago" : "Guardar"}
-        </Button>
-      )}
+      {cloneElement(component, { editMode, onEditChange: handleEditChange })}
     </ProfileDataContainer>
   );
 };

@@ -21,18 +21,15 @@ const Profile = () => {
     <main>
       <ProfileContainer>
         <ProfileTitle variant="h4">Mi Perfil</ProfileTitle>
-        <ProfileData
-          title="Datos de Cuenta"
-          component={<AccountData data={"change-email"} />}
-        />
+        <ProfileData title="Datos de Cuenta" component={<AccountData />} />
         <ProfileData
           title="Datos de Facturación"
-          component={<Billing profile={true} />}
+          component={<Billing isProfile={true} />}
         />
         <ProfileData
           title="Métodos de Pago"
           type="payment"
-          component={<PaymentDetails profile={true} data="myCards" />}
+          component={<PaymentDetails isProfile={true} />}
         />
         <Button
           variant="text"

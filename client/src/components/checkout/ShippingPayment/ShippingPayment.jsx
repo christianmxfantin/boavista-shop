@@ -96,7 +96,7 @@ const ShippingPayment = ({ data }) => {
           </Comments>
         </ShippingData>
       ) : (
-        <PaymentDetails data={visiblePayment} />
+        <PaymentDetails typeData={visiblePayment} />
       )}
     </ShippingPaymentContainer>
   );
