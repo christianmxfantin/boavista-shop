@@ -29,7 +29,7 @@ export const AddressInput = styled(TextField)(({ theme }) => ({
   //styles
 }));
 
-export const MailInput = styled(TextField)(({ theme }) => ({
+export const EmailInput = styled(TextField)(({ theme }) => ({
   marginTop: theme.spacing(2), //16px
 }));
 

@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { useTheme } from "@emotion/react";
-import { Icon as EditIcon } from "../../ui/Icon";
+import { Icon as EditIcon, Icon } from "../../ui/Icon";
 import {
   BillingContainer,
   TitleContainer,
@@ -8,12 +8,14 @@ import {
   NameInput,
   SurnameInput,
   AddressInput,
-  MailInput,
+  EmailInput,
   PhoneInput,
 } from "./Billing.styles";
 import AddressSearch from "../AddressSearch/AddressSearch";
 import { useForm } from "react-hook-form";
 import ButtonsContainer from "../../layout/ButtonsContainer/ButtonsContainer";
+import { validations } from "../../../helpers/validations";
+import { IconButton, InputAdornment, Tooltip } from "@mui/material";
 
 const Billing = ({ isProfile, editMode, onEditChange }) => {
   const theme = useTheme();
@@ -79,13 +81,13 @@ const Billing = ({ isProfile, editMode, onEditChange }) => {
             required
             {...register("names", {
               required: true,
-              pattern: /^[\p{L} -]+$/u,
+              pattern: validations.names.pattern,
             })}
             error={!!errors.names}
             helperText={
               watch("names")
-                ? errors.names && "Los datos ingresados son inválidos"
-                : errors.names && "El campo no puede estar vacío"
+                ? errors.names && validations.names.errorDataNotValid
+                : errors.names && validations.errorEmptyField
             }
           />
           <SurnameInput
@@ -94,12 +96,23 @@ const Billing = ({ isProfile, editMode, onEditChange }) => {
             variant="outlined"
             size="small"
             placeholder="Ingresa tus Apellidos"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Tooltip title="En el mundo hay varias personas sin apellidos, por ese motivo no es un campo requerido. De igual modo, te sugerimos que completes este campo si lo tienes.">
+                    <IconButton edge="end">
+                      <Icon name="Info" color={theme.palette.primary[300]} />
+                    </IconButton>
+                  </Tooltip>
+                </InputAdornment>
+              ),
+            }}
             disabled={!edit && !editMode}
             {...register("surnames", {
-              pattern: /^[\p{L} -]+$/u,
+              pattern: validations.names.pattern,
             })}
             error={!!errors.surnames}
-            helperText={errors.surnames && "Los datos ingresados son inválidos"}
+            helperText={errors.surnames && validations.names.errorDataNotValid}
           />
           <AddressInput
             name="address"
@@ -111,26 +124,53 @@ const Billing = ({ isProfile, editMode, onEditChange }) => {
             required
             {...register("address", {
               required: true,
-              pattern: /^[\p{L}\d\s.,'#-]+$/u,
+              pattern: validations.address.pattern,
             })}
             error={!!errors.address}
             helperText={
               watch("address")
-                ? errors.address &&
-                  "La dirección solo puede contener caracteres alfanuméricos, comas, puntos, guiones medios (-), apóstrofes (') y el símbolo numeral (#)"
-                : errors.address && "El campo no puede estar vacío"
+                ? errors.address && validations.address.errorDataNotValid
+                : errors.address && validations.errorEmptyField
             }
           />
           <AddressSearch disabled={!edit && !editMode} visible={true} />
-          <MailInput
-            name="mail"
+          <EmailInput
+            name="email"
+            type="email"
+            variant="outlined"
+            size="small"
+            placeholder="Ingresa tu Email"
             disabled={!edit && !editMode}
-            placeholder="Mail"
+            required
+            {...register("email", {
+              required: true,
+              pattern: validations.mail.pattern,
+            })}
+            error={!!errors.email}
+            helperText={
+              watch("email")
+                ? errors.email && validations.mail.errorDataNotValid
+                : errors.email && validations.errorEmptyField
+            }
           />
           <PhoneInput
             name="phone"
+            type="tel"
+            variant="outlined"
+            size="small"
+            placeholder="Ingrese su Teléfono"
             disabled={!edit && !editMode}
-            placeholder="Teléfono"
+            required
+            {...register("phone", {
+              required: true,
+              pattern: validations.phone.pattern,
+            })}
+            error={!!errors.phone}
+            helperText={
+              watch("phone")
+                ? errors.phone && validations.phone.errorDataNotValid
+                : errors.phone && validations.errorEmptyField
+            }
           />
           {editMode && <ButtonsContainer onClick={handleClickCancel} />}
         </DataContainer>

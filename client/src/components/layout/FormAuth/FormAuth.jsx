@@ -27,6 +27,7 @@ import {
   ButtonsContainer,
 } from "./FormAuth.styles";
 import { Controller, useForm } from "react-hook-form";
+import { validations } from "../../../helpers/validations";
 
 const FormAuth = ({ formType, handleAuth }) => {
   const theme = useTheme();
@@ -149,13 +150,13 @@ const FormAuth = ({ formType, handleAuth }) => {
               required
               {...register("names", {
                 required: true,
-                pattern: /^[\p{L} -]+$/u,
+                pattern: validations.names.pattern,
               })}
               error={!!errors.names}
               helperText={
                 watch("names")
-                  ? errors.names && "Los datos ingresados son inválidos"
-                  : errors.names && "El campo no puede estar vacío"
+                  ? errors.names && validations.names.errorDataNotValid
+                  : errors.names && validations.errorEmptyField
               }
             />
             <SurnameInput
@@ -176,13 +177,10 @@ const FormAuth = ({ formType, handleAuth }) => {
                 ),
               }}
               {...register("surnames", {
-                pattern: /^[\p{L} -]+$/u,
-                // pattern: /^[a-zA-Z]{2,}$/,
+                pattern: validations.names.pattern,
               })}
               error={!!errors.surnames}
-              helperText={
-                errors.surnames && "Los datos ingresados son inválidos"
-              }
+              helperText={errors.surnames && errors.names.errorDataNotValid}
             />
           </FormAuthName>
         )}
@@ -197,13 +195,13 @@ const FormAuth = ({ formType, handleAuth }) => {
               required
               {...register("email", {
                 required: true,
-                pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                pattern: validations.mail.pattern,
               })}
               error={!!errors.email}
               helperText={
                 watch("email")
-                  ? errors.email && "Los datos ingresados son inválidos"
-                  : errors.email && "El campo no puede estar vacío"
+                  ? errors.email && validations.mail.errorDataNotValid
+                  : errors.email && validations.errorEmptyField
               }
             />
             <PasswordInput
@@ -238,14 +236,13 @@ const FormAuth = ({ formType, handleAuth }) => {
               }}
               {...register("password", {
                 required: true,
-                pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+                pattern: validations.password.pattern,
               })}
               error={!!errors.password}
               helperText={
                 watch("password")
-                  ? errors.password &&
-                    "El campo debe contener al menos 8 caracteres, incluyendo al menos un número, una letra minúscula y una letra mayúscula"
-                  : errors.password && "El campo no puede estar vacío"
+                  ? errors.password && validations.password.errorDataNotValid
+                  : errors.password && validations.errorEmptyField
               }
             />
           </>

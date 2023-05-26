@@ -26,41 +26,44 @@ const myCards = [
   },
 ];
 
-const PaymentDetails = ({ typeData, isProfile }) => {
-  const [newPayment, setNewPayment] = useState(false);
+const PaymentDetails = ({ isProfile, typeCard }) => {
+  const [typePayment, setTypePayment] = useState("myCards");
 
   const handleClickNewPayment = () => {
-    setNewPayment(true);
+    setTypePayment("newCard");
   };
 
   const handleClickCancel = () => {
     // reset();
-    setNewPayment(false);
+    setTypePayment("myCards");
   };
 
   return (
     <PaymentDetailsContainer
       sx={{
         width: !isProfile ? "25" : "inherit",
-        // visibility: typeData ? "visible" : "hidden",
       }}
     >
-      {!newPayment ? (
+      {(isProfile && typePayment === "myCards") || typeCard === "myCards" ? (
         <>
           <MyCardsContainer>
             {myCards.map((card) => (
               <MyCardsItem key={card.id} card={card} />
             ))}
           </MyCardsContainer>
-          <Button
-            variant="text"
-            onClick={handleClickNewPayment}
-            sx={{ width: "100%", marginTop: "16px" }}
-          >
-            Agregar Método de Pago
-          </Button>
+          {isProfile && (
+            <Button
+              variant="text"
+              onClick={handleClickNewPayment}
+              sx={{ width: "100%", marginTop: "16px" }}
+            >
+              Agregar Método de Pago
+            </Button>
+          )}
         </>
-      ) : (
+      ) : //si hay algun error se puede agregar la siguiente condición:
+      // isProfile && typePayment === "newCard"
+      typePayment === "newCard" || typeCard === "newCard" ? (
         <PaymentNewCard>
           <CardNumber placeholder="Número de Tarjeta"></CardNumber>
           <CardDataContainer>
@@ -68,10 +71,9 @@ const PaymentDetails = ({ typeData, isProfile }) => {
             <CardCVC placeholder="CVC"></CardCVC>
           </CardDataContainer>
           <CardName placeholder="Nombre Completo Tarjeta"></CardName>
-
           <ButtonsContainer onClick={handleClickCancel} />
         </PaymentNewCard>
-      )}
+      ) : null}
     </PaymentDetailsContainer>
   );
 };

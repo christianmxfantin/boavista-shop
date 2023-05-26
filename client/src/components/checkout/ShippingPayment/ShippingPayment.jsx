@@ -5,24 +5,19 @@ import {
   ShippingPaymentContainer,
   ShippingData,
   Comments,
-  PaymentData,
-  PaymentDetailsOtherCard,
-  PaymentDetailsNewCard,
 } from "./ShippingPayment.styles";
 import AddressSearch from "../AddressSearch/AddressSearch";
 import PaymentDetails from "../Payment/PaymentDetails/PaymentDetails";
 
-const ShippingPayment = ({ data }) => {
+const ShippingPayment = ({ step }) => {
   const theme = useTheme();
   const [visibleShipping, setVisibleShipping] = useState(false);
-  const [visiblePayment, setVisiblePayment] = useState(false);
+  const [typePayment, setTypePayment] = useState("myCards");
   const [value, setValue] = useState(null);
 
   useEffect(() => {
     setValue(null);
-    setVisibleShipping(false);
-    setVisiblePayment(false);
-  }, [data]);
+  }, [step]);
 
   const handleChange = (e) => {
     setValue(e.target.value);
@@ -37,11 +32,11 @@ const ShippingPayment = ({ data }) => {
   };
 
   const handleOtherCard = () => {
-    setVisiblePayment("myCards");
+    setTypePayment("myCards");
   };
 
   const handleNewCard = () => {
-    setVisiblePayment("newCard");
+    setTypePayment("newCard");
   };
 
   return (
@@ -59,12 +54,12 @@ const ShippingPayment = ({ data }) => {
           control={
             <Radio
               onChange={
-                data === "shipping" ? handleSameAddress : handleOtherCard
+                step === "shipping" ? handleSameAddress : handleOtherCard
               }
             />
           }
           label={
-            data === "shipping"
+            step === "shipping"
               ? "Utilizar la misma dirección de Facturación"
               : "Mis tarjetas"
           }
@@ -73,17 +68,17 @@ const ShippingPayment = ({ data }) => {
           value="newShippingAddress"
           control={
             <Radio
-              onChange={data === "shipping" ? handleNewAddress : handleNewCard}
+              onChange={step === "shipping" ? handleNewAddress : handleNewCard}
             />
           }
           label={
-            data === "shipping"
+            step === "shipping"
               ? "Seleccionar una dirección nueva"
               : "Nueva tarjeta de débito o crédito"
           }
         />
       </RadioGroup>
-      {data === "shipping" ? (
+      {value === null ? null : step === "shipping" ? (
         <ShippingData>
           <AddressSearch visible={visibleShipping} />
           <Comments
@@ -96,7 +91,9 @@ const ShippingPayment = ({ data }) => {
           </Comments>
         </ShippingData>
       ) : (
-        <PaymentDetails typeData={visiblePayment} />
+        <>
+          <PaymentDetails typeCard={typePayment} />
+        </>
       )}
     </ShippingPaymentContainer>
   );

@@ -49,10 +49,10 @@ const Stepper = () => {
       stepperComponent = <Billing />;
       break;
     case 2:
-      stepperComponent = <ShippingPayment data="shipping" />;
+      stepperComponent = <ShippingPayment step="shipping" />;
       break;
     case 3:
-      stepperComponent = <ShippingPayment data="payment" />;
+      stepperComponent = <ShippingPayment step="payment" />;
       break;
     case 4:
       stepperComponent = <Confirmation />;
