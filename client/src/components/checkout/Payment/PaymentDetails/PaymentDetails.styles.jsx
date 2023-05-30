@@ -25,15 +25,15 @@ export const CardNumber = styled(TextField)(({ theme }) => ({
 
 export const CardDataContainer = styled(Box)(({ theme }) => ({
   display: "flex",
-  flexDirection: "row",
 }));
 
 export const CardExpirationDate = styled(TextField)(({ theme }) => ({
+  width: "50%",
   marginRight: theme.spacing(1),
 }));
 
 export const CardCVC = styled(TextField)(({ theme }) => ({
-  //styles
+  width: "50%",
 }));
 
 export const CardName = styled(TextField)(({ theme }) => ({

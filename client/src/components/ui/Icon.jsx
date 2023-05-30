@@ -20,6 +20,7 @@ import CreditCardIcon from "@mui/icons-material/CreditCard";
 import InfoIcon from "@mui/icons-material/Info";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import DoneIcon from "@mui/icons-material/Done";
 
 export const Icon = ({ name, color, size, onClick }) => {
   const icons = [
@@ -281,6 +282,19 @@ export const Icon = ({ name, color, size, onClick }) => {
         <SvgIcon
           aria-label="No mostrar la contraseña"
           component={VisibilityOff}
+          sx={{
+            color: color,
+            fontSize: size,
+          }}
+        />
+      ),
+    },
+    {
+      name: "info-done",
+      img: (
+        <SvgIcon
+          aria-label="La información se validó correctamente"
+          component={DoneIcon}
           sx={{
             color: color,
             fontSize: size,

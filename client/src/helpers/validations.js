@@ -23,4 +23,37 @@ export const validations = {
     errorDataNotValid:
       "Los números telefónicos solo pueden incluir números, espacios, el símbolo de suma (+), los paréntesis () y al menos cinco dígitos como mínimo",
   },
+  cardNumber: {
+    pattern: "",
+    errorDataNotValid: "",
+  },
+  cardExpirationDate: {
+    pattern: /^(0[1-9]|1[0-2])\/(2[2-9]|[3-9][0-9])$/,
+    errorDataNotValid:
+      "La fecha de expiración debe ser superior al mes y el año actual, y solo puede contener dos dígitos para el mes (MM) y dos dígitos para el año (AA)",
+  },
+};
+
+export const monthYearCheck = (value) => {
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth() + 1;
+
+  const [month, year] = value.split("/");
+  const inputMonth = parseInt(month, 10);
+  let inputYear = parseInt(year, 10);
+
+  // Agrega el prefijo "20" si el año tiene solo dos dígitos
+  if (year.length === 2) {
+    inputYear += 2000;
+  }
+
+  if (
+    inputYear < currentYear ||
+    (inputYear === currentYear && inputMonth < currentMonth)
+  ) {
+    return validations.cardExpirationDate.errorDataNotValid;
+  }
+
+  return true;
 };
