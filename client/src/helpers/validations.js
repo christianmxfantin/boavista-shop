@@ -32,6 +32,11 @@ export const validations = {
     errorDataNotValid:
       "La fecha de expiración debe ser superior al mes y el año actual, y solo puede contener dos dígitos para el mes (MM) y dos dígitos para el año (AA)",
   },
+  cardCVC: {
+    pattern: /^[0-9]{3,4}$/,
+    errorDataNotValid:
+      "El CVC solo puede contener números, como mínimo 3 dígitos y como máximo 4 dígitos",
+  },
 };
 
 export const monthYearCheck = (value) => {

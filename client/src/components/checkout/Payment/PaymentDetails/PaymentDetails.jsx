@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import ButtonsContainer from "../../../layout/ButtonsContainer/ButtonsContainer";
 import MyCardsItem from "../../../layout/MyCardsItem/MyCardsItem";
 import {
@@ -30,6 +30,7 @@ const myCards = [
 ];
 
 const PaymentDetails = ({ isProfile, typeCard }) => {
+  const cardNameValue = useRef("");
   const [typePayment, setTypePayment] = useState("myCards");
 
   const {
@@ -39,6 +40,12 @@ const PaymentDetails = ({ isProfile, typeCard }) => {
     reset,
     formState: { errors },
   } = useForm({ mode: "onBlur" });
+
+  //add function to add line in MM/AA
+
+  const handleChangeToUpperCase = () => {
+    cardNameValue.current.value = cardNameValue.current.value.toUpperCase();
+  };
 
   const handleClickNewPayment = () => {
     setTypePayment("newCard");
@@ -96,7 +103,15 @@ const PaymentDetails = ({ isProfile, typeCard }) => {
             placeholder="Ingrese su Número de Tarjeta"
             required
             InputProps={{
-              endAdornment: <DoneAdornment visibility={"hidden"} />,
+              endAdornment: (
+                <DoneAdornment
+                  visibility={
+                    !errors.cardNumber && watch("cardNumber")
+                      ? "visible"
+                      : "hidden"
+                  }
+                />
+              ),
             }}
             {...register("cardNumber", {
               required: true,
@@ -118,9 +133,17 @@ const PaymentDetails = ({ isProfile, typeCard }) => {
               placeholder="MM / AA"
               required
               InputProps={{
-                endAdornment: <DoneAdornment visibility={"hidden"} />,
+                endAdornment: (
+                  <DoneAdornment
+                    visibility={
+                      !errors.expirationDate && watch("cardExpirationDate")
+                        ? "visible"
+                        : "hidden"
+                    }
+                  />
+                ),
               }}
-              {...register("expirationDate", {
+              {...register("cardExpirationDate", {
                 required: validations.errorEmptyField,
                 pattern: {
                   value: validations.cardExpirationDate.pattern,
@@ -128,8 +151,8 @@ const PaymentDetails = ({ isProfile, typeCard }) => {
                 },
                 validate: monthYearCheck,
               })}
-              error={!!errors.expirationDate}
-              helperText={errors.expirationDate?.message}
+              error={!!errors.cardExpirationDate}
+              helperText={errors.cardExpirationDate?.message}
             />
             <CardCVC
               name="cardCVC"
@@ -139,18 +162,31 @@ const PaymentDetails = ({ isProfile, typeCard }) => {
               placeholder="CVC"
               required
               InputProps={{
-                endAdornment: <DoneAdornment visibility={"hidden"} />,
+                endAdornment: (
+                  <DoneAdornment
+                    visibility={
+                      !errors.cardCVC && watch("cardCVC") ? "visible" : "hidden"
+                    }
+                  />
+                ),
               }}
               {...register("cardCVC", {
-                required: true,
-                // pattern: validations.names.pattern,
+                required: validations.errorEmptyField,
+                minLength: {
+                  value: validations.cardCVC.pattern,
+                  message: validations.cardCVC.errorDataNotValid,
+                },
+                maxLength: {
+                  value: validations.cardCVC.pattern,
+                  message: validations.cardCVC.errorDataNotValid,
+                },
+                pattern: {
+                  value: validations.cardCVC.pattern,
+                  message: validations.cardCVC.errorDataNotValid,
+                },
               })}
               error={!!errors.cardCVC}
-              // helperText={
-              //   watch("cardCVC")
-              //     ? errors.cardCVC && validations.cardCVC.errorDataNotValid
-              //     : errors.cardCVC && validations.errorEmptyField
-              // }
+              helperText={errors.cardCVC?.message}
             />
           </CardDataContainer>
           <CardName
@@ -159,9 +195,21 @@ const PaymentDetails = ({ isProfile, typeCard }) => {
             variant="outlined"
             size="small"
             placeholder="Ingrese su Nombre como aparece en la Tarjeta"
+            required
+            InputProps={{
+              endAdornment: (
+                <DoneAdornment
+                  visibility={
+                    !errors.CardName && watch("cardName") ? "visible" : "hidden"
+                  }
+                />
+              ),
+            }}
+            inputRef={cardNameValue}
             {...register("cardName", {
               required: true,
               pattern: validations.names.pattern,
+              onChange: handleChangeToUpperCase,
             })}
             error={!!errors.cardName}
             helperText={
