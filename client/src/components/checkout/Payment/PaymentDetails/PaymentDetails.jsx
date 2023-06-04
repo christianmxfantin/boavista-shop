@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useTheme } from "@emotion/react";
 import ButtonsContainer from "../../../layout/ButtonsContainer/ButtonsContainer";
 import MyCardsItem from "../../../layout/MyCardsItem/MyCardsItem";
 import {
@@ -11,10 +12,16 @@ import {
   CardCVC,
   CardName,
 } from "./PaymentDetails.styles";
-import { Button } from "@mui/material";
+import { Button, InputAdornment } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { validations, monthYearCheck } from "../../../../helpers/validations";
+import {
+  validations,
+  validateCardNumber,
+  monthYearCheck,
+} from "../../../../helpers/validations";
 import DoneAdornment from "../../../layout/DoneAdornment/DoneAdornment";
+import { Icon } from "../../../ui/Icon";
+import { VisaIconSvg, MasterCardIconSvg, AmexIconSvg } from "../../../ui/Svg";
 
 const myCards = [
   {
@@ -30,8 +37,12 @@ const myCards = [
 ];
 
 const PaymentDetails = ({ isProfile, typeCard }) => {
+  const theme = useTheme();
+  const cardNumberValue = useRef("");
+  const cardExpirationDateValue = useRef("");
   const cardNameValue = useRef("");
   const [typePayment, setTypePayment] = useState("myCards");
+  const [cardType, setCardType] = useState("");
 
   const {
     register,
@@ -41,7 +52,35 @@ const PaymentDetails = ({ isProfile, typeCard }) => {
     formState: { errors },
   } = useForm({ mode: "onBlur" });
 
-  //add function to add line in MM/AA
+  const handleChangeCardType = () => {
+    const inputValue = parseInt(cardNumberValue.current.value);
+
+    const cardRegExp = {
+      visa: /^4[0-9]{6,}$/,
+      master:
+        /^5[1-5][0-9]{5,}|222[1-9][0-9]{3,}|22[3-9][0-9]{4,}|2[3-6][0-9]{5,}|27[01][0-9]{4,}|2720[0-9]{3,}$/,
+      amex: /^3[47][0-9]{5,}$/,
+    };
+
+    for (let key in cardRegExp) {
+      if (cardRegExp[key].test(inputValue)) {
+        setCardType(key);
+        break;
+      } else {
+        setCardType("");
+      }
+    }
+  };
+
+  const handleChangeExpirationDate = () => {
+    const inputValue = cardExpirationDateValue.current.value;
+    if (inputValue.length === 4) {
+      cardExpirationDateValue.current.value = `${inputValue.slice(
+        0,
+        2
+      )} / ${inputValue.slice(2)}`;
+    }
+  };
 
   const handleChangeToUpperCase = () => {
     cardNameValue.current.value = cardNameValue.current.value.toUpperCase();
@@ -103,6 +142,22 @@ const PaymentDetails = ({ isProfile, typeCard }) => {
             placeholder="Ingrese su Número de Tarjeta"
             required
             InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  {cardType === "visa" ? (
+                    <VisaIconSvg />
+                  ) : cardType === "master" ? (
+                    <MasterCardIconSvg />
+                  ) : cardType === "amex" ? (
+                    <AmexIconSvg />
+                  ) : (
+                    <Icon
+                      name="credit-card"
+                      color={theme.palette.primary[500]}
+                    />
+                  )}
+                </InputAdornment>
+              ),
               endAdornment: (
                 <DoneAdornment
                   visibility={
@@ -113,16 +168,14 @@ const PaymentDetails = ({ isProfile, typeCard }) => {
                 />
               ),
             }}
+            inputRef={cardNumberValue}
             {...register("cardNumber", {
-              required: true,
-              // pattern: validations.names.pattern,
+              required: validations.errorEmptyField,
+              validate: validateCardNumber,
+              onChange: handleChangeCardType,
             })}
             error={!!errors.cardNumber}
-            // helperText={
-            //   watch("cardNumber")
-            //     ? errors.cardNumber && validations.cardNumber.errorDataNotValid
-            //     : errors.cardNumber && validations.errorEmptyField
-            // }
+            helperText={errors.cardNumber?.message}
           />
           <CardDataContainer>
             <CardExpirationDate
@@ -132,24 +185,23 @@ const PaymentDetails = ({ isProfile, typeCard }) => {
               size="small"
               placeholder="MM / AA"
               required
+              inputProps={{ maxLength: 7 }}
               InputProps={{
                 endAdornment: (
                   <DoneAdornment
                     visibility={
-                      !errors.expirationDate && watch("cardExpirationDate")
+                      !errors.cardExpirationDate && watch("cardExpirationDate")
                         ? "visible"
                         : "hidden"
                     }
                   />
                 ),
               }}
+              inputRef={cardExpirationDateValue}
               {...register("cardExpirationDate", {
                 required: validations.errorEmptyField,
-                pattern: {
-                  value: validations.cardExpirationDate.pattern,
-                  message: validations.cardExpirationDate.errorDataNotValid,
-                },
                 validate: monthYearCheck,
+                onChange: handleChangeExpirationDate,
               })}
               error={!!errors.cardExpirationDate}
               helperText={errors.cardExpirationDate?.message}
@@ -161,6 +213,7 @@ const PaymentDetails = ({ isProfile, typeCard }) => {
               size="small"
               placeholder="CVC"
               required
+              inputProps={{ minLength: 3, maxLength: 4 }}
               InputProps={{
                 endAdornment: (
                   <DoneAdornment
@@ -200,7 +253,7 @@ const PaymentDetails = ({ isProfile, typeCard }) => {
               endAdornment: (
                 <DoneAdornment
                   visibility={
-                    !errors.CardName && watch("cardName") ? "visible" : "hidden"
+                    !errors.cardName && watch("cardName") ? "visible" : "hidden"
                   }
                 />
               ),

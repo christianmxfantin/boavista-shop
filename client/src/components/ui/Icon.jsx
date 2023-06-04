@@ -238,7 +238,7 @@ export const Icon = ({ name, color, size, onClick }) => {
       ),
     },
     {
-      name: "Credit-Card",
+      name: "credit-card",
       img: (
         <SvgIcon
           aria-label="Logo de Tarjeta de Débito o Crédito"

@@ -16,7 +16,7 @@ const MyCardsItem = ({ card }) => {
         color: isHover ? theme.palette.secondary.A100 : "inherit",
       }}
     >
-      <Icon name="Credit-Card" />
+      <Icon name="credit-card" />
       <MyCardsItemText>
         {`${
           card.typeCard === "credit" ? "Visa Crédito" : "Visa Débito"
