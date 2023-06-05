@@ -1,10 +1,10 @@
 import { CheckoutContainer } from "./CheckoutFull.styles";
-import Stepper from "../../layout/Stepper/Stepper";
+import StepperCheckout from "../../layout/StepperCheckout/StepperCheckout";
 
 const CheckoutFull = () => {
   return (
     <CheckoutContainer component={"main"}>
-      <Stepper />
+      <StepperCheckout />
     </CheckoutContainer>
   );
 };

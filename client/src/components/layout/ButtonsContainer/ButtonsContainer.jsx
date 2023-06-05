@@ -2,7 +2,7 @@ import { useTheme } from "@emotion/react";
 import { Button } from "@mui/material";
 import { ButtonContainer } from "./ButtonsContainer.styles";
 
-const ButtonsContainer = ({ onClick }) => {
+const ButtonsContainer = ({ isHidden, onClick }) => {
   const theme = useTheme();
 
   return (
@@ -10,7 +10,11 @@ const ButtonsContainer = ({ onClick }) => {
       <Button
         variant="text"
         onClick={onClick}
-        sx={{ width: "100%", marginRight: theme.spacing(1) }}
+        sx={{
+          width: "100%",
+          marginRight: theme.spacing(1),
+          display: isHidden ? "none" : "inherit",
+        }}
       >
         Cancelar
       </Button>

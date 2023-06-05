@@ -6,7 +6,7 @@ import {
   Step,
   StepLabel,
 } from "@mui/material";
-import { CheckoutButtonsContainer } from "./Stepper.styles";
+import { CheckoutButtonsContainer } from "./StepperCheckout.styles";
 import { Button } from "../../ui/Button";
 
 import Cart from "../../checkout/Cart/Cart";
@@ -15,10 +15,11 @@ import ShippingPayment from "../../checkout/ShippingPayment/ShippingPayment";
 import Confirmation from "../../checkout/Confirmation/Confirmation/Confirmation";
 import PaymentSuccessful from "../../checkout/Payment/PaymentSuccessful/PaymentSuccessful";
 
-const Stepper = () => {
+const StepperCheckout = () => {
   let stepperComponent;
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const handleCleanCart = () => {
     //Vaciar Carrito
@@ -126,4 +127,4 @@ const Stepper = () => {
   );
 };
 
-export default Stepper;
+export default StepperCheckout;

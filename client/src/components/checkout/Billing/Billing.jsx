@@ -17,7 +17,7 @@ import ButtonsContainer from "../../layout/ButtonsContainer/ButtonsContainer";
 import { validations } from "../../../helpers/validations";
 import { IconButton, InputAdornment, Tooltip } from "@mui/material";
 
-const Billing = ({ isProfile, editMode, onEditChange }) => {
+const Billing = ({ isProfile, editMode, onEditChange, isButtonDisabled }) => {
   const theme = useTheme();
   const nameInput = useRef();
   const [edit, setEdit] = useState(false);
@@ -25,6 +25,7 @@ const Billing = ({ isProfile, editMode, onEditChange }) => {
     register,
     handleSubmit,
     watch,
+    control,
     reset,
     formState: { errors },
   } = useForm({ mode: "onBlur" });
@@ -133,7 +134,12 @@ const Billing = ({ isProfile, editMode, onEditChange }) => {
                 : errors.address && validations.errorEmptyField
             }
           />
-          <AddressSearch disabled={!edit && !editMode} visible={true} />
+          <AddressSearch
+            disabled={!edit && !editMode}
+            visible={true}
+            errors={errors}
+            control={control}
+          />
           <EmailInput
             name="email"
             type="email"
@@ -173,6 +179,7 @@ const Billing = ({ isProfile, editMode, onEditChange }) => {
             }
           />
           {editMode && <ButtonsContainer onClick={handleClickCancel} />}
+          {edit && <ButtonsContainer isHidden={true} />}
         </DataContainer>
       </BillingContainer>
     </section>

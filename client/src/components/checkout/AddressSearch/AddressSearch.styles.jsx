@@ -7,11 +7,18 @@ export const AddressSearchContainer = styled(Box)(({ theme }) => ({
   alignItems: "center",
 }));
 
+export const StateSelectContainer = styled(Box)(({ theme }) => ({
+  width: "100%",
+}));
+
 export const StateSelect = styled(Select)(({ theme }) => ({
+  //styles
+}));
+
+export const CitySelectContainer = styled(Box)(({ theme }) => ({
   width: "100%",
 }));
 
 export const CitySelect = styled(Select)(({ theme }) => ({
-  width: "100%",
-  marginTop: theme.spacing(2), //16px
+  marginTop: theme.spacing(1), //8px
 }));

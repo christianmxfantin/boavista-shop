@@ -3,10 +3,13 @@ import {
   AddressSearchContainer,
   StateSelect,
   CitySelect,
+  StateSelectContainer,
+  CitySelectContainer,
 } from "./AddressSearch.styles";
-import { MenuItem } from "@mui/material";
+import { FormHelperText, MenuItem } from "@mui/material";
+import { Controller } from "react-hook-form";
 
-const AddressSearch = ({ disabled, visible }) => {
+const AddressSearch = ({ disabled, visible, errors, control }) => {
   const [provincias, setProvincias] = useState([]);
   const [departamentos, setDepartamentos] = useState([]);
 
@@ -53,30 +56,75 @@ const AddressSearch = ({ disabled, visible }) => {
 
   return (
     <AddressSearchContainer sx={{ visibility: visible ? "visible" : "hidden" }}>
-      <StateSelect
-        disabled={disabled}
-        defaultValue={1}
-        onChange={handleStateChange}
-      >
-        <MenuItem disabled value={1}>
-          Seleccione una Provincia
-        </MenuItem>
-        {provincias.map((provincia, index) => (
-          <MenuItem value={provincia} key={index}>
-            {provincia}
-          </MenuItem>
-        ))}
-      </StateSelect>
-      <CitySelect disabled={disabled} defaultValue={1}>
-        <MenuItem disabled value={1}>
-          Seleccione una Localidad
-        </MenuItem>
-        {departamentos.map((departamento, index) => (
-          <MenuItem value={departamento} key={index}>
-            {departamento}
-          </MenuItem>
-        ))}
-      </CitySelect>
+      <StateSelectContainer>
+        <Controller
+          name="state"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <>
+              <StateSelect
+                fullWidth
+                disabled={disabled}
+                defaultValue={1}
+                onChange={(e) => {
+                  field.onChange(e.target.value);
+                  handleStateChange(e);
+                }}
+                error={!!errors.state}
+              >
+                <MenuItem disabled value={1}>
+                  Seleccione una Provincia
+                </MenuItem>
+                {provincias.map((provincia, index) => (
+                  <MenuItem value={provincia} key={index}>
+                    {provincia}
+                  </MenuItem>
+                ))}
+              </StateSelect>
+              <FormHelperText error={!!errors.state}>
+                {errors.state && field.value !== "Seleccione una Provincia"
+                  ? "Debe seleccionar una Provincia para continuar"
+                  : ""}
+              </FormHelperText>
+            </>
+          )}
+        />
+      </StateSelectContainer>
+      <CitySelectContainer>
+        <Controller
+          name="city"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <>
+              <CitySelect
+                fullWidth
+                disabled={disabled}
+                defaultValue={1}
+                onChange={(e) => {
+                  field.onChange(e.target.value);
+                }}
+                error={!!errors.city}
+              >
+                <MenuItem disabled value={1}>
+                  Seleccione una Localidad
+                </MenuItem>
+                {departamentos.map((departamento, index) => (
+                  <MenuItem value={departamento} key={index}>
+                    {departamento}
+                  </MenuItem>
+                ))}
+              </CitySelect>
+              <FormHelperText error={!!errors.city}>
+                {errors.city && field.value !== "Seleccione una Localidad"
+                  ? "Debe seleccionar una Localidad para continuar"
+                  : ""}
+              </FormHelperText>
+            </>
+          )}
+        />
+      </CitySelectContainer>
     </AddressSearchContainer>
   );
 };
