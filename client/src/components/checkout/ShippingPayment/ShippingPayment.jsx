@@ -8,6 +8,7 @@ import {
 } from "./ShippingPayment.styles";
 import AddressSearch from "../AddressSearch/AddressSearch";
 import PaymentDetails from "../Payment/PaymentDetails/PaymentDetails";
+import Billing from "../Billing/Billing";
 
 const ShippingPayment = ({ step }) => {
   const theme = useTheme();
@@ -79,21 +80,9 @@ const ShippingPayment = ({ step }) => {
         />
       </RadioGroup>
       {value === null ? null : step === "shipping" ? (
-        <ShippingData>
-          <AddressSearch visible={visibleShipping} />
-          <Comments
-            multiline
-            maxRows={4}
-            placeholder="Observaciones"
-            sx={{ visibility: visibleShipping ? "visible" : "hidden" }}
-          >
-            Observaciones
-          </Comments>
-        </ShippingData>
+        <Billing visible={visibleShipping} isShipping={true} />
       ) : (
-        <>
-          <PaymentDetails typeCard={typePayment} />
-        </>
+        <PaymentDetails typeCard={typePayment} />
       )}
     </ShippingPaymentContainer>
   );

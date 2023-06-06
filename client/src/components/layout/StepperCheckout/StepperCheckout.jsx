@@ -21,12 +21,17 @@ const StepperCheckout = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
+  const handleButtonDisabled = (value) => {
+    setIsButtonDisabled(value);
+  };
+
   const handleCleanCart = () => {
     //Vaciar Carrito
     console.log("Vaciar Carrito");
   };
 
   const handleLeft = () => {
+    setIsButtonDisabled(false);
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
@@ -47,7 +52,7 @@ const StepperCheckout = () => {
 
   switch (activeStep) {
     case 1:
-      stepperComponent = <Billing />;
+      stepperComponent = <Billing isButtonDisabled={handleButtonDisabled} />;
       break;
     case 2:
       stepperComponent = <ShippingPayment step="shipping" />;
@@ -118,6 +123,7 @@ const StepperCheckout = () => {
               name={activeStep === 4 ? "Pagar" : "Continuar"}
               variant="contained"
               buttonStyle="primary"
+              disabled={activeStep === 1 && isButtonDisabled}
               onClick={activeStep === 4 ? handlePayment : handleRight}
             />
           </CheckoutButtonsContainer>
