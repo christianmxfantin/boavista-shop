@@ -1,16 +1,11 @@
 import { useState, useEffect } from "react";
 import { RadioGroup, FormControlLabel, Radio } from "@mui/material";
 import { useTheme } from "@emotion/react";
-import {
-  ShippingPaymentContainer,
-  ShippingData,
-  Comments,
-} from "./ShippingPayment.styles";
-import AddressSearch from "../AddressSearch/AddressSearch";
+import { ShippingPaymentContainer } from "./ShippingPayment.styles";
 import PaymentDetails from "../Payment/PaymentDetails/PaymentDetails";
 import Billing from "../Billing/Billing";
 
-const ShippingPayment = ({ step }) => {
+const ShippingPayment = ({ step, isButtonDisabled }) => {
   const theme = useTheme();
   const [visibleShipping, setVisibleShipping] = useState(false);
   const [typePayment, setTypePayment] = useState("myCards");
@@ -18,33 +13,38 @@ const ShippingPayment = ({ step }) => {
 
   useEffect(() => {
     setValue(null);
+    isButtonDisabled(true);
   }, [step]);
 
-  const handleChange = (e) => {
+  const handleRadioChange = (e) => {
     setValue(e.target.value);
   };
 
   const handleSameAddress = () => {
     setVisibleShipping(false);
+    isButtonDisabled(false);
   };
 
   const handleNewAddress = () => {
     setVisibleShipping(true);
+    isButtonDisabled(true);
   };
 
-  const handleOtherCard = () => {
+  const handleMyCards = () => {
     setTypePayment("myCards");
+    isButtonDisabled(false);
   };
 
   const handleNewCard = () => {
     setTypePayment("newCard");
+    isButtonDisabled(true);
   };
 
   return (
     <ShippingPaymentContainer>
       <RadioGroup
         value={value}
-        onClick={handleChange}
+        onClick={handleRadioChange}
         sx={{
           marginBottom: theme.spacing(2),
           color: theme.palette.primary[500],
@@ -54,9 +54,7 @@ const ShippingPayment = ({ step }) => {
           value="sameShippingAddress"
           control={
             <Radio
-              onChange={
-                step === "shipping" ? handleSameAddress : handleOtherCard
-              }
+              onChange={step === "shipping" ? handleSameAddress : handleMyCards}
             />
           }
           label={
@@ -80,7 +78,7 @@ const ShippingPayment = ({ step }) => {
         />
       </RadioGroup>
       {value === null ? null : step === "shipping" ? (
-        <Billing visible={visibleShipping} isShipping={true} />
+        <Billing formType="shipping" visibleShipping={visibleShipping} />
       ) : (
         <PaymentDetails typeCard={typePayment} />
       )}

@@ -8,6 +8,7 @@ import {
   NameInput,
   SurnameInput,
   AddressInput,
+  CommentsInput,
   EmailInput,
   PhoneInput,
 } from "./Billing.styles";
@@ -18,12 +19,11 @@ import { validations } from "../../../helpers/validations";
 import { IconButton, InputAdornment, Tooltip } from "@mui/material";
 
 const Billing = ({
-  isProfile,
+  formType,
+  visibleShipping,
+  isButtonDisabled,
   editMode,
   onEditChange,
-  isButtonDisabled,
-  isShipping,
-  visible,
 }) => {
   const theme = useTheme();
   const nameInput = useRef();
@@ -59,7 +59,7 @@ const Billing = ({
   return (
     <section>
       <BillingContainer>
-        {!isProfile && (
+        {formType === "billing" && (
           <TitleContainer
             sx={{
               visibility: edit ? "hidden" : "visible",
@@ -79,9 +79,9 @@ const Billing = ({
           autoComplete="off"
           noValidate
           onSubmit={handleSubmit(onSubmit)}
-          sx={{ width: !isProfile ? "30%" : "100%" }}
+          sx={{ width: formType === "profile" ? "30%" : "100%" }}
         >
-          {!isShipping && (
+          {(formType === "billing" || formType === "profile") && (
             <>
               <NameInput
                 name="names"
@@ -134,15 +134,33 @@ const Billing = ({
               />
             </>
           )}
-          {(isShipping || isProfile) && (
+          {(formType === "billing" ||
+            formType === "shipping" ||
+            formType === "profile") && (
             <>
+              {console.log(
+                formType,
+                formType === "billing" || formType === "profile"
+              )}
               <AddressInput
+                sx={{
+                  visibility:
+                    formType === "shipping" && visibleShipping
+                      ? "visible"
+                      : formType === "shipping" && !visibleShipping
+                      ? "hidden"
+                      : null,
+                }}
                 name="address"
                 type="text"
                 variant="outlined"
                 size="small"
                 placeholder="Ingresa tu Dirección"
-                disabled={!edit && !editMode}
+                disabled={
+                  formType === "billing" || formType === "profile"
+                    ? !edit && !editMode
+                    : false
+                }
                 required
                 {...register("address", {
                   required: true,
@@ -156,14 +174,34 @@ const Billing = ({
                 }
               />{" "}
               <AddressSearch
+                formType={formType}
+                visibleShipping={visibleShipping}
                 disabled={!edit && !editMode}
-                visible={visible} //en true estaba
                 errors={errors}
                 control={control}
               />
             </>
           )}
-          {!isShipping && (
+          {formType === "shipping" && (
+            <>
+              <CommentsInput
+                sx={{ visibility: visibleShipping ? "visible" : "hidden" }}
+                multiline
+                maxRows={4}
+                name="comments"
+                placeholder="Observaciones"
+                required
+                {...register("comments", {
+                  required: validations.errorEmptyField,
+                })}
+                error={!!errors.comments}
+                helperText={errors.comments?.message}
+              >
+                Observaciones
+              </CommentsInput>
+            </>
+          )}
+          {(formType === "billing" || formType === "profile") && (
             <>
               <EmailInput
                 name="email"
@@ -205,8 +243,20 @@ const Billing = ({
               />
             </>
           )}
-          {editMode && <ButtonsContainer onClick={handleClickCancel} />}
-          {edit && <ButtonsContainer isHidden={true} />}
+          {formType === "profile" && (
+            <ButtonsContainer
+              formType={formType}
+              edit={editMode}
+              onClick={handleClickCancel}
+            />
+          )}
+          {(formType === "billing" || formType === "shipping") && (
+            <ButtonsContainer
+              formType={formType}
+              edit={edit}
+              visibleShipping={visibleShipping}
+            />
+          )}
         </DataContainer>
       </BillingContainer>
     </section>

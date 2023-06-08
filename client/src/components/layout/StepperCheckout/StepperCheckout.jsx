@@ -52,13 +52,25 @@ const StepperCheckout = () => {
 
   switch (activeStep) {
     case 1:
-      stepperComponent = <Billing isButtonDisabled={handleButtonDisabled} />;
+      stepperComponent = (
+        <Billing formType="billing" isButtonDisabled={handleButtonDisabled} />
+      );
       break;
     case 2:
-      stepperComponent = <ShippingPayment step="shipping" />;
+      stepperComponent = (
+        <ShippingPayment
+          step="shipping"
+          isButtonDisabled={handleButtonDisabled}
+        />
+      );
       break;
     case 3:
-      stepperComponent = <ShippingPayment step="payment" />;
+      stepperComponent = (
+        <ShippingPayment
+          step="payment"
+          isButtonDisabled={handleButtonDisabled}
+        />
+      );
       break;
     case 4:
       stepperComponent = <Confirmation />;
@@ -123,7 +135,10 @@ const StepperCheckout = () => {
               name={activeStep === 4 ? "Pagar" : "Continuar"}
               variant="contained"
               buttonStyle="primary"
-              disabled={activeStep === 1 && isButtonDisabled}
+              disabled={
+                (activeStep === 1 || activeStep === 2 || activeStep === 3) &&
+                isButtonDisabled
+              }
               onClick={activeStep === 4 ? handlePayment : handleRight}
             />
           </CheckoutButtonsContainer>

@@ -24,7 +24,7 @@ const Profile = () => {
         <ProfileData title="Datos de Cuenta" component={<AccountData />} />
         <ProfileData
           title="Datos de Facturación"
-          component={<Billing isProfile={true} />}
+          component={<Billing formType="profile" />}
         />
         <ProfileData
           title="Métodos de Pago"

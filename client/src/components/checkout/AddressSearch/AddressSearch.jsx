@@ -9,7 +9,13 @@ import {
 import { FormHelperText, MenuItem } from "@mui/material";
 import { Controller } from "react-hook-form";
 
-const AddressSearch = ({ disabled, visible, errors, control }) => {
+const AddressSearch = ({
+  formType,
+  visibleShipping,
+  disabled,
+  errors,
+  control,
+}) => {
   const [provincias, setProvincias] = useState([]);
   const [departamentos, setDepartamentos] = useState([]);
 
@@ -55,7 +61,16 @@ const AddressSearch = ({ disabled, visible, errors, control }) => {
   };
 
   return (
-    <AddressSearchContainer sx={{ visibility: visible ? "visible" : "hidden" }}>
+    <AddressSearchContainer
+      sx={{
+        visibility:
+          formType === "shipping" && visibleShipping
+            ? "visible"
+            : formType === "shipping" && !visibleShipping
+            ? "hidden"
+            : null,
+      }}
+    >
       <StateSelectContainer>
         <Controller
           name="state"
@@ -65,7 +80,11 @@ const AddressSearch = ({ disabled, visible, errors, control }) => {
             <>
               <StateSelect
                 fullWidth
-                disabled={disabled}
+                disabled={
+                  formType === "billing" || formType === "profile"
+                    ? disabled
+                    : false
+                }
                 defaultValue={1}
                 onChange={(e) => {
                   field.onChange(e.target.value);
@@ -100,7 +119,11 @@ const AddressSearch = ({ disabled, visible, errors, control }) => {
             <>
               <CitySelect
                 fullWidth
-                disabled={disabled}
+                disabled={
+                  formType === "billing" || formType === "profile"
+                    ? disabled
+                    : false
+                }
                 defaultValue={1}
                 onChange={(e) => {
                   field.onChange(e.target.value);

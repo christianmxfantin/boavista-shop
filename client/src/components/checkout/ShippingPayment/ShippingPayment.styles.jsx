@@ -11,10 +11,6 @@ export const ShippingData = styled(Box)(({ theme }) => ({
   //styles
 }));
 
-export const Comments = styled(TextField)(({ theme }) => ({
-  marginTop: theme.spacing(2), //16px
-}));
-
 export const PaymentData = styled(Box)(({ theme }) => ({
   //styles
 }));
