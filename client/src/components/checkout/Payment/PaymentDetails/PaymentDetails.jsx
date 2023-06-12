@@ -36,7 +36,7 @@ const myCards = [
   },
 ];
 
-const PaymentDetails = ({ isProfile, typeCard }) => {
+const PaymentDetails = ({ formType, typeCard }) => {
   const theme = useTheme();
   const cardNumberValue = useRef("");
   const cardExpirationDateValue = useRef("");
@@ -105,17 +105,18 @@ const PaymentDetails = ({ isProfile, typeCard }) => {
   return (
     <PaymentDetailsContainer
       sx={{
-        width: !isProfile ? "25" : "inherit",
+        width: formType === "profile" ? "25" : "inherit",
       }}
     >
-      {(isProfile && typePayment === "myCards") || typeCard === "myCards" ? (
+      {(formType === "profile" && typePayment === "myCards") ||
+      typeCard === "myCards" ? (
         <>
           <MyCardsContainer>
             {myCards.map((card) => (
               <MyCardsItem key={card.id} card={card} />
             ))}
           </MyCardsContainer>
-          {isProfile && (
+          {formType === "profile" && (
             <Button
               variant="text"
               onClick={handleClickNewPayment}
@@ -126,7 +127,7 @@ const PaymentDetails = ({ isProfile, typeCard }) => {
           )}
         </>
       ) : //si hay algun error se puede agregar la siguiente condición:
-      // (isProfile && typePayment === "newCard")
+      // (formType === "profile" && typePayment === "newCard")
       typePayment === "newCard" || typeCard === "newCard" ? (
         <PaymentNewCard
           component={"form"}
@@ -271,7 +272,11 @@ const PaymentDetails = ({ isProfile, typeCard }) => {
                 : errors.cardName && validations.errorEmptyField
             }
           />
-          <ButtonsContainer onClick={handleClickCancel} />
+          <ButtonsContainer
+            formType="profile"
+            edit={true}
+            onClick={handleClickCancel}
+          />
         </PaymentNewCard>
       ) : null}
     </PaymentDetailsContainer>

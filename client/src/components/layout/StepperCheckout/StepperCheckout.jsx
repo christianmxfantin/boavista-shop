@@ -135,10 +135,7 @@ const StepperCheckout = () => {
               name={activeStep === 4 ? "Pagar" : "Continuar"}
               variant="contained"
               buttonStyle="primary"
-              disabled={
-                (activeStep === 1 || activeStep === 2 || activeStep === 3) &&
-                isButtonDisabled
-              }
+              disabled={activeStep >= 1 && activeStep <= 3 && isButtonDisabled}
               onClick={activeStep === 4 ? handlePayment : handleRight}
             />
           </CheckoutButtonsContainer>

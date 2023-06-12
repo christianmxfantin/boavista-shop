@@ -1,15 +1,23 @@
-import { Box, TextField } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export const BillingContainer = styled(Box)(({ theme }) => ({
+  width: "100%",
   display: "flex",
   flexDirection: "column",
+  justifyContent: "center",
   alignItems: "center",
 }));
 
-export const TitleContainer = styled(Box)(({ theme }) => ({
+export const BillingTitleContainer = styled(Box)(({ theme }) => ({
   display: "flex",
-  flexDirection: "row-reverse",
+  "&:hover": { cursor: "pointer" },
+}));
+
+export const BillingTitle = styled(Typography)(({ theme }) => ({
+  marginRight: theme.spacing(1), //8px
+  color: theme.palette.primary[500],
+  fontSize: theme.spacing(2.5), //20px
 }));
 
 export const DataContainer = styled(Box)(({ theme }) => ({

@@ -15,11 +15,17 @@ const AddressSearch = ({
   disabled,
   errors,
   control,
+  reset,
+  resetAddress,
 }) => {
   const [provincias, setProvincias] = useState([]);
   const [departamentos, setDepartamentos] = useState([]);
 
   useEffect(() => {
+    if (resetAddress) {
+      resetAddressFields();
+    }
+
     fetch("https://apis.datos.gob.ar/georef/api/provincias")
       .then((response) => response.json())
       .then((data) => {
@@ -60,6 +66,10 @@ const AddressSearch = ({
       });
   };
 
+  const resetAddressFields = () => {
+    reset({ state: 1, city: 1 });
+  };
+
   return (
     <AddressSearchContainer
       sx={{
@@ -76,6 +86,7 @@ const AddressSearch = ({
           name="state"
           control={control}
           rules={{ required: true }}
+          defaultValue={1}
           render={({ field }) => (
             <>
               <StateSelect
@@ -93,7 +104,7 @@ const AddressSearch = ({
                 error={!!errors.state}
               >
                 <MenuItem disabled value={1}>
-                  Seleccione una Provincia
+                  Selecciona tu Provincia
                 </MenuItem>
                 {provincias.map((provincia, index) => (
                   <MenuItem value={provincia} key={index}>
@@ -131,7 +142,7 @@ const AddressSearch = ({
                 error={!!errors.city}
               >
                 <MenuItem disabled value={1}>
-                  Seleccione una Localidad
+                  Selecciona tu Localidad
                 </MenuItem>
                 {departamentos.map((departamento, index) => (
                   <MenuItem value={departamento} key={index}>

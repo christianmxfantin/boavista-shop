@@ -7,18 +7,6 @@ export const ShippingPaymentContainer = styled(FormControl)(({ theme }) => ({
   alignItems: "center",
 }));
 
-export const ShippingData = styled(Box)(({ theme }) => ({
-  //styles
-}));
-
-export const PaymentData = styled(Box)(({ theme }) => ({
-  //styles
-}));
-
-export const PaymentDetailsOtherCard = styled(Typography)(({ theme }) => ({
-  //styles
-}));
-
-export const PaymentDetailsNewCard = styled(Typography)(({ theme }) => ({
-  //styles
+export const ShippingContainer = styled(Box)(({ theme }) => ({
+  width: "100%",
 }));

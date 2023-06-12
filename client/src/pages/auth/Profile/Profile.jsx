@@ -29,7 +29,7 @@ const Profile = () => {
         <ProfileData
           title="Métodos de Pago"
           type="payment"
-          component={<PaymentDetails isProfile={true} />}
+          component={<PaymentDetails formType="profile" />}
         />
         <Button
           variant="text"

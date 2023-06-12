@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import { RadioGroup, FormControlLabel, Radio } from "@mui/material";
 import { useTheme } from "@emotion/react";
-import { ShippingPaymentContainer } from "./ShippingPayment.styles";
+import {
+  ShippingContainer,
+  ShippingPaymentContainer,
+} from "./ShippingPayment.styles";
 import PaymentDetails from "../Payment/PaymentDetails/PaymentDetails";
 import Billing from "../Billing/Billing";
 
@@ -78,7 +81,9 @@ const ShippingPayment = ({ step, isButtonDisabled }) => {
         />
       </RadioGroup>
       {value === null ? null : step === "shipping" ? (
-        <Billing formType="shipping" visibleShipping={visibleShipping} />
+        <ShippingContainer>
+          <Billing formType="shipping" visibleShipping={visibleShipping} />
+        </ShippingContainer>
       ) : (
         <PaymentDetails typeCard={typePayment} />
       )}

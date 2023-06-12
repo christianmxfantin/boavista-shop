@@ -3,7 +3,8 @@ import { useTheme } from "@emotion/react";
 import { Icon as EditIcon, Icon } from "../../ui/Icon";
 import {
   BillingContainer,
-  TitleContainer,
+  BillingTitleContainer,
+  BillingTitle,
   DataContainer,
   NameInput,
   SurnameInput,
@@ -28,6 +29,7 @@ const Billing = ({
   const theme = useTheme();
   const nameInput = useRef();
   const [edit, setEdit] = useState(false);
+  const [resetAddress, setResetAddress] = useState(false);
   const {
     register,
     handleSubmit,
@@ -45,7 +47,7 @@ const Billing = ({
 
   const handleClickCancel = () => {
     reset();
-    onEditChange(false);
+    // onEditChange(false);
     isButtonDisabled(false);
   };
 
@@ -53,6 +55,7 @@ const Billing = ({
     console.log(formValues);
     //save billing data
 
+    setResetAddress(true);
     handleClickCancel();
   };
 
@@ -60,18 +63,19 @@ const Billing = ({
     <section>
       <BillingContainer>
         {formType === "billing" && (
-          <TitleContainer
+          <BillingTitleContainer
+            onClick={handleEdit}
             sx={{
               visibility: edit ? "hidden" : "visible",
             }}
           >
+            <BillingTitle>Cambiar datos</BillingTitle>
             <EditIcon
               name="Edit-Data"
               size={30}
               color={theme.palette.primary[500]}
-              onClick={handleEdit}
             />
-          </TitleContainer>
+          </BillingTitleContainer>
         )}
 
         <DataContainer
@@ -79,7 +83,14 @@ const Billing = ({
           autoComplete="off"
           noValidate
           onSubmit={handleSubmit(onSubmit)}
-          sx={{ width: formType === "profile" ? "30%" : "100%" }}
+          sx={{
+            width:
+              formType === "profile"
+                ? "100%"
+                : formType === "billing"
+                ? "40%"
+                : "30%",
+          }}
         >
           {(formType === "billing" || formType === "profile") && (
             <>
@@ -138,10 +149,6 @@ const Billing = ({
             formType === "shipping" ||
             formType === "profile") && (
             <>
-              {console.log(
-                formType,
-                formType === "billing" || formType === "profile"
-              )}
               <AddressInput
                 sx={{
                   visibility:
@@ -179,6 +186,8 @@ const Billing = ({
                 disabled={!edit && !editMode}
                 errors={errors}
                 control={control}
+                reset={reset}
+                resetAddress={resetAddress}
               />
             </>
           )}
@@ -187,10 +196,15 @@ const Billing = ({
               <CommentsInput
                 sx={{ visibility: visibleShipping ? "visible" : "hidden" }}
                 multiline
-                maxRows={4}
+                rows={4}
                 name="comments"
                 placeholder="Observaciones"
                 required
+                InputProps={{
+                  style: {
+                    padding: 0,
+                  },
+                }}
                 {...register("comments", {
                   required: validations.errorEmptyField,
                 })}
