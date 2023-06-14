@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useTheme } from "@emotion/react";
 import { Icon as EditIcon, Icon } from "../../ui/Icon";
 import {
@@ -23,12 +23,12 @@ const Billing = ({
   formType,
   visibleShipping,
   isButtonDisabled,
-  editMode,
-  onEditChange,
+  editProfileMode,
+  onProfileEditChange,
 }) => {
   const theme = useTheme();
   const nameInput = useRef();
-  const [edit, setEdit] = useState(false);
+  const [editCheckoutMode, setEditCheckoutMode] = useState(false);
   const [resetAddress, setResetAddress] = useState(false);
   const {
     register,
@@ -39,34 +39,52 @@ const Billing = ({
     formState: { errors },
   } = useForm({ mode: "onBlur" });
 
-  const handleEdit = () => {
-    setEdit(true);
+  useEffect(() => {
+    if (formType === "shipping") {
+      setEditCheckoutMode(true);
+    }
+  }, [formType]);
+
+  const handleCheckoutEdit = () => {
+    setEditCheckoutMode(true);
     isButtonDisabled(true);
     nameInput.current.focus();
   };
 
   const handleClickCancel = () => {
-    reset();
-    // onEditChange(false);
-    isButtonDisabled(false);
+    if (formType === "profile") {
+      reset();
+    }
+
+    if (formType === "profile") {
+      onProfileEditChange(false);
+    }
+
+    if (formType !== "profile") {
+      setEditCheckoutMode(false);
+      isButtonDisabled(false);
+    }
   };
 
   const onSubmit = (formValues) => {
     console.log(formValues);
     //save billing data
 
-    setResetAddress(true);
+    if (formType === "profile") {
+      setResetAddress(true);
+    }
+
     handleClickCancel();
   };
 
   return (
     <section>
       <BillingContainer>
-        {formType === "billing" && (
+        {(formType === "billing" || formType === "shipping") && (
           <BillingTitleContainer
-            onClick={handleEdit}
+            onClick={handleCheckoutEdit}
             sx={{
-              visibility: edit ? "hidden" : "visible",
+              visibility: editCheckoutMode ? "hidden" : "visible",
             }}
           >
             <BillingTitle>Cambiar datos</BillingTitle>
@@ -100,7 +118,7 @@ const Billing = ({
                 variant="outlined"
                 size="small"
                 placeholder="Ingresa tus Nombres"
-                disabled={!edit && !editMode}
+                disabled={!editCheckoutMode && !editProfileMode}
                 inputRef={nameInput}
                 required
                 {...register("names", {
@@ -134,7 +152,7 @@ const Billing = ({
                     </InputAdornment>
                   ),
                 }}
-                disabled={!edit && !editMode}
+                disabled={!editCheckoutMode && !editProfileMode}
                 {...register("surnames", {
                   pattern: validations.names.pattern,
                 })}
@@ -165,7 +183,7 @@ const Billing = ({
                 placeholder="Ingresa tu Dirección"
                 disabled={
                   formType === "billing" || formType === "profile"
-                    ? !edit && !editMode
+                    ? !editCheckoutMode && !editProfileMode
                     : false
                 }
                 required
@@ -180,15 +198,14 @@ const Billing = ({
                     : errors.address && validations.errorEmptyField
                 }
               />{" "}
-              <AddressSearch
+              {/* <AddressSearch
                 formType={formType}
                 visibleShipping={visibleShipping}
-                disabled={!edit && !editMode}
+                disabled={!editCheckoutMode && !editProfileMode}
                 errors={errors}
                 control={control}
-                reset={reset}
                 resetAddress={resetAddress}
-              />
+              /> */}
             </>
           )}
           {formType === "shipping" && (
@@ -199,17 +216,12 @@ const Billing = ({
                 rows={4}
                 name="comments"
                 placeholder="Observaciones"
-                required
                 InputProps={{
                   style: {
                     padding: 0,
                   },
                 }}
-                {...register("comments", {
-                  required: validations.errorEmptyField,
-                })}
-                error={!!errors.comments}
-                helperText={errors.comments?.message}
+                {...register("comments")}
               >
                 Observaciones
               </CommentsInput>
@@ -223,7 +235,7 @@ const Billing = ({
                 variant="outlined"
                 size="small"
                 placeholder="Ingresa tu Email"
-                disabled={!edit && !editMode}
+                disabled={!editCheckoutMode && !editProfileMode}
                 required
                 {...register("email", {
                   required: true,
@@ -242,7 +254,7 @@ const Billing = ({
                 variant="outlined"
                 size="small"
                 placeholder="Ingrese su Teléfono"
-                disabled={!edit && !editMode}
+                disabled={!editCheckoutMode && !editProfileMode}
                 required
                 {...register("phone", {
                   required: true,
@@ -260,14 +272,14 @@ const Billing = ({
           {formType === "profile" && (
             <ButtonsContainer
               formType={formType}
-              edit={editMode}
+              edit={editProfileMode}
               onClick={handleClickCancel}
             />
           )}
           {(formType === "billing" || formType === "shipping") && (
             <ButtonsContainer
               formType={formType}
-              edit={edit}
+              edit={editCheckoutMode}
               visibleShipping={visibleShipping}
             />
           )}

@@ -9,7 +9,15 @@ export const MyCardsItemContainer = styled(Box)(({ theme }) => ({
   borderRadius: theme.spacing(1), //8px
 }));
 
-export const MyCardsItemText = styled(Typography)(({ theme }) => ({
-  // width: "100%",
+export const ItemTitleContainer = styled(Typography)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+}));
+
+export const ItemTitle = styled(Typography)(({ theme }) => ({
+  marginLeft: theme.spacing(2),
+}));
+
+export const ItemData = styled(Typography)(({ theme }) => ({
   marginLeft: theme.spacing(2),
 }));

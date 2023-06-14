@@ -22,7 +22,7 @@ const ActionButtons = ({ data, type }) => {
 
   const handleDelete = (data) => {
     //TIENE QUE ENVIAR SOLO EL ID PARA BORRAR
-    if (type === "payment") {
+    if (type === "card") {
       setActionType("delete-payment");
       setSelectedName(data.id);
     } else {
@@ -35,7 +35,7 @@ const ActionButtons = ({ data, type }) => {
   return (
     <>
       <ActionButtonsContainer>
-        {type !== "payment" && (
+        {type !== "card" && (
           <EditIcon
             name="Edit-Data"
             size={30}

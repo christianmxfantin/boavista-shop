@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
-import { RadioGroup, FormControlLabel, Radio } from "@mui/material";
+import {
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  FormControl,
+} from "@mui/material";
 import { useTheme } from "@emotion/react";
 import {
   ShippingContainer,
@@ -7,6 +12,7 @@ import {
 } from "./ShippingPayment.styles";
 import PaymentDetails from "../Payment/PaymentDetails/PaymentDetails";
 import Billing from "../Billing/Billing";
+import CardAddress from "../../layout/CardAddress/CardAddress";
 
 const ShippingPayment = ({ step, isButtonDisabled }) => {
   const theme = useTheme();
@@ -45,46 +51,57 @@ const ShippingPayment = ({ step, isButtonDisabled }) => {
 
   return (
     <ShippingPaymentContainer>
-      <RadioGroup
-        value={value}
-        onClick={handleRadioChange}
-        sx={{
-          marginBottom: theme.spacing(2),
-          color: theme.palette.primary[500],
-        }}
-      >
-        <FormControlLabel
-          value="sameShippingAddress"
-          control={
-            <Radio
-              onChange={step === "shipping" ? handleSameAddress : handleMyCards}
-            />
-          }
-          label={
-            step === "shipping"
-              ? "Utilizar la misma dirección de Facturación"
-              : "Mis tarjetas"
-          }
-        />
-        <FormControlLabel
-          value="newShippingAddress"
-          control={
-            <Radio
-              onChange={step === "shipping" ? handleNewAddress : handleNewCard}
-            />
-          }
-          label={
-            step === "shipping"
-              ? "Seleccionar una dirección nueva"
-              : "Nueva tarjeta de débito o crédito"
-          }
-        />
-      </RadioGroup>
+      <FormControl>
+        <RadioGroup
+          value={value}
+          onClick={handleRadioChange}
+          sx={{
+            marginBottom: theme.spacing(2),
+            color: theme.palette.primary[500],
+          }}
+        >
+          <FormControlLabel
+            value="sameShippingAddress"
+            control={
+              <Radio
+                onChange={
+                  step === "shipping" ? handleSameAddress : handleMyCards
+                }
+              />
+            }
+            label={
+              step === "shipping"
+                ? "Utilizar la misma dirección de Facturación"
+                : "Mis tarjetas"
+            }
+          />
+          <FormControlLabel
+            value="newShippingAddress"
+            control={
+              <Radio
+                onChange={
+                  step === "shipping" ? handleNewAddress : handleNewCard
+                }
+              />
+            }
+            label={
+              step === "shipping"
+                ? "Seleccionar una dirección nueva"
+                : "Nueva tarjeta de débito o crédito"
+            }
+          />
+        </RadioGroup>
+      </FormControl>
       {value === null ? null : step === "shipping" ? (
-        <ShippingContainer>
-          <Billing formType="shipping" visibleShipping={visibleShipping} />
-        </ShippingContainer>
+        <CardAddress />
       ) : (
+        // <ShippingContainer>
+        //   <Billing
+        //     formType="shipping"
+        //     visibleShipping={visibleShipping}
+        //     isButtonDisabled={isButtonDisabled}
+        //   />
+        // </ShippingContainer>
         <PaymentDetails typeCard={typePayment} />
       )}
     </ShippingPaymentContainer>

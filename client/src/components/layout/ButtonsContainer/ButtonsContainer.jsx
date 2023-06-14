@@ -22,6 +22,7 @@ const ButtonsContainer = ({ formType, edit, visibleShipping, onClick }) => {
       >
         Cancelar
       </Button>
+      {console.log(formType, visibleShipping, edit)}
       <Button
         variant="contained"
         type="submit"
@@ -29,7 +30,8 @@ const ButtonsContainer = ({ formType, edit, visibleShipping, onClick }) => {
           width: "100%",
           visibility:
             ((formType === "billing" || formType === "profile") && edit) ||
-            (formType === "shipping" && visibleShipping)
+            (formType === "shipping" && visibleShipping && edit) ||
+            (formType === "shippin" && edit)
               ? "visible"
               : "hidden",
         }}

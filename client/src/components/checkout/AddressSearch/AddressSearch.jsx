@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   AddressSearchContainer,
   StateSelect,
@@ -15,9 +15,10 @@ const AddressSearch = ({
   disabled,
   errors,
   control,
-  reset,
   resetAddress,
 }) => {
+  const stateRef = useRef();
+  const cityRef = useRef();
   const [provincias, setProvincias] = useState([]);
   const [departamentos, setDepartamentos] = useState([]);
 
@@ -33,7 +34,7 @@ const AddressSearch = ({
         const stateNamesOrdered = stateNames.sort((a, b) => a.localeCompare(b));
         setProvincias(stateNamesOrdered);
       });
-  }, []);
+  }, [resetAddress]);
 
   const handleStateChange = (e) => {
     const provincia = e.target.value;
@@ -67,7 +68,8 @@ const AddressSearch = ({
   };
 
   const resetAddressFields = () => {
-    reset({ state: 1, city: 1 });
+    stateRef.current.childNodes[0].textContent = "Selecciona tu Provincia";
+    cityRef.current.childNodes[0].textContent = "Selecciona tu Localidad";
   };
 
   return (
@@ -90,6 +92,7 @@ const AddressSearch = ({
           render={({ field }) => (
             <>
               <StateSelect
+                ref={stateRef}
                 fullWidth
                 disabled={
                   formType === "billing" || formType === "profile"
@@ -129,6 +132,7 @@ const AddressSearch = ({
           render={({ field }) => (
             <>
               <CitySelect
+                ref={cityRef}
                 fullWidth
                 disabled={
                   formType === "billing" || formType === "profile"

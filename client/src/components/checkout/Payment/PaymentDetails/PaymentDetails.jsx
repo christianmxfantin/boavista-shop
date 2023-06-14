@@ -1,10 +1,8 @@
 import { useRef, useState } from "react";
 import { useTheme } from "@emotion/react";
 import ButtonsContainer from "../../../layout/ButtonsContainer/ButtonsContainer";
-import MyCardsItem from "../../../layout/MyCardsItem/MyCardsItem";
 import {
   PaymentDetailsContainer,
-  MyCardsContainer,
   PaymentNewCard,
   CardNumber,
   CardDataContainer,
@@ -12,7 +10,7 @@ import {
   CardCVC,
   CardName,
 } from "./PaymentDetails.styles";
-import { Button, InputAdornment } from "@mui/material";
+import { InputAdornment } from "@mui/material";
 import { useForm } from "react-hook-form";
 import {
   validations,
@@ -22,19 +20,7 @@ import {
 import DoneAdornment from "../../../layout/DoneAdornment/DoneAdornment";
 import { Icon } from "../../../ui/Icon";
 import { VisaIconSvg, MasterCardIconSvg, AmexIconSvg } from "../../../ui/Svg";
-
-const myCards = [
-  {
-    id: 1,
-    finalNumber: 1142,
-    typeCard: "debit",
-  },
-  {
-    id: 2,
-    finalNumber: 5454,
-    typeCard: "credit",
-  },
-];
+import CardAddress from "../../../layout/CardAddress/CardAddress";
 
 const PaymentDetails = ({ formType, typeCard }) => {
   const theme = useTheme();
@@ -110,22 +96,7 @@ const PaymentDetails = ({ formType, typeCard }) => {
     >
       {(formType === "profile" && typePayment === "myCards") ||
       typeCard === "myCards" ? (
-        <>
-          <MyCardsContainer>
-            {myCards.map((card) => (
-              <MyCardsItem key={card.id} card={card} />
-            ))}
-          </MyCardsContainer>
-          {formType === "profile" && (
-            <Button
-              variant="text"
-              onClick={handleClickNewPayment}
-              sx={{ width: "100%", marginTop: "16px" }}
-            >
-              Agregar Método de Pago
-            </Button>
-          )}
-        </>
+        <CardAddress formType={formType} onClick={handleClickNewPayment} />
       ) : //si hay algun error se puede agregar la siguiente condición:
       // (formType === "profile" && typePayment === "newCard")
       typePayment === "newCard" || typeCard === "newCard" ? (

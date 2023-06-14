@@ -10,10 +10,10 @@ import {
 
 const ProfileData = ({ title, type, component }) => {
   const theme = useTheme();
-  const [editMode, setEditMode] = useState(false);
+  const [editProfileMode, setEditProfileMode] = useState(false);
 
   const toggleEditMode = () => {
-    setEditMode(!editMode);
+    setEditProfileMode(!editProfileMode);
   };
 
   const handleEdit = () => {
@@ -21,7 +21,7 @@ const ProfileData = ({ title, type, component }) => {
   };
 
   const handleEditChange = (value) => {
-    setEditMode(value);
+    setEditProfileMode(value);
   };
 
   return (
@@ -30,7 +30,7 @@ const ProfileData = ({ title, type, component }) => {
         <ProfileDataTitle variant="h6">{title}</ProfileDataTitle>
         {type !== "payment" && (
           <EditIconContainer
-            sx={{ visibility: editMode ? "hidden" : "visible" }}
+            sx={{ visibility: editProfileMode ? "hidden" : "visible" }}
           >
             <EditIcon
               name="Edit-Data"
@@ -41,7 +41,10 @@ const ProfileData = ({ title, type, component }) => {
           </EditIconContainer>
         )}
       </ProfileDataTitleContainer>
-      {cloneElement(component, { editMode, onEditChange: handleEditChange })}
+      {cloneElement(component, {
+        editProfileMode,
+        onProfileEditChange: handleEditChange,
+      })}
     </ProfileDataContainer>
   );
 };

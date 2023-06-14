@@ -8,6 +8,7 @@ import AccountData from "../../../components/layout/AccountData/AccountData";
 import Billing from "../../../components/checkout/Billing/Billing";
 import PaymentDetails from "../../../components/checkout/Payment/PaymentDetails/PaymentDetails";
 import TableActions from "../../../components/layout/TableActions/TableActions";
+import CardAddress from "../../../components/layout/CardAddress/CardAddress";
 
 const Profile = () => {
   const theme = useTheme();
@@ -24,7 +25,7 @@ const Profile = () => {
         <ProfileData title="Datos de Cuenta" component={<AccountData />} />
         <ProfileData
           title="Datos de Facturación"
-          component={<Billing formType="profile" />}
+          component={<CardAddress itemType="address" />}
         />
         <ProfileData
           title="Métodos de Pago"
