@@ -8,7 +8,7 @@ import {
   EditIconContainer,
 } from "./ProfileData.styles";
 
-const ProfileData = ({ title, type, component }) => {
+const ProfileData = ({ title, component }) => {
   const theme = useTheme();
   const [editProfileMode, setEditProfileMode] = useState(false);
 
@@ -28,7 +28,7 @@ const ProfileData = ({ title, type, component }) => {
     <ProfileDataContainer>
       <ProfileDataTitleContainer>
         <ProfileDataTitle variant="h6">{title}</ProfileDataTitle>
-        {type !== "payment" && (
+        {title === "Datos de Cuenta" && (
           <EditIconContainer
             sx={{ visibility: editProfileMode ? "hidden" : "visible" }}
           >

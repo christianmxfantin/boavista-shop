@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { Button } from "@mui/material";
 import { CardAddressContainer, ItemsContainer } from "./CardAddress.styles";
 import CardAddressItem from "../CardAddressItem/CardAddressItem";
+import Billing from "../../checkout/Billing/Billing";
 
 const myAddress = [
   {
@@ -51,11 +53,19 @@ const CardAddress = ({ formType, itemType, onClick }) => {
             ))}
       </ItemsContainer>
       <Button
-        variant="text"
-        onClick={onClick}
-        sx={{ width: "100%", marginTop: "16px" }}
+        variant={formType === "profile" ? "text" : "contained"}
+        onClick={
+          itemType === "address" ? (
+            <Billing formType="shipping" showBilling={true} />
+          ) : (
+            onClick
+          )
+        }
+        sx={{ width: "100%", marginTop: formType === "profile" && "16px" }}
       >
-        Agregar Nueva Dirección
+        {itemType === "address"
+          ? "Agregar Nueva Dirección"
+          : "Agregar Método de Pago"}
       </Button>
     </CardAddressContainer>
   );

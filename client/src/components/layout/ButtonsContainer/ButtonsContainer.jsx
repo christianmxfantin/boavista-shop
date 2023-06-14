@@ -14,7 +14,7 @@ const ButtonsContainer = ({ formType, edit, visibleShipping, onClick }) => {
           width: "100%",
           marginRight: theme.spacing(1),
           visibility:
-            (formType === "billing" || formType === "profile") && edit
+            formType === "profile" || (formType === "billing" && edit)
               ? "visible"
               : "hidden",
           display: formType !== "profile" ? "none" : "inherit",
@@ -29,9 +29,9 @@ const ButtonsContainer = ({ formType, edit, visibleShipping, onClick }) => {
         sx={{
           width: "100%",
           visibility:
-            ((formType === "billing" || formType === "profile") && edit) ||
-            (formType === "shipping" && visibleShipping && edit) ||
-            (formType === "shippin" && edit)
+            formType === "profile" ||
+            (formType === "billing" && edit) ||
+            (formType === "shipping" && visibleShipping && edit)
               ? "visible"
               : "hidden",
         }}

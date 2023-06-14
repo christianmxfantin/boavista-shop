@@ -13,8 +13,13 @@ import CardAddress from "../../../components/layout/CardAddress/CardAddress";
 const Profile = () => {
   const theme = useTheme();
   const [showModal, setShowModal] = useState(false);
+  const [showBilling, setShowBilling] = useState(false);
 
-  const handleClick = () => {
+  const handleClickAddress = () => {
+    setShowBilling(true);
+  };
+
+  const handleClickDeleteAccount = () => {
     setShowModal(true);
   };
 
@@ -25,16 +30,29 @@ const Profile = () => {
         <ProfileData title="Datos de Cuenta" component={<AccountData />} />
         <ProfileData
           title="Datos de Facturación"
-          component={<CardAddress itemType="address" />}
+          component={
+            !showBilling ? (
+              <CardAddress
+                formType="profile"
+                itemType="address"
+                onClick={handleClickAddress}
+              />
+            ) : (
+              <Billing
+                formType="profile"
+                showBilling={showBilling}
+                setShowBilling={setShowBilling}
+              />
+            )
+          }
         />
         <ProfileData
           title="Métodos de Pago"
-          type="payment"
           component={<PaymentDetails formType="profile" />}
         />
         <Button
           variant="text"
-          onClick={handleClick}
+          onClick={handleClickDeleteAccount}
           sx={{
             marginBottom: theme.spacing(3),
             color: theme.palette.error[500],

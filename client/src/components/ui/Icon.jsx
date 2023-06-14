@@ -21,6 +21,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import DoneIcon from "@mui/icons-material/Done";
+import PlaceIcon from "@mui/icons-material/Place";
 
 export const Icon = ({ name, color, size, onClick }) => {
   const icons = [
@@ -295,6 +296,19 @@ export const Icon = ({ name, color, size, onClick }) => {
         <SvgIcon
           aria-label="La información se validó correctamente"
           component={DoneIcon}
+          sx={{
+            color: color,
+            fontSize: size,
+          }}
+        />
+      ),
+    },
+    {
+      name: "address-card",
+      img: (
+        <SvgIcon
+          aria-label="Icono de Dirección"
+          component={PlaceIcon}
           sx={{
             color: color,
             fontSize: size,

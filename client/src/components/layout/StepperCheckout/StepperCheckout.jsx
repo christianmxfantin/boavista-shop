@@ -53,7 +53,11 @@ const StepperCheckout = () => {
   switch (activeStep) {
     case 1:
       stepperComponent = (
-        <Billing formType="billing" isButtonDisabled={handleButtonDisabled} />
+        <Billing
+          formType="billing"
+          showBilling={true}
+          isButtonDisabled={handleButtonDisabled}
+        />
       );
       break;
     case 2:

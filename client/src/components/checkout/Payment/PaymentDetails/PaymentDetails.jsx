@@ -244,8 +244,9 @@ const PaymentDetails = ({ formType, typeCard }) => {
             }
           />
           <ButtonsContainer
-            formType="profile"
+            formType={formType}
             edit={true}
+            visibleShipping={true}
             onClick={handleClickCancel}
           />
         </PaymentNewCard>

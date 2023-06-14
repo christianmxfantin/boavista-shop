@@ -3,18 +3,18 @@ import { useTheme } from "@emotion/react";
 import { Icon } from "../../ui/Icon";
 import ActionButtons from "../ActionButtons/ActionButtons";
 import {
+  CardAddressItemContainer,
+  IconContainer,
   ItemData,
   ItemTitle,
   ItemTitleContainer,
-  MyCardsItemContainer,
-  MyCardsItemText,
 } from "./CardAddressItem.styles";
 
 const CardAddressItem = ({ itemType, data }) => {
   const theme = useTheme();
   const [isHover, setIsHover] = useState(false);
   return (
-    <MyCardsItemContainer
+    <CardAddressItemContainer
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
       sx={{
@@ -22,11 +22,13 @@ const CardAddressItem = ({ itemType, data }) => {
         color: isHover ? theme.palette.secondary.A100 : "inherit",
       }}
     >
-      <Icon name={itemType === "address" ? "address-card" : "credit-card"} />
+      <IconContainer sx={{ alignItems: itemType === "address" && "center" }}>
+        <Icon name={itemType === "address" ? "address-card" : "credit-card"} />
+      </IconContainer>
       {itemType === "address" ? (
         <ItemTitleContainer>
           <ItemTitle>{data.type}</ItemTitle>
-          <ItemData>{data.address}</ItemData>
+          <ItemData variant="subtitle2">{data.address}</ItemData>
         </ItemTitleContainer>
       ) : (
         <ItemTitle>
@@ -39,7 +41,7 @@ const CardAddressItem = ({ itemType, data }) => {
         type={itemType === "address" ? "address" : "card"}
         data={data}
       />
-    </MyCardsItemContainer>
+    </CardAddressItemContainer>
   );
 };
 

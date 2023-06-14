@@ -35,16 +35,14 @@ const ActionButtons = ({ data, type }) => {
   return (
     <>
       <ActionButtonsContainer>
-        {type !== "card" && (
-          <EditIcon
-            name="Edit-Data"
-            size={30}
-            color={theme.palette.primary[500]}
-            sx={{ marginRight: theme.spacing(1) }}
-            actionType="edit"
-            onClick={() => handleEdit(data.name, data.price)}
-          />
-        )}
+        <EditIcon
+          name="Edit-Data"
+          size={30}
+          color={theme.palette.primary[500]}
+          sx={{ marginRight: theme.spacing(1) }}
+          actionType="edit"
+          onClick={() => handleEdit(data.name, data.price)}
+        />
         <DeleteIcon
           name="Delete-Data"
           size={30}

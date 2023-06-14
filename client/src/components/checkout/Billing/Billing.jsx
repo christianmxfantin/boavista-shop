@@ -23,13 +23,15 @@ const Billing = ({
   formType,
   visibleShipping,
   isButtonDisabled,
-  editProfileMode,
   onProfileEditChange,
+  showBilling,
+  setShowBilling,
 }) => {
   const theme = useTheme();
   const nameInput = useRef();
   const [editCheckoutMode, setEditCheckoutMode] = useState(false);
   const [resetAddress, setResetAddress] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -57,7 +59,8 @@ const Billing = ({
     }
 
     if (formType === "profile") {
-      onProfileEditChange(false);
+      // onProfileEditChange(false);
+      setShowBilling(false);
     }
 
     if (formType !== "profile") {
@@ -80,7 +83,7 @@ const Billing = ({
   return (
     <section>
       <BillingContainer>
-        {(formType === "billing" || formType === "shipping") && (
+        {formType === "billing" && (
           <BillingTitleContainer
             onClick={handleCheckoutEdit}
             sx={{
@@ -95,7 +98,6 @@ const Billing = ({
             />
           </BillingTitleContainer>
         )}
-
         <DataContainer
           component={"form"}
           autoComplete="off"
@@ -110,104 +112,102 @@ const Billing = ({
                 : "30%",
           }}
         >
-          {(formType === "billing" || formType === "profile") && (
-            <>
-              <NameInput
-                name="names"
-                type="text"
-                variant="outlined"
-                size="small"
-                placeholder="Ingresa tus Nombres"
-                disabled={!editCheckoutMode && !editProfileMode}
-                inputRef={nameInput}
-                required
-                {...register("names", {
-                  required: true,
-                  pattern: validations.names.pattern,
-                })}
-                error={!!errors.names}
-                helperText={
-                  watch("names")
-                    ? errors.names && validations.names.errorDataNotValid
-                    : errors.names && validations.errorEmptyField
-                }
-              />
-              <SurnameInput
-                name="surnames"
-                type="text"
-                variant="outlined"
-                size="small"
-                placeholder="Ingresa tus Apellidos"
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <Tooltip title="En el mundo hay varias personas sin apellidos, por ese motivo no es un campo requerido. De igual modo, te sugerimos que completes este campo si lo tienes.">
-                        <IconButton edge="end">
-                          <Icon
-                            name="Info"
-                            color={theme.palette.primary[300]}
-                          />
-                        </IconButton>
-                      </Tooltip>
-                    </InputAdornment>
-                  ),
-                }}
-                disabled={!editCheckoutMode && !editProfileMode}
-                {...register("surnames", {
-                  pattern: validations.names.pattern,
-                })}
-                error={!!errors.surnames}
-                helperText={
-                  errors.surnames && validations.names.errorDataNotValid
-                }
-              />
-            </>
-          )}
-          {(formType === "billing" ||
-            formType === "shipping" ||
-            formType === "profile") && (
-            <>
-              <AddressInput
-                sx={{
-                  visibility:
-                    formType === "shipping" && visibleShipping
-                      ? "visible"
-                      : formType === "shipping" && !visibleShipping
-                      ? "hidden"
-                      : null,
-                }}
-                name="address"
-                type="text"
-                variant="outlined"
-                size="small"
-                placeholder="Ingresa tu Dirección"
-                disabled={
-                  formType === "billing" || formType === "profile"
-                    ? !editCheckoutMode && !editProfileMode
-                    : false
-                }
-                required
-                {...register("address", {
-                  required: true,
-                  pattern: validations.address.pattern,
-                })}
-                error={!!errors.address}
-                helperText={
-                  watch("address")
-                    ? errors.address && validations.address.errorDataNotValid
-                    : errors.address && validations.errorEmptyField
-                }
-              />{" "}
-              {/* <AddressSearch
+          {showBilling &&
+            (formType === "billing" || formType === "profile") && (
+              <>
+                <NameInput
+                  name="names"
+                  type="text"
+                  variant="outlined"
+                  size="small"
+                  placeholder="Ingresa tus Nombres"
+                  disabled={formType === "billing" && !editCheckoutMode}
+                  inputRef={nameInput}
+                  required
+                  {...register("names", {
+                    required: true,
+                    pattern: validations.names.pattern,
+                  })}
+                  error={!!errors.names}
+                  helperText={
+                    watch("names")
+                      ? errors.names && validations.names.errorDataNotValid
+                      : errors.names && validations.errorEmptyField
+                  }
+                />
+                <SurnameInput
+                  name="surnames"
+                  type="text"
+                  variant="outlined"
+                  size="small"
+                  placeholder="Ingresa tus Apellidos"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Tooltip title="En el mundo hay varias personas sin apellidos, por ese motivo no es un campo requerido. De igual modo, te sugerimos que completes este campo si lo tienes.">
+                          <IconButton edge="end">
+                            <Icon
+                              name="Info"
+                              color={theme.palette.primary[300]}
+                            />
+                          </IconButton>
+                        </Tooltip>
+                      </InputAdornment>
+                    ),
+                  }}
+                  disabled={formType === "billing" && !editCheckoutMode}
+                  {...register("surnames", {
+                    pattern: validations.names.pattern,
+                  })}
+                  error={!!errors.surnames}
+                  helperText={
+                    errors.surnames && validations.names.errorDataNotValid
+                  }
+                />
+              </>
+            )}
+          {showBilling &&
+            (formType === "billing" ||
+              formType === "shipping" ||
+              formType === "profile") && (
+              <>
+                <AddressInput
+                  sx={{
+                    visibility:
+                      formType === "shipping" && visibleShipping
+                        ? "visible"
+                        : formType === "shipping" && !visibleShipping
+                        ? "hidden"
+                        : null,
+                  }}
+                  name="address"
+                  type="text"
+                  variant="outlined"
+                  size="small"
+                  placeholder="Ingresa tu Dirección"
+                  disabled={formType === "billing" && !editCheckoutMode}
+                  required
+                  {...register("address", {
+                    required: true,
+                    pattern: validations.address.pattern,
+                  })}
+                  error={!!errors.address}
+                  helperText={
+                    watch("address")
+                      ? errors.address && validations.address.errorDataNotValid
+                      : errors.address && validations.errorEmptyField
+                  }
+                />{" "}
+                {/* <AddressSearch
                 formType={formType}
                 visibleShipping={visibleShipping}
-                disabled={!editCheckoutMode && !editProfileMode}
+                disabled={formType === "billing" && !editCheckoutMode}
                 errors={errors}
                 control={control}
                 resetAddress={resetAddress}
               /> */}
-            </>
-          )}
+              </>
+            )}
           {formType === "shipping" && (
             <>
               <CommentsInput
@@ -235,7 +235,7 @@ const Billing = ({
                 variant="outlined"
                 size="small"
                 placeholder="Ingresa tu Email"
-                disabled={!editCheckoutMode && !editProfileMode}
+                disabled={formType === "billing" && !editCheckoutMode}
                 required
                 {...register("email", {
                   required: true,
@@ -254,7 +254,7 @@ const Billing = ({
                 variant="outlined"
                 size="small"
                 placeholder="Ingrese su Teléfono"
-                disabled={!editCheckoutMode && !editProfileMode}
+                disabled={formType === "billing" && !editCheckoutMode}
                 required
                 {...register("phone", {
                   required: true,
@@ -269,20 +269,12 @@ const Billing = ({
               />
             </>
           )}
-          {formType === "profile" && (
-            <ButtonsContainer
-              formType={formType}
-              edit={editProfileMode}
-              onClick={handleClickCancel}
-            />
-          )}
-          {(formType === "billing" || formType === "shipping") && (
-            <ButtonsContainer
-              formType={formType}
-              edit={editCheckoutMode}
-              visibleShipping={visibleShipping}
-            />
-          )}
+          <ButtonsContainer
+            formType={formType}
+            edit={editCheckoutMode}
+            visibleShipping={visibleShipping}
+            onClick={handleClickCancel}
+          />
         </DataContainer>
       </BillingContainer>
     </section>

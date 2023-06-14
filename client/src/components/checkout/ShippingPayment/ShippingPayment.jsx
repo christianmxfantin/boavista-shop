@@ -93,16 +93,15 @@ const ShippingPayment = ({ step, isButtonDisabled }) => {
         </RadioGroup>
       </FormControl>
       {value === null ? null : step === "shipping" ? (
-        <CardAddress />
+        visibleShipping && (
+          <CardAddress
+            itemType="address"
+            // showBilling={true}
+            // onClick={() => true}
+          />
+        )
       ) : (
-        // <ShippingContainer>
-        //   <Billing
-        //     formType="shipping"
-        //     visibleShipping={visibleShipping}
-        //     isButtonDisabled={isButtonDisabled}
-        //   />
-        // </ShippingContainer>
-        <PaymentDetails typeCard={typePayment} />
+        <PaymentDetails formType="shipping" typeCard={typePayment} />
       )}
     </ShippingPaymentContainer>
   );
