@@ -11,7 +11,6 @@ import { Controller } from "react-hook-form";
 
 const AddressSearch = ({
   formType,
-  visibleShipping,
   disabled,
   errors,
   control,
@@ -73,16 +72,7 @@ const AddressSearch = ({
   };
 
   return (
-    <AddressSearchContainer
-      sx={{
-        visibility:
-          formType === "shipping" && visibleShipping
-            ? "visible"
-            : formType === "shipping" && !visibleShipping
-            ? "hidden"
-            : null,
-      }}
-    >
+    <AddressSearchContainer>
       <StateSelectContainer>
         <Controller
           name="state"
@@ -92,13 +82,10 @@ const AddressSearch = ({
           render={({ field }) => (
             <>
               <StateSelect
+                {...field}
                 ref={stateRef}
                 fullWidth
-                disabled={
-                  formType === "billing" || formType === "profile"
-                    ? disabled
-                    : false
-                }
+                disabled={formType === "billing" ? disabled : false}
                 defaultValue={1}
                 onChange={(e) => {
                   field.onChange(e.target.value);
@@ -115,6 +102,7 @@ const AddressSearch = ({
                   </MenuItem>
                 ))}
               </StateSelect>
+              {console.log(errors)}
               <FormHelperText error={!!errors.state}>
                 {errors.state && field.value !== "Seleccione una Provincia"
                   ? "Debe seleccionar una Provincia para continuar"
@@ -132,13 +120,10 @@ const AddressSearch = ({
           render={({ field }) => (
             <>
               <CitySelect
+                {...field}
                 ref={cityRef}
                 fullWidth
-                disabled={
-                  formType === "billing" || formType === "profile"
-                    ? disabled
-                    : false
-                }
+                disabled={formType === "billing" ? disabled : false}
                 defaultValue={1}
                 onChange={(e) => {
                   field.onChange(e.target.value);

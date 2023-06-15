@@ -2,10 +2,6 @@ import { Box, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export const PaymentDetailsContainer = styled(Box)(({ theme }) => ({
-  //styles
-}));
-
-export const PaymentNewCard = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
 }));

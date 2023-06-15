@@ -18,17 +18,17 @@ import { useForm } from "react-hook-form";
 import ButtonsContainer from "../../layout/ButtonsContainer/ButtonsContainer";
 import { validations } from "../../../helpers/validations";
 import { IconButton, InputAdornment, Tooltip } from "@mui/material";
+import CardAddress from "../../layout/CardAddress/CardAddress";
 
 const Billing = ({
   formType,
   visibleShipping,
   isButtonDisabled,
   onProfileEditChange,
-  showBilling,
-  setShowBilling,
 }) => {
   const theme = useTheme();
   const nameInput = useRef();
+  const [showMyAddress, setShowMyAddress] = useState(false);
   const [editCheckoutMode, setEditCheckoutMode] = useState(false);
   const [resetAddress, setResetAddress] = useState(false);
 
@@ -57,12 +57,8 @@ const Billing = ({
     if (formType === "profile") {
       reset();
     }
-
-    if (formType === "profile") {
-      // onProfileEditChange(false);
-      setShowBilling(false);
-    }
-
+    setShowMyAddress(true);
+    // onProfileEditChange(false);
     if (formType !== "profile") {
       setEditCheckoutMode(false);
       isButtonDisabled(false);
@@ -82,38 +78,40 @@ const Billing = ({
 
   return (
     <section>
-      <BillingContainer>
-        {formType === "billing" && (
-          <BillingTitleContainer
-            onClick={handleCheckoutEdit}
+      {showMyAddress ? (
+        <CardAddress formType={formType} itemType="address" />
+      ) : (
+        <BillingContainer>
+          {formType === "billing" && (
+            <BillingTitleContainer
+              onClick={handleCheckoutEdit}
+              sx={{
+                visibility: editCheckoutMode ? "hidden" : "visible",
+              }}
+            >
+              <BillingTitle>Cambiar datos</BillingTitle>
+              <EditIcon
+                name="Edit-Data"
+                size={30}
+                color={theme.palette.primary[500]}
+              />
+            </BillingTitleContainer>
+          )}
+          <DataContainer
+            component={"form"}
+            autoComplete="off"
+            noValidate
+            onSubmit={handleSubmit(onSubmit)}
             sx={{
-              visibility: editCheckoutMode ? "hidden" : "visible",
+              width:
+                formType === "profile"
+                  ? "100%"
+                  : formType === "billing"
+                  ? "40%"
+                  : "30%",
             }}
           >
-            <BillingTitle>Cambiar datos</BillingTitle>
-            <EditIcon
-              name="Edit-Data"
-              size={30}
-              color={theme.palette.primary[500]}
-            />
-          </BillingTitleContainer>
-        )}
-        <DataContainer
-          component={"form"}
-          autoComplete="off"
-          noValidate
-          onSubmit={handleSubmit(onSubmit)}
-          sx={{
-            width:
-              formType === "profile"
-                ? "100%"
-                : formType === "billing"
-                ? "40%"
-                : "30%",
-          }}
-        >
-          {showBilling &&
-            (formType === "billing" || formType === "profile") && (
+            {(formType === "billing" || formType === "profile") && (
               <>
                 <NameInput
                   name="names"
@@ -166,20 +164,11 @@ const Billing = ({
                 />
               </>
             )}
-          {showBilling &&
-            (formType === "billing" ||
+            {(formType === "billing" ||
               formType === "shipping" ||
               formType === "profile") && (
               <>
                 <AddressInput
-                  sx={{
-                    visibility:
-                      formType === "shipping" && visibleShipping
-                        ? "visible"
-                        : formType === "shipping" && !visibleShipping
-                        ? "hidden"
-                        : null,
-                  }}
                   name="address"
                   type="text"
                   variant="outlined"
@@ -198,85 +187,83 @@ const Billing = ({
                       : errors.address && validations.errorEmptyField
                   }
                 />{" "}
-                {/* <AddressSearch
-                formType={formType}
-                visibleShipping={visibleShipping}
-                disabled={formType === "billing" && !editCheckoutMode}
-                errors={errors}
-                control={control}
-                resetAddress={resetAddress}
-              /> */}
+                <AddressSearch
+                  formType={formType}
+                  disabled={!editCheckoutMode}
+                  errors={errors}
+                  control={control}
+                  resetAddress={resetAddress}
+                />
               </>
             )}
-          {formType === "shipping" && (
-            <>
-              <CommentsInput
-                sx={{ visibility: visibleShipping ? "visible" : "hidden" }}
-                multiline
-                rows={4}
-                name="comments"
-                placeholder="Observaciones"
-                InputProps={{
-                  style: {
-                    padding: 0,
-                  },
-                }}
-                {...register("comments")}
-              >
-                Observaciones
-              </CommentsInput>
-            </>
-          )}
-          {(formType === "billing" || formType === "profile") && (
-            <>
-              <EmailInput
-                name="email"
-                type="email"
-                variant="outlined"
-                size="small"
-                placeholder="Ingresa tu Email"
-                disabled={formType === "billing" && !editCheckoutMode}
-                required
-                {...register("email", {
-                  required: true,
-                  pattern: validations.mail.pattern,
-                })}
-                error={!!errors.email}
-                helperText={
-                  watch("email")
-                    ? errors.email && validations.mail.errorDataNotValid
-                    : errors.email && validations.errorEmptyField
-                }
-              />
-              <PhoneInput
-                name="phone"
-                type="tel"
-                variant="outlined"
-                size="small"
-                placeholder="Ingrese su Teléfono"
-                disabled={formType === "billing" && !editCheckoutMode}
-                required
-                {...register("phone", {
-                  required: true,
-                  pattern: validations.phone.pattern,
-                })}
-                error={!!errors.phone}
-                helperText={
-                  watch("phone")
-                    ? errors.phone && validations.phone.errorDataNotValid
-                    : errors.phone && validations.errorEmptyField
-                }
-              />
-            </>
-          )}
-          <ButtonsContainer
-            formType={formType}
-            edit={editCheckoutMode}
-            visibleShipping={visibleShipping}
-            onClick={handleClickCancel}
-          />
-        </DataContainer>
-      </BillingContainer>
+            {formType === "shipping" && (
+              <>
+                <CommentsInput
+                  multiline
+                  rows={4}
+                  name="comments"
+                  placeholder="Observaciones"
+                  InputProps={{
+                    style: {
+                      padding: 0,
+                    },
+                  }}
+                  {...register("comments")}
+                >
+                  Observaciones
+                </CommentsInput>
+              </>
+            )}
+            {(formType === "billing" || formType === "profile") && (
+              <>
+                <EmailInput
+                  name="email"
+                  type="email"
+                  variant="outlined"
+                  size="small"
+                  placeholder="Ingresa tu Email"
+                  disabled={formType === "billing" && !editCheckoutMode}
+                  required
+                  {...register("email", {
+                    required: true,
+                    pattern: validations.mail.pattern,
+                  })}
+                  error={!!errors.email}
+                  helperText={
+                    watch("email")
+                      ? errors.email && validations.mail.errorDataNotValid
+                      : errors.email && validations.errorEmptyField
+                  }
+                />
+                <PhoneInput
+                  name="phone"
+                  type="tel"
+                  variant="outlined"
+                  size="small"
+                  placeholder="Ingrese su Teléfono"
+                  disabled={formType === "billing" && !editCheckoutMode}
+                  required
+                  {...register("phone", {
+                    required: true,
+                    pattern: validations.phone.pattern,
+                  })}
+                  error={!!errors.phone}
+                  helperText={
+                    watch("phone")
+                      ? errors.phone && validations.phone.errorDataNotValid
+                      : errors.phone && validations.errorEmptyField
+                  }
+                />
+              </>
+            )}
+            <ButtonsContainer
+              formType={formType}
+              edit={editCheckoutMode}
+              onClick={handleClickCancel}
+            />
+          </DataContainer>
+        </BillingContainer>
+      )}
     </section>
   );
 };

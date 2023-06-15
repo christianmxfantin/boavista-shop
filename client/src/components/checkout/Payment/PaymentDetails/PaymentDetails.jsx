@@ -22,12 +22,12 @@ import { Icon } from "../../../ui/Icon";
 import { VisaIconSvg, MasterCardIconSvg, AmexIconSvg } from "../../../ui/Svg";
 import CardAddress from "../../../layout/CardAddress/CardAddress";
 
-const PaymentDetails = ({ formType, typeCard }) => {
+const PaymentDetails = ({ formType }) => {
   const theme = useTheme();
   const cardNumberValue = useRef("");
   const cardExpirationDateValue = useRef("");
   const cardNameValue = useRef("");
-  const [typePayment, setTypePayment] = useState("myCards");
+  const [showMyCards, setShowMyCards] = useState(false);
   const [cardType, setCardType] = useState("");
 
   const {
@@ -72,13 +72,9 @@ const PaymentDetails = ({ formType, typeCard }) => {
     cardNameValue.current.value = cardNameValue.current.value.toUpperCase();
   };
 
-  const handleClickNewPayment = () => {
-    setTypePayment("newCard");
-  };
-
   const handleClickCancel = () => {
     reset();
-    setTypePayment("myCards");
+    setShowMyCards(true);
   };
 
   const onSubmit = (formValues) => {
@@ -88,169 +84,148 @@ const PaymentDetails = ({ formType, typeCard }) => {
     handleClickCancel();
   };
 
-  return (
+  return showMyCards ? (
+    <CardAddress formType={formType} itemType="card" />
+  ) : (
     <PaymentDetailsContainer
-      sx={{
-        width: formType === "profile" ? "25" : "inherit",
-      }}
+      component={"form"}
+      autoComplete="off"
+      noValidate
+      onSubmit={handleSubmit(onSubmit)}
     >
-      {(formType === "profile" && typePayment === "myCards") ||
-      typeCard === "myCards" ? (
-        <CardAddress formType={formType} onClick={handleClickNewPayment} />
-      ) : //si hay algun error se puede agregar la siguiente condición:
-      // (formType === "profile" && typePayment === "newCard")
-      typePayment === "newCard" || typeCard === "newCard" ? (
-        <PaymentNewCard
-          component={"form"}
-          autoComplete="off"
-          noValidate
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <CardNumber
-            name="cardNumber"
-            type="text"
-            variant="outlined"
-            size="small"
-            placeholder="Ingrese su Número de Tarjeta"
-            required
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  {cardType === "visa" ? (
-                    <VisaIconSvg />
-                  ) : cardType === "master" ? (
-                    <MasterCardIconSvg />
-                  ) : cardType === "amex" ? (
-                    <AmexIconSvg />
-                  ) : (
-                    <Icon
-                      name="credit-card"
-                      color={theme.palette.primary[500]}
-                    />
-                  )}
-                </InputAdornment>
-              ),
-              endAdornment: (
-                <DoneAdornment
-                  visibility={
-                    !errors.cardNumber && watch("cardNumber")
-                      ? "visible"
-                      : "hidden"
-                  }
-                />
-              ),
-            }}
-            inputRef={cardNumberValue}
-            {...register("cardNumber", {
-              required: validations.errorEmptyField,
-              validate: validateCardNumber,
-              onChange: handleChangeCardType,
-            })}
-            error={!!errors.cardNumber}
-            helperText={errors.cardNumber?.message}
-          />
-          <CardDataContainer>
-            <CardExpirationDate
-              name="expirationDate"
-              type="text"
-              variant="outlined"
-              size="small"
-              placeholder="MM / AA"
-              required
-              inputProps={{ maxLength: 7 }}
-              InputProps={{
-                endAdornment: (
-                  <DoneAdornment
-                    visibility={
-                      !errors.cardExpirationDate && watch("cardExpirationDate")
-                        ? "visible"
-                        : "hidden"
-                    }
-                  />
-                ),
-              }}
-              inputRef={cardExpirationDateValue}
-              {...register("cardExpirationDate", {
-                required: validations.errorEmptyField,
-                validate: monthYearCheck,
-                onChange: handleChangeExpirationDate,
-              })}
-              error={!!errors.cardExpirationDate}
-              helperText={errors.cardExpirationDate?.message}
+      <CardNumber
+        name="cardNumber"
+        type="text"
+        variant="outlined"
+        size="small"
+        placeholder="Ingrese su Número de Tarjeta"
+        required
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              {cardType === "visa" ? (
+                <VisaIconSvg />
+              ) : cardType === "master" ? (
+                <MasterCardIconSvg />
+              ) : cardType === "amex" ? (
+                <AmexIconSvg />
+              ) : (
+                <Icon name="credit-card" color={theme.palette.primary[500]} />
+              )}
+            </InputAdornment>
+          ),
+          endAdornment: (
+            <DoneAdornment
+              visibility={
+                !errors.cardNumber && watch("cardNumber") ? "visible" : "hidden"
+              }
             />
-            <CardCVC
-              name="cardCVC"
-              type="text"
-              variant="outlined"
-              size="small"
-              placeholder="CVC"
-              required
-              inputProps={{ minLength: 3, maxLength: 4 }}
-              InputProps={{
-                endAdornment: (
-                  <DoneAdornment
-                    visibility={
-                      !errors.cardCVC && watch("cardCVC") ? "visible" : "hidden"
-                    }
-                  />
-                ),
-              }}
-              {...register("cardCVC", {
-                required: validations.errorEmptyField,
-                minLength: {
-                  value: validations.cardCVC.pattern,
-                  message: validations.cardCVC.errorDataNotValid,
-                },
-                maxLength: {
-                  value: validations.cardCVC.pattern,
-                  message: validations.cardCVC.errorDataNotValid,
-                },
-                pattern: {
-                  value: validations.cardCVC.pattern,
-                  message: validations.cardCVC.errorDataNotValid,
-                },
-              })}
-              error={!!errors.cardCVC}
-              helperText={errors.cardCVC?.message}
+          ),
+        }}
+        inputRef={cardNumberValue}
+        {...register("cardNumber", {
+          required: validations.errorEmptyField,
+          validate: validateCardNumber,
+          onChange: handleChangeCardType,
+        })}
+        error={!!errors.cardNumber}
+        helperText={errors.cardNumber?.message}
+      />
+      <CardDataContainer>
+        <CardExpirationDate
+          name="expirationDate"
+          type="text"
+          variant="outlined"
+          size="small"
+          placeholder="MM / AA"
+          required
+          inputProps={{ maxLength: 7 }}
+          InputProps={{
+            endAdornment: (
+              <DoneAdornment
+                visibility={
+                  !errors.cardExpirationDate && watch("cardExpirationDate")
+                    ? "visible"
+                    : "hidden"
+                }
+              />
+            ),
+          }}
+          inputRef={cardExpirationDateValue}
+          {...register("cardExpirationDate", {
+            required: validations.errorEmptyField,
+            validate: monthYearCheck,
+            onChange: handleChangeExpirationDate,
+          })}
+          error={!!errors.cardExpirationDate}
+          helperText={errors.cardExpirationDate?.message}
+        />
+        <CardCVC
+          name="cardCVC"
+          type="text"
+          variant="outlined"
+          size="small"
+          placeholder="CVC"
+          required
+          inputProps={{ minLength: 3, maxLength: 4 }}
+          InputProps={{
+            endAdornment: (
+              <DoneAdornment
+                visibility={
+                  !errors.cardCVC && watch("cardCVC") ? "visible" : "hidden"
+                }
+              />
+            ),
+          }}
+          {...register("cardCVC", {
+            required: validations.errorEmptyField,
+            minLength: {
+              value: validations.cardCVC.pattern,
+              message: validations.cardCVC.errorDataNotValid,
+            },
+            maxLength: {
+              value: validations.cardCVC.pattern,
+              message: validations.cardCVC.errorDataNotValid,
+            },
+            pattern: {
+              value: validations.cardCVC.pattern,
+              message: validations.cardCVC.errorDataNotValid,
+            },
+          })}
+          error={!!errors.cardCVC}
+          helperText={errors.cardCVC?.message}
+        />
+      </CardDataContainer>
+      <CardName
+        name="cardName"
+        type="text"
+        variant="outlined"
+        size="small"
+        placeholder="Ingrese su Nombre como aparece en la Tarjeta"
+        required
+        InputProps={{
+          endAdornment: (
+            <DoneAdornment
+              visibility={
+                !errors.cardName && watch("cardName") ? "visible" : "hidden"
+              }
             />
-          </CardDataContainer>
-          <CardName
-            name="cardName"
-            type="text"
-            variant="outlined"
-            size="small"
-            placeholder="Ingrese su Nombre como aparece en la Tarjeta"
-            required
-            InputProps={{
-              endAdornment: (
-                <DoneAdornment
-                  visibility={
-                    !errors.cardName && watch("cardName") ? "visible" : "hidden"
-                  }
-                />
-              ),
-            }}
-            inputRef={cardNameValue}
-            {...register("cardName", {
-              required: true,
-              pattern: validations.names.pattern,
-              onChange: handleChangeToUpperCase,
-            })}
-            error={!!errors.cardName}
-            helperText={
-              watch("cardName")
-                ? errors.cardName && validations.names.errorDataNotValid
-                : errors.cardName && validations.errorEmptyField
-            }
-          />
-          <ButtonsContainer
-            formType={formType}
-            edit={true}
-            visibleShipping={true}
-            onClick={handleClickCancel}
-          />
-        </PaymentNewCard>
-      ) : null}
+          ),
+        }}
+        inputRef={cardNameValue}
+        {...register("cardName", {
+          required: true,
+          pattern: validations.names.pattern,
+          onChange: handleChangeToUpperCase,
+        })}
+        error={!!errors.cardName}
+        helperText={
+          watch("cardName")
+            ? errors.cardName && validations.names.errorDataNotValid
+            : errors.cardName && validations.errorEmptyField
+        }
+      />
+      <ButtonsContainer formType={formType} onClick={handleClickCancel} />
     </PaymentDetailsContainer>
   );
 };

@@ -11,9 +11,10 @@ import { Button } from "../../ui/Button";
 
 import Cart from "../../checkout/Cart/Cart";
 import Billing from "../../checkout/Billing/Billing";
-import ShippingPayment from "../../checkout/ShippingPayment/ShippingPayment";
+import Shipping from "../../checkout/Shipping/Shipping";
 import Confirmation from "../../checkout/Confirmation/Confirmation/Confirmation";
 import PaymentSuccessful from "../../checkout/Payment/PaymentSuccessful/PaymentSuccessful";
+import CardAddress from "../CardAddress/CardAddress";
 
 const StepperCheckout = () => {
   let stepperComponent;
@@ -61,17 +62,13 @@ const StepperCheckout = () => {
       );
       break;
     case 2:
-      stepperComponent = (
-        <ShippingPayment
-          step="shipping"
-          isButtonDisabled={handleButtonDisabled}
-        />
-      );
+      stepperComponent = <Shipping isButtonDisabled={handleButtonDisabled} />;
       break;
     case 3:
       stepperComponent = (
-        <ShippingPayment
-          step="payment"
+        <CardAddress
+          formType="payment"
+          itemType="card"
           isButtonDisabled={handleButtonDisabled}
         />
       );

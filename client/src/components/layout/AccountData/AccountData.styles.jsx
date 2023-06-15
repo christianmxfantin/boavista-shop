@@ -21,3 +21,8 @@ export const NewPasswordInput = styled(TextField)(() => ({
 export const ConfirmPasswordInput = styled(TextField)(() => ({
   //styles
 }));
+
+export const ButtonContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  marginTop: theme.spacing(2), //16px
+}));

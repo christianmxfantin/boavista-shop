@@ -27,28 +27,17 @@ const Profile = () => {
     <main>
       <ProfileContainer>
         <ProfileTitle variant="h4">Mi Perfil</ProfileTitle>
-        <ProfileData title="Datos de Cuenta" component={<AccountData />} />
+        <ProfileData
+          title="Datos de Cuenta"
+          component={<AccountData formType="profile" />}
+        />
         <ProfileData
           title="Datos de Facturación"
-          component={
-            !showBilling ? (
-              <CardAddress
-                formType="profile"
-                itemType="address"
-                onClick={handleClickAddress}
-              />
-            ) : (
-              <Billing
-                formType="profile"
-                showBilling={showBilling}
-                setShowBilling={setShowBilling}
-              />
-            )
-          }
+          component={<CardAddress formType="profile" itemType="address" />}
         />
         <ProfileData
           title="Métodos de Pago"
-          component={<PaymentDetails formType="profile" />}
+          component={<CardAddress formType="profile" itemType="card" />}
         />
         <Button
           variant="text"

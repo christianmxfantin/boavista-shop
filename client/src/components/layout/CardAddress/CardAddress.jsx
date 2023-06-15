@@ -3,6 +3,7 @@ import { Button } from "@mui/material";
 import { CardAddressContainer, ItemsContainer } from "./CardAddress.styles";
 import CardAddressItem from "../CardAddressItem/CardAddressItem";
 import Billing from "../../checkout/Billing/Billing";
+import PaymentDetails from "../../checkout/Payment/PaymentDetails/PaymentDetails";
 
 const myAddress = [
   {
@@ -36,8 +37,20 @@ const myCards = [
   },
 ];
 
-const CardAddress = ({ formType, itemType, onClick }) => {
-  return (
+const CardAddress = ({ formType, itemType }) => {
+  const [showAddNew, setShowAddNew] = useState(false);
+
+  const handleClick = () => {
+    setShowAddNew(true);
+  };
+
+  return showAddNew ? (
+    itemType === "address" ? (
+      <Billing formType={formType} />
+    ) : (
+      <PaymentDetails formType={formType} />
+    )
+  ) : (
     <CardAddressContainer>
       <ItemsContainer>
         {itemType === "address"
@@ -54,13 +67,7 @@ const CardAddress = ({ formType, itemType, onClick }) => {
       </ItemsContainer>
       <Button
         variant={formType === "profile" ? "text" : "contained"}
-        onClick={
-          itemType === "address" ? (
-            <Billing formType="shipping" showBilling={true} />
-          ) : (
-            onClick
-          )
-        }
+        onClick={handleClick}
         sx={{ width: "100%", marginTop: formType === "profile" && "16px" }}
       >
         {itemType === "address"

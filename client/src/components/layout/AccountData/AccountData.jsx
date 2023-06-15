@@ -7,17 +7,19 @@ import {
   ConfirmPasswordInput,
   LastPasswordInput,
   NewPasswordInput,
+  ButtonContainer,
 } from "./AccountData.styles";
 import { useForm } from "react-hook-form";
 import { Icon } from "../../ui/Icon";
 import ButtonsContainer from "../ButtonsContainer/ButtonsContainer";
 
-const AccountData = ({ editMode, onEditChange }) => {
+const AccountData = ({ formType }) => {
   let database = {
     email: "josemirlukaku@gmail.com",
   };
 
   const theme = useTheme();
+  const [changeEmail, setChangeEmail] = useState(false);
   const [changePassword, setChangePassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const {
@@ -34,16 +36,23 @@ const AccountData = ({ editMode, onEditChange }) => {
     e.preventDefault();
   };
 
+  const handleClickChangeEmail = (e) => {
+    e.preventDefault();
+    setChangeEmail(true);
+  };
+
   const handleClickChangePassword = (e) => {
     e.preventDefault();
     setChangePassword(true);
-    onEditChange(true);
   };
 
   const handleClickCancel = () => {
     reset();
-    setChangePassword(false);
-    onEditChange(false);
+    if (changeEmail) {
+      setChangeEmail(false);
+    } else {
+      setChangePassword(false);
+    }
   };
 
   const onSubmit = (formValues) => {
@@ -73,7 +82,7 @@ const AccountData = ({ editMode, onEditChange }) => {
             variant="outlined"
             size="small"
             placeholder={database.email}
-            disabled={!editMode ? true : false}
+            disabled={!changeEmail ? true : false}
             required
             {...register("newEmail", {
               required: true,
@@ -212,17 +221,28 @@ const AccountData = ({ editMode, onEditChange }) => {
             />
           </>
         )}
-        {editMode || changePassword ? (
-          <ButtonsContainer onClick={handleClickCancel} />
-        ) : !editMode || !changePassword ? (
-          <Button
-            variant="text"
-            type="button"
-            onClick={handleClickChangePassword}
-          >
-            Cambiar Contraseña
-          </Button>
-        ) : null}
+        {changePassword || changeEmail ? (
+          <ButtonsContainer formType={formType} onClick={handleClickCancel} />
+        ) : (
+          <ButtonContainer>
+            <Button
+              variant="text"
+              type="button"
+              onClick={handleClickChangeEmail}
+              sx={{ width: "50%" }}
+            >
+              Cambiar Email
+            </Button>
+            <Button
+              variant="contained"
+              type="button"
+              onClick={handleClickChangePassword}
+              sx={{ width: "50%" }}
+            >
+              Cambiar Contraseña
+            </Button>
+          </ButtonContainer>
+        )}
       </AccountDataContainer>
     </>
   );
