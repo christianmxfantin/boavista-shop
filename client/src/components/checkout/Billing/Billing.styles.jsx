@@ -1,4 +1,4 @@
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, Select, TextField, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export const BillingContainer = styled(Box)(({ theme }) => ({
@@ -35,6 +35,22 @@ export const SurnameInput = styled(TextField)(({ theme }) => ({
 
 export const AddressInput = styled(TextField)(({ theme }) => ({
   //styles
+}));
+
+export const StateSelectContainer = styled(Box)(({ theme }) => ({
+  width: "100%",
+}));
+
+export const StateSelect = styled(Select)(({ theme }) => ({
+  //styles
+}));
+
+export const CitySelectContainer = styled(Box)(({ theme }) => ({
+  width: "100%",
+}));
+
+export const CitySelect = styled(Select)(({ theme }) => ({
+  marginTop: theme.spacing(1), //8px
 }));
 
 export const CommentsInput = styled(TextField)(({ theme }) => ({
