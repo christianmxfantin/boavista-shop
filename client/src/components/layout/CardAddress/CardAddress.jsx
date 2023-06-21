@@ -58,7 +58,14 @@ const CardAddress = ({ formType, itemType, isButtonDisabled }) => {
     )
   ) : (
     <CardAddressContainer
-      sx={{ width: formType === "payment" ? "30%" : "inherit" }}
+      sx={{
+        width:
+          formType === "payment"
+            ? "30%"
+            : formType === "profile"
+            ? "100%"
+            : "inherit",
+      }}
     >
       <ItemsContainer>
         {itemType === "address"

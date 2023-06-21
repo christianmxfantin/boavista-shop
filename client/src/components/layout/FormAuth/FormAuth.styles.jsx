@@ -6,8 +6,7 @@ export const FormAuthContainer = styled(Box)(({ theme }) => ({
   flexDirection: "column",
   justifyContent: "space-between",
   alignItems: "center",
-  width: "400px",
-  height: "400px",
+  width: "450px",
   margin: `${theme.spacing(6.5)} auto`, //52px
   padding: theme.spacing(4), //32px
   borderRadius: theme.spacing(1.5), //12px,
@@ -15,7 +14,8 @@ export const FormAuthContainer = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.primary[50],
 }));
 
-export const FormAuthTitle = styled(Typography)(() => ({
+export const FormAuthTitle = styled(Typography)(({ theme }) => ({
+  // marginBottom: theme.spacing(3), //24px
   fontWeight: 500,
 }));
 
@@ -25,7 +25,7 @@ export const FormAuthSocial = styled(Box)(() => ({
 }));
 
 export const FormAuthSocialButtons = styled(Box)(({ theme }) => ({
-  marginBottom: theme.spacing(4), //32px
+  marginBottom: theme.spacing(3), //24px
 }));
 
 export const GoogleButton = styled(Button)(({ theme }) => ({
@@ -52,20 +52,24 @@ export const FormAuthName = styled(Box)(({ theme }) => ({
 }));
 
 export const NameInput = styled(TextField)(({ theme }) => ({
-  marginBottom: theme.spacing(2), //16px
+  marginBottom: theme.spacing(1), //8px
 }));
 
 export const SurnameInput = styled(TextField)(({ theme }) => ({
   marginBottom: theme.spacing(1), //8px
 }));
 
-export const EmailInput = styled(TextField)(({ theme }) => ({
+export const FormAuthEmail = styled(Box)(({ theme }) => ({
   width: "376px",
+  display: "flex",
+  flexDirection: "column",
+}));
+
+export const EmailInput = styled(TextField)(({ theme }) => ({
   marginBottom: theme.spacing(1), //8px
 }));
 
 export const PasswordInput = styled(TextField)(({ theme }) => ({
-  width: "376px",
   marginBottom: theme.spacing(1), //8px
 }));
 

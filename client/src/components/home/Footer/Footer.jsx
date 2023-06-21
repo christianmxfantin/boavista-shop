@@ -3,7 +3,7 @@ import { FooterContainer } from "../Footer/Footer.styles";
 const Footer = () => {
   return (
     <FooterContainer component="footer">
-      Copyright 2022 - Librería Boa Vista
+      Copyright © {new Date().getFullYear()} - Librería Boa Vista
     </FooterContainer>
   );
 };

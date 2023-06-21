@@ -8,7 +8,6 @@ export const CardAddressContainer = styled(Box)(({ theme }) => ({
 }));
 
 export const ItemsContainer = styled(Box)(({ theme }) => ({
-  boxSizing: "border-box",
   width: "100%",
   margin: theme.spacing(2),
   padding: theme.spacing(1),

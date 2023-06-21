@@ -86,6 +86,21 @@ export const theme = createTheme({
     },
   },
   components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        "*": {
+          margin: 0,
+          padding: 0,
+          boxSizing: "border-box",
+        },
+        "*::before": {
+          boxSizing: "border-box",
+        },
+        "*::after": {
+          boxSizing: "border-box",
+        },
+      },
+    },
     MuiTextField: {
       styleOverrides: {
         root: ({ theme }) => ({

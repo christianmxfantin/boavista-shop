@@ -25,6 +25,7 @@ import {
   EmailInput,
   PasswordInput,
   ButtonsContainer,
+  FormAuthEmail,
 } from "./FormAuth.styles";
 import { Controller, useForm } from "react-hook-form";
 import { validations } from "../../../helpers/validations";
@@ -107,7 +108,12 @@ const FormAuth = ({ formType, handleAuth }) => {
         noValidate
         onSubmit={handleSubmit(onSubmit)}
       >
-        <FormAuthTitle variant={formType !== "dashboard" ? "h5" : "h4"}>
+        <FormAuthTitle
+          variant={formType !== "dashboard" ? "h5" : "h4"}
+          sx={{
+            marginBottom: formType !== "dashboard" && theme.spacing(3),
+          }}
+        >
           {formType === "login"
             ? "Ingresa a tu cuenta a través de"
             : formType === "register"
@@ -185,7 +191,12 @@ const FormAuth = ({ formType, handleAuth }) => {
           </FormAuthName>
         )}
         {formType !== "dashboard" && (
-          <>
+          <FormAuthEmail
+            sx={{
+              marginTop: formType === "login" && theme.spacing(4),
+              marginBottom: formType === "login" && theme.spacing(2),
+            }}
+          >
             <EmailInput
               name="email"
               type="email"
@@ -245,7 +256,7 @@ const FormAuth = ({ formType, handleAuth }) => {
                   : errors.password && validations.errorEmptyField
               }
             />
-          </>
+          </FormAuthEmail>
         )}
         {formType === "register" && (
           <>
@@ -285,7 +296,8 @@ const FormAuth = ({ formType, handleAuth }) => {
                 buttonStyle="primary"
                 sx={{
                   width: "376px",
-                  marginBottom: theme.spacing(2),
+                  marginTop: formType === "register" && theme.spacing(2),
+                  marginBottom: formType === "login" && theme.spacing(1.5),
                 }}
               />
               {formType === "login" && (
