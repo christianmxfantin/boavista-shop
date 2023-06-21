@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import { CardAddressContainer, ItemsContainer } from "./CardAddress.styles";
 import CardAddressItem from "../CardAddressItem/CardAddressItem";
@@ -37,8 +37,14 @@ const myCards = [
   },
 ];
 
-const CardAddress = ({ formType, itemType }) => {
+const CardAddress = ({ formType, itemType, isButtonDisabled }) => {
   const [showAddNew, setShowAddNew] = useState(false);
+
+  useEffect(() => {
+    if (formType === "payment") {
+      isButtonDisabled(true);
+    }
+  }, []);
 
   const handleClick = () => {
     setShowAddNew(true);
@@ -48,21 +54,31 @@ const CardAddress = ({ formType, itemType }) => {
     itemType === "address" ? (
       <Billing formType={formType} />
     ) : (
-      <PaymentDetails formType={formType} />
+      <PaymentDetails formType={formType} isButtonDisabled={isButtonDisabled} />
     )
   ) : (
-    <CardAddressContainer>
+    <CardAddressContainer
+      sx={{ width: formType === "payment" ? "30%" : "inherit" }}
+    >
       <ItemsContainer>
         {itemType === "address"
           ? myAddress.map((address) => (
               <CardAddressItem
+                formType={formType}
                 key={address.id}
                 itemType={itemType}
                 data={address}
+                isButtonDisabled={isButtonDisabled}
               />
             ))
           : myCards.map((card) => (
-              <CardAddressItem key={card.id} itemType={itemType} data={card} />
+              <CardAddressItem
+                formType={formType}
+                key={card.id}
+                itemType={itemType}
+                data={card}
+                isButtonDisabled={isButtonDisabled}
+              />
             ))}
       </ItemsContainer>
       <Button

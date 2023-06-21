@@ -67,21 +67,28 @@ const Billing = ({ formType, isButtonDisabled }) => {
     if (formType === "profile") {
       reset();
     }
-    setShowMyAddress(true);
-    // onProfileEditChange(false);
-    if (formType !== "profile") {
+
+    if (formType === "billing") {
+      setShowMyAddress(false);
+    } else {
+      setShowMyAddress(true);
+    }
+
+    if (formType === "billing") {
       setEditCheckoutMode(false);
       isButtonDisabled(false);
     }
   };
 
+  // Para resetear los select
+  // const stateRef = useRef();
+  // const cityRef = useRef();
+  // stateRef.current.childNodes[0].textContent = "Selecciona tu Provincia";
+  // cityRef.current.childNodes[0].textContent = "Selecciona tu Localidad";
+
   const onSubmit = (formValues) => {
     console.log(formValues);
     //save billing data
-
-    if (formType === "billing") {
-      setShowMyAddress(false);
-    }
 
     handleClickCancel();
   };
@@ -89,7 +96,11 @@ const Billing = ({ formType, isButtonDisabled }) => {
   return (
     <section>
       {showMyAddress ? (
-        <CardAddress formType={formType} itemType="address" />
+        <CardAddress
+          formType={formType}
+          itemType="address"
+          isButtonDisabled={() => isButtonDisabled}
+        />
       ) : (
         <BillingContainer>
           {formType === "billing" && (
@@ -118,7 +129,7 @@ const Billing = ({ formType, isButtonDisabled }) => {
                   ? "100%"
                   : formType === "billing"
                   ? "40%"
-                  : "30%",
+                  : "100%",
             }}
           >
             {(formType === "billing" || formType === "profile") && (
@@ -197,7 +208,7 @@ const Billing = ({ formType, isButtonDisabled }) => {
                       : errors.address && validations.errorEmptyField
                   }
                 />{" "}
-                <StateSelectContainer>
+                {/* <StateSelectContainer>
                   <Controller
                     name="state"
                     control={control}
@@ -271,7 +282,7 @@ const Billing = ({ formType, isButtonDisabled }) => {
                       </>
                     )}
                   />
-                </CitySelectContainer>
+                </CitySelectContainer> */}
               </>
             )}
             {formType === "shipping" && (

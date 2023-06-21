@@ -22,7 +22,7 @@ import { Icon } from "../../../ui/Icon";
 import { VisaIconSvg, MasterCardIconSvg, AmexIconSvg } from "../../../ui/Svg";
 import CardAddress from "../../../layout/CardAddress/CardAddress";
 
-const PaymentDetails = ({ formType }) => {
+const PaymentDetails = ({ formType, isButtonDisabled }) => {
   const theme = useTheme();
   const cardNumberValue = useRef("");
   const cardExpirationDateValue = useRef("");
@@ -75,6 +75,8 @@ const PaymentDetails = ({ formType }) => {
   const handleClickCancel = () => {
     reset();
     setShowMyCards(true);
+    console.log(formType, isButtonDisabled);
+    isButtonDisabled(false);
   };
 
   const onSubmit = (formValues) => {

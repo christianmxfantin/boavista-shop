@@ -9,29 +9,77 @@ import {
   ItemTitle,
   ItemTitleContainer,
 } from "./CardAddressItem.styles";
+import { Checkbox, FormControlLabel } from "@mui/material";
 
-const CardAddressItem = ({ itemType, data }) => {
+const CardAddressItem = ({ formType, itemType, isButtonDisabled, data }) => {
   const theme = useTheme();
   const [isHover, setIsHover] = useState(false);
+  const [isSelected, setIsSelected] = useState(false);
+
+  const handleChangeCheckbox = (value) => {
+    if (value === true) {
+      setIsSelected(true);
+      isButtonDisabled(false);
+    } else {
+      setIsSelected(false);
+      isButtonDisabled(true);
+    }
+  };
+
   return (
     <CardAddressItemContainer
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
       sx={{
-        backgroundColor: isHover ? theme.palette.primary[300] : "inherit",
-        color: isHover ? theme.palette.secondary.A100 : "inherit",
+        backgroundColor:
+          isSelected || (isHover && formType === "profile")
+            ? theme.palette.primary[300]
+            : "inherit",
+        color:
+          isSelected || (isHover && formType === "profile")
+            ? theme.palette.secondary.A100
+            : "inherit",
       }}
     >
-      <IconContainer sx={{ alignItems: itemType === "address" && "center" }}>
-        <Icon name={itemType === "address" ? "address-card" : "credit-card"} />
-      </IconContainer>
+      {formType !== "profile" ? (
+        <FormControlLabel
+          control={
+            <Checkbox
+              onChange={(e) => handleChangeCheckbox(e.target.checked)}
+              sx={{
+                color: theme.palette.secondary.A100,
+                "&:hover": {
+                  color: theme.palette.secondary.A100,
+                },
+              }}
+            />
+          }
+        />
+      ) : (
+        <IconContainer sx={{ alignItems: itemType === "address" && "center" }}>
+          <Icon
+            name={itemType === "address" ? "address-card" : "credit-card"}
+          />
+        </IconContainer>
+      )}
+
       {itemType === "address" ? (
         <ItemTitleContainer>
-          <ItemTitle>{data.type}</ItemTitle>
+          <ItemTitle
+            sx={{
+              marginLeft: theme.spacing(2),
+            }}
+          >
+            {data.type}
+          </ItemTitle>
           <ItemData variant="subtitle2">{data.address}</ItemData>
         </ItemTitleContainer>
       ) : (
-        <ItemTitle>
+        <ItemTitle
+          sx={{
+            marginLeft: formType !== "profile" ? 0 : theme.spacing(2),
+          }}
+        >
           {`${
             data.typeCard === "credit" ? "Visa Crédito" : "Visa Débito"
           } terminada en ${data.finalNumber}`}

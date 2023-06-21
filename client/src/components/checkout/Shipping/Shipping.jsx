@@ -9,7 +9,7 @@ import { useTheme } from "@emotion/react";
 import { ShippingPaymentContainer } from "./Shipping.styles";
 import CardAddress from "../../layout/CardAddress/CardAddress";
 
-const ShippingPayment = ({ isButtonDisabled }) => {
+const ShippingPayment = ({ formType, isButtonDisabled }) => {
   const theme = useTheme();
   const [visibleShipping, setVisibleShipping] = useState(false);
   const [value, setValue] = useState(null);
@@ -59,7 +59,11 @@ const ShippingPayment = ({ isButtonDisabled }) => {
       {value === null
         ? null
         : visibleShipping && (
-            <CardAddress formType="shipping" itemType="address" />
+            <CardAddress
+              formType={formType}
+              itemType="address"
+              isButtonDisabled={isButtonDisabled}
+            />
           )}
     </ShippingPaymentContainer>
   );

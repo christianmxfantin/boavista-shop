@@ -6,7 +6,10 @@ import {
   Step,
   StepLabel,
 } from "@mui/material";
-import { CheckoutButtonsContainer } from "./StepperCheckout.styles";
+import {
+  PaymentContainer,
+  CheckoutButtonsContainer,
+} from "./StepperCheckout.styles";
 import { Button } from "../../ui/Button";
 
 import Cart from "../../checkout/Cart/Cart";
@@ -62,15 +65,21 @@ const StepperCheckout = () => {
       );
       break;
     case 2:
-      stepperComponent = <Shipping isButtonDisabled={handleButtonDisabled} />;
+      stepperComponent = (
+        <Shipping formType="shipping" isButtonDisabled={handleButtonDisabled} />
+      );
       break;
     case 3:
       stepperComponent = (
-        <CardAddress
-          formType="payment"
-          itemType="card"
-          isButtonDisabled={handleButtonDisabled}
-        />
+        <>
+          <PaymentContainer>
+            <CardAddress
+              formType="payment"
+              itemType="card"
+              isButtonDisabled={handleButtonDisabled}
+            />
+          </PaymentContainer>
+        </>
       );
       break;
     case 4:

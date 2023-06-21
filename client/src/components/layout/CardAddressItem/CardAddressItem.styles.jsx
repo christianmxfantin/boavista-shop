@@ -17,11 +17,12 @@ export const IconContainer = styled(Box)(({ theme }) => ({
 export const ItemTitleContainer = styled(Typography)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
+  // cursor: "pointer",
 }));
 
 export const ItemTitle = styled(Typography)(({ theme }) => ({
-  marginLeft: theme.spacing(2),
-  cursor: "pointer",
+  display: "flex",
+  alignItems: "center",
 }));
 
 export const ItemData = styled(Typography)(({ theme }) => ({
