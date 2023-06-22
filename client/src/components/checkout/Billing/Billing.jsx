@@ -76,7 +76,6 @@ const Billing = ({ formType, isButtonDisabled }) => {
 
     if (formType === "billing") {
       setEditCheckoutMode(false);
-      isButtonDisabled(false);
     }
   };
 
@@ -91,6 +90,7 @@ const Billing = ({ formType, isButtonDisabled }) => {
     //save billing data
 
     handleClickCancel();
+    isButtonDisabled(false);
   };
 
   return (
@@ -99,7 +99,7 @@ const Billing = ({ formType, isButtonDisabled }) => {
         <CardAddress
           formType={formType}
           itemType="address"
-          isButtonDisabled={() => isButtonDisabled}
+          isButtonDisabled={isButtonDisabled}
         />
       ) : (
         <BillingContainer>

@@ -3,7 +3,6 @@ import { useTheme } from "@emotion/react";
 import ButtonsContainer from "../../../layout/ButtonsContainer/ButtonsContainer";
 import {
   PaymentDetailsContainer,
-  PaymentNewCard,
   CardNumber,
   CardDataContainer,
   CardExpirationDate,
@@ -75,7 +74,6 @@ const PaymentDetails = ({ formType, isButtonDisabled }) => {
   const handleClickCancel = () => {
     reset();
     setShowMyCards(true);
-    console.log(formType, isButtonDisabled);
     isButtonDisabled(false);
   };
 
@@ -87,7 +85,11 @@ const PaymentDetails = ({ formType, isButtonDisabled }) => {
   };
 
   return showMyCards ? (
-    <CardAddress formType={formType} itemType="card" />
+    <CardAddress
+      formType={formType}
+      itemType="card"
+      isButtonDisabled={isButtonDisabled}
+    />
   ) : (
     <PaymentDetailsContainer
       component={"form"}

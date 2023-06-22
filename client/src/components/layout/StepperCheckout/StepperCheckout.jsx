@@ -25,9 +25,9 @@ const StepperCheckout = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
-  const handleButtonDisabled = (value) => {
-    setIsButtonDisabled(value);
-  };
+  // const handleButtonDisabled = (value) => {
+  //   setIsButtonDisabled(value);
+  // };
 
   const handleCleanCart = () => {
     //Vaciar Carrito
@@ -60,13 +60,13 @@ const StepperCheckout = () => {
         <Billing
           formType="billing"
           showBilling={true}
-          isButtonDisabled={handleButtonDisabled}
+          isButtonDisabled={setIsButtonDisabled}
         />
       );
       break;
     case 2:
       stepperComponent = (
-        <Shipping formType="shipping" isButtonDisabled={handleButtonDisabled} />
+        <Shipping formType="shipping" isButtonDisabled={setIsButtonDisabled} />
       );
       break;
     case 3:
@@ -76,7 +76,7 @@ const StepperCheckout = () => {
             <CardAddress
               formType="payment"
               itemType="card"
-              isButtonDisabled={handleButtonDisabled}
+              isButtonDisabled={setIsButtonDisabled}
             />
           </PaymentContainer>
         </>
