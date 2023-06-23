@@ -71,19 +71,19 @@ const CardAddress = ({ formType, itemType, isButtonDisabled }) => {
         {itemType === "address"
           ? myAddress.map((address) => (
               <CardAddressItem
+                data={address}
                 formType={formType}
                 key={address.id}
                 itemType={itemType}
-                data={address}
                 isButtonDisabled={isButtonDisabled}
               />
             ))
           : myCards.map((card) => (
               <CardAddressItem
+                data={card}
                 formType={formType}
                 key={card.id}
                 itemType={itemType}
-                data={card}
                 isButtonDisabled={isButtonDisabled}
               />
             ))}

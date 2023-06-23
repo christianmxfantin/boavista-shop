@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTheme } from "@emotion/react";
 import ButtonsContainer from "../../../layout/ButtonsContainer/ButtonsContainer";
 import {
@@ -28,6 +28,12 @@ const PaymentDetails = ({ formType, isButtonDisabled }) => {
   const cardNameValue = useRef("");
   const [showMyCards, setShowMyCards] = useState(false);
   const [cardType, setCardType] = useState("");
+
+  useEffect(() => {
+    if (formType === "payment") {
+      isButtonDisabled(true);
+    }
+  }, [formType, isButtonDisabled]);
 
   const {
     register,

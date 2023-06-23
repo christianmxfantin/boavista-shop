@@ -11,7 +11,6 @@ import { Icon } from "../../ui/Icon";
 
 const NumericInput = ({ type, total }) => {
   const theme = useTheme();
-
   const [count, setCount] = useState(1);
 
   const handleIncrement = () => {
@@ -38,15 +37,28 @@ const NumericInput = ({ type, total }) => {
       <AddButton value="left" onClick={handleIncrement}>
         <Icon name="Add" size={20} color={theme.palette.primary[500]} />
       </AddButton>
-      <ToggleButton value="center">
-        <Quantity>
+      <ToggleButton
+        value="center"
+        sx={{
+          padding: theme.spacing(1),
+          backgroundColor: theme.palette.primary[300],
+          "&:hover": {
+            backgroundColor: theme.palette.primary[300],
+          },
+        }}
+      >
+        <Quantity sx={{}}>
           <input
             value={count}
             onChange={handleInputChange}
             style={{
-              width: "30px",
+              width: "50px",
+              textAlign: "center",
               border: "none",
-              color: theme.palette.primary[500],
+              fontSize: theme.spacing(2.5),
+              fontWeight: "bold",
+              backgroundColor: theme.palette.primary[300],
+              color: theme.palette.secondary.A100,
             }}
           />
         </Quantity>

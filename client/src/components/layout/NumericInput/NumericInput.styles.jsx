@@ -10,7 +10,7 @@ export const AddButton = styled(ToggleButton)(({ theme }) => ({
 }));
 
 export const Quantity = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(0, 1, 0, 1), //8px
+  // padding: theme.spacing(0, 1, 0, 1), //8px
   color: theme.palette.primary[500],
 }));
 

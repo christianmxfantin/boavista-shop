@@ -11,7 +11,7 @@ import {
 } from "./CardAddressItem.styles";
 import { Checkbox, FormControlLabel } from "@mui/material";
 
-const CardAddressItem = ({ formType, itemType, isButtonDisabled, data }) => {
+const CardAddressItem = ({ data, formType, itemType, isButtonDisabled }) => {
   const theme = useTheme();
   const [isHover, setIsHover] = useState(false);
   const [isSelected, setIsSelected] = useState(false);

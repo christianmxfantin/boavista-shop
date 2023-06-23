@@ -44,7 +44,7 @@ const CartItem = ({ data, color }) => {
         </CartItemPriceContainer>
       </CartItemData>
       <CartItemButtons>
-        <NumericInput type="center" />
+        <NumericInput type="center" total={999} />
         <Icon name="Delete-Data" size={50} color={theme.palette.error[500]} />
       </CartItemButtons>
     </CartItemContainer>

@@ -54,8 +54,9 @@ const Billing = ({ formType, isButtonDisabled }) => {
   useEffect(() => {
     if (formType === "shipping") {
       setEditCheckoutMode(true);
+      isButtonDisabled(true);
     }
-  }, [formType]);
+  }, [formType, isButtonDisabled]);
 
   const handleCheckoutEdit = () => {
     setEditCheckoutMode(true);
