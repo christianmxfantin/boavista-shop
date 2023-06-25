@@ -104,6 +104,7 @@ const Search = () => {
         <SearchIcon name="Search" size={22} />
       </SearchIconWrapper>
       <StyledInputBase
+        name="search"
         placeholder="Buscar"
         value={searchValue}
         inputRef={inputRef}

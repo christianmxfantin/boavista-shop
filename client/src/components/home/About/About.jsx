@@ -22,7 +22,10 @@ const About = () => {
         <AboutTitle variant="h3">Sobre Nosotros</AboutTitle>
         <Underline width={300} height={5} color={theme.palette.primary[500]} />
         <AboutInfoContainer>
-          <AboutInfo1 sx={{ textIndent: theme.spacing(2.5) }}>
+          <AboutInfo1
+            component={"span"}
+            sx={{ textIndent: theme.spacing(2.5) }}
+          >
             Somos una empresa familiar iniciada por inmigrantes de Cabo Verde.
             Nuestra historia comenzó hace varias décadas, cuando nuestros
             abuelos se establecieron en el actual barrio de Retiro de la Ciudad
@@ -30,12 +33,18 @@ const About = () => {
             el objetivo de proporcionarle a la comunidad, el acceso a una amplia
             variedad de productos.
           </AboutInfo1>
-          <AboutInfo2 sx={{ textIndent: theme.spacing(2.5) }}>
+          <AboutInfo2
+            component={"span"}
+            sx={{ textIndent: theme.spacing(2.5) }}
+          >
             Desde entonces, nuestra tienda ha crecido y se ha convertido en un
             recurso invaluable para escuelas, negocios y organizaciones sin
             fines de lucro en todo el país.
           </AboutInfo2>
-          <AboutInfo3 sx={{ textIndent: theme.spacing(2.5) }}>
+          <AboutInfo3
+            component={"span"}
+            sx={{ textIndent: theme.spacing(2.5) }}
+          >
             Esperamos poder seguir siendo parte de tu vida, y apoyando tu
             educación y creatividad como siempre lo hicimos.
           </AboutInfo3>
