@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTheme } from "@emotion/react";
 import {
+  Button,
   Stepper as StepperComponent,
   StepConnector,
   Step,
@@ -10,7 +11,6 @@ import {
   PaymentContainer,
   CheckoutButtonsContainer,
 } from "./StepperCheckout.styles";
-import { Button } from "../../ui/Button";
 
 import Cart from "../../checkout/Cart/Cart";
 import Billing from "../../checkout/Billing/Billing";
@@ -24,10 +24,6 @@ const StepperCheckout = () => {
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-
-  // const handleButtonDisabled = (value) => {
-  //   setIsButtonDisabled(value);
-  // };
 
   const handleCleanCart = () => {
     //Vaciar Carrito
@@ -123,16 +119,15 @@ const StepperCheckout = () => {
             }}
           >
             <Button
-              name={
-                activeStep === 0
-                  ? "Vaciar Carrito"
-                  : activeStep === 4
-                  ? "Cancelar Compra"
-                  : "Atrás"
-              }
-              variant={activeStep !== 4 && "contained"}
-              buttonStyle={activeStep !== 4 ? "primary" : "secondary"}
-              sx={{ marginRight: activeStep === 4 && "8px" }}
+              variant={activeStep !== 4 ? "contained" : "text"}
+              sx={{
+                marginRight: activeStep === 4 && "8px",
+                "&:hover": {
+                  backgroundColor:
+                    activeStep !== 4 && theme.palette.secondary[500],
+                  color: activeStep !== 4 && theme.palette.primary[500],
+                },
+              }}
               onClick={
                 activeStep === 0
                   ? handleCleanCart
@@ -140,14 +135,26 @@ const StepperCheckout = () => {
                   ? handleCancelPurchase
                   : handleLeft
               }
-            />
+            >
+              {activeStep === 0
+                ? "Vaciar Carrito"
+                : activeStep === 4
+                ? "Cancelar Compra"
+                : "Atrás"}
+            </Button>
             <Button
-              name={activeStep === 4 ? "Pagar" : "Continuar"}
               variant="contained"
-              buttonStyle="primary"
               disabled={activeStep >= 1 && activeStep <= 3 && isButtonDisabled}
               onClick={activeStep === 4 ? handlePayment : handleRight}
-            />
+              sx={{
+                "&:hover": {
+                  backgroundColor: theme.palette.secondary[500],
+                  color: theme.palette.primary[500],
+                },
+              }}
+            >
+              {activeStep === 4 ? "Pagar" : "Continuar"}
+            </Button>
           </CheckoutButtonsContainer>
         </>
       )}

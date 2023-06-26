@@ -14,10 +14,9 @@ export const IconContainer = styled(Box)(({ theme }) => ({
   justifyContent: "center",
 }));
 
-export const ItemTitleContainer = styled(Typography)(({ theme }) => ({
+export const ItemTitleContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
-  // cursor: "pointer",
 }));
 
 export const ItemTitle = styled(Typography)(({ theme }) => ({

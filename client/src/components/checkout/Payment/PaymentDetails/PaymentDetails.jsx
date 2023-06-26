@@ -80,7 +80,9 @@ const PaymentDetails = ({ formType, isButtonDisabled }) => {
   const handleClickCancel = () => {
     reset();
     setShowMyCards(true);
-    isButtonDisabled(false);
+    if (formType !== "profile") {
+      isButtonDisabled(false);
+    }
   };
 
   const onSubmit = (formValues) => {

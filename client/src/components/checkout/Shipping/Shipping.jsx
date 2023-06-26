@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { Controller, useForm } from "react-hook-form";
 import {
   RadioGroup,
   FormControlLabel,
@@ -11,60 +12,83 @@ import CardAddress from "../../layout/CardAddress/CardAddress";
 
 const ShippingPayment = ({ formType, isButtonDisabled }) => {
   const theme = useTheme();
+  const radioGroupRef = useRef(null);
   const [visibleShipping, setVisibleShipping] = useState(false);
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm({ mode: "onBlur" });
 
   useEffect(() => {
-    setValue(null);
+    // setValue(null);
     isButtonDisabled(true);
-  }, []);
+  }, [setValue, isButtonDisabled]);
 
   const handleRadioChange = (e) => {
-    setValue(e.target.value);
+    setValue(true);
   };
 
   const handleSameAddress = () => {
-    setVisibleShipping(false);
+    setValue(false);
     isButtonDisabled(false);
   };
 
   const handleNewAddress = () => {
-    setVisibleShipping(true);
+    setValue(true);
     isButtonDisabled(true);
   };
 
+  const onSubmit = (formValues) => {
+    //enviar data
+    // reset();
+  };
+
   return (
-    <ShippingPaymentContainer>
+    <ShippingPaymentContainer
+      component={"form"}
+      noValidate
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <FormControl>
-        <RadioGroup
-          value={value}
-          onClick={handleRadioChange}
-          sx={{
-            marginBottom: theme.spacing(2),
-            color: theme.palette.primary[500],
-          }}
-        >
-          <FormControlLabel
-            value="sameShippingAddress"
-            control={<Radio onChange={handleSameAddress} />}
-            label={"Utilizar la misma dirección de Facturación"}
-          />
-          <FormControlLabel
-            value="newShippingAddress"
-            control={<Radio onChange={handleNewAddress} />}
-            label={"Seleccionar una dirección nueva"}
-          />
-        </RadioGroup>
-      </FormControl>
-      {value === null
-        ? null
-        : visibleShipping && (
-            <CardAddress
-              formType={formType}
-              itemType="address"
-              isButtonDisabled={isButtonDisabled}
-            />
+        <Controller
+          name="shippingData"
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <RadioGroup
+              {...field}
+              sx={{
+                marginBottom: theme.spacing(2),
+                color: theme.palette.primary[500],
+              }}
+            >
+              <FormControlLabel
+                value="sameShippingAddress"
+                control={<Radio onChange={handleSameAddress} />}
+                label={"Utilizar la misma dirección de Facturación"}
+              />
+              <FormControlLabel
+                value="newShippingAddress"
+                control={<Radio onChange={handleNewAddress} />}
+                label={"Seleccionar una dirección nueva"}
+              />
+            </RadioGroup>
           )}
+        />
+      </FormControl>
+      {value && (
+        <CardAddress
+          formType={formType}
+          itemType="address"
+          isButtonDisabled={isButtonDisabled}
+        />
+      )}
     </ShippingPaymentContainer>
   );
 };

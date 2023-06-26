@@ -22,7 +22,11 @@ const ProductTitle = ({ search, totResults }) => {
       </ProductCategory>
       <ProductOrderByContainer>
         <ProductOrderByTitle>Ordenar por:</ProductOrderByTitle>
-        <ProductOrderBySelect variant="standard" defaultValue={1}>
+        <ProductOrderBySelect
+          name="productOrder"
+          variant="standard"
+          defaultValue={1}
+        >
           <MenuItem value={1}>Menor precio</MenuItem>
           <MenuItem value={2}>Mayor precio</MenuItem>
           <MenuItem value={3}>Más vendido</MenuItem>

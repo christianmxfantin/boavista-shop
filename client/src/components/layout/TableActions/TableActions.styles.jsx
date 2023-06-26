@@ -65,7 +65,7 @@ export const TableDeleteContainer = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(6),
 }));
 
-export const TableDeleteParagraph = styled(Typography)(({ theme }) => ({
+export const TableDeleteParagraph = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",

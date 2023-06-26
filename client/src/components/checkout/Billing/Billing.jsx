@@ -209,7 +209,7 @@ const Billing = ({ formType, isButtonDisabled }) => {
                       : errors.address && validations.errorEmptyField
                   }
                 />{" "}
-                {/* <StateSelectContainer>
+                <StateSelectContainer>
                   <Controller
                     name="state"
                     control={control}
@@ -283,7 +283,7 @@ const Billing = ({ formType, isButtonDisabled }) => {
                       </>
                     )}
                   />
-                </CitySelectContainer> */}
+                </CitySelectContainer>
               </>
             )}
             {formType === "shipping" && (
