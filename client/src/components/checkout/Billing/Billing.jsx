@@ -91,7 +91,9 @@ const Billing = ({ formType, isButtonDisabled }) => {
     //save billing data
 
     handleClickCancel();
-    isButtonDisabled(false);
+    if (formType !== "profile") {
+      isButtonDisabled(false);
+    }
   };
 
   return (
@@ -217,12 +219,10 @@ const Billing = ({ formType, isButtonDisabled }) => {
                     defaultValue={1}
                     render={({ field }) => (
                       <>
-                        {console.log()}
                         <StateSelect
                           {...field}
                           fullWidth
                           disabled={formType === "billing" && !editCheckoutMode}
-                          defaultValue={1}
                           onChange={(e) => {
                             field.onChange(e.target.value);
                             setProvincia(e.target.value);
@@ -252,6 +252,7 @@ const Billing = ({ formType, isButtonDisabled }) => {
                   <Controller
                     name="city"
                     control={control}
+                    defaultValue={1}
                     rules={{ required: true }}
                     render={({ field }) => (
                       <>
@@ -259,7 +260,7 @@ const Billing = ({ formType, isButtonDisabled }) => {
                           {...field}
                           fullWidth
                           disabled={formType === "billing" && !editCheckoutMode}
-                          defaultValue={1}
+                          // defaultValue={1}
                           onChange={(e) => {
                             field.onChange(e.target.value);
                           }}

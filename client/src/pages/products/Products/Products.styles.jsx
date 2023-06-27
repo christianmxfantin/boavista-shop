@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export const ProductContainer = styled(Box)(({ theme }) => ({
@@ -17,7 +17,7 @@ export const ProductFilters = styled(Box)(({ theme }) => ({
 }));
 
 export const ProductData = styled(Box)(() => ({
-  //styles
+  width: "100%",
 }));
 
 export const ProductListContainer = styled(Grid)(({ theme }) => ({

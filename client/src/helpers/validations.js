@@ -27,6 +27,7 @@ export const validations = {
     errorDataNotValid: "El número de tarjeta ingresado no es válido",
   },
   cardExpirationDate: {
+    pattern: /^[0-9]{4}$/,
     errorDataNotValid:
       "La fecha de expiración debe ser superior al mes y el año actual, y solo puede contener dos dígitos para el mes (MM) y dos dígitos para el año (AA)",
   },
@@ -38,7 +39,6 @@ export const validations = {
 };
 
 export const validateCardNumber = (cardNumber) => {
-  console.log(cardNumber);
   let sum = 0;
   let shouldDouble = false;
 
@@ -66,9 +66,10 @@ export const monthYearCheck = (value) => {
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth() + 1;
 
-  const [month, year] = value.split("/");
+  const month = value.substring(0, 2);
+  const year = value.substring(2);
   const inputMonth = parseInt(month.trim(), 10);
-  let inputYear = 2000 + parseInt(year.trim().slice(-2), 10);
+  let inputYear = 2000 + parseInt(year.trim(), 10);
 
   if (
     inputYear < currentYear ||

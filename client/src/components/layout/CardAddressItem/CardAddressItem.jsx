@@ -45,6 +45,7 @@ const CardAddressItem = ({ data, formType, itemType, isButtonDisabled }) => {
         <FormControlLabel
           control={
             <Checkbox
+              value={data.id}
               onChange={(e) => handleChangeCheckbox(e.target.checked)}
               sx={{
                 color: theme.palette.secondary.A100,

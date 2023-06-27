@@ -1,6 +1,6 @@
 import { useTheme } from "@emotion/react";
-import { Button } from "../../ui/Button";
-import { Button as ButtonText } from "@mui/material";
+// import { Button } from "../../ui/Button";
+import { Button } from "@mui/material";
 import {
   TableActionsModal,
   TableActionsContainer,
@@ -102,7 +102,7 @@ const TableActions = ({
           </TableDeleteContainer>
         )}
         <TableButtonsContainer component={"section"}>
-          <ButtonText
+          <Button
             variant="text"
             sx={{
               width: "376px",
@@ -115,15 +115,30 @@ const TableActions = ({
             onClick={handleCancelButton}
           >
             Cancelar
-          </ButtonText>
+          </Button>
           <Button
-            name={actionType === "edit" ? "Guardar" : "Borrar"}
-            buttonStyle={actionType === "edit" ? "success" : "error"}
+            variant="contained"
             sx={{
               width: "376px",
+              backgroundColor:
+                actionType === "edit"
+                  ? theme.palette.success[500]
+                  : theme.palette.error[500],
+              "&:hover": {
+                backgroundColor:
+                  actionType === "edit"
+                    ? theme.palette.success[300]
+                    : theme.palette.error[300],
+                color:
+                  actionType === "edit"
+                    ? theme.palette.success[700]
+                    : theme.palette.error[700],
+              },
             }}
             onClick={handleConfirmButton}
-          />
+          >
+            {actionType === "edit" ? "Guardar" : "Borrar"}
+          </Button>
         </TableButtonsContainer>
       </TableActionsContainer>
     </TableActionsModal>

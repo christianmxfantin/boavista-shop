@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import {
+  Button,
   Checkbox,
   FormControlLabel,
   FormHelperText,
@@ -9,7 +10,7 @@ import {
   InputAdornment,
   Tooltip,
 } from "@mui/material";
-import { Button } from "../../ui/Button";
+// import { Button } from "../../ui/Button";
 import { Icon } from "../../ui/Icon";
 import Underline from "../../ui/Underline";
 import {
@@ -291,47 +292,67 @@ const FormAuth = ({ formType, handleAuth }) => {
           {formType !== "dashboard" ? (
             <>
               <Button
-                name="Continuar"
                 type="submit"
-                buttonStyle="primary"
+                variant="contained"
                 sx={{
                   width: "376px",
                   marginTop: formType === "register" && theme.spacing(2),
                   marginBottom: formType === "login" && theme.spacing(1.5),
+                  "&:hover": {
+                    backgroundColor: theme.palette.secondary[500],
+                    color: theme.palette.primary[500],
+                  },
                 }}
-              />
+              >
+                Continuar
+              </Button>
               {formType === "login" && (
                 <Button
-                  name="Crear Cuenta"
-                  buttonStyle="secondary"
+                  variant="text"
                   sx={{
                     width: "376px",
+                    "&:hover": {
+                      backgroundColor: theme.palette.secondary[500],
+                      color: theme.palette.primary[500],
+                    },
                   }}
                   onClick={handleBottomButton}
-                />
+                >
+                  Crear Cuenta
+                </Button>
               )}
             </>
           ) : (
             <>
               <Button
-                name="Usuarios"
-                buttonStyle="primary"
+                variant="contained"
                 sx={{
                   width: "376px",
                   marginBottom: theme.spacing(4),
                   fontSize: theme.spacing(3), //24px
+                  "&:hover": {
+                    backgroundColor: theme.palette.secondary[500],
+                    color: theme.palette.primary[500],
+                  },
                 }}
                 onClick={handleTopButton}
-              />
+              >
+                Usuarios
+              </Button>
               <Button
-                name="Productos"
-                buttonStyle="primary"
+                variant="contained"
                 sx={{
                   width: "376px",
                   fontSize: theme.spacing(3), //24px
+                  "&:hover": {
+                    backgroundColor: theme.palette.secondary[500],
+                    color: theme.palette.primary[500],
+                  },
                 }}
                 onClick={handleBottomButton}
-              />
+              >
+                Productos
+              </Button>
             </>
           )}
         </ButtonsContainer>

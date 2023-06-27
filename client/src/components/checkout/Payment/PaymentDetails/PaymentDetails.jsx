@@ -63,15 +63,15 @@ const PaymentDetails = ({ formType, isButtonDisabled }) => {
     }
   };
 
-  const handleChangeExpirationDate = () => {
-    const inputValue = cardExpirationDateValue.current.value;
-    if (inputValue.length === 4) {
-      cardExpirationDateValue.current.value = `${inputValue.slice(
-        0,
-        2
-      )} / ${inputValue.slice(2)}`;
-    }
-  };
+  // const handleChangeExpirationDate = () => {
+  //   const inputValue = cardExpirationDateValue.current.value;
+  //   if (inputValue.length === 4) {
+  //     cardExpirationDateValue.current.value = `${inputValue.slice(
+  //       0,
+  //       2
+  //     )} / ${inputValue.slice(2)}`;
+  //   }
+  // };
 
   const handleChangeToUpperCase = () => {
     cardNameValue.current.value = cardNameValue.current.value.toUpperCase();
@@ -149,9 +149,9 @@ const PaymentDetails = ({ formType, isButtonDisabled }) => {
           type="text"
           variant="outlined"
           size="small"
-          placeholder="MM / AA"
+          placeholder="MMAA"
           required
-          inputProps={{ maxLength: 7 }}
+          inputProps={{ maxLength: 4 }}
           InputProps={{
             endAdornment: (
               <DoneAdornment
@@ -167,7 +167,11 @@ const PaymentDetails = ({ formType, isButtonDisabled }) => {
           {...register("cardExpirationDate", {
             required: validations.errorEmptyField,
             validate: monthYearCheck,
-            onChange: handleChangeExpirationDate,
+            pattern: {
+              value: validations.cardExpirationDate.pattern,
+              message: validations.cardExpirationDate.errorDataNotValid,
+            },
+            // onChange: handleChangeExpirationDate,
           })}
           error={!!errors.cardExpirationDate}
           helperText={errors.cardExpirationDate?.message}
