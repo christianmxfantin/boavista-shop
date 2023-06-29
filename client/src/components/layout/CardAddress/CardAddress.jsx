@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
+import { useTheme } from "@emotion/react";
 import { Button } from "@mui/material";
-import { CardAddressContainer, ItemsContainer } from "./CardAddress.styles";
+import {
+  CardAddressContainer,
+  ItemsContainer,
+  PaymentButtonsContainer,
+} from "./CardAddress.styles";
 import CardAddressItem from "../CardAddressItem/CardAddressItem";
 import Billing from "../../checkout/Billing/Billing";
 import PaymentDetails from "../../checkout/Payment/PaymentDetails/PaymentDetails";
@@ -37,7 +42,15 @@ const myCards = [
   },
 ];
 
-const CardAddress = ({ formType, itemType, isButtonDisabled }) => {
+const CardAddress = ({
+  formType,
+  itemType,
+  isButtonDisabled,
+  selectedAddress,
+  handleLeft,
+  handleRight,
+}) => {
+  const theme = useTheme();
   const [showAddNew, setShowAddNew] = useState(false);
 
   useEffect(() => {
@@ -76,6 +89,7 @@ const CardAddress = ({ formType, itemType, isButtonDisabled }) => {
                 key={address.id}
                 itemType={itemType}
                 isButtonDisabled={isButtonDisabled}
+                selectedAddress={selectedAddress}
               />
             ))
           : myCards.map((card) => (
@@ -97,6 +111,34 @@ const CardAddress = ({ formType, itemType, isButtonDisabled }) => {
           ? "Agregar Nueva Dirección"
           : "Agregar Método de Pago"}
       </Button>
+      {formType === "payment" && (
+        <PaymentButtonsContainer>
+          <Button
+            variant="contained"
+            sx={{
+              "&:hover": {
+                backgroundColor: theme.palette.secondary[500],
+                color: theme.palette.primary[500],
+              },
+            }}
+            onClick={handleLeft}
+          >
+            Atrás
+          </Button>
+          <Button
+            variant="contained"
+            onClick={handleRight}
+            sx={{
+              "&:hover": {
+                backgroundColor: theme.palette.secondary[500],
+                color: theme.palette.primary[500],
+              },
+            }}
+          >
+            Continuar
+          </Button>
+        </PaymentButtonsContainer>
+      )}
     </CardAddressContainer>
   );
 };

@@ -15,3 +15,9 @@ export const ItemsContainer = styled(Box)(({ theme }) => ({
   color: theme.palette.primary[500],
   backgroundColor: theme.palette.primary[100],
 }));
+
+export const PaymentButtonsContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  marginTop: "auto",
+  justifyContent: "space-between",
+}));

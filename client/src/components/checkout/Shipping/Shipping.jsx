@@ -5,34 +5,35 @@ import {
   FormControlLabel,
   Radio,
   FormControl,
+  Button,
 } from "@mui/material";
 import { useTheme } from "@emotion/react";
-import { ShippingPaymentContainer } from "./Shipping.styles";
+import {
+  ShippingPaymentContainer,
+  ShippingButtonsContainer,
+} from "./Shipping.styles";
 import CardAddress from "../../layout/CardAddress/CardAddress";
 
-const ShippingPayment = ({ formType, isButtonDisabled }) => {
+const ShippingPayment = ({
+  formType,
+  isButtonDisabled,
+  handleLeft,
+  handleRight,
+}) => {
   const theme = useTheme();
-  const radioGroupRef = useRef(null);
-  const [visibleShipping, setVisibleShipping] = useState(false);
   const [value, setValue] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState("");
 
   const {
     register,
     handleSubmit,
-    watch,
     control,
-    reset,
     formState: { errors },
   } = useForm({ mode: "onBlur" });
 
   useEffect(() => {
-    // setValue(null);
     isButtonDisabled(true);
-  }, [setValue, isButtonDisabled]);
-
-  const handleRadioChange = (e) => {
-    setValue(true);
-  };
+  }, [isButtonDisabled]);
 
   const handleSameAddress = () => {
     setValue(false);
@@ -70,12 +71,22 @@ const ShippingPayment = ({ formType, isButtonDisabled }) => {
             >
               <FormControlLabel
                 value="sameShippingAddress"
-                control={<Radio onChange={handleSameAddress} />}
+                control={
+                  <Radio
+                    name="sameShippingAddress"
+                    onChange={handleSameAddress}
+                  />
+                }
                 label={"Utilizar la misma dirección de Facturación"}
               />
               <FormControlLabel
                 value="newShippingAddress"
-                control={<Radio onChange={handleNewAddress} />}
+                control={
+                  <Radio
+                    name="newShippingAddress"
+                    onChange={handleNewAddress}
+                  />
+                }
                 label={"Seleccionar una dirección nueva"}
               />
             </RadioGroup>
@@ -87,8 +98,35 @@ const ShippingPayment = ({ formType, isButtonDisabled }) => {
           formType={formType}
           itemType="address"
           isButtonDisabled={isButtonDisabled}
+          selectedAddress={setSelectedAddress}
         />
       )}
+      <ShippingButtonsContainer>
+        <Button
+          variant="contained"
+          sx={{
+            "&:hover": {
+              backgroundColor: theme.palette.secondary[500],
+              color: theme.palette.primary[500],
+            },
+          }}
+          onClick={handleLeft}
+        >
+          Atrás
+        </Button>
+        <Button
+          variant="contained"
+          onClick={handleRight}
+          sx={{
+            "&:hover": {
+              backgroundColor: theme.palette.secondary[500],
+              color: theme.palette.primary[500],
+            },
+          }}
+        >
+          Continuar
+        </Button>
+      </ShippingButtonsContainer>
     </ShippingPaymentContainer>
   );
 };

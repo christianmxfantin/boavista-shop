@@ -7,8 +7,3 @@ export const PaymentContainer = styled(Box)(({ theme }) => ({
   alignItems: "center",
   marginTop: theme.spacing(2),
 }));
-
-export const CheckoutButtonsContainer = styled(Box)(({ theme }) => ({
-  display: "flex",
-  marginTop: "auto",
-}));

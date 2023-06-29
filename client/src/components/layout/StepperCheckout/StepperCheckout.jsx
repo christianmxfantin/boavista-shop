@@ -1,16 +1,12 @@
 import { useState } from "react";
 import { useTheme } from "@emotion/react";
 import {
-  Button,
   Stepper as StepperComponent,
   StepConnector,
   Step,
   StepLabel,
 } from "@mui/material";
-import {
-  PaymentContainer,
-  CheckoutButtonsContainer,
-} from "./StepperCheckout.styles";
+import { PaymentContainer } from "./StepperCheckout.styles";
 
 import Cart from "../../checkout/Cart/Cart";
 import Billing from "../../checkout/Billing/Billing";
@@ -24,11 +20,6 @@ const StepperCheckout = () => {
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-
-  const handleCleanCart = () => {
-    //Vaciar Carrito
-    console.log("Vaciar Carrito");
-  };
 
   const handleLeft = () => {
     setIsButtonDisabled(false);
@@ -57,12 +48,19 @@ const StepperCheckout = () => {
           formType="billing"
           showBilling={true}
           isButtonDisabled={setIsButtonDisabled}
+          handleLeft={handleLeft}
+          handleRight={handleRight}
         />
       );
       break;
     case 2:
       stepperComponent = (
-        <Shipping formType="shipping" isButtonDisabled={setIsButtonDisabled} />
+        <Shipping
+          formType="shipping"
+          isButtonDisabled={setIsButtonDisabled}
+          handleLeft={handleLeft}
+          handleRight={handleRight}
+        />
       );
       break;
     case 3:
@@ -73,16 +71,23 @@ const StepperCheckout = () => {
               formType="payment"
               itemType="card"
               isButtonDisabled={setIsButtonDisabled}
+              handleLeft={handleLeft}
+              handleRight={handleRight}
             />
           </PaymentContainer>
         </>
       );
       break;
     case 4:
-      stepperComponent = <Confirmation />;
+      stepperComponent = (
+        <Confirmation
+          handleCancelPurchase={handleCancelPurchase}
+          handlePayment={handlePayment}
+        />
+      );
       break;
     default:
-      stepperComponent = <Cart />;
+      stepperComponent = <Cart handleRight={handleRight} />;
   }
 
   return (
@@ -113,49 +118,6 @@ const StepperCheckout = () => {
             </Step>
           </StepperComponent>
           {stepperComponent}
-          <CheckoutButtonsContainer
-            sx={{
-              justifyContent: activeStep !== 4 ? "space-between" : "flex-end",
-            }}
-          >
-            <Button
-              variant={activeStep !== 4 ? "contained" : "text"}
-              sx={{
-                marginRight: activeStep === 4 && "8px",
-                "&:hover": {
-                  backgroundColor:
-                    activeStep !== 4 && theme.palette.secondary[500],
-                  color: activeStep !== 4 && theme.palette.primary[500],
-                },
-              }}
-              onClick={
-                activeStep === 0
-                  ? handleCleanCart
-                  : activeStep === 4
-                  ? handleCancelPurchase
-                  : handleLeft
-              }
-            >
-              {activeStep === 0
-                ? "Vaciar Carrito"
-                : activeStep === 4
-                ? "Cancelar Compra"
-                : "Atrás"}
-            </Button>
-            <Button
-              variant="contained"
-              disabled={activeStep >= 1 && activeStep <= 3 && isButtonDisabled}
-              onClick={activeStep === 4 ? handlePayment : handleRight}
-              sx={{
-                "&:hover": {
-                  backgroundColor: theme.palette.secondary[500],
-                  color: theme.palette.primary[500],
-                },
-              }}
-            >
-              {activeStep === 4 ? "Pagar" : "Continuar"}
-            </Button>
-          </CheckoutButtonsContainer>
         </>
       )}
     </>

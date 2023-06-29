@@ -6,3 +6,9 @@ export const ConfirmationContainer = styled(Box)(({ theme }) => ({
   flexDirection: "column",
   alignItems: "center",
 }));
+
+export const ConfirmationButtonsContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  marginTop: "auto",
+  justifyContent: "flex-end",
+}));

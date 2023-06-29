@@ -64,3 +64,9 @@ export const EmailInput = styled(TextField)(({ theme }) => ({
 export const PhoneInput = styled(TextField)(({ theme }) => ({
   //styles
 }));
+
+export const BillingButtonsContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  marginTop: "auto",
+  justifyContent: "space-between",
+}));

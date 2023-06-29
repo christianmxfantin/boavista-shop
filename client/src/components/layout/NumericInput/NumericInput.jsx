@@ -49,6 +49,7 @@ const NumericInput = ({ type, total }) => {
       >
         <Quantity sx={{}}>
           <input
+            name="quantity"
             value={count}
             onChange={handleInputChange}
             style={{

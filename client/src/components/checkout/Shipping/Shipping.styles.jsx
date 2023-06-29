@@ -6,3 +6,9 @@ export const ShippingPaymentContainer = styled(Box)(({ theme }) => ({
   flexDirection: "column",
   alignItems: "center",
 }));
+
+export const ShippingButtonsContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  marginTop: "auto",
+  justifyContent: "space-between",
+}));

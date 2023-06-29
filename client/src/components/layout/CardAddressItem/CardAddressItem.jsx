@@ -11,19 +11,26 @@ import {
 } from "./CardAddressItem.styles";
 import { Checkbox, FormControlLabel } from "@mui/material";
 
-const CardAddressItem = ({ data, formType, itemType, isButtonDisabled }) => {
+const CardAddressItem = ({
+  data,
+  formType,
+  itemType,
+  isButtonDisabled,
+  selectedAddress,
+}) => {
   const theme = useTheme();
   const [isHover, setIsHover] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
 
-  const handleChangeCheckbox = (value) => {
-    if (value === true) {
+  const handleChangeCheckbox = (e) => {
+    if (e.target.checked === true) {
       setIsSelected(true);
       isButtonDisabled(false);
     } else {
       setIsSelected(false);
       isButtonDisabled(true);
     }
+    selectedAddress(e.target.value);
   };
 
   return (
@@ -45,8 +52,11 @@ const CardAddressItem = ({ data, formType, itemType, isButtonDisabled }) => {
         <FormControlLabel
           control={
             <Checkbox
+              name={
+                formType === "shipping" ? "shippingMethod" : "paymentMethod"
+              }
               value={data.id}
-              onChange={(e) => handleChangeCheckbox(e.target.checked)}
+              onChange={(e) => handleChangeCheckbox(e)}
               sx={{
                 color: theme.palette.secondary.A100,
                 "&:hover": {

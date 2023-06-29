@@ -16,6 +16,7 @@ import {
   StateSelect,
   CitySelectContainer,
   CitySelect,
+  BillingButtonsContainer,
 } from "./Billing.styles";
 import useProvincias from "../../../hooks/useProvincias";
 import useLocalidades from "../../../hooks/useLocalidades";
@@ -23,6 +24,7 @@ import { Controller, useForm } from "react-hook-form";
 import ButtonsContainer from "../../layout/ButtonsContainer/ButtonsContainer";
 import { validations } from "../../../helpers/validations";
 import {
+  Button,
   FormHelperText,
   IconButton,
   InputAdornment,
@@ -31,7 +33,7 @@ import {
 } from "@mui/material";
 import CardAddress from "../../layout/CardAddress/CardAddress";
 
-const Billing = ({ formType, isButtonDisabled }) => {
+const Billing = ({ formType, isButtonDisabled, handleLeft, handleRight }) => {
   const theme = useTheme();
   const nameInput = useRef();
 
@@ -347,11 +349,39 @@ const Billing = ({ formType, isButtonDisabled }) => {
                 />
               </>
             )}
-            <ButtonsContainer
+            {/* <ButtonsContainer
               formType={formType}
               edit={editCheckoutMode}
               onClick={handleClickCancel}
-            />
+            /> */}
+            {formType === "billing" && (
+              <BillingButtonsContainer>
+                <Button
+                  variant="contained"
+                  sx={{
+                    "&:hover": {
+                      backgroundColor: theme.palette.secondary[500],
+                      color: theme.palette.primary[500],
+                    },
+                  }}
+                  onClick={handleLeft}
+                >
+                  Atrás
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={handleRight}
+                  sx={{
+                    "&:hover": {
+                      backgroundColor: theme.palette.secondary[500],
+                      color: theme.palette.primary[500],
+                    },
+                  }}
+                >
+                  Continuar
+                </Button>
+              </BillingButtonsContainer>
+            )}
           </DataContainer>
         </BillingContainer>
       )}

@@ -6,16 +6,23 @@ import {
   TotalTitle,
   TotalPrice,
   ProductsContainer,
+  CartButtonsContainer,
 } from "./Cart.styles";
 import CartItem from "../CartItem/CartItem";
 import Underline from "../../ui/Underline";
+import { Button } from "@mui/material";
 
-const Cart = () => {
+const Cart = ({ handleRight }) => {
   // const dispatch = useDispatch();
   let totalPrice = 0;
   const theme = useTheme();
   const { cart } = useSelector((state) => state);
-  console.log(cart);
+  // console.log(cart);
+
+  const handleCleanCart = () => {
+    //Vaciar Carrito
+    console.log("Vaciar Carrito");
+  };
 
   return (
     <CartContainer>
@@ -36,6 +43,32 @@ const Cart = () => {
         <TotalTitle variant="h5">Total:</TotalTitle>
         <TotalPrice variant="h5">$ {totalPrice}</TotalPrice>
       </TotalContainer>
+      <CartButtonsContainer>
+        <Button
+          variant="contained"
+          sx={{
+            "&:hover": {
+              backgroundColor: theme.palette.secondary[500],
+              color: theme.palette.primary[500],
+            },
+          }}
+          onClick={handleCleanCart}
+        >
+          Vaciar Carrito
+        </Button>
+        <Button
+          variant="contained"
+          onClick={handleRight}
+          sx={{
+            "&:hover": {
+              backgroundColor: theme.palette.secondary[500],
+              color: theme.palette.primary[500],
+            },
+          }}
+        >
+          Continuar
+        </Button>
+      </CartButtonsContainer>
     </CartContainer>
   );
 };
