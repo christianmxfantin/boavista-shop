@@ -20,10 +20,9 @@ const StepperCheckout = () => {
   const theme = useTheme();
   const [stepperData, setStepperData] = useState({});
   const [activeStep, setActiveStep] = useState(0);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const handleLeft = () => {
-    setIsButtonDisabled(false);
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
@@ -48,7 +47,6 @@ const StepperCheckout = () => {
         <Billing
           formType="billing"
           showBilling={true}
-          isButtonDisabled={setIsButtonDisabled}
           handleLeft={handleLeft}
           handleRight={handleRight}
           setStepperData={setStepperData}
@@ -59,7 +57,6 @@ const StepperCheckout = () => {
       stepperComponent = (
         <Shipping
           formType="shipping"
-          isButtonDisabled={setIsButtonDisabled}
           handleLeft={handleLeft}
           handleRight={handleRight}
           setStepperData={setStepperData}
@@ -73,10 +70,11 @@ const StepperCheckout = () => {
             <CardAddress
               formType="payment"
               itemType="card"
-              isButtonDisabled={setIsButtonDisabled}
               handleLeft={handleLeft}
               handleRight={handleRight}
               setStepperData={setStepperData}
+              isButtonDisabled={isButtonDisabled}
+              setIsButtonDisabled={setIsButtonDisabled}
             />
           </PaymentContainer>
         </>

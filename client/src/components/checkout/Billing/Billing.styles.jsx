@@ -25,6 +25,11 @@ export const DataContainer = styled(Box)(({ theme }) => ({
   flexDirection: "column",
 }));
 
+export const CheckoutContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+}));
+
 export const NamesInput = styled(TextField)(({ theme }) => ({
   marginTop: theme.spacing(2), //16px
 }));

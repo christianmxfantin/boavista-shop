@@ -17,6 +17,7 @@ export const ItemsContainer = styled(Box)(({ theme }) => ({
 }));
 
 export const PaymentButtonsContainer = styled(Box)(({ theme }) => ({
+  width: "100%",
   display: "flex",
   marginTop: "auto",
   justifyContent: "space-between",

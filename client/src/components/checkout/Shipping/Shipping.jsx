@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
   RadioGroup,
@@ -14,31 +14,22 @@ import {
 } from "./Shipping.styles";
 import CardAddress from "../../layout/CardAddress/CardAddress";
 
-const ShippingPayment = ({
-  formType,
-  isButtonDisabled,
-  handleLeft,
-  handleRight,
-  setStepperData,
-}) => {
+const Shipping = ({ formType, handleLeft, handleRight, setStepperData }) => {
   const theme = useTheme();
   const [value, setValue] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState("");
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const { handleSubmit, control } = useForm();
 
-  useEffect(() => {
-    isButtonDisabled(true);
-  }, [isButtonDisabled]);
-
   const handleSameAddress = () => {
     setValue(false);
-    isButtonDisabled(false);
+    setIsButtonDisabled(false);
   };
 
   const handleNewAddress = () => {
     setValue(true);
-    isButtonDisabled(true);
+    setIsButtonDisabled(true);
   };
 
   const onSubmit = (formValues) => {
@@ -102,6 +93,7 @@ const ShippingPayment = ({
           formType={formType}
           itemType="address"
           isButtonDisabled={isButtonDisabled}
+          setIsButtonDisabled={setIsButtonDisabled}
           selectedAddress={setSelectedAddress}
         />
       )}
@@ -121,6 +113,7 @@ const ShippingPayment = ({
         <Button
           type="submit"
           variant="contained"
+          disabled={isButtonDisabled}
           sx={{
             "&:hover": {
               backgroundColor: theme.palette.secondary[500],
@@ -135,4 +128,4 @@ const ShippingPayment = ({
   );
 };
 
-export default ShippingPayment;
+export default Shipping;

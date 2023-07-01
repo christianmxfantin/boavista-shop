@@ -6,6 +6,7 @@ import {
   BillingTitleContainer,
   BillingTitle,
   DataContainer,
+  CheckoutContainer,
   NamesInput,
   SurnamesInput,
   AddressInput,
@@ -33,24 +34,7 @@ import {
 } from "@mui/material";
 import CardAddress from "../../layout/CardAddress/CardAddress";
 
-const myBilling = {
-  id: 1,
-  names: "Lionel Andrés",
-  surnames: "Messi",
-  address: "Lampilaguicho 563",
-  state: "Santa Fe",
-  city: "Rosario",
-  email: "elliodelagente@gmail.com",
-  phone: "5555 3477",
-};
-
-const Billing = ({
-  formType,
-  isButtonDisabled,
-  handleLeft,
-  handleRight,
-  setStepperData,
-}) => {
+const Billing = ({ formType, handleLeft, handleRight, setStepperData }) => {
   const theme = useTheme();
   const nameInput = useRef();
 
@@ -60,6 +44,34 @@ const Billing = ({
 
   const provincias = useProvincias();
   const localidades = useLocalidades({ provincia });
+
+  //API Fake
+  let api = true;
+  let myBilling = {};
+  if (api) {
+    //cargar data de API
+    myBilling = {
+      id: 1,
+      names: "Lionel Andrés",
+      surnames: "Messi",
+      address: "Lampilagucho 563",
+      state: "Santa Fe",
+      city: "Rosario",
+      email: "elliodelagente@gmail.com",
+      phone: "5555 3477",
+    };
+  } else {
+    myBilling = {
+      id: 1,
+      names: "",
+      surnames: "",
+      address: "",
+      state: "",
+      city: "",
+      email: "",
+      phone: "",
+    };
+  }
 
   const {
     register,
@@ -71,26 +83,30 @@ const Billing = ({
   } = useForm({
     mode: "onBlur",
     defaultValues: {
-      names: "Lionel Andrés",
-      surnames: "Messi",
-      address: "Lampilagucho 563",
-      // state: "Santa Fe",
-      // city: "Rosario",
-      email: "elliodelagente@gmail.com",
-      phone: "(11) 5555 3477",
+      names: myBilling.names,
+      surnames: myBilling.surnames,
+      address: myBilling.address,
+      // state: myBilling.state,
+      // city: myBilling.city,
+      email: myBilling.email,
+      phone: myBilling.phone,
     },
   });
 
   useEffect(() => {
+    if (!api) {
+      setEditCheckoutMode(true);
+    }
+
     if (formType === "shipping") {
       setEditCheckoutMode(true);
-      isButtonDisabled(true);
+      // setIsButtonDisabled(true);
     }
-  }, [formType, isButtonDisabled]);
+  }, [api, formType]);
 
   const handleCheckoutEdit = () => {
     setEditCheckoutMode(true);
-    isButtonDisabled(true);
+    // setIsButtonDisabled(true);
     nameInput.current.focus();
   };
 
@@ -124,7 +140,7 @@ const Billing = ({
 
     handleClickCancel();
     if (formType !== "profile") {
-      isButtonDisabled(false);
+      // setIsButtonDisabled(false);
     }
   };
 
@@ -134,10 +150,10 @@ const Billing = ({
         <CardAddress
           formType={formType}
           itemType="address"
-          isButtonDisabled={isButtonDisabled}
+          // isButtonDisabled={isButtonDisabled}
         />
       ) : (
-        <BillingContainer>
+        <BillingContainer sx={{ height: formType === "billing" && "70vh" }}>
           {formType === "billing" && (
             <BillingTitleContainer
               onClick={handleCheckoutEdit}
@@ -159,91 +175,93 @@ const Billing = ({
             noValidate
             onSubmit={handleSubmit(onSubmit)}
             sx={{
-              width:
-                formType === "profile"
-                  ? "100%"
-                  : formType === "billing"
-                  ? "40%"
-                  : "100%",
+              width: "100%",
+              alignItems: "center",
             }}
           >
-            {(formType === "billing" || formType === "profile") && (
-              <>
-                <NamesInput
-                  name="names"
-                  type="text"
-                  variant="outlined"
-                  size="small"
-                  placeholder="Ingresa tus Nombres"
-                  disabled={formType === "billing" && !editCheckoutMode}
-                  inputRef={nameInput}
-                  required
-                  {...register("names", {
-                    required: true,
-                    pattern: validations.names.pattern,
-                  })}
-                  error={!!errors.names}
-                  helperText={
-                    watch("names")
-                      ? errors.names && validations.names.errorDataNotValid
-                      : errors.names && validations.errorEmptyField
-                  }
-                />
-                <SurnamesInput
-                  name="surnames"
-                  type="text"
-                  variant="outlined"
-                  size="small"
-                  placeholder="Ingresa tus Apellidos"
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <Tooltip title="En el mundo hay varias personas sin apellidos, por ese motivo no es un campo requerido. De igual modo, te sugerimos que completes este campo si lo tienes.">
-                          <IconButton edge="end">
-                            <Icon
-                              name="Info"
-                              color={theme.palette.primary[300]}
-                            />
-                          </IconButton>
-                        </Tooltip>
-                      </InputAdornment>
-                    ),
-                  }}
-                  disabled={formType === "billing" && !editCheckoutMode}
-                  {...register("surnames", {
-                    pattern: validations.names.pattern,
-                  })}
-                  error={!!errors.surnames}
-                  helperText={
-                    errors.surnames && validations.names.errorDataNotValid
-                  }
-                />
-              </>
-            )}
-            {(formType === "billing" ||
-              formType === "shipping" ||
-              formType === "profile") && (
-              <>
-                <AddressInput
-                  name="address"
-                  type="text"
-                  variant="outlined"
-                  size="small"
-                  placeholder="Ingresa tu Dirección"
-                  disabled={formType === "billing" && !editCheckoutMode}
-                  required
-                  {...register("address", {
-                    required: true,
-                    pattern: validations.address.pattern,
-                  })}
-                  error={!!errors.address}
-                  helperText={
-                    watch("address")
-                      ? errors.address && validations.address.errorDataNotValid
-                      : errors.address && validations.errorEmptyField
-                  }
-                />{" "}
-                {/* <StateSelectContainer>
+            <CheckoutContainer
+              sx={{
+                width: formType === "billing" ? "40%" : "100%",
+              }}
+            >
+              {(formType === "billing" || formType === "profile") && (
+                <>
+                  <NamesInput
+                    name="names"
+                    type="text"
+                    variant="outlined"
+                    size="small"
+                    placeholder="Ingresa tus Nombres"
+                    disabled={formType === "billing" && !editCheckoutMode}
+                    inputRef={nameInput}
+                    required
+                    {...register("names", {
+                      required: true,
+                      pattern: validations.names.pattern,
+                    })}
+                    error={!!errors.names}
+                    helperText={
+                      watch("names")
+                        ? errors.names && validations.names.errorDataNotValid
+                        : errors.names && validations.errorEmptyField
+                    }
+                  />
+                  <SurnamesInput
+                    name="surnames"
+                    type="text"
+                    variant="outlined"
+                    size="small"
+                    placeholder="Ingresa tus Apellidos"
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <Tooltip title="En el mundo hay varias personas sin apellidos, por ese motivo no es un campo requerido. De igual modo, te sugerimos que completes este campo si lo tienes.">
+                            <IconButton edge="end">
+                              <Icon
+                                name="Info"
+                                color={theme.palette.primary[300]}
+                              />
+                            </IconButton>
+                          </Tooltip>
+                        </InputAdornment>
+                      ),
+                    }}
+                    disabled={formType === "billing" && !editCheckoutMode}
+                    {...register("surnames", {
+                      pattern: validations.names.pattern,
+                    })}
+                    error={!!errors.surnames}
+                    helperText={
+                      errors.surnames && validations.names.errorDataNotValid
+                    }
+                  />
+                </>
+              )}
+              {(formType === "billing" ||
+                formType === "shipping" ||
+                formType === "profile") && (
+                <>
+                  <AddressInput
+                    name="address"
+                    type="text"
+                    variant="outlined"
+                    size="small"
+                    placeholder="Ingresa tu Dirección"
+                    disabled={formType === "billing" && !editCheckoutMode}
+                    required
+                    {...register("address", {
+                      required: true,
+                      pattern: validations.address.pattern,
+                    })}
+                    error={!!errors.address}
+                    helperText={
+                      watch("address")
+                        ? errors.address &&
+                          validations.address.errorDataNotValid
+                        : errors.address && validations.errorEmptyField
+                    }
+                  />{" "}
+                  {/* <StateSelectContainer>
                   <Controller
                     name="state"
                     control={control}
@@ -316,75 +334,78 @@ const Billing = ({
                     )}
                   />
                 </CitySelectContainer> */}
-              </>
-            )}
-            {formType === "shipping" && (
-              <>
-                <CommentsInput
-                  multiline
-                  rows={4}
-                  name="comments"
-                  placeholder="Observaciones"
-                  InputProps={{
-                    style: {
-                      padding: 0,
-                    },
-                  }}
-                  {...register("comments")}
-                >
-                  Observaciones
-                </CommentsInput>
-              </>
-            )}
-            {(formType === "billing" || formType === "profile") && (
-              <>
-                <EmailInput
-                  name="email"
-                  type="email"
-                  variant="outlined"
-                  size="small"
-                  placeholder="Ingresa tu Email"
-                  disabled={formType === "billing" && !editCheckoutMode}
-                  required
-                  {...register("email", {
-                    required: true,
-                    pattern: validations.mail.pattern,
-                  })}
-                  error={!!errors.email}
-                  helperText={
-                    watch("email")
-                      ? errors.email && validations.mail.errorDataNotValid
-                      : errors.email && validations.errorEmptyField
-                  }
-                />
-                <PhoneInput
-                  name="phone"
-                  type="tel"
-                  variant="outlined"
-                  size="small"
-                  placeholder="Ingrese su Teléfono"
-                  disabled={formType === "billing" && !editCheckoutMode}
-                  required
-                  {...register("phone", {
-                    required: true,
-                    pattern: validations.phone.pattern,
-                  })}
-                  error={!!errors.phone}
-                  helperText={
-                    watch("phone")
-                      ? errors.phone && validations.phone.errorDataNotValid
-                      : errors.phone && validations.errorEmptyField
-                  }
-                />
-              </>
-            )}
+                </>
+              )}
+              {formType === "shipping" && (
+                <>
+                  <CommentsInput
+                    multiline
+                    rows={4}
+                    name="comments"
+                    placeholder="Observaciones"
+                    InputProps={{
+                      style: {
+                        padding: 0,
+                      },
+                    }}
+                    {...register("comments")}
+                  >
+                    Observaciones
+                  </CommentsInput>
+                </>
+              )}
+              {(formType === "billing" || formType === "profile") && (
+                <>
+                  <EmailInput
+                    name="email"
+                    type="email"
+                    variant="outlined"
+                    size="small"
+                    placeholder="Ingresa tu Email"
+                    disabled={formType === "billing" && !editCheckoutMode}
+                    required
+                    {...register("email", {
+                      required: true,
+                      pattern: validations.mail.pattern,
+                    })}
+                    error={!!errors.email}
+                    helperText={
+                      watch("email")
+                        ? errors.email && validations.mail.errorDataNotValid
+                        : errors.email && validations.errorEmptyField
+                    }
+                  />
+                  <PhoneInput
+                    name="phone"
+                    type="tel"
+                    variant="outlined"
+                    size="small"
+                    placeholder="Ingrese su Teléfono"
+                    disabled={formType === "billing" && !editCheckoutMode}
+                    required
+                    {...register("phone", {
+                      required: true,
+                      pattern: validations.phone.pattern,
+                    })}
+                    error={!!errors.phone}
+                    helperText={
+                      watch("phone")
+                        ? errors.phone && validations.phone.errorDataNotValid
+                        : errors.phone && validations.errorEmptyField
+                    }
+                  />
+                </>
+              )}
+            </CheckoutContainer>
             {/* <ButtonsContainer
               formType={formType}
               edit={editCheckoutMode}
               onClick={handleClickCancel}
             /> */}
             {formType === "billing" && (
-              <BillingButtonsContainer>
+              <BillingButtonsContainer
+                sx={{ width: formType === "billing" && "100%" }}
+              >
                 <Button
                   variant="contained"
                   sx={{

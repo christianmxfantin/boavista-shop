@@ -17,6 +17,7 @@ const CardAddressItem = ({
   itemType,
   isButtonDisabled,
   selectedAddress,
+  selectedCard,
 }) => {
   const theme = useTheme();
   const [isHover, setIsHover] = useState(false);
@@ -30,7 +31,12 @@ const CardAddressItem = ({
       setIsSelected(false);
       isButtonDisabled(true);
     }
-    selectedAddress(e.target.value);
+
+    if (formType === "shipping") {
+      selectedAddress(e.target.value);
+    } else {
+      selectedCard(e.target.value);
+    }
   };
 
   return (

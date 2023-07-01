@@ -45,20 +45,22 @@ const myCards = [
 const CardAddress = ({
   formType,
   itemType,
-  isButtonDisabled,
   selectedAddress,
   handleLeft,
   handleRight,
   setStepperData,
+  isButtonDisabled,
+  setIsButtonDisabled,
 }) => {
   const theme = useTheme();
   const [showAddNew, setShowAddNew] = useState(false);
+  const [selectedCard, setSelectedCard] = useState("");
 
   useEffect(() => {
     if (formType !== "profile") {
-      isButtonDisabled(true);
+      setIsButtonDisabled(true);
     }
-  }, [formType, isButtonDisabled]);
+  }, [formType, setIsButtonDisabled]);
 
   const handleClick = () => {
     setShowAddNew(true);
@@ -89,7 +91,7 @@ const CardAddress = ({
                 formType={formType}
                 key={address.id}
                 itemType={itemType}
-                isButtonDisabled={isButtonDisabled}
+                isButtonDisabled={setIsButtonDisabled}
                 selectedAddress={selectedAddress}
               />
             ))
@@ -99,8 +101,8 @@ const CardAddress = ({
                 formType={formType}
                 key={card.id}
                 itemType={itemType}
-                isButtonDisabled={isButtonDisabled}
-                selectedAddress={selectedAddress}
+                isButtonDisabled={setIsButtonDisabled}
+                selectedCard={setSelectedCard}
               />
             ))}
       </ItemsContainer>
@@ -129,10 +131,11 @@ const CardAddress = ({
           </Button>
           <Button
             variant="contained"
+            disabled={isButtonDisabled}
             onClick={() => {
               setStepperData((prevData) => ({
                 ...prevData,
-                payment: selectedAddress,
+                payment: selectedCard,
               }));
               handleRight();
             }}
