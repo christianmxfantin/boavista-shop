@@ -171,7 +171,6 @@ const PaymentDetails = ({ formType, isButtonDisabled }) => {
               value: validations.cardExpirationDate.pattern,
               message: validations.cardExpirationDate.errorDataNotValid,
             },
-            // onChange: handleChangeExpirationDate,
           })}
           error={!!errors.cardExpirationDate}
           helperText={errors.cardExpirationDate?.message}

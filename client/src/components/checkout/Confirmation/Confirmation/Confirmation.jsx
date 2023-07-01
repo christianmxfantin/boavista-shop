@@ -6,14 +6,21 @@ import {
 } from "./Confirmation.styles";
 import ConfirmationData from "../ConfirmationData/ConfirmationData";
 
-const Confirmation = ({ handleCancelPurchase, handlePayment }) => {
+const Confirmation = ({
+  confirmationData,
+  handleCancelPurchase,
+  handlePayment,
+}) => {
   const theme = useTheme();
+
+  // console.log(confirmationData);
+  const { billing, shipping, payment } = confirmationData;
 
   return (
     <ConfirmationContainer>
-      <ConfirmationData type="Facturación" data="Don Emiliano Martínez" />
-      <ConfirmationData type="Envío" data="Cangallo y La Costa" />
-      <ConfirmationData type="Pago" data="La tarjeta del Mencho Medina Bello" />
+      <ConfirmationData type="Facturación" data={billing} />
+      <ConfirmationData type="Envío" data={shipping} />
+      <ConfirmationData type="Pago" data={payment} />
       <ConfirmationButtonsContainer>
         <Button
           variant="text"

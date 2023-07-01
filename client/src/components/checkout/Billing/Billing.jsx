@@ -6,8 +6,8 @@ import {
   BillingTitleContainer,
   BillingTitle,
   DataContainer,
-  NameInput,
-  SurnameInput,
+  NamesInput,
+  SurnamesInput,
   AddressInput,
   CommentsInput,
   EmailInput,
@@ -33,7 +33,24 @@ import {
 } from "@mui/material";
 import CardAddress from "../../layout/CardAddress/CardAddress";
 
-const Billing = ({ formType, isButtonDisabled, handleLeft, handleRight }) => {
+const myBilling = {
+  id: 1,
+  names: "Lionel Andrés",
+  surnames: "Messi",
+  address: "Lampilaguicho 563",
+  state: "Santa Fe",
+  city: "Rosario",
+  email: "elliodelagente@gmail.com",
+  phone: "5555 3477",
+};
+
+const Billing = ({
+  formType,
+  isButtonDisabled,
+  handleLeft,
+  handleRight,
+  setStepperData,
+}) => {
   const theme = useTheme();
   const nameInput = useRef();
 
@@ -51,7 +68,18 @@ const Billing = ({ formType, isButtonDisabled, handleLeft, handleRight }) => {
     control,
     reset,
     formState: { errors },
-  } = useForm({ mode: "onBlur" });
+  } = useForm({
+    mode: "onBlur",
+    defaultValues: {
+      names: "Lionel Andrés",
+      surnames: "Messi",
+      address: "Lampilagucho 563",
+      // state: "Santa Fe",
+      // city: "Rosario",
+      email: "elliodelagente@gmail.com",
+      phone: "(11) 5555 3477",
+    },
+  });
 
   useEffect(() => {
     if (formType === "shipping") {
@@ -91,6 +119,8 @@ const Billing = ({ formType, isButtonDisabled, handleLeft, handleRight }) => {
   const onSubmit = (formValues) => {
     console.log(formValues);
     //save billing data
+    setStepperData((prevData) => ({ ...prevData, billing: formValues }));
+    handleRight();
 
     handleClickCancel();
     if (formType !== "profile") {
@@ -139,7 +169,7 @@ const Billing = ({ formType, isButtonDisabled, handleLeft, handleRight }) => {
           >
             {(formType === "billing" || formType === "profile") && (
               <>
-                <NameInput
+                <NamesInput
                   name="names"
                   type="text"
                   variant="outlined"
@@ -159,7 +189,7 @@ const Billing = ({ formType, isButtonDisabled, handleLeft, handleRight }) => {
                       : errors.names && validations.errorEmptyField
                   }
                 />
-                <SurnameInput
+                <SurnamesInput
                   name="surnames"
                   type="text"
                   variant="outlined"
@@ -213,12 +243,12 @@ const Billing = ({ formType, isButtonDisabled, handleLeft, handleRight }) => {
                       : errors.address && validations.errorEmptyField
                   }
                 />{" "}
-                <StateSelectContainer>
+                {/* <StateSelectContainer>
                   <Controller
                     name="state"
                     control={control}
                     rules={{ required: true }}
-                    defaultValue={1}
+                    defaultValue={formType === "billing" ? "Santa Fe" : 1}
                     render={({ field }) => (
                       <>
                         <StateSelect
@@ -254,7 +284,7 @@ const Billing = ({ formType, isButtonDisabled, handleLeft, handleRight }) => {
                   <Controller
                     name="city"
                     control={control}
-                    defaultValue={1}
+                    defaultValue={formType === "billing" ? "Rosario" : 1}
                     rules={{ required: true }}
                     render={({ field }) => (
                       <>
@@ -262,7 +292,6 @@ const Billing = ({ formType, isButtonDisabled, handleLeft, handleRight }) => {
                           {...field}
                           fullWidth
                           disabled={formType === "billing" && !editCheckoutMode}
-                          // defaultValue={1}
                           onChange={(e) => {
                             field.onChange(e.target.value);
                           }}
@@ -286,7 +315,7 @@ const Billing = ({ formType, isButtonDisabled, handleLeft, handleRight }) => {
                       </>
                     )}
                   />
-                </CitySelectContainer>
+                </CitySelectContainer> */}
               </>
             )}
             {formType === "shipping" && (
@@ -369,8 +398,8 @@ const Billing = ({ formType, isButtonDisabled, handleLeft, handleRight }) => {
                   Atrás
                 </Button>
                 <Button
+                  type="submit"
                   variant="contained"
-                  onClick={handleRight}
                   sx={{
                     "&:hover": {
                       backgroundColor: theme.palette.secondary[500],

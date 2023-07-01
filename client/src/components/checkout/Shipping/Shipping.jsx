@@ -19,17 +19,13 @@ const ShippingPayment = ({
   isButtonDisabled,
   handleLeft,
   handleRight,
+  setStepperData,
 }) => {
   const theme = useTheme();
   const [value, setValue] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState("");
 
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm({ mode: "onBlur" });
+  const { handleSubmit, control } = useForm();
 
   useEffect(() => {
     isButtonDisabled(true);
@@ -46,7 +42,15 @@ const ShippingPayment = ({
   };
 
   const onSubmit = (formValues) => {
-    //enviar data
+    //save billing data
+    setStepperData((prevData) => ({
+      ...prevData,
+      shipping: {
+        shippingData: formValues.shippingData,
+        idAddress: selectedAddress,
+      },
+    }));
+    handleRight();
     // reset();
   };
 
@@ -115,8 +119,8 @@ const ShippingPayment = ({
           Atrás
         </Button>
         <Button
+          type="submit"
           variant="contained"
-          onClick={handleRight}
           sx={{
             "&:hover": {
               backgroundColor: theme.palette.secondary[500],

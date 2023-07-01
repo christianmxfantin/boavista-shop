@@ -10,6 +10,9 @@ import { Icon as EditIcon } from "../../../ui/Icon";
 
 const ConfirmationData = ({ type, data }) => {
   const theme = useTheme();
+  const dataGood = Object.values(data);
+
+  // console.log(dataGood);
 
   const handleEdit = () => {
     //Editar Información
@@ -29,7 +32,9 @@ const ConfirmationData = ({ type, data }) => {
           />
         </DataEdit>
       </DataTitleContainer>
-      <DataInfoContainer>{data}</DataInfoContainer>
+      {dataGood.map((data) => (
+        <DataInfoContainer>{data}</DataInfoContainer>
+      ))}
     </ConfirmationDataContainer>
   );
 };

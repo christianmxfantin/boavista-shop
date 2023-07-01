@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useTheme } from "@emotion/react";
 import {
@@ -12,12 +13,14 @@ import CartItem from "../CartItem/CartItem";
 import Underline from "../../ui/Underline";
 import { Button } from "@mui/material";
 
-const Cart = ({ handleRight }) => {
+const Cart = ({ handleRight, setStepperData }) => {
   // const dispatch = useDispatch();
   let totalPrice = 0;
   const theme = useTheme();
+  // para pedir data de CartItem
+  // const [cartData, setCartData] = useState({});
   const { cart } = useSelector((state) => state);
-  // console.log(cart);
+  const productList = cart.productsList;
 
   const handleCleanCart = () => {
     //Vaciar Carrito
@@ -34,6 +37,7 @@ const Cart = ({ handleRight }) => {
               key={index}
               data={item}
               color={index % 2 === 0 && theme.palette.secondary.A100}
+              // setCartData={setCartData}
             />
           );
         })}
@@ -58,7 +62,10 @@ const Cart = ({ handleRight }) => {
         </Button>
         <Button
           variant="contained"
-          onClick={handleRight}
+          onClick={() => {
+            setStepperData((prevData) => ({ ...prevData, cart: productList }));
+            handleRight();
+          }}
           sx={{
             "&:hover": {
               backgroundColor: theme.palette.secondary[500],

@@ -2,7 +2,9 @@ import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export const CartContainer = styled(Box)(({ theme }) => ({
-  //styles
+  height: "70vh",
+  display: "flex",
+  flexDirection: "column",
 }));
 
 export const ProductsContainer = styled(Box)(({ theme }) => ({

@@ -18,6 +18,7 @@ import CardAddress from "../CardAddress/CardAddress";
 const StepperCheckout = () => {
   let stepperComponent;
   const theme = useTheme();
+  const [stepperData, setStepperData] = useState({});
   const [activeStep, setActiveStep] = useState(0);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
@@ -50,6 +51,7 @@ const StepperCheckout = () => {
           isButtonDisabled={setIsButtonDisabled}
           handleLeft={handleLeft}
           handleRight={handleRight}
+          setStepperData={setStepperData}
         />
       );
       break;
@@ -60,6 +62,7 @@ const StepperCheckout = () => {
           isButtonDisabled={setIsButtonDisabled}
           handleLeft={handleLeft}
           handleRight={handleRight}
+          setStepperData={setStepperData}
         />
       );
       break;
@@ -73,6 +76,7 @@ const StepperCheckout = () => {
               isButtonDisabled={setIsButtonDisabled}
               handleLeft={handleLeft}
               handleRight={handleRight}
+              setStepperData={setStepperData}
             />
           </PaymentContainer>
         </>
@@ -81,14 +85,18 @@ const StepperCheckout = () => {
     case 4:
       stepperComponent = (
         <Confirmation
+          confirmationData={stepperData}
           handleCancelPurchase={handleCancelPurchase}
           handlePayment={handlePayment}
         />
       );
       break;
     default:
-      stepperComponent = <Cart handleRight={handleRight} />;
+      stepperComponent = (
+        <Cart handleRight={handleRight} setStepperData={setStepperData} />
+      );
   }
+  console.log(stepperData);
 
   return (
     <>

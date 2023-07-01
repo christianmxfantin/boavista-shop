@@ -25,11 +25,11 @@ export const DataContainer = styled(Box)(({ theme }) => ({
   flexDirection: "column",
 }));
 
-export const NameInput = styled(TextField)(({ theme }) => ({
+export const NamesInput = styled(TextField)(({ theme }) => ({
   marginTop: theme.spacing(2), //16px
 }));
 
-export const SurnameInput = styled(TextField)(({ theme }) => ({
+export const SurnamesInput = styled(TextField)(({ theme }) => ({
   //styles
 }));
 

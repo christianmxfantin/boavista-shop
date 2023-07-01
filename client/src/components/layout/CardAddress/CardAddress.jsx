@@ -49,6 +49,7 @@ const CardAddress = ({
   selectedAddress,
   handleLeft,
   handleRight,
+  setStepperData,
 }) => {
   const theme = useTheme();
   const [showAddNew, setShowAddNew] = useState(false);
@@ -99,6 +100,7 @@ const CardAddress = ({
                 key={card.id}
                 itemType={itemType}
                 isButtonDisabled={isButtonDisabled}
+                selectedAddress={selectedAddress}
               />
             ))}
       </ItemsContainer>
@@ -127,7 +129,13 @@ const CardAddress = ({
           </Button>
           <Button
             variant="contained"
-            onClick={handleRight}
+            onClick={() => {
+              setStepperData((prevData) => ({
+                ...prevData,
+                payment: selectedAddress,
+              }));
+              handleRight();
+            }}
             sx={{
               "&:hover": {
                 backgroundColor: theme.palette.secondary[500],
