@@ -34,7 +34,16 @@ import {
 } from "@mui/material";
 import CardAddress from "../../layout/CardAddress/CardAddress";
 
-const Billing = ({ formType, handleLeft, handleRight, setStepperData }) => {
+const Billing = ({
+  formType,
+  handleLeft,
+  handleRight,
+  setStepperData,
+  confirmationData,
+  editConfirmationData,
+  setEditConfirmationData,
+  setIsEditVisible,
+}) => {
   const theme = useTheme();
   const nameInput = useRef();
 
@@ -59,6 +68,17 @@ const Billing = ({ formType, handleLeft, handleRight, setStepperData }) => {
       city: "Rosario",
       email: "elliodelagente@gmail.com",
       phone: "5555 3477",
+    };
+  } else if (confirmationData) {
+    myBilling = {
+      id: 1,
+      names: confirmationData.names,
+      surnames: confirmationData.surnames,
+      address: confirmationData.address,
+      // state: confirmationData.state,
+      // city: confirmationData.city,
+      email: confirmationData.email,
+      phone: confirmationData.phone,
     };
   } else {
     myBilling = {
@@ -100,13 +120,11 @@ const Billing = ({ formType, handleLeft, handleRight, setStepperData }) => {
 
     if (formType === "shipping") {
       setEditCheckoutMode(true);
-      // setIsButtonDisabled(true);
     }
   }, [api, formType]);
 
   const handleCheckoutEdit = () => {
     setEditCheckoutMode(true);
-    // setIsButtonDisabled(true);
     nameInput.current.focus();
   };
 
@@ -124,6 +142,15 @@ const Billing = ({ formType, handleLeft, handleRight, setStepperData }) => {
     if (formType === "billing") {
       setEditCheckoutMode(false);
     }
+
+    if (formType === "confirmation") {
+      setEditConfirmationData(false);
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditConfirmationData(false);
+    setIsEditVisible(true);
   };
 
   // Para resetear los select
@@ -139,19 +166,12 @@ const Billing = ({ formType, handleLeft, handleRight, setStepperData }) => {
     handleRight();
 
     handleClickCancel();
-    if (formType !== "profile") {
-      // setIsButtonDisabled(false);
-    }
   };
 
   return (
     <section>
       {showMyAddress ? (
-        <CardAddress
-          formType={formType}
-          itemType="address"
-          // isButtonDisabled={isButtonDisabled}
-        />
+        <CardAddress formType={formType} itemType="address" />
       ) : (
         <BillingContainer sx={{ height: formType === "billing" && "70vh" }}>
           {formType === "billing" && (
@@ -184,7 +204,9 @@ const Billing = ({ formType, handleLeft, handleRight, setStepperData }) => {
                 width: formType === "billing" ? "40%" : "100%",
               }}
             >
-              {(formType === "billing" || formType === "profile") && (
+              {(formType === "billing" ||
+                formType === "profile" ||
+                formType === "confirmation") && (
                 <>
                   <NamesInput
                     name="names"
@@ -192,7 +214,10 @@ const Billing = ({ formType, handleLeft, handleRight, setStepperData }) => {
                     variant="outlined"
                     size="small"
                     placeholder="Ingresa tus Nombres"
-                    disabled={formType === "billing" && !editCheckoutMode}
+                    disabled={
+                      (formType === "billing" && !editCheckoutMode) ||
+                      (formType === "confirmation" && !editConfirmationData)
+                    }
                     inputRef={nameInput}
                     required
                     {...register("names", {
@@ -226,7 +251,10 @@ const Billing = ({ formType, handleLeft, handleRight, setStepperData }) => {
                         </InputAdornment>
                       ),
                     }}
-                    disabled={formType === "billing" && !editCheckoutMode}
+                    disabled={
+                      (formType === "billing" && !editCheckoutMode) ||
+                      (formType === "confirmation" && !editConfirmationData)
+                    }
                     {...register("surnames", {
                       pattern: validations.names.pattern,
                     })}
@@ -239,7 +267,9 @@ const Billing = ({ formType, handleLeft, handleRight, setStepperData }) => {
               )}
               {(formType === "billing" ||
                 formType === "shipping" ||
-                formType === "profile") && (
+                formType === "profile" ||
+                formType === "confirmation" ||
+                formType === "shipping-confirmation") && (
                 <>
                   <AddressInput
                     name="address"
@@ -247,7 +277,12 @@ const Billing = ({ formType, handleLeft, handleRight, setStepperData }) => {
                     variant="outlined"
                     size="small"
                     placeholder="Ingresa tu Dirección"
-                    disabled={formType === "billing" && !editCheckoutMode}
+                    disabled={
+                      (formType === "billing" && !editCheckoutMode) ||
+                      (formType === "confirmation" && !editConfirmationData) ||
+                      (formType === "shipping-confirmation" &&
+                        !editConfirmationData)
+                    }
                     required
                     {...register("address", {
                       required: true,
@@ -336,13 +371,18 @@ const Billing = ({ formType, handleLeft, handleRight, setStepperData }) => {
                 </CitySelectContainer> */}
                 </>
               )}
-              {formType === "shipping" && (
+              {(formType === "shipping" ||
+                formType === "shipping-confirmation") && (
                 <>
                   <CommentsInput
                     multiline
                     rows={4}
                     name="comments"
                     placeholder="Observaciones"
+                    disabled={
+                      formType === "shipping-confirmation" &&
+                      !editConfirmationData
+                    }
                     InputProps={{
                       style: {
                         padding: 0,
@@ -354,7 +394,9 @@ const Billing = ({ formType, handleLeft, handleRight, setStepperData }) => {
                   </CommentsInput>
                 </>
               )}
-              {(formType === "billing" || formType === "profile") && (
+              {(formType === "billing" ||
+                formType === "profile" ||
+                formType === "confirmation") && (
                 <>
                   <EmailInput
                     name="email"
@@ -362,7 +404,10 @@ const Billing = ({ formType, handleLeft, handleRight, setStepperData }) => {
                     variant="outlined"
                     size="small"
                     placeholder="Ingresa tu Email"
-                    disabled={formType === "billing" && !editCheckoutMode}
+                    disabled={
+                      (formType === "billing" && !editCheckoutMode) ||
+                      (formType === "confirmation" && !editConfirmationData)
+                    }
                     required
                     {...register("email", {
                       required: true,
@@ -381,7 +426,10 @@ const Billing = ({ formType, handleLeft, handleRight, setStepperData }) => {
                     variant="outlined"
                     size="small"
                     placeholder="Ingrese su Teléfono"
-                    disabled={formType === "billing" && !editCheckoutMode}
+                    disabled={
+                      (formType === "billing" && !editCheckoutMode) ||
+                      (formType === "confirmation" && !editConfirmationData)
+                    }
                     required
                     {...register("phone", {
                       required: true,
@@ -402,6 +450,13 @@ const Billing = ({ formType, handleLeft, handleRight, setStepperData }) => {
               edit={editCheckoutMode}
               onClick={handleClickCancel}
             /> */}
+            {editConfirmationData && (
+              <ButtonsContainer
+                formType={formType}
+                edit={editConfirmationData}
+                onClick={handleCancelEdit}
+              />
+            )}
             {formType === "billing" && (
               <BillingButtonsContainer
                 sx={{ width: formType === "billing" && "100%" }}

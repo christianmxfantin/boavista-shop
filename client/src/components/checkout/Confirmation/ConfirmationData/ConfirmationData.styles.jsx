@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export const ConfirmationDataContainer = styled(Box)(({ theme }) => ({
@@ -26,8 +26,15 @@ export const DataEdit = styled(Box)(({ theme }) => ({
 }));
 
 export const DataInfoContainer = styled(Typography)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
   padding: theme.spacing(1), //8px
   borderRadius: theme.spacing(1), //8px,
+  color: theme.palette.primary[500],
+  backgroundColor: theme.palette.primary[100],
+}));
+
+export const InputData = styled(TextField)(({ theme }) => ({
   color: theme.palette.primary[500],
   backgroundColor: theme.palette.primary[100],
 }));

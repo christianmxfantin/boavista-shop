@@ -63,16 +63,6 @@ const PaymentDetails = ({ formType, isButtonDisabled }) => {
     }
   };
 
-  // const handleChangeExpirationDate = () => {
-  //   const inputValue = cardExpirationDateValue.current.value;
-  //   if (inputValue.length === 4) {
-  //     cardExpirationDateValue.current.value = `${inputValue.slice(
-  //       0,
-  //       2
-  //     )} / ${inputValue.slice(2)}`;
-  //   }
-  // };
-
   const handleChangeToUpperCase = () => {
     cardNameValue.current.value = cardNameValue.current.value.toUpperCase();
   };

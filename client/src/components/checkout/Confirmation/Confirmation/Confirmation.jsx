@@ -13,7 +13,6 @@ const Confirmation = ({
 }) => {
   const theme = useTheme();
 
-  // console.log(confirmationData);
   const { billing, shipping, payment } = confirmationData;
 
   return (

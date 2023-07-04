@@ -70,7 +70,10 @@ const CardAddress = ({
     itemType === "address" ? (
       <Billing formType={formType} isButtonDisabled={isButtonDisabled} />
     ) : (
-      <PaymentDetails formType={formType} isButtonDisabled={isButtonDisabled} />
+      <PaymentDetails
+        formType={formType}
+        isButtonDisabled={setIsButtonDisabled}
+      />
     )
   ) : (
     <CardAddressContainer
