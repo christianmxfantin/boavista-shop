@@ -94,7 +94,6 @@ const StepperCheckout = () => {
         <Cart handleRight={handleRight} setStepperData={setStepperData} />
       );
   }
-  console.log(stepperData);
 
   return (
     <>

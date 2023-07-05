@@ -32,9 +32,3 @@ export const TotalPrice = styled(Typography)(({ theme }) => ({
   color: `${theme.palette.error[500]}`,
   fontWeight: 600,
 }));
-
-export const CartButtonsContainer = styled(Box)(({ theme }) => ({
-  display: "flex",
-  marginTop: "auto",
-  justifyContent: "space-between",
-}));

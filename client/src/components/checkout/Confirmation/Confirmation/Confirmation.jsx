@@ -1,18 +1,12 @@
-import { useTheme } from "@emotion/react";
-import { Button } from "@mui/material";
-import {
-  ConfirmationContainer,
-  ConfirmationButtonsContainer,
-} from "./Confirmation.styles";
+import { ConfirmationContainer } from "./Confirmation.styles";
 import ConfirmationData from "../ConfirmationData/ConfirmationData";
+import ButtonsContainer from "../../../layout/ButtonsContainer/ButtonsContainer";
 
 const Confirmation = ({
   confirmationData,
   handleCancelPurchase,
   handlePayment,
 }) => {
-  const theme = useTheme();
-
   const { billing, shipping, payment } = confirmationData;
 
   return (
@@ -20,29 +14,13 @@ const Confirmation = ({
       <ConfirmationData type="Facturación" data={billing} />
       <ConfirmationData type="Envío" data={shipping} />
       <ConfirmationData type="Pago" data={payment} />
-      <ConfirmationButtonsContainer>
-        <Button
-          variant="text"
-          sx={{
-            marginRight: "8px",
-          }}
-          onClick={handleCancelPurchase}
-        >
-          Cancelar Compra
-        </Button>
-        <Button
-          variant="contained"
-          onClick={handlePayment}
-          sx={{
-            "&:hover": {
-              backgroundColor: theme.palette.secondary[500],
-              color: theme.palette.primary[500],
-            },
-          }}
-        >
-          Pagar
-        </Button>
-      </ConfirmationButtonsContainer>
+      <ButtonsContainer
+        formType="confirmation"
+        leftName="Cancelar Compra"
+        rightName="Pagar"
+        onClickLeft={handleCancelPurchase}
+        onClickRight={handlePayment}
+      />
     </ConfirmationContainer>
   );
 };

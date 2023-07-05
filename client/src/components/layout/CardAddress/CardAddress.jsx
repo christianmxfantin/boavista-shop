@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
 import { useTheme } from "@emotion/react";
 import { Button } from "@mui/material";
-import {
-  CardAddressContainer,
-  ItemsContainer,
-  PaymentButtonsContainer,
-} from "./CardAddress.styles";
+import { CardAddressContainer, ItemsContainer } from "./CardAddress.styles";
 import CardAddressItem from "../CardAddressItem/CardAddressItem";
 import Billing from "../../checkout/Billing/Billing";
 import PaymentDetails from "../../checkout/Payment/PaymentDetails/PaymentDetails";
+import ButtonsContainer from "../ButtonsContainer/ButtonsContainer";
 
 const myAddress = [
   {
@@ -119,39 +116,20 @@ const CardAddress = ({
           : "Agregar Método de Pago"}
       </Button>
       {formType === "payment" && (
-        <PaymentButtonsContainer>
-          <Button
-            variant="contained"
-            sx={{
-              "&:hover": {
-                backgroundColor: theme.palette.secondary[500],
-                color: theme.palette.primary[500],
-              },
-            }}
-            onClick={handleLeft}
-          >
-            Atrás
-          </Button>
-          <Button
-            variant="contained"
-            disabled={isButtonDisabled}
-            onClick={() => {
-              setStepperData((prevData) => ({
-                ...prevData,
-                payment: selectedCard,
-              }));
-              handleRight();
-            }}
-            sx={{
-              "&:hover": {
-                backgroundColor: theme.palette.secondary[500],
-                color: theme.palette.primary[500],
-              },
-            }}
-          >
-            Continuar
-          </Button>
-        </PaymentButtonsContainer>
+        <ButtonsContainer
+          formType={formType}
+          leftName="Atrás"
+          rightName="Continuar"
+          disabled={isButtonDisabled}
+          onClickLeft={handleLeft}
+          onClickRight={() => {
+            setStepperData((prevData) => ({
+              ...prevData,
+              payment: selectedCard,
+            }));
+            handleRight();
+          }}
+        />
       )}
     </CardAddressContainer>
   );

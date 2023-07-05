@@ -5,14 +5,11 @@ import {
   FormControlLabel,
   Radio,
   FormControl,
-  Button,
 } from "@mui/material";
 import { useTheme } from "@emotion/react";
-import {
-  ShippingPaymentContainer,
-  ShippingButtonsContainer,
-} from "./Shipping.styles";
+import { ShippingPaymentContainer } from "./Shipping.styles";
 import CardAddress from "../../layout/CardAddress/CardAddress";
+import ButtonsContainer from "../../layout/ButtonsContainer/ButtonsContainer";
 
 const Shipping = ({ formType, handleLeft, handleRight, setStepperData }) => {
   const theme = useTheme();
@@ -97,33 +94,13 @@ const Shipping = ({ formType, handleLeft, handleRight, setStepperData }) => {
           selectedAddress={setSelectedAddress}
         />
       )}
-      <ShippingButtonsContainer>
-        <Button
-          variant="contained"
-          sx={{
-            "&:hover": {
-              backgroundColor: theme.palette.secondary[500],
-              color: theme.palette.primary[500],
-            },
-          }}
-          onClick={handleLeft}
-        >
-          Atrás
-        </Button>
-        <Button
-          type="submit"
-          variant="contained"
-          disabled={isButtonDisabled}
-          sx={{
-            "&:hover": {
-              backgroundColor: theme.palette.secondary[500],
-              color: theme.palette.primary[500],
-            },
-          }}
-        >
-          Continuar
-        </Button>
-      </ShippingButtonsContainer>
+      <ButtonsContainer
+        formType={formType}
+        leftName="Atrás"
+        rightName="Continuar"
+        disabled={isButtonDisabled}
+        onClickLeft={handleLeft}
+      />
     </ShippingPaymentContainer>
   );
 };

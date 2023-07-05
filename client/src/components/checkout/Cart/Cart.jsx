@@ -7,11 +7,10 @@ import {
   TotalTitle,
   TotalPrice,
   ProductsContainer,
-  CartButtonsContainer,
 } from "./Cart.styles";
 import CartItem from "../CartItem/CartItem";
 import Underline from "../../ui/Underline";
-import { Button } from "@mui/material";
+import ButtonsContainer from "../../layout/ButtonsContainer/ButtonsContainer";
 
 const Cart = ({ handleRight, setStepperData }) => {
   // const dispatch = useDispatch();
@@ -47,35 +46,16 @@ const Cart = ({ handleRight, setStepperData }) => {
         <TotalTitle variant="h5">Total:</TotalTitle>
         <TotalPrice variant="h5">$ {totalPrice}</TotalPrice>
       </TotalContainer>
-      <CartButtonsContainer>
-        <Button
-          variant="contained"
-          sx={{
-            "&:hover": {
-              backgroundColor: theme.palette.secondary[500],
-              color: theme.palette.primary[500],
-            },
-          }}
-          onClick={handleCleanCart}
-        >
-          Vaciar Carrito
-        </Button>
-        <Button
-          variant="contained"
-          onClick={() => {
-            setStepperData((prevData) => ({ ...prevData, cart: productList }));
-            handleRight();
-          }}
-          sx={{
-            "&:hover": {
-              backgroundColor: theme.palette.secondary[500],
-              color: theme.palette.primary[500],
-            },
-          }}
-        >
-          Continuar
-        </Button>
-      </CartButtonsContainer>
+      <ButtonsContainer
+        formType="cart"
+        leftName="Vaciar Carrito"
+        rightName="Continuar"
+        onClickLeft={handleCleanCart}
+        onClickRight={() => {
+          setStepperData((prevData) => ({ ...prevData, cart: productList }));
+          handleRight();
+        }}
+      />
     </CartContainer>
   );
 };

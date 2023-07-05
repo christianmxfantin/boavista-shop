@@ -17,7 +17,6 @@ import {
   StateSelect,
   CitySelectContainer,
   CitySelect,
-  BillingButtonsContainer,
 } from "./Billing.styles";
 import useProvincias from "../../../hooks/useProvincias";
 import useLocalidades from "../../../hooks/useLocalidades";
@@ -57,7 +56,7 @@ const Billing = ({
   //API Fake
   let api = true;
   let myBilling = {};
-  if (api) {
+  if (api && formType === "billing") {
     //cargar data de API
     myBilling = {
       id: 1,
@@ -445,48 +444,26 @@ const Billing = ({
                 </>
               )}
             </CheckoutContainer>
-            {/* <ButtonsContainer
+            <ButtonsContainer
               formType={formType}
-              edit={editCheckoutMode}
-              onClick={handleClickCancel}
-            /> */}
-            {editConfirmationData && (
+              leftName="Atrás"
+              rightName="Continuar"
+              // edit={editCheckoutMode}
+              edit={editConfirmationData}
+              onClickLeft={
+                formType === "confirmation" ||
+                formType === "shipping-confirmation"
+                  ? handleCancelEdit
+                  : handleLeft
+              }
+            />
+            {/* {editConfirmationData && (
               <ButtonsContainer
                 formType={formType}
                 edit={editConfirmationData}
                 onClick={handleCancelEdit}
               />
-            )}
-            {formType === "billing" && (
-              <BillingButtonsContainer
-                sx={{ width: formType === "billing" && "100%" }}
-              >
-                <Button
-                  variant="contained"
-                  sx={{
-                    "&:hover": {
-                      backgroundColor: theme.palette.secondary[500],
-                      color: theme.palette.primary[500],
-                    },
-                  }}
-                  onClick={handleLeft}
-                >
-                  Atrás
-                </Button>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  sx={{
-                    "&:hover": {
-                      backgroundColor: theme.palette.secondary[500],
-                      color: theme.palette.primary[500],
-                    },
-                  }}
-                >
-                  Continuar
-                </Button>
-              </BillingButtonsContainer>
-            )}
+            )} */}
           </DataContainer>
         </BillingContainer>
       )}
