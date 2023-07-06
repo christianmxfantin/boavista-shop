@@ -127,29 +127,30 @@ const Billing = ({
     nameInput.current.focus();
   };
 
-  const handleClickCancel = () => {
-    if (formType === "profile") {
-      reset();
-    }
+  const handleCancel = () => {
+    if (Object.keys(errors).length === 0) {
+      if (formType === "profile") {
+        reset();
+      }
 
-    if (formType === "billing") {
-      setShowMyAddress(false);
-    } else {
-      setShowMyAddress(true);
-    }
+      if (formType === "billing") {
+        setShowMyAddress(false);
+      } else if (formType === "profile" || formType === "shipping") {
+        setShowMyAddress(true);
+      }
 
-    if (formType === "billing") {
-      setEditCheckoutMode(false);
-    }
-
-    if (formType === "confirmation") {
-      setEditConfirmationData(false);
+      if (formType === "billing") {
+        setEditCheckoutMode(false);
+      }
     }
   };
 
-  const handleCancelEdit = () => {
-    setEditConfirmationData(false);
-    setIsEditVisible(true);
+  const handleCancelConfirmation = () => {
+    if (Object.keys(errors).length === 0) {
+      setEditConfirmationData(false);
+      setIsEditVisible(true);
+      console.log(errors);
+    }
   };
 
   // Para resetear los select
@@ -161,10 +162,20 @@ const Billing = ({
   const onSubmit = (formValues) => {
     console.log(formValues);
     //save billing data
-    setStepperData((prevData) => ({ ...prevData, billing: formValues }));
-    handleRight();
 
-    handleClickCancel();
+    if (formType === "billing" || formType === "shipping") {
+      setStepperData((prevData) => ({ ...prevData, billing: formValues }));
+      handleRight();
+    }
+
+    if (
+      formType === "billing-confirmation" ||
+      formType === "shipping-confirmation"
+    ) {
+      handleCancelConfirmation();
+    }
+
+    handleCancel();
   };
 
   return (
@@ -205,7 +216,7 @@ const Billing = ({
             >
               {(formType === "billing" ||
                 formType === "profile" ||
-                formType === "confirmation") && (
+                formType === "billing-confirmation") && (
                 <>
                   <NamesInput
                     name="names"
@@ -215,7 +226,8 @@ const Billing = ({
                     placeholder="Ingresa tus Nombres"
                     disabled={
                       (formType === "billing" && !editCheckoutMode) ||
-                      (formType === "confirmation" && !editConfirmationData)
+                      (formType === "billing-confirmation" &&
+                        !editConfirmationData)
                     }
                     inputRef={nameInput}
                     required
@@ -252,7 +264,8 @@ const Billing = ({
                     }}
                     disabled={
                       (formType === "billing" && !editCheckoutMode) ||
-                      (formType === "confirmation" && !editConfirmationData)
+                      (formType === "billing-confirmation" &&
+                        !editConfirmationData)
                     }
                     {...register("surnames", {
                       pattern: validations.names.pattern,
@@ -267,9 +280,10 @@ const Billing = ({
               {(formType === "billing" ||
                 formType === "shipping" ||
                 formType === "profile" ||
-                formType === "confirmation" ||
+                formType === "billing-confirmation" ||
                 formType === "shipping-confirmation") && (
                 <>
+                  {console.log(formType)}
                   <AddressInput
                     name="address"
                     type="text"
@@ -278,7 +292,8 @@ const Billing = ({
                     placeholder="Ingresa tu Dirección"
                     disabled={
                       (formType === "billing" && !editCheckoutMode) ||
-                      (formType === "confirmation" && !editConfirmationData) ||
+                      (formType === "billing-confirmation" &&
+                        !editConfirmationData) ||
                       (formType === "shipping-confirmation" &&
                         !editConfirmationData)
                     }
@@ -395,7 +410,7 @@ const Billing = ({
               )}
               {(formType === "billing" ||
                 formType === "profile" ||
-                formType === "confirmation") && (
+                formType === "billing-confirmation") && (
                 <>
                   <EmailInput
                     name="email"
@@ -405,7 +420,8 @@ const Billing = ({
                     placeholder="Ingresa tu Email"
                     disabled={
                       (formType === "billing" && !editCheckoutMode) ||
-                      (formType === "confirmation" && !editConfirmationData)
+                      (formType === "billing-confirmation" &&
+                        !editConfirmationData)
                     }
                     required
                     {...register("email", {
@@ -427,7 +443,8 @@ const Billing = ({
                     placeholder="Ingrese su Teléfono"
                     disabled={
                       (formType === "billing" && !editCheckoutMode) ||
-                      (formType === "confirmation" && !editConfirmationData)
+                      (formType === "billing-confirmation" &&
+                        !editConfirmationData)
                     }
                     required
                     {...register("phone", {
@@ -445,25 +462,33 @@ const Billing = ({
               )}
             </CheckoutContainer>
             <ButtonsContainer
-              formType={formType}
-              leftName="Atrás"
-              rightName="Continuar"
-              // edit={editCheckoutMode}
+              formType={formType === "shipping" ? "billing-shipping" : formType}
+              leftName={
+                formType === "profile" ||
+                formType === "shipping" ||
+                formType === "billing-confirmation" ||
+                formType === "shipping-confirmation"
+                  ? "Cancelar"
+                  : "Atrás"
+              }
+              rightName={
+                formType === "profile" ||
+                formType === "shipping" ||
+                formType === "billing-confirmation" ||
+                formType === "shipping-confirmation"
+                  ? "Guardar"
+                  : "Continuar"
+              }
               edit={editConfirmationData}
               onClickLeft={
-                formType === "confirmation" ||
+                formType === "billing-confirmation" ||
                 formType === "shipping-confirmation"
-                  ? handleCancelEdit
+                  ? handleCancelConfirmation
+                  : formType === "profile"
+                  ? handleCancel
                   : handleLeft
               }
             />
-            {/* {editConfirmationData && (
-              <ButtonsContainer
-                formType={formType}
-                edit={editConfirmationData}
-                onClick={handleCancelEdit}
-              />
-            )} */}
           </DataContainer>
         </BillingContainer>
       )}

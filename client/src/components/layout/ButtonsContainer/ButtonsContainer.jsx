@@ -17,21 +17,41 @@ const ButtonsContainer = ({
     <ButtonContainer
       sx={{
         visibility:
-          formType === "confirmation" && edit
+          (formType === "billing-confirmation" ||
+            formType === "shipping-confirmation") &&
+          edit
             ? "visible"
-            : formType === "confirmation" && !edit
+            : (formType === "billing-confirmation" ||
+                formType === "shipping-confirmation") &&
+              !edit
             ? "hidden"
             : "inherit",
         width: "100%",
         display: "flex",
-        justifyContent: formType !== "profile" && "space-between",
+        justifyContent:
+          formType === "cart" ||
+          formType === "billing" ||
+          formType === "shipping" ||
+          formType === "payment"
+            ? "space-between"
+            : formType === "confirmation" ||
+              formType === "billing-confirmation" ||
+              formType === "shipping-confirmation" ||
+              formType === "payment-stepper"
+            ? "center"
+            : "inherit",
         marginTop: formType === "profile" ? theme.spacing(2) : "auto",
         marginRight: formType === "confirmation" && "8px",
       }}
     >
       <Button
         variant={
-          formType === "profile" || formType === "confirmation"
+          formType === "profile" ||
+          formType === "billing-shipping" ||
+          formType === "payment-stepper" ||
+          formType === "confirmation" ||
+          formType === "billing-confirmation" ||
+          formType === "shipping-confirmation"
             ? "text"
             : "contained"
         }
@@ -42,11 +62,19 @@ const ButtonsContainer = ({
           "&:hover": {
             backgroundColor:
               formType !== "profile" &&
+              formType !== "billing-shipping" &&
+              formType !== "payment-stepper" &&
               formType !== "confirmation" &&
+              formType !== "billing-confirmation" &&
+              formType !== "shipping-confirmation" &&
               theme.palette.secondary[500],
             color:
               formType !== "profile" &&
+              formType !== "billing-shipping" &&
+              formType !== "payment-stepper" &&
               formType !== "confirmation" &&
+              formType !== "billing-confirmation" &&
+              formType !== "shipping-confirmation" &&
               theme.palette.primary[500],
           },
         }}
@@ -62,8 +90,21 @@ const ButtonsContainer = ({
           width: formType === "profile" ? "100%" : "auto",
           "&:hover": {
             backgroundColor:
-              formType !== "profile" && theme.palette.secondary[500],
-            color: formType !== "profile" && theme.palette.primary[500],
+              formType !== "profile" &&
+              formType !== "billing-shipping" &&
+              formType !== "payment-stepper" &&
+              formType !== "confirmation" &&
+              formType !== "billing-confirmation" &&
+              formType !== "shipping-confirmation" &&
+              theme.palette.secondary[500],
+            color:
+              formType !== "profile" &&
+              formType !== "billing-shipping" &&
+              formType !== "payment-stepper" &&
+              formType !== "confirmation" &&
+              formType !== "billing-confirmation" &&
+              formType !== "shipping-confirmation" &&
+              theme.palette.primary[500],
           },
         }}
       >

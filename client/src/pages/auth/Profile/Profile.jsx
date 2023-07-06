@@ -5,19 +5,12 @@ import { ProfileContainer, ProfileTitle } from "./Profile.styles";
 
 import ProfileData from "../../../components/layout/ProfileData/ProfileData";
 import AccountData from "../../../components/layout/AccountData/AccountData";
-import Billing from "../../../components/checkout/Billing/Billing";
-import PaymentDetails from "../../../components/checkout/Payment/PaymentDetails/PaymentDetails";
 import TableActions from "../../../components/layout/TableActions/TableActions";
 import CardAddress from "../../../components/layout/CardAddress/CardAddress";
 
 const Profile = () => {
   const theme = useTheme();
   const [showModal, setShowModal] = useState(false);
-  const [showBilling, setShowBilling] = useState(false);
-
-  const handleClickAddress = () => {
-    setShowBilling(true);
-  };
 
   const handleClickDeleteAccount = () => {
     setShowModal(true);

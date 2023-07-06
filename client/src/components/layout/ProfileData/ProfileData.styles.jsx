@@ -19,7 +19,3 @@ export const ProfileDataTitleContainer = styled(Box)(({ theme }) => ({
 export const ProfileDataTitle = styled(Typography)(({ theme }) => ({
   marginBottom: theme.spacing(3),
 }));
-
-export const EditIconContainer = styled(Box)(({ theme }) => ({
-  //styles
-}));

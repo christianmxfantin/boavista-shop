@@ -21,7 +21,7 @@ import { Icon } from "../../../ui/Icon";
 import { VisaIconSvg, MasterCardIconSvg, AmexIconSvg } from "../../../ui/Svg";
 import CardAddress from "../../../layout/CardAddress/CardAddress";
 
-const PaymentDetails = ({ formType, isButtonDisabled }) => {
+const PaymentDetails = ({ formType, isButtonDisabled, handleLeft }) => {
   const theme = useTheme();
   const cardNumberValue = useRef("");
   const cardExpirationDateValue = useRef("");
@@ -230,7 +230,21 @@ const PaymentDetails = ({ formType, isButtonDisabled }) => {
             : errors.cardName && validations.errorEmptyField
         }
       />
-      <ButtonsContainer formType={formType} onClick={handleClickCancel} />
+      <ButtonsContainer
+        formType="payment-stepper"
+        leftName="Cancelar"
+        rightName="Guardar"
+        onClickLeft={handleClickCancel}
+      />
+      {/* {formType !== "profile" && (
+        <ButtonsContainer
+          formType={formType}
+          leftName="Atrás"
+          rightName="Continuar"
+          disabled={true}
+          onClickLeft={handleLeft}
+        />
+      )} */}
     </PaymentDetailsContainer>
   );
 };

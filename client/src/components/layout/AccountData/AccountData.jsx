@@ -222,7 +222,12 @@ const AccountData = ({ formType }) => {
           </>
         )}
         {changePassword || changeEmail ? (
-          <ButtonsContainer formType={formType} onClick={handleClickCancel} />
+          <ButtonsContainer
+            formType={formType}
+            leftName="Cancelar"
+            rightName="Guardar"
+            onClickLeft={handleClickCancel}
+          />
         ) : (
           <ButtonContainer>
             <Button

@@ -3,7 +3,6 @@ import {
   ProfileDataContainer,
   ProfileDataTitleContainer,
   ProfileDataTitle,
-  EditIconContainer,
 } from "./ProfileData.styles";
 
 const ProfileData = ({ title, component }) => {

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useTheme } from "@emotion/react";
 import { Button } from "@mui/material";
 import { CardAddressContainer, ItemsContainer } from "./CardAddress.styles";
 import CardAddressItem from "../CardAddressItem/CardAddressItem";
@@ -49,7 +48,6 @@ const CardAddress = ({
   isButtonDisabled,
   setIsButtonDisabled,
 }) => {
-  const theme = useTheme();
   const [showAddNew, setShowAddNew] = useState(false);
   const [selectedCard, setSelectedCard] = useState("");
 
@@ -70,6 +68,7 @@ const CardAddress = ({
       <PaymentDetails
         formType={formType}
         isButtonDisabled={setIsButtonDisabled}
+        handleLeft={handleLeft}
       />
     )
   ) : (
@@ -108,6 +107,7 @@ const CardAddress = ({
       </ItemsContainer>
       <Button
         variant={formType === "profile" ? "text" : "contained"}
+        disabled={!isButtonDisabled}
         onClick={handleClick}
         sx={{ width: "100%", marginTop: formType === "profile" && "16px" }}
       >

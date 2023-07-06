@@ -38,7 +38,7 @@ const ConfirmationData = ({ type, data }) => {
       <DataInfoContainer>
         {Object.keys(data)[0] === "names" ? (
           <Billing
-            formType="confirmation"
+            formType="billing-confirmation"
             confirmationData={data}
             editConfirmationData={editConfirmationData}
             setEditConfirmationData={setEditConfirmationData}
