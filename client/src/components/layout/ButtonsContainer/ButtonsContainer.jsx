@@ -82,7 +82,7 @@ const ButtonsContainer = ({
         {leftName}
       </Button>
       <Button
-        type={formType !== "cart" && "submit"}
+        type={formType !== "cart" ? "submit" : "button"}
         variant="contained"
         disabled={disabled}
         onClick={onClickRight}

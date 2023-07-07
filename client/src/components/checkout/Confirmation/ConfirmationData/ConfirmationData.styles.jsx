@@ -25,7 +25,7 @@ export const DataEdit = styled(Box)(({ theme }) => ({
   //styles
 }));
 
-export const DataInfoContainer = styled(Typography)(({ theme }) => ({
+export const DataInfoContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   padding: theme.spacing(1), //8px

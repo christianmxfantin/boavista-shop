@@ -12,7 +12,7 @@ import CartItem from "../CartItem/CartItem";
 import Underline from "../../ui/Underline";
 import ButtonsContainer from "../../layout/ButtonsContainer/ButtonsContainer";
 
-const Cart = ({ handleRight, setStepperData }) => {
+const Cart = ({ formType, handleRight, setStepperData }) => {
   // const dispatch = useDispatch();
   let totalPrice = 0;
   const theme = useTheme();
@@ -47,7 +47,7 @@ const Cart = ({ handleRight, setStepperData }) => {
         <TotalPrice variant="h5">$ {totalPrice}</TotalPrice>
       </TotalContainer>
       <ButtonsContainer
-        formType="cart"
+        formType={formType}
         leftName="Vaciar Carrito"
         rightName="Continuar"
         onClickLeft={handleCleanCart}

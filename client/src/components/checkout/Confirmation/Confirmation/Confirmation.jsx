@@ -3,6 +3,7 @@ import ConfirmationData from "../ConfirmationData/ConfirmationData";
 import ButtonsContainer from "../../../layout/ButtonsContainer/ButtonsContainer";
 
 const Confirmation = ({
+  formType,
   confirmationData,
   handleCancelPurchase,
   handlePayment,
@@ -15,7 +16,7 @@ const Confirmation = ({
       <ConfirmationData type="Envío" data={shipping} />
       <ConfirmationData type="Pago" data={payment} />
       <ButtonsContainer
-        formType="confirmation"
+        formType={formType}
         leftName="Cancelar Compra"
         rightName="Pagar"
         onClickLeft={handleCancelPurchase}

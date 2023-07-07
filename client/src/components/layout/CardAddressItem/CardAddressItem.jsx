@@ -22,6 +22,7 @@ const CardAddressItem = ({
   const theme = useTheme();
   const [isHover, setIsHover] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
+  // const [checked, setChecked] = useState("");
 
   const handleChangeCheckbox = (e) => {
     if (e.target.checked === true) {
@@ -37,6 +38,8 @@ const CardAddressItem = ({
     } else {
       selectedCard(e.target.value);
     }
+
+    // setChecked(e.target.value);
   };
 
   return (
@@ -61,7 +64,8 @@ const CardAddressItem = ({
               name={
                 formType === "shipping" ? "shippingMethod" : "paymentMethod"
               }
-              value={data.id}
+              // value={data.id}
+              // checked={checked === data.id}
               onChange={(e) => handleChangeCheckbox(e)}
               sx={{
                 color: theme.palette.secondary.A100,

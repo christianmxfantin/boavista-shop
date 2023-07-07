@@ -83,6 +83,7 @@ const StepperCheckout = () => {
     case 4:
       stepperComponent = (
         <Confirmation
+          formType="confirmation"
           confirmationData={stepperData}
           handleCancelPurchase={handleCancelPurchase}
           handlePayment={handlePayment}
@@ -91,7 +92,11 @@ const StepperCheckout = () => {
       break;
     default:
       stepperComponent = (
-        <Cart handleRight={handleRight} setStepperData={setStepperData} />
+        <Cart
+          formType="cart"
+          handleRight={handleRight}
+          setStepperData={setStepperData}
+        />
       );
   }
 

@@ -21,7 +21,14 @@ import { Icon } from "../../../ui/Icon";
 import { VisaIconSvg, MasterCardIconSvg, AmexIconSvg } from "../../../ui/Svg";
 import CardAddress from "../../../layout/CardAddress/CardAddress";
 
-const PaymentDetails = ({ formType, isButtonDisabled, handleLeft }) => {
+const PaymentDetails = ({
+  formType,
+  handleLeft,
+  handleRight,
+  setStepperData,
+  isButtonDisabled,
+  setIsButtonDisabled,
+}) => {
   const theme = useTheme();
   const cardNumberValue = useRef("");
   const cardExpirationDateValue = useRef("");
@@ -31,9 +38,9 @@ const PaymentDetails = ({ formType, isButtonDisabled, handleLeft }) => {
 
   useEffect(() => {
     if (formType === "payment") {
-      isButtonDisabled(true);
+      setIsButtonDisabled(true);
     }
-  }, [formType, isButtonDisabled]);
+  }, [formType, setIsButtonDisabled]);
 
   const {
     register,
@@ -71,7 +78,7 @@ const PaymentDetails = ({ formType, isButtonDisabled, handleLeft }) => {
     reset();
     setShowMyCards(true);
     if (formType !== "profile") {
-      isButtonDisabled(false);
+      setIsButtonDisabled(false);
     }
   };
 
@@ -86,7 +93,11 @@ const PaymentDetails = ({ formType, isButtonDisabled, handleLeft }) => {
     <CardAddress
       formType={formType}
       itemType="card"
+      handleLeft={handleLeft}
+      handleRight={handleRight}
+      setStepperData={setStepperData}
       isButtonDisabled={isButtonDisabled}
+      setIsButtonDisabled={setIsButtonDisabled}
     />
   ) : (
     <PaymentDetailsContainer

@@ -38,6 +38,9 @@ const Billing = ({
   handleLeft,
   handleRight,
   setStepperData,
+  selectedAddress,
+  isButtonDisabled,
+  setIsButtonDisabled,
   confirmationData,
   editConfirmationData,
   setEditConfirmationData,
@@ -149,7 +152,6 @@ const Billing = ({
     if (Object.keys(errors).length === 0) {
       setEditConfirmationData(false);
       setIsEditVisible(true);
-      console.log(errors);
     }
   };
 
@@ -163,7 +165,7 @@ const Billing = ({
     console.log(formValues);
     //save billing data
 
-    if (formType === "billing" || formType === "shipping") {
+    if ((formType === "billing" || formType === "shipping") && !showMyAddress) {
       setStepperData((prevData) => ({ ...prevData, billing: formValues }));
       handleRight();
     }
@@ -181,7 +183,13 @@ const Billing = ({
   return (
     <section>
       {showMyAddress ? (
-        <CardAddress formType={formType} itemType="address" />
+        <CardAddress
+          formType={formType}
+          itemType="address"
+          selectedAddress={selectedAddress}
+          isButtonDisabled={isButtonDisabled}
+          setIsButtonDisabled={setIsButtonDisabled}
+        />
       ) : (
         <BillingContainer sx={{ height: formType === "billing" && "70vh" }}>
           {formType === "billing" && (
@@ -283,7 +291,6 @@ const Billing = ({
                 formType === "billing-confirmation" ||
                 formType === "shipping-confirmation") && (
                 <>
-                  {console.log(formType)}
                   <AddressInput
                     name="address"
                     type="text"
@@ -389,9 +396,9 @@ const Billing = ({
                 formType === "shipping-confirmation") && (
                 <>
                   <CommentsInput
+                    name="comments"
                     multiline
                     rows={4}
-                    name="comments"
                     placeholder="Observaciones"
                     disabled={
                       formType === "shipping-confirmation" &&
@@ -484,7 +491,7 @@ const Billing = ({
                 formType === "billing-confirmation" ||
                 formType === "shipping-confirmation"
                   ? handleCancelConfirmation
-                  : formType === "profile"
+                  : formType === "profile" || formType === "shipping"
                   ? handleCancel
                   : handleLeft
               }

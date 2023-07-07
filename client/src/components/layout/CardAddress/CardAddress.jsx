@@ -51,6 +51,8 @@ const CardAddress = ({
   const [showAddNew, setShowAddNew] = useState(false);
   const [selectedCard, setSelectedCard] = useState("");
 
+  // const options = ["Option 1", "Option 2", "Option 3", "Option 4"];
+
   useEffect(() => {
     if (formType !== "profile") {
       setIsButtonDisabled(true);
@@ -63,12 +65,20 @@ const CardAddress = ({
 
   return showAddNew ? (
     itemType === "address" ? (
-      <Billing formType={formType} isButtonDisabled={isButtonDisabled} />
+      <Billing
+        formType={formType}
+        selectedAddress={selectedAddress}
+        isButtonDisabled={isButtonDisabled}
+        setIsButtonDisabled={setIsButtonDisabled}
+      />
     ) : (
       <PaymentDetails
         formType={formType}
-        isButtonDisabled={setIsButtonDisabled}
         handleLeft={handleLeft}
+        handleRight={handleRight}
+        setStepperData={setStepperData}
+        isButtonDisabled={isButtonDisabled}
+        setIsButtonDisabled={setIsButtonDisabled}
       />
     )
   ) : (
