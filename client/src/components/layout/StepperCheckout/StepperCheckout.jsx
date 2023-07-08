@@ -100,6 +100,8 @@ const StepperCheckout = () => {
       );
   }
 
+  // console.log(stepperData);
+
   return (
     <>
       {activeStep === 5 ? (

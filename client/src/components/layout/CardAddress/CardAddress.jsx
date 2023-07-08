@@ -41,7 +41,7 @@ const myCards = [
 const CardAddress = ({
   formType,
   itemType,
-  selectedAddress,
+  setSelectedAddress,
   handleLeft,
   handleRight,
   setStepperData,
@@ -49,9 +49,7 @@ const CardAddress = ({
   setIsButtonDisabled,
 }) => {
   const [showAddNew, setShowAddNew] = useState(false);
-  const [selectedCard, setSelectedCard] = useState("");
-
-  // const options = ["Option 1", "Option 2", "Option 3", "Option 4"];
+  const [selectedCard, setSelectedCard] = useState(0);
 
   useEffect(() => {
     if (formType !== "profile") {
@@ -67,7 +65,7 @@ const CardAddress = ({
     itemType === "address" ? (
       <Billing
         formType={formType}
-        selectedAddress={selectedAddress}
+        setSelectedAddress={setSelectedAddress}
         isButtonDisabled={isButtonDisabled}
         setIsButtonDisabled={setIsButtonDisabled}
       />
@@ -86,7 +84,7 @@ const CardAddress = ({
       sx={{
         width:
           formType === "payment"
-            ? "30%"
+            ? "100%"
             : formType === "profile"
             ? "100%"
             : "inherit",
@@ -101,7 +99,7 @@ const CardAddress = ({
                 key={address.id}
                 itemType={itemType}
                 isButtonDisabled={setIsButtonDisabled}
-                selectedAddress={selectedAddress}
+                setSelectedAddress={setSelectedAddress}
               />
             ))
           : myCards.map((card) => (
@@ -111,7 +109,7 @@ const CardAddress = ({
                 key={card.id}
                 itemType={itemType}
                 isButtonDisabled={setIsButtonDisabled}
-                selectedCard={setSelectedCard}
+                setSelectedCard={setSelectedCard}
               />
             ))}
       </ItemsContainer>

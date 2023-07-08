@@ -38,7 +38,7 @@ const Billing = ({
   handleLeft,
   handleRight,
   setStepperData,
-  selectedAddress,
+  setSelectedAddress,
   isButtonDisabled,
   setIsButtonDisabled,
   confirmationData,
@@ -163,17 +163,22 @@ const Billing = ({
 
   const onSubmit = (formValues) => {
     console.log(formValues);
-    //save billing data
 
-    if ((formType === "billing" || formType === "shipping") && !showMyAddress) {
+    if (formType === "billing") {
+      //save billing data
       setStepperData((prevData) => ({ ...prevData, billing: formValues }));
       handleRight();
+    }
+
+    if (formType === "shipping" && !showMyAddress) {
+      //save new address
     }
 
     if (
       formType === "billing-confirmation" ||
       formType === "shipping-confirmation"
     ) {
+      //save billing and shipping data confirmation
       handleCancelConfirmation();
     }
 
@@ -186,7 +191,7 @@ const Billing = ({
         <CardAddress
           formType={formType}
           itemType="address"
-          selectedAddress={selectedAddress}
+          setSelectedAddress={setSelectedAddress}
           isButtonDisabled={isButtonDisabled}
           setIsButtonDisabled={setIsButtonDisabled}
         />
@@ -214,6 +219,7 @@ const Billing = ({
             onSubmit={handleSubmit(onSubmit)}
             sx={{
               width: "100%",
+              height: formType === "billing" && "70vh",
               alignItems: "center",
             }}
           >

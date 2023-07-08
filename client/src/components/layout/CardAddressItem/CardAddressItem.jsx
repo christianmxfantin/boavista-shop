@@ -16,15 +16,15 @@ const CardAddressItem = ({
   formType,
   itemType,
   isButtonDisabled,
-  selectedAddress,
-  selectedCard,
+  setSelectedAddress,
+  setSelectedCard,
 }) => {
   const theme = useTheme();
   const [isHover, setIsHover] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
-  // const [checked, setChecked] = useState("");
+  const [checked, setChecked] = useState([0]);
 
-  const handleChangeCheckbox = (e) => {
+  const handleChangeCheckbox = (e, id) => {
     if (e.target.checked === true) {
       setIsSelected(true);
       isButtonDisabled(false);
@@ -34,12 +34,12 @@ const CardAddressItem = ({
     }
 
     if (formType === "shipping") {
-      selectedAddress(e.target.value);
+      setSelectedAddress(id);
     } else {
-      selectedCard(e.target.value);
+      setSelectedCard(id);
     }
 
-    // setChecked(e.target.value);
+    setChecked(e.target.checked);
   };
 
   return (
@@ -61,12 +61,10 @@ const CardAddressItem = ({
         <FormControlLabel
           control={
             <Checkbox
-              name={
-                formType === "shipping" ? "shippingMethod" : "paymentMethod"
-              }
+              name={`id${data.id}`}
               // value={data.id}
-              // checked={checked === data.id}
-              onChange={(e) => handleChangeCheckbox(e)}
+              checked={checked[data.id]}
+              onChange={(e) => handleChangeCheckbox(e, data.id)}
               sx={{
                 color: theme.palette.secondary.A100,
                 "&:hover": {
