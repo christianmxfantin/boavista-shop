@@ -24,7 +24,6 @@ import { Controller, useForm } from "react-hook-form";
 import ButtonsContainer from "../../layout/ButtonsContainer/ButtonsContainer";
 import { validations } from "../../../helpers/validations";
 import {
-  Button,
   FormHelperText,
   IconButton,
   InputAdornment,
@@ -66,8 +65,8 @@ const Billing = ({
       names: "Lionel Andrés",
       surnames: "Messi",
       address: "Lampilagucho 563",
-      state: "Santa Fe",
-      city: "Rosario",
+      // state: "Santa Fe",
+      // city: "Rosario",
       email: "elliodelagente@gmail.com",
       phone: "5555 3477",
     };
@@ -323,79 +322,91 @@ const Billing = ({
                         : errors.address && validations.errorEmptyField
                     }
                   />{" "}
-                  {/* <StateSelectContainer>
-                  <Controller
-                    name="state"
-                    control={control}
-                    rules={{ required: true }}
-                    defaultValue={formType === "billing" ? "Santa Fe" : 1}
-                    render={({ field }) => (
-                      <>
-                        <StateSelect
-                          {...field}
-                          fullWidth
-                          disabled={formType === "billing" && !editCheckoutMode}
-                          onChange={(e) => {
-                            field.onChange(e.target.value);
-                            setProvincia(e.target.value);
-                          }}
-                          error={!!errors.state}
-                        >
-                          <MenuItem disabled value={1}>
-                            Selecciona tu Provincia
-                          </MenuItem>
-                          {provincias.map((provincia, index) => (
-                            <MenuItem value={provincia} key={index}>
-                              {provincia}
+                  <StateSelectContainer>
+                    <Controller
+                      name="state"
+                      control={control}
+                      rules={{ required: true }}
+                      defaultValue={formType === "billing" && 1}
+                      render={({ field }) => (
+                        <>
+                          <StateSelect
+                            {...field}
+                            fullWidth
+                            disabled={
+                              (formType === "billing" && !editCheckoutMode) ||
+                              (formType === "billing-confirmation" &&
+                                !editConfirmationData) ||
+                              (formType === "shipping-confirmation" &&
+                                !editConfirmationData)
+                            }
+                            onChange={(e) => {
+                              field.onChange(e.target.value);
+                              setProvincia(e.target.value);
+                            }}
+                            error={!!errors.state}
+                          >
+                            <MenuItem disabled value={1}>
+                              Selecciona tu Provincia
                             </MenuItem>
-                          ))}
-                        </StateSelect>
-                        <FormHelperText error={!!errors.state}>
-                          {errors.state &&
-                          field.value !== "Seleccione una Provincia"
-                            ? "Debe seleccionar una Provincia para continuar"
-                            : ""}
-                        </FormHelperText>
-                      </>
-                    )}
-                  />
-                </StateSelectContainer>
-                <CitySelectContainer>
-                  <Controller
-                    name="city"
-                    control={control}
-                    defaultValue={formType === "billing" ? "Rosario" : 1}
-                    rules={{ required: true }}
-                    render={({ field }) => (
-                      <>
-                        <CitySelect
-                          {...field}
-                          fullWidth
-                          disabled={formType === "billing" && !editCheckoutMode}
-                          onChange={(e) => {
-                            field.onChange(e.target.value);
-                          }}
-                          error={!!errors.city}
-                        >
-                          <MenuItem disabled value={1}>
-                            Selecciona tu Localidad
-                          </MenuItem>
-                          {localidades.map((departamento, index) => (
-                            <MenuItem value={departamento} key={index}>
-                              {departamento}
+                            {provincias.map((provincia, index) => (
+                              <MenuItem value={provincia} key={index}>
+                                {provincia}
+                              </MenuItem>
+                            ))}
+                          </StateSelect>
+                          <FormHelperText error={!!errors.state}>
+                            {errors.state &&
+                            field.value !== "Seleccione una Provincia"
+                              ? "Debe seleccionar una Provincia para continuar"
+                              : ""}
+                          </FormHelperText>
+                        </>
+                      )}
+                    />
+                  </StateSelectContainer>
+                  <CitySelectContainer>
+                    <Controller
+                      name="city"
+                      control={control}
+                      defaultValue={formType === "billing" && 1}
+                      rules={{ required: true }}
+                      render={({ field }) => (
+                        <>
+                          <CitySelect
+                            {...field}
+                            fullWidth
+                            disabled={
+                              (formType === "billing" && !editCheckoutMode) ||
+                              (formType === "billing-confirmation" &&
+                                !editConfirmationData) ||
+                              (formType === "shipping-confirmation" &&
+                                !editConfirmationData)
+                            }
+                            onChange={(e) => {
+                              field.onChange(e.target.value);
+                            }}
+                            error={!!errors.city}
+                          >
+                            <MenuItem disabled value={1}>
+                              Selecciona tu Localidad
                             </MenuItem>
-                          ))}
-                        </CitySelect>
-                        <FormHelperText error={!!errors.city}>
-                          {errors.city &&
-                          field.value !== "Seleccione una Localidad"
-                            ? "Debe seleccionar una Localidad para continuar"
-                            : ""}
-                        </FormHelperText>
-                      </>
-                    )}
-                  />
-                </CitySelectContainer> */}
+                            {localidades.map((departamento, index) => (
+                              <MenuItem value={departamento} key={index}>
+                                {departamento}
+                              </MenuItem>
+                            ))}
+                          </CitySelect>
+                          <FormHelperText error={!!errors.city}>
+                            {errors.city &&
+                            field.value !== "Seleccione una Localidad"
+                              ? "Debe seleccionar una Localidad para continuar"
+                              : ""}
+                          </FormHelperText>
+                        </>
+                      )}
+                    />
+                  </CitySelectContainer>
                 </>
               )}
               {(formType === "shipping" ||

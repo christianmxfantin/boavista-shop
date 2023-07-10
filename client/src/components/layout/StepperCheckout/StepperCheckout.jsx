@@ -6,14 +6,13 @@ import {
   Step,
   StepLabel,
 } from "@mui/material";
-import { PaymentContainer } from "./StepperCheckout.styles";
 
 import Cart from "../../checkout/Cart/Cart";
 import Billing from "../../checkout/Billing/Billing";
 import Shipping from "../../checkout/Shipping/Shipping";
 import Confirmation from "../../checkout/Confirmation/Confirmation/Confirmation";
 import PaymentSuccessful from "../../checkout/Payment/PaymentSuccessful/PaymentSuccessful";
-import CardAddress from "../CardAddress/CardAddress";
+import Payment from "../../checkout/Payment/Payment/Payment";
 
 const StepperCheckout = () => {
   let stepperComponent;
@@ -65,19 +64,14 @@ const StepperCheckout = () => {
       break;
     case 3:
       stepperComponent = (
-        <>
-          <PaymentContainer>
-            <CardAddress
-              formType="payment"
-              itemType="card"
-              handleLeft={handleLeft}
-              handleRight={handleRight}
-              setStepperData={setStepperData}
-              isButtonDisabled={isButtonDisabled}
-              setIsButtonDisabled={setIsButtonDisabled}
-            />
-          </PaymentContainer>
-        </>
+        <Payment
+          formType="payment"
+          handleLeft={handleLeft}
+          handleRight={handleRight}
+          setStepperData={setStepperData}
+          isButtonDisabled={isButtonDisabled}
+          setIsButtonDisabled={setIsButtonDisabled}
+        />
       );
       break;
     case 4:
@@ -100,7 +94,7 @@ const StepperCheckout = () => {
       );
   }
 
-  // console.log(stepperData);
+  console.log(stepperData);
 
   return (
     <>

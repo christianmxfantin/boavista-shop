@@ -3,10 +3,9 @@ import CheckoutEmpty from "../../components/checkout/CheckoutEmpty/CheckoutEmpty
 import CheckoutFull from "../../components/checkout/CheckoutFull/CheckoutFull";
 
 const Checkout = () => {
-  const { cart } = useSelector((state) => state);
-  console.log(cart);
+  const { total } = useSelector((state) => state.cart);
 
-  return cart.total === 0 ? <CheckoutEmpty /> : <CheckoutFull />;
+  return total === 0 ? <CheckoutEmpty /> : <CheckoutFull />;
 };
 
 export default Checkout;

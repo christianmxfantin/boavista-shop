@@ -31,6 +31,9 @@ const useLocalidades = ({ provincia }) => {
             a.localeCompare(b)
           );
           setLocalidades(cityNamesOrdered);
+        })
+        .catch((error) => {
+          console.error("Error al obtener los datos de la API:", error);
         });
     }
   }, [provincia]);

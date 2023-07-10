@@ -1,22 +1,14 @@
 import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-export const CardAddressItemContainer = styled(Box)(({ theme }) => ({
+export const ItemComponentContainer = styled(Box)(({ theme }) => ({
   display: "flex",
-  flexDirection: "row",
-  marginBottom: theme.spacing(1),
-  padding: theme.spacing(1),
-  borderRadius: theme.spacing(1), //8px
-}));
-
-export const IconContainer = styled(Box)(({ theme }) => ({
-  display: "flex",
-  justifyContent: "center",
+  // flexDirection: "row",
 }));
 
 export const ItemTitleContainer = styled(Box)(({ theme }) => ({
-  display: "flex",
-  flexDirection: "column",
+  // display: "flex",
+  // flexDirection: "column",
 }));
 
 export const ItemTitle = styled(Typography)(({ theme }) => ({

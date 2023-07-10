@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+// import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useTheme } from "@emotion/react";
 import {
   CartContainer,
@@ -13,13 +13,11 @@ import Underline from "../../ui/Underline";
 import ButtonsContainer from "../../layout/ButtonsContainer/ButtonsContainer";
 
 const Cart = ({ formType, handleRight, setStepperData }) => {
-  // const dispatch = useDispatch();
   let totalPrice = 0;
   const theme = useTheme();
   // para pedir data de CartItem
   // const [cartData, setCartData] = useState({});
-  const { cart } = useSelector((state) => state);
-  const productList = cart.productsList;
+  const { productList } = useSelector((state) => state.cart);
 
   const handleCleanCart = () => {
     //Vaciar Carrito
@@ -29,7 +27,7 @@ const Cart = ({ formType, handleRight, setStepperData }) => {
   return (
     <CartContainer>
       <ProductsContainer>
-        {cart.productsList.map((item, index) => {
+        {productList.map((item, index) => {
           totalPrice += item.price;
           return (
             <CartItem

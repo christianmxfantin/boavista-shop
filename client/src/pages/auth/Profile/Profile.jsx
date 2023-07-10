@@ -8,6 +8,10 @@ import AccountData from "../../../components/layout/AccountData/AccountData";
 import TableActions from "../../../components/layout/TableActions/TableActions";
 import CardAddress from "../../../components/layout/CardAddress/CardAddress";
 
+const profile = {
+  id: 1,
+};
+
 const Profile = () => {
   const theme = useTheme();
   const [showModal, setShowModal] = useState(false);
@@ -46,7 +50,8 @@ const Profile = () => {
       <TableActions
         showModal={showModal}
         setShowModal={setShowModal}
-        actionType="delete-account"
+        deleteType="account"
+        data={profile}
       />
     </main>
   );

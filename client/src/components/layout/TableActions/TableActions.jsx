@@ -18,16 +18,10 @@ import {
   TableDeleteLine3,
 } from "./TableActions.styles";
 
-const TableActions = ({
-  type,
-  showModal,
-  setShowModal,
-  actionType,
-  selectedName,
-  setSelectedName,
-  selectedPrice,
-  setSelectedPrice,
-}) => {
+const TableActions = ({ showModal, setShowModal, selectedData }) => {
+  const { actionType, data } = selectedData;
+  console.log("en table: ", selectedData);
+
   const theme = useTheme();
 
   const handleCancelButton = () => {
@@ -47,37 +41,29 @@ const TableActions = ({
           variant="h4"
           sx={{
             backgroundColor:
-              actionType === "edit" && actionType === "edit-payment"
+              actionType === "edit-product"
                 ? theme.palette.primary[300]
                 : theme.palette.error[500],
           }}
         >
-          {actionType === "edit" && actionType === "edit-payment"
-            ? `Editar ${
-                type === "edit-payment"
-                  ? "Tarjeta"
-                  : type === "users"
-                  ? "Usuario"
-                  : "Producto"
-              }`
-            : "Advertencia"}
+          {actionType === "edit-product" ? "Editar Producto" : "Advertencia"}
         </TableActionsTitle>
-        {actionType === "edit" ? (
+        {actionType === "edit-product" ? (
           <TableEditContainer>
             <TableImage>Avatar</TableImage>
             <TableInputContainer>
               <TableNameInput
                 placeholder={`Nombre ${
-                  type === "users" ? "de Usuario" : "del Producto"
+                  actionType === "edit-product" ? "del Producto" : "de Usuario"
                 }`}
-                value={selectedName}
-                onChange={(e) => setSelectedName(e.target.value)}
+                value={data.name}
+                // onChange={(e) => setSelectedData(e.target.value)}
               ></TableNameInput>
-              {type === "products" && (
+              {actionType === "edit-products" && (
                 <TablePriceInput
                   placeholder="Precio Unitario"
-                  value={selectedPrice}
-                  onChange={(e) => setSelectedPrice(e.target.value)}
+                  value={data.price}
+                  // onChange={(e) => setSelectedPrice(e.target.value)}
                 />
               )}
             </TableInputContainer>
@@ -85,16 +71,28 @@ const TableActions = ({
         ) : (
           <TableDeleteContainer>
             <TableDeleteParagraph>
-              <TableDeleteLine1>{`Está a punto de borrar ${
-                actionType === "delete-account"
-                  ? "su cuenta de usuario."
+              <TableDeleteLine1>{`Está por borrar ${
+                actionType === "delete-billing"
+                  ? "la siguiente dirección:"
                   : actionType === "delete-payment"
                   ? "la siguiente tarjeta:"
-                  : type === "users"
-                  ? `al usuario:`
-                  : `el producto:`
+                  : actionType === "delete-product"
+                  ? "el siguiente producto:"
+                  : actionType === "delete-user"
+                  ? "el siguiente usuario:"
+                  : "su cuenta de usuario."
               }`}</TableDeleteLine1>
-              <TableDeleteLine2>{selectedName}</TableDeleteLine2>
+              <TableDeleteLine2>
+                {actionType === "delete-billing"
+                  ? data.type
+                  : actionType === "delete-payment"
+                  ? `Visa débito terminada en ${data.finalNumber}`
+                  : actionType === "delete-product"
+                  ? data.name
+                  : actionType === "delete-user"
+                  ? data.name
+                  : data}
+              </TableDeleteLine2>
               <TableDeleteLine3>
                 Esta acción no se puede deshacer.
               </TableDeleteLine3>

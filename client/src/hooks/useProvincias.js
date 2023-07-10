@@ -10,6 +10,9 @@ const useProvincias = () => {
         const stateNames = data.provincias.map((provincia) => provincia.nombre);
         const stateNamesOrdered = stateNames.sort((a, b) => a.localeCompare(b));
         setProvincias(stateNamesOrdered);
+      })
+      .catch((error) => {
+        console.error("Error al obtener los datos de la API:", error);
       });
   }, []);
 

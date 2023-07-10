@@ -26,6 +26,7 @@ const PaymentDetails = ({
   handleLeft,
   handleRight,
   setStepperData,
+  setSelectedCard,
   isButtonDisabled,
   setIsButtonDisabled,
 }) => {
@@ -96,6 +97,7 @@ const PaymentDetails = ({
       handleLeft={handleLeft}
       handleRight={handleRight}
       setStepperData={setStepperData}
+      setSelectedCard={setSelectedCard}
       isButtonDisabled={isButtonDisabled}
       setIsButtonDisabled={setIsButtonDisabled}
     />
@@ -242,20 +244,11 @@ const PaymentDetails = ({
         }
       />
       <ButtonsContainer
-        formType="payment-stepper"
+        formType={formType}
         leftName="Cancelar"
         rightName="Guardar"
         onClickLeft={handleClickCancel}
       />
-      {/* {formType !== "profile" && (
-        <ButtonsContainer
-          formType={formType}
-          leftName="Atrás"
-          rightName="Continuar"
-          disabled={true}
-          onClickLeft={handleLeft}
-        />
-      )} */}
     </PaymentDetailsContainer>
   );
 };

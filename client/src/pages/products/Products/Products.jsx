@@ -29,7 +29,6 @@ const Products = () => {
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, (char) => "")
   );
-  console.log(searchProducts);
 
   return (
     <ProductContainer component={"main"}>

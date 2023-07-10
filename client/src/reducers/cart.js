@@ -4,11 +4,23 @@ export const cartSlice = createSlice({
   name: "cart",
   initialState: {
     total: 0,
-    productsList: [],
+    productList: [],
   },
   reducers: {
     addProductToCart: (state, action) => {
-      state.productsList = [...state.productsList, action.payload];
+      state.productList = [...state.productList, action.payload];
+      state.total += 1;
+    },
+    removeAllFromCart: (state, action) => {
+      state.productList = [...state.productList, action.payload];
+      state.total += 1;
+    },
+    removeOneFromCart: (state, action) => {
+      state.productList = [...state.productList, action.payload];
+      state.total += 1;
+    },
+    cleanCart: (state, action) => {
+      state.productList = [...state.productList, action.payload];
       state.total += 1;
     },
   },

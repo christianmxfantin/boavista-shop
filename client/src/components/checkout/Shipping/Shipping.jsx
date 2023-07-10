@@ -13,7 +13,7 @@ import ButtonsContainer from "../../layout/ButtonsContainer/ButtonsContainer";
 const Shipping = ({ formType, handleLeft, handleRight, setStepperData }) => {
   const theme = useTheme();
   const [value, setValue] = useState("");
-  const [selectedAddress, setSelectedAddress] = useState("");
+  const [selectedAddress, setSelectedAddress] = useState(0);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const handleSameAddress = () => {

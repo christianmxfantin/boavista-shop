@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Provider } from "react-redux";
-import { store } from "./store";
 
 import Navbar from "./components/layout/Navbar";
 import Login from "./pages/auth/Login/Login";
@@ -24,12 +22,46 @@ const App = () => {
   };
 
   return (
-    <Provider store={store}>
-      <Router>
-        <Routes>
+    <Router>
+      <Routes>
+        <Route
+          exact
+          path="/"
+          element={
+            <>
+              <Navbar
+                isLoginForm={false}
+                isLogged={isLogged}
+                handleAuth={handleAuth}
+              />
+              <Home />
+            </>
+          }
+        />
+        <Route
+          exact
+          path="/login"
+          element={
+            <>
+              <Navbar isLoginForm={true} />
+              <Login handleAuth={handleAuth} />
+            </>
+          }
+        />
+        <Route
+          exact
+          path="/register"
+          element={
+            <>
+              <Navbar isLoginForm={true} />
+              <Register handleAuth={handleAuth} />
+            </>
+          }
+        />
+        <Route exact path="/dashboard/users" element={<PrivateRoute />}>
           <Route
             exact
-            path="/"
+            path="/dashboard/users"
             element={
               <>
                 <Navbar
@@ -37,97 +69,15 @@ const App = () => {
                   isLogged={isLogged}
                   handleAuth={handleAuth}
                 />
-                <Home />
+                <List typeData="users" />
               </>
             }
           />
+        </Route>
+        <Route exact path="/dashboard/products" element={<PrivateRoute />}>
           <Route
             exact
-            path="/login"
-            element={
-              <>
-                <Navbar isLoginForm={true} />
-                <Login handleAuth={handleAuth} />
-              </>
-            }
-          />
-          <Route
-            exact
-            path="/register"
-            element={
-              <>
-                <Navbar isLoginForm={true} />
-                <Register handleAuth={handleAuth} />
-              </>
-            }
-          />
-          <Route exact path="/dashboard/users" element={<PrivateRoute />}>
-            <Route
-              exact
-              path="/dashboard/users"
-              element={
-                <>
-                  <Navbar
-                    isLoginForm={false}
-                    isLogged={isLogged}
-                    handleAuth={handleAuth}
-                  />
-                  <List data="Usuarios" />
-                </>
-              }
-            />
-          </Route>
-          <Route exact path="/dashboard/products" element={<PrivateRoute />}>
-            <Route
-              exact
-              path="/dashboard/products"
-              element={
-                <>
-                  <Navbar
-                    isLoginForm={false}
-                    isLogged={isLogged}
-                    handleAuth={handleAuth}
-                  />
-                  <List data="Productos" />
-                </>
-              }
-            />
-          </Route>
-          <Route exact path="/dashboard" element={<PrivateRoute />}>
-            <Route
-              exact
-              path="/dashboard"
-              element={
-                <>
-                  <Navbar
-                    isLoginForm={false}
-                    isLogged={isLogged}
-                    handleAuth={handleAuth}
-                  />
-                  <Dashboard />
-                </>
-              }
-            ></Route>
-          </Route>
-          <Route exact path="/profile" element={<PrivateRoute />}>
-            <Route
-              exact
-              path="/profile"
-              element={
-                <>
-                  <Navbar
-                    isLoginForm={false}
-                    isLogged={isLogged}
-                    handleAuth={handleAuth}
-                  />
-                  <Profile />
-                </>
-              }
-            />
-          </Route>
-          <Route
-            exact
-            path="/products"
+            path="/dashboard/products"
             element={
               <>
                 <Navbar
@@ -135,13 +85,15 @@ const App = () => {
                   isLogged={isLogged}
                   handleAuth={handleAuth}
                 />
-                <Products />
+                <List typeData="products" />
               </>
             }
           />
+        </Route>
+        <Route exact path="/dashboard" element={<PrivateRoute />}>
           <Route
             exact
-            path={"/products/:id"}
+            path="/dashboard"
             element={
               <>
                 <Navbar
@@ -149,29 +101,15 @@ const App = () => {
                   isLogged={isLogged}
                   handleAuth={handleAuth}
                 />
-                <ProductDetails />
+                <Dashboard />
               </>
             }
-          />
-          <Route exact path="/checkout" element={<PrivateRoute />}>
-            <Route
-              exact
-              path="/checkout"
-              element={
-                <>
-                  <Navbar
-                    isLoginForm={false}
-                    isLogged={isLogged}
-                    handleAuth={handleAuth}
-                  />
-                  <Checkout />
-                </>
-              }
-            />
-          </Route>
+          ></Route>
+        </Route>
+        <Route exact path="/profile" element={<PrivateRoute />}>
           <Route
             exact
-            path="*"
+            path="/profile"
             element={
               <>
                 <Navbar
@@ -179,13 +117,71 @@ const App = () => {
                   isLogged={isLogged}
                   handleAuth={handleAuth}
                 />
-                <PageNotFound />
+                <Profile />
               </>
             }
           />
-        </Routes>
-      </Router>
-    </Provider>
+        </Route>
+        <Route
+          exact
+          path="/products"
+          element={
+            <>
+              <Navbar
+                isLoginForm={false}
+                isLogged={isLogged}
+                handleAuth={handleAuth}
+              />
+              <Products />
+            </>
+          }
+        />
+        <Route
+          exact
+          path={"/products/:id"}
+          element={
+            <>
+              <Navbar
+                isLoginForm={false}
+                isLogged={isLogged}
+                handleAuth={handleAuth}
+              />
+              <ProductDetails />
+            </>
+          }
+        />
+        <Route exact path="/checkout" element={<PrivateRoute />}>
+          <Route
+            exact
+            path="/checkout"
+            element={
+              <>
+                <Navbar
+                  isLoginForm={false}
+                  isLogged={isLogged}
+                  handleAuth={handleAuth}
+                />
+                <Checkout />
+              </>
+            }
+          />
+        </Route>
+        <Route
+          exact
+          path="*"
+          element={
+            <>
+              <Navbar
+                isLoginForm={false}
+                isLogged={isLogged}
+                handleAuth={handleAuth}
+              />
+              <PageNotFound />
+            </>
+          }
+        />
+      </Routes>
+    </Router>
   );
 };
 

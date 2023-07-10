@@ -1,17 +1,15 @@
 import { ListContainer, ListTitle, ListData } from "./List.styles";
 import DashboardTable from "../../../components/layout/DashboardTable/DashboardTable";
 
-const List = ({ data }) => {
+const List = ({ typeData }) => {
   return (
     <main>
       <ListContainer>
-        <ListTitle variant="h4">Listado de {data}</ListTitle>
+        <ListTitle variant="h4">
+          Listado de {typeData === "users" ? "Usuarios" : "Productos"}
+        </ListTitle>
         <ListData>
-          {data === "Usuarios" ? (
-            <DashboardTable type="users" />
-          ) : (
-            <DashboardTable type="products" />
-          )}
+          <DashboardTable typeData={typeData} />
         </ListData>
       </ListContainer>
     </main>

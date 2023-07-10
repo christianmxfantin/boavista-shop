@@ -1,10 +1,22 @@
 import { useEffect, useState } from "react";
-import { Button } from "@mui/material";
-import { CardAddressContainer, ItemsContainer } from "./CardAddress.styles";
-import CardAddressItem from "../CardAddressItem/CardAddressItem";
+import { useTheme } from "@emotion/react";
+import {
+  Button,
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+} from "@mui/material";
+import {
+  CardAddressContainer,
+  CardAddressItem,
+  CardAddressItemContainer,
+  IconContainer,
+} from "./CardAddress.styles";
+import CardAddressItemTitle from "../CardAddressItemTitle/CardAddressItemTitle";
 import Billing from "../../checkout/Billing/Billing";
 import PaymentDetails from "../../checkout/Payment/PaymentDetails/PaymentDetails";
-import ButtonsContainer from "../ButtonsContainer/ButtonsContainer";
+import { Icon } from "../../ui/Icon";
 
 const myAddress = [
   {
@@ -42,14 +54,19 @@ const CardAddress = ({
   formType,
   itemType,
   setSelectedAddress,
+  setSelectedCard,
   handleLeft,
   handleRight,
   setStepperData,
   isButtonDisabled,
   setIsButtonDisabled,
 }) => {
+  //despues borrar
+  let data = itemType === "address" ? myAddress : myCards;
+
+  const theme = useTheme();
   const [showAddNew, setShowAddNew] = useState(false);
-  const [selectedCard, setSelectedCard] = useState(0);
+  const [selectedValue, setSelectedValue] = useState(0);
 
   useEffect(() => {
     if (formType !== "profile") {
@@ -57,7 +74,18 @@ const CardAddress = ({
     }
   }, [formType, setIsButtonDisabled]);
 
-  const handleClick = () => {
+  const handleChangeRadio = (id) => {
+    setSelectedValue(id);
+    setIsButtonDisabled(false);
+
+    if (itemType === "address") {
+      setSelectedAddress(id);
+    } else {
+      setSelectedCard(id);
+    }
+  };
+
+  const handleClickButton = () => {
     setShowAddNew(true);
   };
 
@@ -75,6 +103,7 @@ const CardAddress = ({
         handleLeft={handleLeft}
         handleRight={handleRight}
         setStepperData={setStepperData}
+        setSelectedCard={setSelectedCard}
         isButtonDisabled={isButtonDisabled}
         setIsButtonDisabled={setIsButtonDisabled}
       />
@@ -84,61 +113,94 @@ const CardAddress = ({
       sx={{
         width:
           formType === "payment"
-            ? "100%"
+            ? "50%"
             : formType === "profile"
             ? "100%"
             : "inherit",
+        marginTop: formType === "payment" && theme.spacing(2),
       }}
     >
-      <ItemsContainer>
-        {itemType === "address"
-          ? myAddress.map((address) => (
+      <CardAddressItemContainer>
+        {formType !== "profile" ? (
+          <FormControl defaultValue="">
+            <RadioGroup>
+              {data.map((data) => (
+                <FormControlLabel
+                  key={data.id}
+                  sx={{
+                    margin: 0,
+                    marginBottom: theme.spacing(1),
+                    padding: theme.spacing(1),
+                    borderRadius: theme.spacing(1),
+                    "&:hover": {
+                      backgroundColor: theme.palette.primary[300],
+                      color: theme.palette.secondary.A100,
+                    },
+                  }}
+                  value={data.id}
+                  control={
+                    <Radio
+                      name={`id${data.id}`}
+                      checked={selectedValue === data.id}
+                      onChange={() => handleChangeRadio(data.id)}
+                      value={data.id}
+                      inputProps={{ "aria-label": `id${data.id}` }}
+                    />
+                  }
+                  label={
+                    <CardAddressItemTitle
+                      data={data}
+                      formType={formType}
+                      itemType={itemType}
+                      setShowAddNew={setShowAddNew}
+                    />
+                  }
+                />
+              ))}
+            </RadioGroup>
+          </FormControl>
+        ) : (
+          <>
+            {data.map((data) => (
               <CardAddressItem
-                data={address}
-                formType={formType}
-                key={address.id}
-                itemType={itemType}
-                isButtonDisabled={setIsButtonDisabled}
-                setSelectedAddress={setSelectedAddress}
-              />
-            ))
-          : myCards.map((card) => (
-              <CardAddressItem
-                data={card}
-                formType={formType}
-                key={card.id}
-                itemType={itemType}
-                isButtonDisabled={setIsButtonDisabled}
-                setSelectedCard={setSelectedCard}
-              />
+                key={data.id}
+                sx={{
+                  "&:hover": {
+                    backgroundColor: theme.palette.primary[300],
+                    color: theme.palette.secondary.A100,
+                  },
+                }}
+              >
+                <IconContainer
+                  sx={{ alignItems: itemType === "address" && "center" }}
+                >
+                  <Icon
+                    name={
+                      itemType === "address" ? "address-card" : "credit-card"
+                    }
+                  />
+                </IconContainer>
+                <CardAddressItemTitle
+                  data={data}
+                  formType={formType}
+                  itemType={itemType}
+                  setShowAddNew={setShowAddNew}
+                />
+              </CardAddressItem>
             ))}
-      </ItemsContainer>
+          </>
+        )}
+      </CardAddressItemContainer>
       <Button
         variant={formType === "profile" ? "text" : "contained"}
-        disabled={!isButtonDisabled}
-        onClick={handleClick}
+        disabled={formType !== "profile" && !isButtonDisabled}
+        onClick={handleClickButton}
         sx={{ width: "100%", marginTop: formType === "profile" && "16px" }}
       >
         {itemType === "address"
           ? "Agregar Nueva Dirección"
           : "Agregar Método de Pago"}
       </Button>
-      {formType === "payment" && (
-        <ButtonsContainer
-          formType={formType}
-          leftName="Atrás"
-          rightName="Continuar"
-          disabled={isButtonDisabled}
-          onClickLeft={handleLeft}
-          onClickRight={() => {
-            setStepperData((prevData) => ({
-              ...prevData,
-              payment: selectedCard,
-            }));
-            handleRight();
-          }}
-        />
-      )}
     </CardAddressContainer>
   );
 };

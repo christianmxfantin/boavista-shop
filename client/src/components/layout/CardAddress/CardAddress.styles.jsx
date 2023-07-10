@@ -7,11 +7,25 @@ export const CardAddressContainer = styled(Box)(({ theme }) => ({
   alignItems: "center",
 }));
 
-export const ItemsContainer = styled(Box)(({ theme }) => ({
+export const CardAddressItemContainer = styled(Box)(({ theme }) => ({
   width: "100%",
-  margin: theme.spacing(2),
+  display: "flex",
+  flexDirection: "column",
+  marginBottom: theme.spacing(1),
   padding: theme.spacing(1),
   borderRadius: theme.spacing(1), //8px
-  color: theme.palette.primary[500],
   backgroundColor: theme.palette.primary[100],
+}));
+
+export const CardAddressItem = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "row",
+  marginBottom: theme.spacing(1),
+  padding: theme.spacing(1),
+  borderRadius: theme.spacing(1), //8px
+}));
+
+export const IconContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  justifyContent: "center",
 }));

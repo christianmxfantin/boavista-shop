@@ -5,6 +5,10 @@ export const LinkCard = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   margin: theme.spacing(4), //32px
+  color: theme.palette.secondary.A100,
+  "&:hover": {
+    color: theme.palette.secondary[500],
+  },
 }));
 
 export const LinkData = styled(Typography)(({ theme }) => ({

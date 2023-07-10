@@ -12,9 +12,9 @@ import { products, users } from "../../../components/products/productList";
 import AvatarImage from "../../../images/product.jpg";
 import ActionButtons from "../ActionButtons/ActionButtons";
 
-const DashboardTable = ({ type }) => {
+const DashboardTable = ({ typeData }) => {
   let database;
-  if (type === "users") {
+  if (typeData === "users") {
     database = users;
   } else {
     database = products;
@@ -28,7 +28,7 @@ const DashboardTable = ({ type }) => {
           <TableHead>
             <TableRow>
               <StyledTableCell>Nombre</StyledTableCell>
-              {type === "products" && (
+              {typeData === "products" && (
                 <StyledTableCell align="right">Precio</StyledTableCell>
               )}
               <StyledTableCell>Acciones</StyledTableCell>
@@ -47,15 +47,17 @@ const DashboardTable = ({ type }) => {
                     <TableName>{data.name}</TableName>
                   </TableNameContainer>
                 </StyledTableCell>
-                {type === "products" && (
+                {typeData === "products" && (
                   <StyledTableCell align="right">
                     $ {data.price}
                   </StyledTableCell>
                 )}
                 <StyledTableCell align="right">
                   <ActionButtons
-                    data={{ id: data.id, name: data.name, price: data.price }}
-                    type={type}
+                    database={{
+                      typeData,
+                      data,
+                    }}
                   />
                 </StyledTableCell>
               </StyledTableRow>

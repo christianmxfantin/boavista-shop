@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme, css } from "@emotion/react";
 import {
@@ -20,6 +21,7 @@ import { Image } from "../ui/Image";
 const Navbar = ({ isLoginForm, isLogged, handleAuth }) => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const { total } = useSelector((state) => state.cart);
   const [isHover, setIsHover] = useState(false);
 
   const AppbarStyles = css({
@@ -70,9 +72,10 @@ const Navbar = ({ isLoginForm, isLogged, handleAuth }) => {
     display: "flex",
     textDecoration: "none",
     alignItems: "center",
-    color: !isHover
-      ? theme.palette.secondary.A100
-      : theme.palette.secondary[500],
+    color: theme.palette.secondary.A100,
+    "&:hover": {
+      color: theme.palette.secondary[500],
+    },
     "& .MuiBadge-badge": {
       color: !isHover
         ? theme.palette.secondary.A100
@@ -137,7 +140,7 @@ const Navbar = ({ isLoginForm, isLogged, handleAuth }) => {
               onMouseLeave={() => setIsHover(false)}
               to="/checkout"
             >
-              <Badge badgeContent={105} max={99} css={BadgeStyle}>
+              <Badge badgeContent={total} max={99} css={BadgeStyle}>
                 <Icon name="Cart" size={30} />
               </Badge>
             </Link>
@@ -151,7 +154,12 @@ const Navbar = ({ isLoginForm, isLogged, handleAuth }) => {
             )}
             <Typography
               variant="h6"
-              sx={{ cursor: "pointer" }}
+              sx={{
+                cursor: "pointer",
+                "&:hover": {
+                  color: theme.palette.secondary[500],
+                },
+              }}
               onClick={handleClic}
             >
               {!isLogged ? "INGRESA" : "SALIR"}
