@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useTheme } from "@emotion/react";
 import { ToggleButton } from "@mui/material";
 import {
@@ -9,19 +10,31 @@ import {
 } from "./NumericInput.styles";
 import { Icon } from "../../ui/Icon";
 
-const NumericInput = ({ type, total }) => {
+import { addOneToCart, removeOneFromCart } from "../../../reducers/cart";
+
+const NumericInput = ({ type, total, data }) => {
+  const { formType, id } = data;
   const theme = useTheme();
+  const dispatch = useDispatch();
+
   const [count, setCount] = useState(1);
 
   const handleIncrement = () => {
     if (count < total) {
       setCount(count + 1);
     }
+
+    if (formType === "cart") {
+      dispatch(addOneToCart(id));
+    }
   };
 
-  const handleDecrement = () => {
+  const handleDecrement = (id) => {
     if (count > 1) {
       setCount(count - 1);
+    }
+    if (formType === "cart") {
+      dispatch(removeOneFromCart(id));
     }
   };
 
@@ -34,7 +47,7 @@ const NumericInput = ({ type, total }) => {
 
   return (
     <NumericInputContainer sx={{ display: type && "contents" }}>
-      <AddButton value="left" onClick={handleIncrement}>
+      <AddButton value="left" onClick={() => handleIncrement(id)}>
         <Icon name="Add" size={20} color={theme.palette.primary[500]} />
       </AddButton>
       <ToggleButton
@@ -64,7 +77,11 @@ const NumericInput = ({ type, total }) => {
           />
         </Quantity>
       </ToggleButton>
-      <RemoveButton value="right" onClick={handleDecrement}>
+      <RemoveButton
+        value="right"
+        disabled={count === 1}
+        onClick={() => handleDecrement(id)}
+      >
         <Icon name="Remove" size={20} color={theme.palette.primary[500]} />
       </RemoveButton>
     </NumericInputContainer>

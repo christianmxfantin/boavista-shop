@@ -1,5 +1,5 @@
 // import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useTheme } from "@emotion/react";
 import {
   CartContainer,
@@ -12,22 +12,27 @@ import CartItem from "../CartItem/CartItem";
 import Underline from "../../ui/Underline";
 import ButtonsContainer from "../../layout/ButtonsContainer/ButtonsContainer";
 
+import { cleanCart } from "../../../reducers/cart";
+
 const Cart = ({ formType, handleRight, setStepperData }) => {
   let totalPrice = 0;
+
   const theme = useTheme();
+  const dispatch = useDispatch();
+
   // para pedir data de CartItem
   // const [cartData, setCartData] = useState({});
   const { productList } = useSelector((state) => state.cart);
+  // console.log(productList);
 
   const handleCleanCart = () => {
-    //Vaciar Carrito
-    console.log("Vaciar Carrito");
+    dispatch(cleanCart());
   };
 
   return (
     <CartContainer>
       <ProductsContainer>
-        {productList.map((item, index) => {
+        {Object.values(productList).map((item, index) => {
           totalPrice += item.price;
           return (
             <CartItem

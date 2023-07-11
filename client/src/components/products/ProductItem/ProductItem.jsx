@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import { Button as ProductAddToCart } from "@mui/material";
@@ -17,11 +17,11 @@ import { addProductToCart } from "../../../reducers/cart";
 const ProductItem = ({ data }) => {
   //ver si esta logueado para agregar al carrito
   let auth = true;
+  let { id, name, price } = data;
 
-  const dispatch = useDispatch();
   const theme = useTheme();
   const navigate = useNavigate();
-  let { id, name, price } = data;
+  const dispatch = useDispatch();
 
   const handleClic = () => {
     if (!auth) {

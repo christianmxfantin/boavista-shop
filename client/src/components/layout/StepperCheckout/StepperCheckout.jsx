@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { useTheme } from "@emotion/react";
 import {
   Stepper as StepperComponent,
@@ -14,9 +16,14 @@ import Confirmation from "../../checkout/Confirmation/Confirmation/Confirmation"
 import PaymentSuccessful from "../../checkout/Payment/PaymentSuccessful/PaymentSuccessful";
 import Payment from "../../checkout/Payment/Payment/Payment";
 
+import { cleanCart } from "../../../reducers/cart";
+
 const StepperCheckout = () => {
   let stepperComponent;
   const theme = useTheme();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [stepperData, setStepperData] = useState({});
   const [activeStep, setActiveStep] = useState(0);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -30,8 +37,8 @@ const StepperCheckout = () => {
   };
 
   const handleCancelPurchase = () => {
-    //Cancelar Compra
-    console.log("Cancelar Compra");
+    dispatch(cleanCart());
+    navigate("/");
   };
 
   const handlePayment = () => {

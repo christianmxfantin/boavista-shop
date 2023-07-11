@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useTheme } from "@emotion/react";
 import {
   CartItemContainer,
@@ -14,9 +14,16 @@ import { Icon } from "../../ui/Icon";
 import ImagenPrueba from "../../../images/product.jpg";
 import NumericInput from "../../layout/NumericInput/NumericInput";
 
+import { removeAllFromCart } from "../../../reducers/cart";
+
 const CartItem = ({ data, color, setCartData }) => {
-  let { id, name, price } = data;
+  const { id, name, price } = data;
   const theme = useTheme();
+  const dispatch = useDispatch();
+
+  const handleDeleteProduct = (id) => {
+    dispatch(removeAllFromCart(id));
+  };
 
   return (
     <CartItemContainer
@@ -44,8 +51,17 @@ const CartItem = ({ data, color, setCartData }) => {
         </CartItemPriceContainer>
       </CartItemData>
       <CartItemButtons>
-        <NumericInput type="center" total={999} />
-        <Icon name="Delete-Data" size={50} color={theme.palette.error[500]} />
+        <NumericInput
+          type="center"
+          total={999}
+          data={{ formType: "cart", ...data }}
+        />
+        <Icon
+          name="Delete-Data"
+          size={50}
+          color={theme.palette.error[500]}
+          onClick={() => handleDeleteProduct(id)}
+        />
       </CartItemButtons>
     </CartItemContainer>
   );

@@ -18,7 +18,7 @@ const Products = () => {
   let { search } = useLocation();
   let searchData = decodeURIComponent(search.slice(3).replace(/\+/g, " "));
 
-  let searchProducts = products.filter(
+  let searchProducts = Object.values(products).filter(
     (product) =>
       product.name
         .toLowerCase()
@@ -42,12 +42,12 @@ const Products = () => {
         />
         <ProductListContainer container spacing={3}>
           {!searchData
-            ? products.map((product) => (
+            ? Object.values(products).map((product) => (
                 <ProductListItem item key={product.id}>
                   <ProductItem data={product} />
                 </ProductListItem>
               ))
-            : searchProducts.map((product) => (
+            : Object.values(products).map((product) => (
                 <ProductListItem item key={product.id}>
                   <ProductItem data={product} />
                 </ProductListItem>
