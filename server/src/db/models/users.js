@@ -1,45 +1,35 @@
-const { Model, DataTypes } = require("sequelize");
+const { DataTypes } = require("sequelize");
+const { sequelize } = require("../connection");
 
-const USERS_TABLE = "users";
-
-class Users extends Model {
-  static config(sequelize) {
-    return {
-      sequelize,
-      tableName: USERS_TABLE,
-      modelName: "Users",
-      timestamps: true,
-    };
+const Users = sequelize.define(
+  "users",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
+    },
+    names: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    surnames: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  },
+  {
+    timestamps: false,
   }
-}
+);
 
-const UserSchema = {
-  id: {
-    allowNull: false,
-    autoIncrement: true,
-    primaryKey: true,
-    type: DataTypes.INTEGER,
-  },
-  names: {
-    allowNull: false,
-    type: DataTypes.STRING,
-    field: "names",
-  },
-  surnames: {
-    allowNull: true,
-    type: DataTypes.STRING,
-    field: "surnames",
-  },
-  email: {
-    allowNull: false,
-    type: DataTypes.STRING,
-    field: "email",
-  },
-  password: {
-    allowNull: false,
-    type: DataTypes.STRING,
-    field: "password",
-  },
-};
-
-module.exports = { Users, UserSchema };
+module.exports = Users;
