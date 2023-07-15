@@ -1,42 +1,42 @@
-const Users = require("../../db/models/Users.js");
+const Products = require("../../db/models/Products.js");
 
-const getUsers = async (req, res) => {
+const getProducts = async (req, res) => {
   try {
-    const response = await Users.findAll();
+    const response = await Products.findAll();
     res.status(200).send(response);
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
 };
 
-const getUserById = async (req, res) => {
+const getProductById = async (req, res) => {
   try {
     const { id } = req.params;
-    const response = await Users.findByPk(id);
+    const response = await Products.findByPk(id);
     res.status(200).send(response);
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
 };
-const createUser = async (req, res) => {
+const createProduct = async (req, res) => {
   try {
-    const response = await Users.create(req.body);
+    const response = await Products.create(req.body);
     res.status(201).send(response);
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
 };
 
-const updateUser = async (req, res) => {
+const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const { names, surnames, email, password } = req.body;
+    const { name, price, stock, discount } = req.body;
 
-    const response = await Users.findByPk(id);
-    response.names = names;
-    response.surnames = surnames;
-    response.email = email;
-    response.password = password;
+    const response = await Products.findByPk(id);
+    response.name = name;
+    response.price = price;
+    response.stock = stock;
+    response.discount = discount;
 
     await response.save(req.body);
     res.status(200).send(response);
@@ -45,10 +45,10 @@ const updateUser = async (req, res) => {
   }
 };
 
-const deleteUser = async (req, res) => {
+const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    await Users.destroy({
+    await Products.destroy({
       where: {
         id,
       },
@@ -60,9 +60,9 @@ const deleteUser = async (req, res) => {
 };
 
 module.exports = {
-  getUsers,
-  getUserById,
-  createUser,
-  updateUser,
-  deleteUser,
+  getProducts,
+  getProductById,
+  createProduct,
+  updateProduct,
+  deleteProduct,
 };
