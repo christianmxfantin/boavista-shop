@@ -4,14 +4,14 @@ const crypto = require("crypto");
 const Roles = require("../../db/models/Roles.js");
 const Users = require("../../db/models/Users.js");
 
-const singUp = async (req, res) => {
+const register = async (req, res) => {
   try {
     const { names, surnames, email, password, role_id } = req.body;
 
     //Check if email is already exists
     const existingEmail = await Users.findOne({ where: { email } });
     if (existingEmail) {
-      res.status(409).json({
+      return res.status(409).json({
         message: "Unauthorized: This email is already exists",
       });
     }
@@ -19,14 +19,14 @@ const singUp = async (req, res) => {
     //Check if role_id exists in role table
     const existingRole = await Roles.findByPk(role_id);
     if (!existingRole) {
-      res.status(409).json({
+      return res.status(409).json({
         message: "Conflict: This role doesn't exist",
       });
     }
 
     //Check the password isn't empty
     if (password === "") {
-      res.status(401).json({
+      return res.status(401).json({
         message: "Unauthorized: This password is empty",
       });
     }
@@ -50,13 +50,23 @@ const singUp = async (req, res) => {
       expiresIn: 3600, // 1 hour
     });
 
-    return res.status(201).json({ token });
+    //Search the role and send cookie with data
+    const role = { role: "Admin" };
+    res.cookie(token);
+
+    return res.status(201).json({
+      id: savedUser.id,
+      names: savedUser.names,
+      surnames: savedUser.surnames,
+      email: savedUser.email,
+      role: role.role,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-const singIn = async (req, res) => {
+const login = async (req, res) => {
   try {
     // const response = await Users.findAll();
     // res.status(200).send(response);
@@ -77,7 +87,7 @@ const googleAuth = async (req, res) => {
 };
 
 module.exports = {
-  singUp,
-  singIn,
+  register,
+  login,
   googleAuth,
 };
