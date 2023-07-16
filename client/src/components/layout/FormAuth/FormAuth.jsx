@@ -10,7 +10,6 @@ import {
   InputAdornment,
   Tooltip,
 } from "@mui/material";
-// import { Button } from "../../ui/Button";
 import { Icon } from "../../ui/Icon";
 import Underline from "../../ui/Underline";
 import {
@@ -30,6 +29,7 @@ import {
 } from "./FormAuth.styles";
 import { Controller, useForm } from "react-hook-form";
 import { validations } from "../../../helpers/validations";
+import { registerRequest } from "../../../api/auth";
 
 const FormAuth = ({ formType, handleAuth }) => {
   const theme = useTheme();
@@ -54,9 +54,9 @@ const FormAuth = ({ formType, handleAuth }) => {
     console.log("Inicio con Google");
   };
 
-  const handleFacebookAuth = () => {
-    console.log("Inicio con Facebook");
-  };
+  // const handleFacebookAuth = () => {
+  //   console.log("Inicio con Facebook");
+  // };
 
   const handleTopButton = () => {
     navigate("/dashboard/users");
@@ -70,11 +70,11 @@ const FormAuth = ({ formType, handleAuth }) => {
     }
   };
 
-  const onSubmit = (formValues) => {
+  const onSubmit = async (formValues) => {
     switch (formType) {
       case "login":
         //SE LOGUEA EL USUARIO
-        console.log("LOGIN", formValues);
+        // console.log("LOGIN", formValues);
 
         let role = "";
         if (role === "admin") {
@@ -88,7 +88,15 @@ const FormAuth = ({ formType, handleAuth }) => {
 
       case "register":
         //SE REGISTRA EL USUARIO Y SE LOGUEA
-        console.log("REGISTER", formValues);
+        // console.log("REGISTER", formValues);
+
+        const data = {
+          ...formValues,
+          role_id: "462d0120-1be6-4391-b3a6-5772fcfc7e0c",
+        };
+        console.log(data);
+        const res = await registerRequest(data);
+        console.log(res);
 
         navigate("/");
         handleAuth(true);
@@ -131,13 +139,13 @@ const FormAuth = ({ formType, handleAuth }) => {
               >
                 Google
               </GoogleButton>
-              <FacebookButton
+              {/* <FacebookButton
                 variant="outlined"
                 startIcon={<Icon name="Facebook" />}
                 onClick={handleFacebookAuth}
               >
                 Facebook
-              </FacebookButton>
+              </FacebookButton> */}
             </FormAuthSocialButtons>
             <Underline
               width={376}

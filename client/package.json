@@ -9,6 +9,7 @@
     "@mui/material": "^5.8.7",
     "@redux-devtools/core": "^3.13.1",
     "@reduxjs/toolkit": "^1.9.2",
+    "axios": "^1.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
