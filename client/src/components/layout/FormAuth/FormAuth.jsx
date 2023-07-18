@@ -13,7 +13,6 @@ import {
 import { Icon } from "../../ui/Icon";
 import Underline from "../../ui/Underline";
 import {
-  FacebookButton,
   FormAuthContainer,
   FormAuthName,
   FormAuthSocial,
@@ -29,9 +28,12 @@ import {
 } from "./FormAuth.styles";
 import { Controller, useForm } from "react-hook-form";
 import { validations } from "../../../helpers/validations";
-import { registerRequest } from "../../../api/auth";
+import { registerResponse } from "../../../api/auth";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../../reducers/auth";
 
 const FormAuth = ({ formType, handleAuth }) => {
+  const dispatch = useDispatch();
   const theme = useTheme();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -87,16 +89,16 @@ const FormAuth = ({ formType, handleAuth }) => {
         break;
 
       case "register":
-        //SE REGISTRA EL USUARIO Y SE LOGUEA
-        // console.log("REGISTER", formValues);
-
+        //Register the user and sing in
         const data = {
           ...formValues,
-          role_id: "462d0120-1be6-4391-b3a6-5772fcfc7e0c",
+          role_id: "66c36abb-f3f1-4f6e-b4ff-354eaf93569b",
         };
-        console.log(data);
-        const res = await registerRequest(data);
-        console.log(res);
+
+        const res = await registerResponse(data);
+        console.log(res.data);
+
+        dispatch(setUser(res.data));
 
         navigate("/");
         handleAuth(true);

@@ -22,6 +22,7 @@ const Navbar = ({ isLoginForm, isLogged, handleAuth }) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const { total } = useSelector((state) => state.cart);
+  const { user } = useSelector((state) => state.auth);
   const [isHover, setIsHover] = useState(false);
 
   const AppbarStyles = css({
@@ -162,7 +163,7 @@ const Navbar = ({ isLoginForm, isLogged, handleAuth }) => {
               }}
               onClick={handleClic}
             >
-              {!isLogged ? "INGRESA" : "SALIR"}
+              {!isLogged ? "INGRESA" : user.names}
             </Typography>
           </>
         )}
