@@ -4,6 +4,9 @@ const crypto = require("crypto");
 const Roles = require("../../db/models/Roles.js");
 const Users = require("../../db/models/Users.js");
 
+//Create a Secret for JWT
+const TOKEN_SECRET = crypto.randomBytes(128).toString("hex");
+
 const register = async (req, res) => {
   try {
     const { names, surnames, email, password, role_id } = req.body;
@@ -42,17 +45,14 @@ const register = async (req, res) => {
     };
     const savedUser = await Users.create(newUser);
 
-    //Create a Secret for JWT
-    const secret = crypto.randomBytes(128).toString("hex");
-
     // Create a Token
-    const token = jwt.sign({ id: savedUser.id }, secret, {
+    const token = jwt.sign({ id: savedUser.id }, TOKEN_SECRET, {
       expiresIn: 3600, // 1 hour
     });
 
     //Search the role and send cookie with data
     const role = { role: "Admin" };
-    res.cookie(token);
+    res.cookie("token", token);
 
     return res.status(201).json({
       id: savedUser.id,
@@ -86,8 +86,36 @@ const googleAuth = async (req, res) => {
   }
 };
 
+const token = async (req, res) => {
+  try {
+    const { token } = req.cookies;
+    if (!token) return res.send(false);
+
+    jwt.verify(token, TOKEN_SECRET, async (error, user) => {
+      if (error)
+        return res.status(401).json({
+          message: error,
+        });
+
+      const userFound = await Users.findByPk(user.id);
+      if (!userFound)
+        return res.status(401).json({
+          message: "Unauthorized: The user is invalid",
+        });
+
+      return res.status(200).json({
+        id: userFound.id,
+        email: userFound.email,
+      });
+    });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+};
+
 module.exports = {
   register,
   login,
   googleAuth,
+  token,
 };
