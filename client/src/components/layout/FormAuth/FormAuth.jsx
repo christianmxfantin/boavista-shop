@@ -92,7 +92,7 @@ const FormAuth = ({ formType, handleAuth }) => {
         //Register the user and sing in
         const data = {
           ...formValues,
-          role_id: "66c36abb-f3f1-4f6e-b4ff-354eaf93569b",
+          role_id: "859534be-3502-4300-a3cf-6b7ff6879275",
         };
 
         const res = await registerResponse(data);

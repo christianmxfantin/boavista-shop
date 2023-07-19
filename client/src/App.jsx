@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import Navbar from "./components/layout/Navbar";
+import Navbar from "./components/layout/Navbar/Navbar";
 import Login from "./pages/auth/Login/Login";
 import Register from "./pages/auth/Register/Register";
 import Dashboard from "./pages/admin/Dashboard/Dashboard";
@@ -15,12 +15,6 @@ import PrivateRoute from "./components/auth/PrivateRoute";
 import List from "./pages/admin/List/List";
 
 const App = () => {
-  const [isLogged, setIsLogged] = useState(false);
-
-  const handleAuth = (isLogged) => {
-    setIsLogged(isLogged);
-  };
-
   return (
     <Router>
       <Routes>
@@ -29,11 +23,7 @@ const App = () => {
           path="/"
           element={
             <>
-              <Navbar
-                isLoginForm={false}
-                isLogged={isLogged}
-                handleAuth={handleAuth}
-              />
+              <Navbar isLoginForm={false} />
               <Home />
             </>
           }
@@ -44,7 +34,7 @@ const App = () => {
           element={
             <>
               <Navbar isLoginForm={true} />
-              <Login handleAuth={handleAuth} />
+              {/* <Login handleAuth={handleAuth} /> */}
             </>
           }
         />
@@ -54,7 +44,7 @@ const App = () => {
           element={
             <>
               <Navbar isLoginForm={true} />
-              <Register handleAuth={handleAuth} />
+              {/* <Register handleAuth={handleAuth} /> */}
             </>
           }
         />
@@ -64,11 +54,7 @@ const App = () => {
             path="/dashboard/users"
             element={
               <>
-                <Navbar
-                  isLoginForm={false}
-                  isLogged={isLogged}
-                  handleAuth={handleAuth}
-                />
+                <Navbar isLoginForm={false} />
                 <List typeData="users" />
               </>
             }
@@ -80,11 +66,7 @@ const App = () => {
             path="/dashboard/products"
             element={
               <>
-                <Navbar
-                  isLoginForm={false}
-                  isLogged={isLogged}
-                  handleAuth={handleAuth}
-                />
+                <Navbar isLoginForm={false} />
                 <List typeData="products" />
               </>
             }
@@ -96,11 +78,7 @@ const App = () => {
             path="/dashboard"
             element={
               <>
-                <Navbar
-                  isLoginForm={false}
-                  isLogged={isLogged}
-                  handleAuth={handleAuth}
-                />
+                <Navbar isLoginForm={false} />
                 <Dashboard />
               </>
             }
@@ -112,11 +90,7 @@ const App = () => {
             path="/profile"
             element={
               <>
-                <Navbar
-                  isLoginForm={false}
-                  isLogged={isLogged}
-                  handleAuth={handleAuth}
-                />
+                <Navbar isLoginForm={false} />
                 <Profile />
               </>
             }
@@ -127,11 +101,7 @@ const App = () => {
           path="/products"
           element={
             <>
-              <Navbar
-                isLoginForm={false}
-                isLogged={isLogged}
-                handleAuth={handleAuth}
-              />
+              <Navbar isLoginForm={false} />
               <Products />
             </>
           }
@@ -141,11 +111,7 @@ const App = () => {
           path={"/products/:id"}
           element={
             <>
-              <Navbar
-                isLoginForm={false}
-                isLogged={isLogged}
-                handleAuth={handleAuth}
-              />
+              <Navbar isLoginForm={false} />
               <ProductDetails />
             </>
           }
@@ -156,11 +122,7 @@ const App = () => {
             path="/checkout"
             element={
               <>
-                <Navbar
-                  isLoginForm={false}
-                  isLogged={isLogged}
-                  handleAuth={handleAuth}
-                />
+                <Navbar isLoginForm={false} />
                 <Checkout />
               </>
             }
@@ -171,11 +133,7 @@ const App = () => {
           path="*"
           element={
             <>
-              <Navbar
-                isLoginForm={false}
-                isLogged={isLogged}
-                handleAuth={handleAuth}
-              />
+              <Navbar isLoginForm={false} />
               <PageNotFound />
             </>
           }
