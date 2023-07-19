@@ -89,7 +89,11 @@ const googleAuth = async (req, res) => {
 const token = async (req, res) => {
   try {
     const { token } = req.cookies;
-    if (!token) return res.send(false);
+
+    if (!token)
+      return res.status(401).json({
+        message: "Unauthorized: The user is invalid",
+      });
 
     jwt.verify(token, TOKEN_SECRET, async (error, user) => {
       if (error)
