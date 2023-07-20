@@ -34,7 +34,7 @@ const App = () => {
           element={
             <>
               <Navbar isLoginForm={true} />
-              {/* <Login handleAuth={handleAuth} /> */}
+              <Login />
             </>
           }
         />
@@ -44,7 +44,7 @@ const App = () => {
           element={
             <>
               <Navbar isLoginForm={true} />
-              {/* <Register handleAuth={handleAuth} /> */}
+              <Register />
             </>
           }
         />

@@ -31,8 +31,9 @@ import { validations } from "../../../helpers/validations";
 import { registerResponse } from "../../../api/auth";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../reducers/auth";
+import { getRoles } from "../../../api/roles";
 
-const FormAuth = ({ formType, handleAuth }) => {
+const FormAuth = ({ formType }) => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const navigate = useNavigate();
@@ -81,18 +82,20 @@ const FormAuth = ({ formType, handleAuth }) => {
         let role = "";
         if (role === "admin") {
           navigate("/dashboard");
-          handleAuth(true);
         } else {
           navigate("/");
-          handleAuth(true);
         }
         break;
 
       case "register":
+        //Check if exists the Web role in database
+        const roles = await getRoles();
+        const roleName = roles.data.find((role) => role.names === "Web");
+
         //Register the user and sing in
         const data = {
           ...formValues,
-          role_id: "859534be-3502-4300-a3cf-6b7ff6879275",
+          role_id: roleName.id,
         };
 
         const res = await registerResponse(data);
@@ -101,7 +104,6 @@ const FormAuth = ({ formType, handleAuth }) => {
         dispatch(setUser(res.data));
 
         navigate("/");
-        handleAuth(true);
         break;
 
       default:
@@ -366,7 +368,6 @@ const FormAuth = ({ formType, handleAuth }) => {
             </>
           )}
         </ButtonsContainer>
-        {/* {formType === "login" ? response && handleAuth(true) : null} */}
       </FormAuthContainer>
     </main>
   );

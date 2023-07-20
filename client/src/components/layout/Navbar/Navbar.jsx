@@ -7,9 +7,11 @@ import {
   Avatar,
   Badge,
   Box,
+  IconButton,
   Menu,
   MenuItem,
   Toolbar,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { Icon } from "../../ui/Icon";
@@ -18,19 +20,27 @@ import { Image } from "../../ui/Image";
 import useAuth from "../../../hooks/useAuth";
 import {
   LogoContainer,
-  NavbarChica,
   NavbarContainer,
+  NavbarMenuContainer,
   SearchContainer,
 } from "./Navbar.styles";
+import TestImage from "../../../images/product2.jpg";
 
 const Navbar = ({ isLoginForm }) => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { isAuth } = useAuth();
 
+  const { isAuth, logout } = useAuth();
   const { total } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.auth);
+
   const [isHover, setIsHover] = useState(false);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+
+  // useEffect(() => {
+
+  // }, [])
 
   //CSS para Links de React Router
   const NavbarMenu = css({
@@ -69,24 +79,41 @@ const Navbar = ({ isLoginForm }) => {
     },
   });
 
-  const LoginLink = css({
-    marginRight: theme.spacing(2), //16px
-    color: theme.palette.secondary.A100,
-    textDecoration: "none",
-    "&:hover": {
-      color: theme.palette.secondary[500],
-    },
-  });
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
 
   const handleLoginLink = () => {
     navigate("/login");
+  };
+
+  const handleProfileLink = () => {
+    setAnchorElUser(null);
+    navigate("/profile");
+  };
+
+  const handleLogoutLink = () => {
+    setAnchorElUser(null);
+    logout();
+    navigate("/");
   };
 
   return (
     <NavbarContainer position="sticky">
       <Toolbar component={"nav"} sx={{ display: "flex" }}>
         <Link to="/">
-          <LogoContainer>
+          <LogoContainer sx={{ display: { xs: "none", md: "flex" } }}>
             <Image
               name="Logo"
               style={{
@@ -97,11 +124,36 @@ const Navbar = ({ isLoginForm }) => {
         </Link>
         {!isLoginForm && (
           <>
-            <NavbarChica
+            <NavbarMenuContainer
               sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
             >
-              <Icon name="Menu" color={theme.palette.secondary.A100} />
-              <Menu open={false}>
+              <IconButton
+                size="large"
+                aria-controls="menu-navbar"
+                aria-haspopup="true"
+                onClick={handleOpenNavMenu}
+                color="inherit"
+              >
+                <Icon name="Menu" color={theme.palette.secondary.A100} />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: { xs: "block", md: "none" },
+                }}
+              >
                 <Link css={NavbarMenu} to="/products">
                   <MenuItem>Productos</MenuItem>
                 </Link>
@@ -109,49 +161,92 @@ const Navbar = ({ isLoginForm }) => {
                   <MenuItem>Carrito</MenuItem>
                 </Link>
               </Menu>
-            </NavbarChica>
-
-            <Link css={NavbarLink} to="/products">
-              <Typography variant="h6">PRODUCTOS</Typography>
-            </Link>
-            <Link
-              css={CartLink}
-              onMouseEnter={() => setIsHover(true)}
-              onMouseLeave={() => setIsHover(false)}
-              to="/checkout"
-            >
-              <Badge
-                badgeContent={total}
-                max={99}
-                sx={{ marginLeft: theme.spacing(2) }}
+            </NavbarMenuContainer>
+            <Link to="/">
+              <LogoContainer
+                sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
               >
-                <Icon name="Cart" size={30} />
-              </Badge>
+                <Image
+                  name="Logo"
+                  style={{
+                    maxWidth: "100%",
+                  }}
+                />
+              </LogoContainer>
             </Link>
+            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+              <Link
+                css={NavbarLink}
+                to="/products"
+                onClick={handleCloseNavMenu}
+              >
+                <Typography variant="h6">PRODUCTOS</Typography>
+              </Link>
+              <Link
+                css={CartLink}
+                onMouseEnter={() => setIsHover(true)}
+                onMouseLeave={() => setIsHover(false)}
+                to="/checkout"
+                onClick={handleCloseNavMenu}
+              >
+                <Badge
+                  badgeContent={total}
+                  max={99}
+                  sx={{ marginLeft: theme.spacing(2) }}
+                >
+                  <Icon name="Cart" size={30} />
+                </Badge>
+              </Link>
+            </Box>
             <SearchContainer>
               <Search />
             </SearchContainer>
-            {isAuth && (
-              <Link css={LoginLink} to="/profile">
-                <Box>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                  <Typography>{user.names}</Typography>
-                  {/* Menu con links a Profile y a Logout */}
-                </Box>
-              </Link>
-            )}
-            <Typography
-              variant="h6"
-              sx={{
-                cursor: "pointer",
-                "&:hover": {
-                  color: theme.palette.secondary[500],
-                },
-              }}
-              onClick={handleLoginLink}
-            >
-              INGRESA
-            </Typography>
+            <Box sx={{ flexGrow: 0 }}>
+              {/* {console.log(isAuth)} */}
+              {!isAuth ? (
+                <Typography
+                  variant="h6"
+                  sx={{
+                    cursor: "pointer",
+                    "&:hover": {
+                      color: theme.palette.secondary[500],
+                    },
+                  }}
+                  onClick={handleLoginLink}
+                >
+                  INGRESA
+                </Typography>
+              ) : (
+                <Tooltip title="Abrir Menú">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar alt={user.names} src={TestImage} />
+                  </IconButton>
+                </Tooltip>
+              )}
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                <MenuItem onClick={handleProfileLink}>
+                  <Typography textAlign="center">Perfil</Typography>
+                </MenuItem>
+                <MenuItem onClick={handleLogoutLink}>
+                  <Typography textAlign="center">Salir</Typography>
+                </MenuItem>
+              </Menu>
+            </Box>
           </>
         )}
       </Toolbar>

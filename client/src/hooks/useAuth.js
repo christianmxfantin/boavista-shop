@@ -17,7 +17,6 @@ const useAuth = () => {
 
       try {
         const res = await authResponse(cookies);
-        // console.log(res);
         if (!res.data) {
           setIsAuth(false);
           setIsLoading(false);
@@ -35,7 +34,12 @@ const useAuth = () => {
     getData();
   }, []);
 
-  return { isLoading, isAuth };
+  const logout = () => {
+    Cookies.remove("token");
+    setIsAuth(false);
+  };
+
+  return { isLoading, isAuth, logout };
 };
 
 export default useAuth;

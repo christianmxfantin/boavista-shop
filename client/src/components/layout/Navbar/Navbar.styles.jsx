@@ -11,10 +11,9 @@ export const LogoContainer = styled(Box)(({ theme }) => ({
   width: 270,
   height: 60,
   paddingTop: theme.spacing(0.5), //4px
-  display: { xs: "none", md: "flex" },
 }));
 
-export const NavbarChica = styled(Box)(({ theme }) => ({
+export const NavbarMenuContainer = styled(Box)(({ theme }) => ({
   //styles
 }));
 
