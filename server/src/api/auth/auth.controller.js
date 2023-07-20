@@ -20,6 +20,7 @@ const register = async (req, res) => {
     }
 
     //Check if role_id exists in role table
+    //It's only for users type web
     const existingRole = await Roles.findByPk(role_id);
     if (!existingRole) {
       return res.status(409).json({
@@ -50,8 +51,8 @@ const register = async (req, res) => {
       expiresIn: 3600, // 1 hour
     });
 
-    //Search the role and send cookie with data
-    const role = { role: "Admin" };
+    //Send cookie with data
+    // const roleName = await Roles.findAll({ where: { id: role_id } });
     res.cookie("token", token);
 
     return res.status(201).json({
@@ -59,7 +60,7 @@ const register = async (req, res) => {
       names: savedUser.names,
       surnames: savedUser.surnames,
       email: savedUser.email,
-      role: role.role,
+      role: "web",
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
