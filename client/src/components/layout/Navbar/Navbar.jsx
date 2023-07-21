@@ -25,6 +25,7 @@ import {
   SearchContainer,
 } from "./Navbar.styles";
 import TestImage from "../../../images/product2.jpg";
+import Toast from "../Toast/Toast";
 
 const Navbar = ({ isLoginForm }) => {
   const theme = useTheme();
@@ -35,12 +36,9 @@ const Navbar = ({ isLoginForm }) => {
   const { user } = useSelector((state) => state.auth);
 
   const [isHover, setIsHover] = useState(false);
+  const [isToastVisible, setIsToastVisible] = useState(false);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-
-  // useEffect(() => {
-
-  // }, [])
 
   //CSS para Links de React Router
   const NavbarMenu = css({
@@ -107,150 +105,158 @@ const Navbar = ({ isLoginForm }) => {
     setAnchorElUser(null);
     logout();
     navigate("/");
+    setIsToastVisible(true);
   };
 
   return (
-    <NavbarContainer position="sticky">
-      <Toolbar component={"nav"} sx={{ display: "flex" }}>
-        <Link to="/">
-          <LogoContainer sx={{ display: { xs: "none", md: "flex" } }}>
-            <Image
-              name="Logo"
-              style={{
-                maxWidth: "100%",
-              }}
-            />
-          </LogoContainer>
-        </Link>
-        {!isLoginForm && (
-          <>
-            <NavbarMenuContainer
-              sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
-            >
-              <IconButton
-                size="large"
-                aria-controls="menu-navbar"
-                aria-haspopup="true"
-                onClick={handleOpenNavMenu}
-                color="inherit"
-              >
-                <Icon name="Menu" color={theme.palette.secondary.A100} />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorElNav}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
+    <>
+      <NavbarContainer position="sticky">
+        <Toolbar component={"nav"} sx={{ display: "flex" }}>
+          <Link to="/">
+            <LogoContainer sx={{ display: { xs: "none", md: "flex" } }}>
+              <Image
+                name="Logo"
+                style={{
+                  maxWidth: "100%",
                 }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
-                }}
-                open={Boolean(anchorElNav)}
-                onClose={handleCloseNavMenu}
-                sx={{
-                  display: { xs: "block", md: "none" },
-                }}
-              >
-                <Link css={NavbarMenu} to="/products">
-                  <MenuItem>Productos</MenuItem>
-                </Link>
-                <Link css={NavbarMenu} to="/checkout">
-                  <MenuItem>Carrito</MenuItem>
-                </Link>
-              </Menu>
-            </NavbarMenuContainer>
-            <Link to="/">
-              <LogoContainer
+              />
+            </LogoContainer>
+          </Link>
+          {!isLoginForm && (
+            <>
+              <NavbarMenuContainer
                 sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
               >
-                <Image
-                  name="Logo"
-                  style={{
-                    maxWidth: "100%",
-                  }}
-                />
-              </LogoContainer>
-            </Link>
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              <Link
-                css={NavbarLink}
-                to="/products"
-                onClick={handleCloseNavMenu}
-              >
-                <Typography variant="h6">PRODUCTOS</Typography>
-              </Link>
-              <Link
-                css={CartLink}
-                onMouseEnter={() => setIsHover(true)}
-                onMouseLeave={() => setIsHover(false)}
-                to="/checkout"
-                onClick={handleCloseNavMenu}
-              >
-                <Badge
-                  badgeContent={total}
-                  max={99}
-                  sx={{ marginLeft: theme.spacing(2) }}
+                <IconButton
+                  size="large"
+                  aria-controls="menu-navbar"
+                  aria-haspopup="true"
+                  onClick={handleOpenNavMenu}
+                  color="inherit"
                 >
-                  <Icon name="Cart" size={30} />
-                </Badge>
-              </Link>
-            </Box>
-            <SearchContainer>
-              <Search />
-            </SearchContainer>
-            <Box sx={{ flexGrow: 0 }}>
-              {/* {console.log(isAuth)} */}
-              {!isAuth ? (
-                <Typography
-                  variant="h6"
+                  <Icon name="Menu" color={theme.palette.secondary.A100} />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorElNav}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                  }}
+                  open={Boolean(anchorElNav)}
+                  onClose={handleCloseNavMenu}
                   sx={{
-                    cursor: "pointer",
-                    "&:hover": {
-                      color: theme.palette.secondary[500],
-                    },
+                    display: { xs: "block", md: "none" },
                   }}
-                  onClick={handleLoginLink}
                 >
-                  INGRESA
-                </Typography>
-              ) : (
-                <Tooltip title="Abrir Menú">
-                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt={user.names} src={TestImage} />
-                  </IconButton>
-                </Tooltip>
-              )}
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                <MenuItem onClick={handleProfileLink}>
-                  <Typography textAlign="center">Perfil</Typography>
-                </MenuItem>
-                <MenuItem onClick={handleLogoutLink}>
-                  <Typography textAlign="center">Salir</Typography>
-                </MenuItem>
-              </Menu>
-            </Box>
-          </>
-        )}
-      </Toolbar>
-    </NavbarContainer>
+                  <Link css={NavbarMenu} to="/products">
+                    <MenuItem>Productos</MenuItem>
+                  </Link>
+                  <Link css={NavbarMenu} to="/checkout">
+                    <MenuItem>Carrito</MenuItem>
+                  </Link>
+                </Menu>
+              </NavbarMenuContainer>
+              <Link to="/">
+                <LogoContainer
+                  sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
+                >
+                  <Image
+                    name="Logo"
+                    style={{
+                      maxWidth: "100%",
+                    }}
+                  />
+                </LogoContainer>
+              </Link>
+              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+                <Link
+                  css={NavbarLink}
+                  to="/products"
+                  onClick={handleCloseNavMenu}
+                >
+                  <Typography variant="h6">PRODUCTOS</Typography>
+                </Link>
+                <Link
+                  css={CartLink}
+                  onMouseEnter={() => setIsHover(true)}
+                  onMouseLeave={() => setIsHover(false)}
+                  to="/checkout"
+                  onClick={handleCloseNavMenu}
+                >
+                  <Badge
+                    badgeContent={total}
+                    max={99}
+                    sx={{ marginLeft: theme.spacing(2) }}
+                  >
+                    <Icon name="Cart" size={30} />
+                  </Badge>
+                </Link>
+              </Box>
+              <SearchContainer>
+                <Search />
+              </SearchContainer>
+              <Box sx={{ flexGrow: 0 }}>
+                {/* {console.log(isAuth)} */}
+                {!isAuth ? (
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      cursor: "pointer",
+                      "&:hover": {
+                        color: theme.palette.secondary[500],
+                      },
+                    }}
+                    onClick={handleLoginLink}
+                  >
+                    INGRESA
+                  </Typography>
+                ) : (
+                  <Tooltip title="Abrir Menú">
+                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                      <Avatar alt={user.names} src={TestImage} />
+                    </IconButton>
+                  </Tooltip>
+                )}
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  <MenuItem onClick={handleProfileLink}>
+                    <Typography textAlign="center">Perfil</Typography>
+                  </MenuItem>
+                  <MenuItem onClick={handleLogoutLink}>
+                    <Typography textAlign="center">Salir</Typography>
+                  </MenuItem>
+                </Menu>
+              </Box>
+            </>
+          )}
+        </Toolbar>
+      </NavbarContainer>
+      <Toast
+        isToastVisible={isToastVisible}
+        setIsToastVisible={setIsToastVisible}
+        message="La sesión se ha cerrado correctamente"
+      />
+    </>
   );
 };
 

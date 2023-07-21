@@ -28,10 +28,10 @@ import {
 } from "./FormAuth.styles";
 import { Controller, useForm } from "react-hook-form";
 import { validations } from "../../../helpers/validations";
-import { registerResponse } from "../../../api/auth";
+import { loginResponse, registerResponse } from "../../../api/auth";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../reducers/auth";
-import { getRoles } from "../../../api/roles";
+import { getRoleById, getRoles } from "../../../api/roles";
 
 const FormAuth = ({ formType }) => {
   const dispatch = useDispatch();
@@ -76,11 +76,17 @@ const FormAuth = ({ formType }) => {
   const onSubmit = async (formValues) => {
     switch (formType) {
       case "login":
-        //SE LOGUEA EL USUARIO
-        // console.log("LOGIN", formValues);
+        const userData = {
+          email: formValues.email,
+          password: formValues.password,
+        };
+        // console.log(typeof userData.password);
+        const loginUser = await loginResponse(userData);
+        console.log(loginUser.data);
 
-        let role = "";
-        if (role === "admin") {
+        dispatch(setUser(loginUser.data));
+
+        if (loginUser.data.role_id === "Admin") {
           navigate("/dashboard");
         } else {
           navigate("/");
@@ -93,15 +99,15 @@ const FormAuth = ({ formType }) => {
         const roleName = roles.data.find((role) => role.names === "Web");
 
         //Register the user and sing in
-        const data = {
+        const newUser = {
           ...formValues,
           role_id: roleName.id,
         };
 
-        const res = await registerResponse(data);
-        console.log(res.data);
+        const registerUser = await registerResponse(newUser);
+        console.log(registerUser.data);
 
-        dispatch(setUser(res.data));
+        dispatch(setUser(registerUser.data));
 
         navigate("/");
         break;
