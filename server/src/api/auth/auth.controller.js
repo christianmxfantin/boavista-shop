@@ -60,7 +60,7 @@ const register = async (req, res) => {
       names: savedUser.names,
       surnames: savedUser.surnames,
       email: savedUser.email,
-      role: "web",
+      role: "Web",
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -69,11 +69,63 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    // const response = await Users.findAll();
-    // res.status(200).send(response);
-    res.status(200).send("User logged");
+    const { email, password } = req.body;
+
+    //Check if user exists
+    const userFound = await Users.findOne({ where: { email } });
+    if (!userFound) {
+      return res.status(401).json({
+        message: "Unauthorized: This email doesn't exist",
+      });
+    }
+    // const userFound = userSearch.users.dataValues;
+    // console.log(userSearch.users);
+    console.log(userFound);
+
+    //Check if role_id exists in role table
+    const existingRole = await Roles.findByPk(userFound.role_id);
+    if (!existingRole) {
+      return res.status(409).json({
+        message: "Conflict: This role doesn't exist",
+      });
+    }
+
+    //Check the password isn't empty
+    if (password === "") {
+      return res.status(401).json({
+        message: "Unauthorized: This password is empty",
+      });
+    }
+
+    // console.log(req.body);
+    // console.log(password, userFound.password);
+
+    //Compare the password
+    // await bcrypt.compare(password, userFound.password, (err) => {
+    //   if (err) {
+    //     return res.status(401).json({
+    //       message: ["Unauthorized: The password is invalid"],
+    //     });
+    //   }
+    // });
+
+    // Create a Token
+    const token = jwt.sign({ id: userFound.id }, TOKEN_SECRET, {
+      expiresIn: 3600, // 1 hour
+    });
+
+    //Send cookie with data
+    res.cookie("token", token);
+
+    return res.status(201).json({
+      id: userFound.id,
+      names: userFound.names,
+      surnames: userFound.surnames,
+      email: userFound.email,
+      role: existingRole.id,
+    });
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
