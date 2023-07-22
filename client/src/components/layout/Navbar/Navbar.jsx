@@ -34,6 +34,7 @@ const Navbar = ({ isLoginForm }) => {
   const { isAuth, logout } = useAuth();
   const { total } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.auth);
+  console.log(user);
 
   const [isHover, setIsHover] = useState(false);
   const [isToastVisible, setIsToastVisible] = useState(false);

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import {
   Button,
@@ -31,9 +31,9 @@ import { validations } from "../../../helpers/validations";
 import { loginResponse, registerResponse } from "../../../api/auth";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../reducers/auth";
-import { getRoleById, getRoles } from "../../../api/roles";
+import { getRoles } from "../../../api/roles";
 
-const FormAuth = ({ formType }) => {
+const FormAuth = ({ formType, role }) => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const navigate = useNavigate();
@@ -86,10 +86,10 @@ const FormAuth = ({ formType }) => {
 
         dispatch(setUser(loginUser.data));
 
-        if (loginUser.data.role_id === "Admin") {
-          navigate("/dashboard");
+        if (loginUser.data.role !== "Web") {
+          redirect("/dashboard");
         } else {
-          navigate("/");
+          redirect("/");
         }
         break;
 
@@ -109,7 +109,7 @@ const FormAuth = ({ formType }) => {
 
         dispatch(setUser(registerUser.data));
 
-        navigate("/");
+        redirect("/");
         break;
 
       default:
@@ -342,21 +342,23 @@ const FormAuth = ({ formType }) => {
             </>
           ) : (
             <>
-              <Button
-                variant="contained"
-                sx={{
-                  width: "376px",
-                  marginBottom: theme.spacing(4),
-                  fontSize: theme.spacing(3), //24px
-                  "&:hover": {
-                    backgroundColor: theme.palette.secondary[500],
-                    color: theme.palette.primary[500],
-                  },
-                }}
-                onClick={handleTopButton}
-              >
-                Usuarios
-              </Button>
+              {role === "Admin" && (
+                <Button
+                  variant="contained"
+                  sx={{
+                    width: "376px",
+                    marginBottom: theme.spacing(4),
+                    fontSize: theme.spacing(3), //24px
+                    "&:hover": {
+                      backgroundColor: theme.palette.secondary[500],
+                      color: theme.palette.primary[500],
+                    },
+                  }}
+                  onClick={handleTopButton}
+                >
+                  Usuarios
+                </Button>
+              )}
               <Button
                 variant="contained"
                 sx={{
