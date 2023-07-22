@@ -122,7 +122,7 @@ const login = async (req, res) => {
       names: userFound.names,
       surnames: userFound.surnames,
       email: userFound.email,
-      role: existingRole.id,
+      role: existingRole.names,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
