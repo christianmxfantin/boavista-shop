@@ -17,6 +17,9 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.2.1",
     "react-scripts": "^5.0.1",
+    "redux-persist": "^6.0.0",
+    "redux-persist-cookie-storage": "^1.0.0",
+    "redux-thunk": "^2.4.2",
     "svgo": "^2.8.0",
     "web-vitals": "^2.1.4"
   },

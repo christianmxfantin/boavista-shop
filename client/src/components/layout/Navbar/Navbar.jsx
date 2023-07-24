@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme, css } from "@emotion/react";
 import {
@@ -26,15 +26,16 @@ import {
 } from "./Navbar.styles";
 import TestImage from "../../../images/product2.jpg";
 import Toast from "../Toast/Toast";
+import { unsetUser } from "../../../reducers/auth";
 
 const Navbar = ({ isLoginForm }) => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const { isAuth, logout } = useAuth();
+  const { isAuth, isLoading, logout } = useAuth();
   const { total } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.auth);
-  console.log(user);
 
   const [isHover, setIsHover] = useState(false);
   const [isToastVisible, setIsToastVisible] = useState(false);
@@ -104,9 +105,13 @@ const Navbar = ({ isLoginForm }) => {
 
   const handleLogoutLink = () => {
     setAnchorElUser(null);
+    dispatch(unsetUser());
     logout();
-    navigate("/");
+    navigate("/", { replace: true });
     setIsToastVisible(true);
+    setTimeout(() => {
+      window.location.reload();
+    }, 10000);
   };
 
   return (
@@ -114,7 +119,9 @@ const Navbar = ({ isLoginForm }) => {
       <NavbarContainer position="sticky">
         <Toolbar component={"nav"} sx={{ display: "flex" }}>
           <Link to="/">
-            <LogoContainer sx={{ display: { xs: "none", md: "flex" } }}>
+            <LogoContainer
+              sx={{ flexGrow: 1, display: { xs: "flex", md: "flex" } }}
+            >
               <Image
                 name="Logo"
                 style={{
@@ -203,8 +210,7 @@ const Navbar = ({ isLoginForm }) => {
                 <Search />
               </SearchContainer>
               <Box sx={{ flexGrow: 0 }}>
-                {/* {console.log(isAuth)} */}
-                {!isAuth ? (
+                {!isAuth && !isLoading ? (
                   <Typography
                     variant="h6"
                     sx={{

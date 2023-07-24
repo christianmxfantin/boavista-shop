@@ -1,12 +1,16 @@
 import { Navigate } from "react-router-dom";
 import FormAuth from "../../../components/layout/FormAuth/FormAuth";
+import { useSelector } from "react-redux";
 
 const Dashboard = () => {
-  const user = { role: "Web" };
-  // const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
 
-  if (user.role === "Web") return <Navigate to="/login" replace />;
-  return <FormAuth formType="dashboard" role={user.role} />;
+  if (
+    user.role.toLowerCase().trim() === "admin" ||
+    user.role.toLowerCase().trim() === "user"
+  )
+    return <FormAuth formType="dashboard" role={user.role} />;
+  return <Navigate to="/login" replace />;
 };
 
 export default Dashboard;

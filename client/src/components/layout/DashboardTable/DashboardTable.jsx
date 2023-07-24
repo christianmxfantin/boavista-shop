@@ -35,7 +35,7 @@ const DashboardTable = ({ typeData }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {database.map((data) => (
+            {Object.values(database).map((data) => (
               <StyledTableRow key={data.id}>
                 <StyledTableCell component="th" scope="row">
                   <TableNameContainer>

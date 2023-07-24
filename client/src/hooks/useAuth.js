@@ -26,6 +26,7 @@ const useAuth = () => {
         setIsAuth(true);
         setIsLoading(false);
       } catch (error) {
+        // console.error("error");
         setIsAuth(false);
         setIsLoading(false);
       }
@@ -36,6 +37,7 @@ const useAuth = () => {
   const logout = () => {
     Cookies.remove("token");
     setIsAuth(false);
+    setIsLoading(false);
   };
 
   return { isLoading, isAuth, logout };

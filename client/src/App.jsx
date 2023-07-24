@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/layout/Navbar/Navbar";
@@ -11,6 +10,7 @@ import Products from "./pages/products/Products/Products";
 import ProductDetails from "./pages/products/ProductDetails/ProductDetails";
 import Checkout from "./pages/checkout/Checkout";
 import PageNotFound from "./pages/pageNotFound/PageNotFound";
+import AuthRoute from "./components/auth/AuthRoute";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import List from "./pages/admin/List/List";
 
@@ -28,26 +28,28 @@ const App = () => {
             </>
           }
         />
-        <Route
-          exact
-          path="/login"
-          element={
-            <>
-              <Navbar isLoginForm={true} />
-              <Login />
-            </>
-          }
-        />
-        <Route
-          exact
-          path="/register"
-          element={
-            <>
-              <Navbar isLoginForm={true} />
-              <Register />
-            </>
-          }
-        />
+        <Route element={<AuthRoute />}>
+          <Route
+            exact
+            path="/login"
+            element={
+              <>
+                <Navbar isLoginForm={true} />
+                <Login />
+              </>
+            }
+          />
+          <Route
+            exact
+            path="/register"
+            element={
+              <>
+                <Navbar isLoginForm={true} />
+                <Register />
+              </>
+            }
+          />
+        </Route>
         <Route exact path="/dashboard/users" element={<PrivateRoute />}>
           <Route
             exact

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import {
   Button,
@@ -68,6 +68,8 @@ const FormAuth = ({ formType, role }) => {
   const handleBottomButton = () => {
     if (formType === "login") {
       navigate("/register");
+    } else if (formType === "register") {
+      navigate("/login");
     } else {
       navigate("/dashboard/products");
     }
@@ -77,39 +79,39 @@ const FormAuth = ({ formType, role }) => {
     switch (formType) {
       case "login":
         const userData = {
-          email: formValues.email,
-          password: formValues.password,
+          email: formValues.email.trim(),
+          password: formValues.password.trim(),
         };
-        // console.log(typeof userData.password);
-        const loginUser = await loginResponse(userData);
-        console.log(loginUser.data);
 
+        const loginUser = await loginResponse(userData);
         dispatch(setUser(loginUser.data));
 
-        if (loginUser.data.role !== "Web") {
-          redirect("/dashboard");
+        if (loginUser.data.role.toLowerCase().trim() !== "Web") {
+          navigate("/dashboard");
         } else {
-          redirect("/");
+          navigate("/");
         }
         break;
 
       case "register":
         //Check if exists the Web role in database
         const roles = await getRoles();
-        const roleName = roles.data.find((role) => role.names === "Web");
+        const roleName = roles.data.find(
+          (role) => role.names.toLowerCase().trim() === "web"
+        );
 
         //Register the user and sing in
         const newUser = {
-          ...formValues,
+          names: formValues.names.trim(),
+          surnames: formValues.surnames.trim(),
+          email: formValues.email.toLowerCase().trim(),
+          password: formValues.password.trim(),
           role_id: roleName.id,
         };
-
         const registerUser = await registerResponse(newUser);
-        console.log(registerUser.data);
 
         dispatch(setUser(registerUser.data));
-
-        redirect("/");
+        navigate("/");
         break;
 
       default:
@@ -315,7 +317,7 @@ const FormAuth = ({ formType, role }) => {
                 sx={{
                   width: "376px",
                   marginTop: formType === "register" && theme.spacing(2),
-                  marginBottom: formType === "login" && theme.spacing(1.5),
+                  marginBottom: theme.spacing(1.5),
                   "&:hover": {
                     backgroundColor: theme.palette.secondary[500],
                     color: theme.palette.primary[500],
@@ -324,21 +326,21 @@ const FormAuth = ({ formType, role }) => {
               >
                 Continuar
               </Button>
-              {formType === "login" && (
-                <Button
-                  variant="text"
-                  sx={{
-                    width: "376px",
-                    "&:hover": {
-                      backgroundColor: theme.palette.secondary[500],
-                      color: theme.palette.primary[500],
-                    },
-                  }}
-                  onClick={handleBottomButton}
-                >
-                  Crear Cuenta
-                </Button>
-              )}
+              <Button
+                variant="text"
+                sx={{
+                  width: "376px",
+                  "&:hover": {
+                    backgroundColor: theme.palette.secondary[500],
+                    color: theme.palette.primary[500],
+                  },
+                }}
+                onClick={handleBottomButton}
+              >
+                {formType === "login"
+                  ? "Crear Cuenta"
+                  : "Ingresa con tus datos"}
+              </Button>
             </>
           ) : (
             <>
