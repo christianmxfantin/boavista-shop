@@ -1,4 +1,4 @@
-<div style="background: linear-gradient(to bottom, hsl(207,90%,36%),hsl(358,72%,45%),hsl(207,90%,36%))">
+<div style="background-image: url('background.png'); background-size: cover; padding: 0px;">
 <p align="center">
   <img src="logo.png">
 </p>
