@@ -52,7 +52,6 @@ const register = async (req, res) => {
     });
 
     //Send cookie with data
-    // const roleName = await Roles.findAll({ where: { id: role_id } });
     res.cookie("token", token);
 
     return res.status(201).json({
@@ -80,7 +79,7 @@ const login = async (req, res) => {
     }
     // const userFound = userSearch.users.dataValues;
     // console.log(userSearch.users);
-    console.log(userFound);
+    // console.log(userFound);
 
     //Check if role_id exists in role table
     const existingRole = await Roles.findByPk(userFound.role_id);
@@ -101,8 +100,8 @@ const login = async (req, res) => {
     // console.log(password, userFound.password);
 
     //Compare the password
-    // await bcrypt.compare(password, userFound.password, (err) => {
-    //   if (err) {
+    // bcrypt.compare(password, userFound.password, (err, result) => {
+    //   if (err || !result) {
     //     return res.status(401).json({
     //       message: ["Unauthorized: The password is invalid"],
     //     });
