@@ -6,6 +6,17 @@ export const AccountDataContainer = styled(Box)(() => ({
   flexDirection: "column",
 }));
 
+export const AccountInfoContainer = styled(Box)(() => ({
+  display: "flex",
+  flexDirection: "column",
+}));
+
+export const AvatarContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  justifyContent: "center",
+  marginBottom: theme.spacing(4),
+}));
+
 export const ChangeEmailInput = styled(TextField)(() => ({
   //styles
 }));

@@ -19,10 +19,12 @@ import {
 } from "./TableActions.styles";
 
 const TableActions = ({ showModal, setShowModal, selectedData }) => {
-  const { actionType, data } = selectedData;
-  console.log("en table: ", selectedData);
-
   const theme = useTheme();
+
+  if (!selectedData) {
+    return null;
+  }
+  const { actionType, data } = selectedData;
 
   const handleCancelButton = () => {
     setShowModal(false);

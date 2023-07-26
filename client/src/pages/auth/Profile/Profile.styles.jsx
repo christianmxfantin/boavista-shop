@@ -8,7 +8,15 @@ export const ProfileContainer = styled(Box)(({ theme }) => ({
   color: theme.palette.primary[500],
 }));
 
-export const ProfileTitle = styled(Typography)(({ theme }) => ({
-  margin: `${theme.spacing(3)} 0 ${theme.spacing(2)} 0`, //24px y 16px
-  fontWeight: "500",
+export const ProfileTitleContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  margin: `${theme.spacing(3)} 0 ${theme.spacing(3)} 0`, //24px y 24px
+  alignItems: "center",
+
+  //styles de la card
+  width: "500px",
+  padding: theme.spacing(2),
+  borderRadius: theme.spacing(1),
+  backgroundColor: theme.palette.primary[50],
 }));

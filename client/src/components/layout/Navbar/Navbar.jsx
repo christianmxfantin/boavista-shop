@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme, css } from "@emotion/react";
@@ -35,7 +35,6 @@ const Navbar = ({ isLoginForm }) => {
 
   const { isAuth, isLoading, logout } = useAuth();
   const { total } = useSelector((state) => state.cart);
-  const { user } = useSelector((state) => state.auth);
 
   const [isHover, setIsHover] = useState(false);
   const [isToastVisible, setIsToastVisible] = useState(false);
@@ -226,7 +225,7 @@ const Navbar = ({ isLoginForm }) => {
                 ) : (
                   <Tooltip title="Abrir Menú">
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                      <Avatar alt={user.names} src={TestImage} />
+                      <Avatar alt="Avatar del Usuario" src={TestImage} />
                     </IconButton>
                   </Tooltip>
                 )}

@@ -6,14 +6,13 @@ import { Icon as EditIcon, Icon as DeleteIcon } from "../../ui/Icon";
 
 const ActionButtons = ({ database, setShowAddNew }) => {
   const { typeData, data } = database;
-  console.log(database);
-  // console.log(typeof typeData);
 
   const theme = useTheme();
   const [showModal, setShowModal] = useState(false);
   const [selectedData, setSelectedData] = useState({});
 
   const handleEdit = (data) => {
+    console.log("entra aca");
     //TIENE QUE ENVIAR EL ID CON LA DATA
     switch (typeData) {
       case "billings":
@@ -31,6 +30,7 @@ const ActionButtons = ({ database, setShowAddNew }) => {
   };
 
   const handleDelete = (data) => {
+    console.log("o enter here");
     //TIENE QUE ENVIAR SOLO EL ID PARA BORRAR
     switch (typeData) {
       case "billings":

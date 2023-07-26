@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTheme } from "@emotion/react";
-import { Button, IconButton, InputAdornment } from "@mui/material";
+import { useSelector } from "react-redux";
+import { Avatar, Button, IconButton, InputAdornment } from "@mui/material";
 import {
   AccountDataContainer,
   ChangeEmailInput,
@@ -8,17 +9,19 @@ import {
   LastPasswordInput,
   NewPasswordInput,
   ButtonContainer,
+  AccountInfoContainer,
+  AvatarContainer,
 } from "./AccountData.styles";
 import { useForm } from "react-hook-form";
 import { Icon } from "../../ui/Icon";
 import ButtonsContainer from "../ButtonsContainer/ButtonsContainer";
+import TestImage from "../../../images/product2.jpg";
+// import CameraAltIcon from "@mui/icons-material/CameraAlt";
 
 const AccountData = ({ formType }) => {
-  let database = {
-    email: "josemirlukaku@gmail.com",
-  };
-
   const theme = useTheme();
+  const { user } = useSelector((state) => state.auth);
+
   const [changeEmail, setChangeEmail] = useState(false);
   const [changePassword, setChangePassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -76,25 +79,50 @@ const AccountData = ({ formType }) => {
         onSubmit={handleSubmit(onSubmit)}
       >
         {!changePassword ? (
-          <ChangeEmailInput
-            name="newEmail"
-            type="email"
-            variant="outlined"
-            size="small"
-            placeholder={database.email}
-            disabled={!changeEmail ? true : false}
-            required
-            {...register("newEmail", {
-              required: true,
-              pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-            })}
-            error={!!errors.newEmail}
-            helperText={
-              watch("newEmail")
-                ? errors.newEmail && "Los datos ingresados son inválidos"
-                : errors.newEmail && "El campo no puede estar vacío"
-            }
-          />
+          <AccountInfoContainer>
+            <AvatarContainer>
+              <Avatar
+                alt="Avatar del Usuario"
+                src={TestImage}
+                sx={{
+                  width: "200px",
+                  height: "200px",
+                  "&:hover": {
+                    cursor: "pointer",
+                    filter: "brightness(50%)",
+                  },
+                }}
+              />
+              {/* <CameraAltIcon
+                sx={{
+                  width: "50px",
+                  height: "50px",
+                  color: theme.palette.secondary.A100,
+                  position: "absolute",
+                  top: "48%",
+                }}
+              /> */}
+            </AvatarContainer>
+            <ChangeEmailInput
+              name="newEmail"
+              type="email"
+              variant="outlined"
+              size="small"
+              placeholder={user.email}
+              disabled={!changeEmail ? true : false}
+              required
+              {...register("newEmail", {
+                required: true,
+                pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              })}
+              error={!!errors.newEmail}
+              helperText={
+                watch("newEmail")
+                  ? errors.newEmail && "Los datos ingresados son inválidos"
+                  : errors.newEmail && "El campo no puede estar vacío"
+              }
+            />
+          </AccountInfoContainer>
         ) : (
           <>
             <LastPasswordInput
