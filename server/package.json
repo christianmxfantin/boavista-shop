@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "db:create": "npx sequelize-cli db:create",
+    "dev": "nodemon src/server.js"
   },
   "keywords": [],
   "author": "",

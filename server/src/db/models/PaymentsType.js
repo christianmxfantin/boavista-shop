@@ -2,8 +2,8 @@ const { DataTypes } = require("sequelize");
 const { sequelize } = require("../connection");
 
 module.exports = (sequelize, DataTypes) => {
-  const Roles = sequelize.define(
-    "roles",
+  const PaymentsType = sequelize.define(
+    "payments-type",
     {
       id: {
         type: DataTypes.UUID,
@@ -22,9 +22,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  Roles.associate = (models) => {
-    Roles.hasMany(models.users);
+  PaymentsType.associate = (models) => {
+    PaymentsType.hasMany(models.payments);
   };
 
-  return Roles;
+  return PaymentsType;
 };
