@@ -23,7 +23,7 @@ routerAPI(app);
 
 async function main() {
   try {
-    await sequelize.sync();
+    await sequelize.sync({ force: true });
     app.listen(port, () => {
       console.log(`Server running on: http://localhost:${port}`);
     });

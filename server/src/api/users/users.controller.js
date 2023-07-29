@@ -6,7 +6,6 @@ const getUsers = async (req, res) => {
       attributes: { exclude: ["password"] },
     });
 
-    // res.status(200).send(response);
     return res.status(200).json(response);
   } catch (error) {
     res.status(500).send({ message: error.message });
