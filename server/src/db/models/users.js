@@ -57,10 +57,6 @@ const Users = sequelize.define(
 
 module.exports = Users;
 
-// Users.associate = (models) => {
-//   Users.belongsTo(models.roles);
-// };
-
 Roles.hasMany(Users, {
   foreignKey: "roleId",
   sourceKey: "id",

@@ -1,16 +1,14 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../connection");
-// const Users = require("./Users.js");
 
-const Roles = sequelize.define(
-  "roles",
+const Categories = sequelize.define(
+  "categories",
   {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
       allowNull: false,
-      unique: true,
     },
     name: {
       type: DataTypes.STRING,
@@ -23,8 +21,4 @@ const Roles = sequelize.define(
   }
 );
 
-// Roles.associate = () => {
-//   Roles.hasMany(Users);
-// };
-
-module.exports = Roles;
+module.exports = Categories;

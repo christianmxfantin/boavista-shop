@@ -1,47 +1,72 @@
+const { Sequelize } = require("sequelize");
 const Roles = require("../../db/models/Roles.js");
 
 const getRoles = async (req, res) => {
   try {
-    const response = await Roles.findAll();
-    res.status(200).send(response);
+    const roles = await Roles.findAll();
+    return res.status(200).json(roles);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
 const getRoleById = async (req, res) => {
   try {
     const { id } = req.params;
-    const response = await Roles.findByPk(id);
-    res.status(200).send(response);
+
+    const existingRole = await Roles.findByPk(id);
+    if (!existingRole) {
+      return res.status(409).json({
+        message: "Conflict: This role doesn't exist",
+      });
+    }
+
+    return res.status(200).json(existingRole);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    return res.status(500).send({ message: error.message });
   }
 };
 const createRole = async (req, res) => {
   try {
-    const response = await Roles.create(req.body);
-    res.status(201).send(response);
+    const name = req.body.name.trim();
+
+    // Check if role already exists (case-insensitive)
+    const existingRole = await Roles.findOne({
+      where: Sequelize.where(
+        Sequelize.fn("LOWER", Sequelize.col("name")),
+        name.toLowerCase()
+      ),
+    });
+
+    if (existingRole !== null) {
+      return res.status(409).json({
+        message: "Unauthorized: This role already exists",
+      });
+    }
+
+    const newRole = await Roles.create(req.body);
+
+    return res.status(201).json(newRole);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    return res.status(500).send({ message: error.message });
   }
 };
 
 const updateRole = async (req, res) => {
   try {
     const { id } = req.params;
-    const { names, surnames, email, password } = req.body;
 
-    const response = await Roles.findByPk(id);
-    response.names = names;
-    response.surnames = surnames;
-    response.email = email;
-    response.password = password;
+    const existingRole = await Roles.findByPk(id);
+    if (!existingRole) {
+      return res.status(409).json({
+        message: "Conflict: This role doesn't exist",
+      });
+    }
+    const updateRole = await existingRole.update(req.body);
 
-    await response.save(req.body);
-    res.status(200).send(response);
+    return res.status(200).json(updateRole);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    return res.status(500).send({ message: error.message });
   }
 };
 
@@ -53,9 +78,9 @@ const deleteRole = async (req, res) => {
         id,
       },
     });
-    res.sendStatus(204);
+    return res.sendStatus(204);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    return res.status(500).send({ message: error.message });
   }
 };
 

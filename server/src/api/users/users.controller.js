@@ -2,47 +2,54 @@ const Users = require("../../db/models/Users.js");
 
 const getUsers = async (req, res) => {
   try {
-    const response = await Users.findAll({
+    const users = await Users.findAll({
       attributes: { exclude: ["password"] },
     });
 
-    return res.status(200).json(response);
+    return res.status(200).json(users);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    return res.status(500).send({ message: error.message });
   }
 };
 
 const getUserById = async (req, res) => {
   try {
     const { id } = req.params;
-    const response = await Users.findByPk(id);
-    res.status(200).send(response);
+
+    const existingUser = await Users.findByPk(id);
+    if (!existingUser) {
+      return res.status(409).json({
+        message: "Conflict: This role doesn't exist",
+      });
+    }
+
+    return res.status(200).json(existingUser);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    return res.status(500).send({ message: error.message });
   }
 };
 const createUser = async (req, res) => {
   try {
     const response = await Users.create(req.body);
-    res.status(201).send(response);
+    return res.status(201).send(response);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    return res.status(500).send({ message: error.message });
   }
 };
 
 const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const { names, surnames, email, password } = req.body;
 
-    const response = await Users.findByPk(id);
-    response.names = names;
-    response.surnames = surnames;
-    response.email = email;
-    response.password = password;
+    const existingUser = await Users.findByPk(id);
+    if (!existingUser) {
+      return res.status(409).json({
+        message: "Conflict: This user doesn't exist",
+      });
+    }
+    const updateUser = await existingUser.update(req.body);
 
-    await response.save(req.body);
-    res.status(200).send(response);
+    return res.status(200).json(updateUser);
   } catch (error) {
     res.status(500).send({ message: error.message });
   }

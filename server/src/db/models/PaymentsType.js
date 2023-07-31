@@ -1,9 +1,8 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../connection");
-// const Users = require("./Users.js");
 
-const Roles = sequelize.define(
-  "roles",
+const PaymentsType = sequelize.define(
+  "payments-type",
   {
     id: {
       type: DataTypes.UUID,
@@ -12,10 +11,9 @@ const Roles = sequelize.define(
       allowNull: false,
       unique: true,
     },
-    name: {
+    names: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
     },
   },
   {
@@ -23,8 +21,4 @@ const Roles = sequelize.define(
   }
 );
 
-// Roles.associate = () => {
-//   Roles.hasMany(Users);
-// };
-
-module.exports = Roles;
+module.exports = PaymentsType;

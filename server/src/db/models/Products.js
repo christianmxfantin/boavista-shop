@@ -1,5 +1,7 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../connection");
+const Discounts = require("./Discounts.js");
+const Categories = require("./Categories.js");
 
 const Products = sequelize.define(
   "products",
@@ -20,22 +22,13 @@ const Products = sequelize.define(
       unique: true,
     },
     price: {
-      // type: DataTypes.DECIMAL,
-      type: DataTypes.INTEGER,
+      type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
     },
     stock: {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
-    // discountId: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: true,
-    // },
-    // categoryId: {
-    //   type: DataTypes.UUID,
-    //   allowNull: false,
-    // },
   },
   {
     timestamps: false,
@@ -43,3 +36,23 @@ const Products = sequelize.define(
 );
 
 module.exports = Products;
+
+Discounts.hasMany(Products, {
+  foreignKey: "discountId",
+  sourceKey: "id",
+});
+
+Products.belongsTo(Discounts, {
+  foreignKey: "discountId",
+  targetId: "id",
+});
+
+Categories.hasMany(Products, {
+  foreignKey: "categoriesId",
+  sourceKey: "id",
+});
+
+Products.belongsTo(Categories, {
+  foreignKey: "categoriesId",
+  targetId: "id",
+});
