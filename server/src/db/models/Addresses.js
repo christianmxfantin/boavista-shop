@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../connection");
+const Users = require("./Users.js");
 
 const Addresses = sequelize.define(
   "addresses",
@@ -43,3 +44,13 @@ const Addresses = sequelize.define(
 );
 
 module.exports = Addresses;
+
+Users.hasMany(Addresses, {
+  foreignKey: "userId",
+  sourceKey: "id",
+});
+
+Addresses.belongsTo(Users, {
+  foreignKey: "userId",
+  targetId: "id",
+});

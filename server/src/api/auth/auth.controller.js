@@ -9,7 +9,7 @@ const TOKEN_SECRET = crypto.randomBytes(128).toString("hex");
 
 const register = async (req, res) => {
   try {
-    const { names, surnames, email, password, role_id } = req.body;
+    const { names, surnames, email, password, roleId } = req.body;
 
     //Check if email is already exists
     const existingEmail = await Users.findOne({ where: { email } });
@@ -21,7 +21,7 @@ const register = async (req, res) => {
 
     //Check if role_id exists in role table
     //It's only for users type web
-    const existingRole = await Roles.findByPk(role_id);
+    const existingRole = await Roles.findByPk(roleId);
     if (!existingRole) {
       return res.status(409).json({
         message: "Conflict: This role doesn't exist",
@@ -42,7 +42,7 @@ const register = async (req, res) => {
       surnames,
       email,
       password: hashedPassword,
-      role_id,
+      roleId,
     };
     const savedUser = await Users.create(newUser);
 
@@ -82,7 +82,7 @@ const login = async (req, res) => {
     // console.log(userFound);
 
     //Check if role_id exists in role table
-    const existingRole = await Roles.findByPk(userFound.role_id);
+    const existingRole = await Roles.findByPk(userFound.roleId);
     if (!existingRole) {
       return res.status(409).json({
         message: "Conflict: This role doesn't exist",
@@ -121,7 +121,7 @@ const login = async (req, res) => {
       names: userFound.names,
       surnames: userFound.surnames,
       email: userFound.email,
-      role: existingRole.names,
+      role: existingRole.name,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });

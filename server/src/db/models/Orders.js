@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../connection");
+const Users = require("./Users");
 
 const Orders = sequelize.define(
   "orders",
@@ -11,15 +12,24 @@ const Orders = sequelize.define(
       allowNull: false,
       unique: true,
     },
-    // name: {
-    //   type: DataTypes.STRING,
-    //   allowNull: false,
-    //   unique: true,
-    // },
+    order: {
+      type: DataTypes.BLOB,
+      allowNull: false,
+    },
   },
   {
-    timestamps: false,
+    timestamps: true,
   }
 );
 
 module.exports = Orders;
+
+Users.hasMany(Orders, {
+  foreignKey: "userId",
+  sourceKey: "id",
+});
+
+Orders.belongsTo(Users, {
+  foreignKey: "userId",
+  targetId: "id",
+});

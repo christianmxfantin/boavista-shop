@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../connection");
 const PaymentsType = require("./PaymentsType.js");
+const Users = require("./Users.js");
 
 const Payments = sequelize.define(
   "payments",
@@ -17,7 +18,7 @@ const Payments = sequelize.define(
       allowNull: false,
     },
     final_number: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
     },
   },
@@ -35,5 +36,15 @@ PaymentsType.hasMany(Payments, {
 
 Payments.belongsTo(PaymentsType, {
   foreignKey: "paymentsTypeId",
+  targetId: "id",
+});
+
+Users.hasMany(Payments, {
+  foreignKey: "userId",
+  sourceKey: "id",
+});
+
+Payments.belongsTo(Users, {
+  foreignKey: "userId",
   targetId: "id",
 });
