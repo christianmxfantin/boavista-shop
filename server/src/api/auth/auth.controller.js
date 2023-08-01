@@ -1,8 +1,10 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
-const Roles = require("../../db/models/Roles.js");
-const Users = require("../../db/models/Users.js");
+const db = require("../../db/models/index.js");
+
+const Roles = db.roles;
+const Users = db.users;
 
 //Create a Secret for JWT
 const TOKEN_SECRET = crypto.randomBytes(128).toString("hex");

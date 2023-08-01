@@ -1,31 +1,29 @@
-const { DataTypes } = require("sequelize");
-const { sequelize } = require("../connection");
-const PaymentsType = require("./PaymentsType.js");
-const Users = require("./Users.js");
-
-const Payments = sequelize.define(
-  "payments",
-  {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true,
-      allowNull: false,
-      unique: true,
+module.exports = (sequelize, DataTypes) => {
+  const Payments = sequelize.define(
+    "payments",
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+        allowNull: false,
+        unique: true,
+      },
+      company_card: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      final_number: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
-    company_card: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    final_number: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-  },
-  {
-    timestamps: false,
-  }
-);
+    {
+      timestamps: false,
+    }
+  );
+  return Payments;
+};
 
 module.exports = Payments;
 

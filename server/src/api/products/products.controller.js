@@ -1,4 +1,6 @@
-const Products = require("../../db/models/Products.js");
+const db = require("../../db/models/index.js");
+
+const Products = db.products;
 
 const getProducts = async (req, res) => {
   try {

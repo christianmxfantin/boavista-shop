@@ -1,5 +1,7 @@
 const { Sequelize } = require("sequelize");
-const Roles = require("../../db/models/Roles.js");
+const db = require("../../db/models/index.js");
+
+const Roles = db.roles;
 
 const getRoles = async (req, res) => {
   try {
