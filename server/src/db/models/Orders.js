@@ -20,13 +20,3 @@ module.exports = (sequelize, DataTypes) => {
   );
   return Orders;
 };
-
-Users.hasMany(Orders, {
-  foreignKey: "userId",
-  sourceKey: "id",
-});
-
-Orders.belongsTo(Users, {
-  foreignKey: "userId",
-  targetId: "id",
-});

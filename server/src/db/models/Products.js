@@ -32,23 +32,3 @@ module.exports = (sequelize, DataTypes) => {
   );
   return Products;
 };
-
-Discounts.hasMany(Products, {
-  foreignKey: "discountId",
-  sourceKey: "id",
-});
-
-Products.belongsTo(Discounts, {
-  foreignKey: "discountId",
-  targetId: "id",
-});
-
-Categories.hasMany(Products, {
-  foreignKey: "categoriesId",
-  sourceKey: "id",
-});
-
-Products.belongsTo(Categories, {
-  foreignKey: "categoriesId",
-  targetId: "id",
-});

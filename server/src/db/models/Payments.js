@@ -24,25 +24,3 @@ module.exports = (sequelize, DataTypes) => {
   );
   return Payments;
 };
-
-module.exports = Payments;
-
-PaymentsType.hasMany(Payments, {
-  foreignKey: "paymentsTypeId",
-  sourceKey: "id",
-});
-
-Payments.belongsTo(PaymentsType, {
-  foreignKey: "paymentsTypeId",
-  targetId: "id",
-});
-
-Users.hasMany(Payments, {
-  foreignKey: "userId",
-  sourceKey: "id",
-});
-
-Payments.belongsTo(Users, {
-  foreignKey: "userId",
-  targetId: "id",
-});

@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const PaymentsType = sequelize.define(
-    "payments-type",
+  const PaymentsTypes = sequelize.define(
+    "payments-types",
     {
       id: {
         type: DataTypes.UUID,
@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         unique: true,
       },
-      names: {
+      name: {
         type: DataTypes.STRING,
         allowNull: false,
       },
@@ -18,5 +18,5 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: false,
     }
   );
-  return PaymentsType;
+  return PaymentsTypes;
 };

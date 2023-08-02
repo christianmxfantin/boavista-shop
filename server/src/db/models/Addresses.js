@@ -41,13 +41,3 @@ module.exports = (sequelize, DataTypes) => {
   );
   return Addresses;
 };
-
-Users.hasMany(Addresses, {
-  foreignKey: "userId",
-  sourceKey: "id",
-});
-
-Addresses.belongsTo(Users, {
-  foreignKey: "userId",
-  targetId: "id",
-});

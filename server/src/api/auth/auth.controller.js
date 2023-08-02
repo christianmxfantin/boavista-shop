@@ -21,12 +21,12 @@ const register = async (req, res) => {
       });
     }
 
-    //Check if role_id exists in role table
+    //Check if roleId exists in role table
     //It's only for users type web
     const existingRole = await Roles.findByPk(roleId);
     if (!existingRole) {
       return res.status(409).json({
-        message: "Conflict: This role doesn't exist",
+        message: "Conflict: The role doesn't exist",
       });
     }
 
@@ -83,11 +83,11 @@ const login = async (req, res) => {
     // console.log(userSearch.users);
     // console.log(userFound);
 
-    //Check if role_id exists in role table
+    //Check if roleId exists in role table
     const existingRole = await Roles.findByPk(userFound.roleId);
     if (!existingRole) {
       return res.status(409).json({
-        message: "Conflict: This role doesn't exist",
+        message: "Conflict: The role doesn't exist",
       });
     }
 

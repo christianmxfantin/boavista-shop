@@ -2,7 +2,6 @@ const { v4: uuidv4 } = require("uuid");
 const crypto = require("crypto");
 
 const db = require("../../db/models/index.js");
-// create main Model
 const Roles = db.roles;
 
 const generatePassword = () => {
@@ -19,8 +18,6 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     const roles = await Roles.findAll();
 
-    // return queryInterface.sequelize.transaction(async (t) => {
-    // try {
     return queryInterface.bulkInsert("users", [
       {
         id: uuidv4(),
@@ -56,12 +53,5 @@ module.exports = {
         roleId: roles[2].dataValues.id, //web
       },
     ]);
-    //   //Confirm the transaction
-    //   await t.commit();
-    // } catch (error) {
-    //   //Undo the transaction
-    //   await t.rollback();
-    //   throw error;
-    // }
   },
 };
