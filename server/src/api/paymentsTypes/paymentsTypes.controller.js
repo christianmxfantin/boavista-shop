@@ -1,3 +1,4 @@
+const { Sequelize } = require("sequelize");
 const db = require("../../db/models/index.js");
 
 const PaymentsTypes = db.paymentsTypes;
@@ -27,37 +28,54 @@ const getPaymentTypeById = async (req, res) => {
     return res.status(500).send({ message: error.message });
   }
 };
-const createProduct = async (req, res) => {
+const createPaymentType = async (req, res) => {
   try {
-    const newProduct = await Products.create(req.body);
-    return res.status(201).send(newProduct);
-  } catch (error) {
-    return res.status(500).send({ message: error.message });
-  }
-};
+    const name = req.body.name.trim();
 
-const updateProduct = async (req, res) => {
-  try {
-    const { id } = req.params;
+    // Check if payment type already exists (case-insensitive)
+    const existingPaymentType = await PaymentsTypes.findOne({
+      where: Sequelize.where(
+        Sequelize.fn("LOWER", Sequelize.col("name")),
+        name.toLowerCase()
+      ),
+    });
 
-    const existingProduct = await Products.findByPk(id);
-    if (!existingProduct) {
+    if (existingPaymentType !== null) {
       return res.status(409).json({
-        message: "Conflict: This product doesn't exist",
+        message: "Unauthorized: This payment type already exists",
       });
     }
-    const updateProduct = await existingProduct.update(req.body);
 
-    return res.status(200).json(updateProduct);
+    const newPaymentType = await PaymentsTypes.create(req.body);
+
+    return res.status(201).json(newPaymentType);
   } catch (error) {
     return res.status(500).send({ message: error.message });
   }
 };
 
-const deleteProduct = async (req, res) => {
+const updatePaymentType = async (req, res) => {
   try {
     const { id } = req.params;
-    await Products.destroy({
+
+    const existingPaymentType = await PaymentsTypes.findByPk(id);
+    if (!existingPaymentType) {
+      return res.status(409).json({
+        message: "Conflict: This payment type doesn't exist",
+      });
+    }
+    const updatePaymentType = await existingPaymentType.update(req.body);
+
+    return res.status(200).json(updatePaymentType);
+  } catch (error) {
+    return res.status(500).send({ message: error.message });
+  }
+};
+
+const deletePaymentType = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await PaymentsTypes.destroy({
       where: {
         id,
       },
@@ -69,9 +87,9 @@ const deleteProduct = async (req, res) => {
 };
 
 module.exports = {
-  getProducts,
-  getProductById,
-  createProduct,
-  updateProduct,
-  deleteProduct,
+  getPaymentsTypes,
+  getPaymentTypeById,
+  createPaymentType,
+  updatePaymentType,
+  deletePaymentType,
 };

@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
       },
       percentage: {
         type: DataTypes.INTEGER,
-        allowNull: true,
+        allowNull: false,
+        unique: true,
       },
     },
     {

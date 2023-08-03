@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const productsController = require("./products.controller");
+const paymentsTypesController = require("./paymentsTypes.controller");
 
 router
-  .get("/", productsController.getProducts)
-  .get("/:id", productsController.getProductById)
-  .post("/", productsController.createProduct)
-  .put("/:id", productsController.updateProduct)
-  .delete("/:id", productsController.deleteProduct);
+  .get("/", paymentsTypesController.getPaymentsTypes)
+  .get("/:id", paymentsTypesController.getPaymentTypeById)
+  .post("/", paymentsTypesController.createPaymentType)
+  .put("/:id", paymentsTypesController.updatePaymentType)
+  .delete("/:id", paymentsTypesController.deletePaymentType);
 
 module.exports = router;

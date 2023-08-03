@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         unique: true,
       },
       order: {
-        type: DataTypes.BLOB,
+        type: DataTypes.JSONB,
         allowNull: false,
       },
     },
