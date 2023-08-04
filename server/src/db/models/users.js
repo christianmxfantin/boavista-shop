@@ -1,3 +1,5 @@
+const { emptyField, lengthField } = require("../../api/errors");
+
 module.exports = (sequelize, DataTypes) => {
   const Users = sequelize.define(
     "users",
@@ -12,19 +14,23 @@ module.exports = (sequelize, DataTypes) => {
       // imageURL: {
       //   type: DataTypes.STRING,
       //   allowNull: false,
+      //   validate: {
+      //     notEmpty: {
+      //       msg: emptyField("imágen URL"),
+      //     },
+      //   },
       // },
       names: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          is: {
-            args: /^[\p{L} -]+$/u,
-            msg: "Se ha ingresado un nombre inválido",
+          notEmpty: {
+            msg: emptyField("nombre"),
           },
-          // len: {
-          //   args: [1, 100],
-          //   msg: "El nombre solo puede contener 1 caracter como mínimo y 100 como máximo",
-          // },
+          len: {
+            args: [1, 100],
+            msg: lengthField("nombre", 1, 100),
+          },
         },
       },
       surnames: {
@@ -36,15 +42,27 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         unique: true,
         validate: {
-          is: {
-            args: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-            msg: "El email ingresado es inválido",
+          notEmpty: {
+            msg: emptyField("email"),
+          },
+          len: {
+            args: [6, 255],
+            msg: lengthField("email", 6, 255),
           },
         },
       },
       password: {
         type: DataTypes.BLOB,
         allowNull: false,
+        validate: {
+          notEmpty: {
+            msg: emptyField("contraseña"),
+          },
+          len: {
+            args: [8, 18],
+            msg: lengthField("contraseña", 8, 18),
+          },
+        },
       },
     },
     {
