@@ -1,4 +1,4 @@
-const { emptyField, lengthField } = require("../../api/errors");
+const { emptyField, lengthField } = require("../db.errors");
 
 module.exports = (sequelize, DataTypes) => {
   const Users = sequelize.define(

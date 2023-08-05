@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const db = require("../../db/models/index.js");
 const { RolesErrors } = require("../roles/roles.errors.js");
 const { UserErrors } = require("./users.errors.js");
+const ErrorHandler = require("../../utils/ErrorHandler.js");
 
 const Users = db.users;
 const Roles = db.roles;
@@ -13,8 +14,10 @@ const getUsers = async (req, res) => {
     });
 
     return res.status(200).json(users);
-  } catch (error) {
-    return res.status(500).send({ message: error.message });
+  } catch (err) {
+    const error = new Error(err.message);
+    err.statusCode = 400;
+    next(error);
   }
 };
 
@@ -34,9 +37,9 @@ const getUserById = async (req, res) => {
     return res.status(500).send({ message: error.message });
   }
 };
-const createUser = async (req, res) => {
+const createUser = async (req, res, next) => {
   try {
-    const { names, email, password, roleId } = req.body;
+    const { names, surnames, email, password, roleId } = req.body;
 
     const regexName = /^[\p{L} -]+$/u;
     if (!regexName.test(names)) {
@@ -93,8 +96,9 @@ const createUser = async (req, res) => {
       email: savedUser.email,
       role: "User",
     });
-  } catch (error) {
-    return res.status(500).send({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, 404);
+    next(error);
   }
 };
 

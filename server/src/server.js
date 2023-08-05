@@ -8,10 +8,11 @@ const app = express();
 
 const port = process.env.PORT || 4000;
 const routerAPI = require("./routes/index.js");
+const { SecurityMiddleware } = require("./middleware/security.middleware.js");
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: process.env.CLIENT_URL,
     credentials: true,
   })
 );
@@ -19,6 +20,9 @@ app.use(express.json());
 app.use(cookieParser());
 
 routerAPI(app);
+
+//Middleware
+app.use(SecurityMiddleware);
 
 async function main() {
   try {
