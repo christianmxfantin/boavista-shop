@@ -7,14 +7,7 @@ const sequelize = new Sequelize(config.dbName, config.dbUser, config.dbPass, {
   dialect: config.dbDial,
 });
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log("Connected to the Database");
-  })
-  .catch((error) => {
-    console.error("Unable to connect to the Database:", error);
-  });
+sequelize.authenticate();
 
 const db = {};
 
@@ -31,9 +24,7 @@ db.products = require("./Products.js")(sequelize, DataTypes);
 db.discounts = require("./Discounts.js")(sequelize, DataTypes);
 db.categories = require("./Categories.js")(sequelize, DataTypes);
 
-db.sequelize.sync({ force: false }).then(() => {
-  console.log("Database sync");
-});
+db.sequelize.sync({ force: false });
 
 //Users with Roles
 db.roles.hasMany(db.users, {

@@ -2,12 +2,13 @@ const bcrypt = require("bcryptjs");
 const db = require("../../db/models/index.js");
 const { RolesErrors } = require("../roles/roles.errors.js");
 const { UserErrors } = require("./users.errors.js");
-const ErrorHandler = require("../../utils/ErrorHandler.js");
+const ErrorHandler = require("../../utils/errorHandler.js");
+const logger = require("../../utils/logger.js");
 
 const Users = db.users;
 const Roles = db.roles;
 
-const getUsers = async (req, res) => {
+const getUsers = async (req, res, next) => {
   try {
     const users = await Users.findAll({
       attributes: { exclude: ["password"] },
@@ -15,26 +16,28 @@ const getUsers = async (req, res) => {
 
     return res.status(200).json(users);
   } catch (err) {
-    const error = new Error(err.message);
-    err.statusCode = 400;
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
     next(error);
   }
 };
 
-const getUserById = async (req, res) => {
+const getUserById = async (req, res, next) => {
   try {
     const { id } = req.params;
 
     const existingUser = await Users.findByPk(id);
     if (!existingUser) {
-      return res.status(409).json({
+      return res.status(404).json({
         message: UserErrors.USER_NOT_FOUND,
       });
     }
 
     return res.status(200).json(existingUser);
-  } catch (error) {
-    return res.status(500).send({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
 const createUser = async (req, res, next) => {
@@ -65,7 +68,7 @@ const createUser = async (req, res, next) => {
     //Check if roleId exists in role table
     const existingRole = await Roles.findByPk(roleId);
     if (!existingRole) {
-      return res.status(409).json({
+      return res.status(404).json({
         message: RolesErrors.ROLE_NOT_FOUND,
       });
     }
@@ -97,40 +100,54 @@ const createUser = async (req, res, next) => {
       role: "User",
     });
   } catch (err) {
-    const error = new ErrorHandler(err.message, 404);
+    const error = new ErrorHandler(err);
+    logger.error(err);
     next(error);
   }
 };
 
-const updateUser = async (req, res) => {
+const updateUser = async (req, res, next) => {
   try {
     const { id } = req.params;
 
     const existingUser = await Users.findByPk(id);
     if (!existingUser) {
-      return res.status(409).json({
-        message: "Conflict: This user doesn't exist",
+      return res.status(404).json({
+        message: UserErrors.USER_NOT_FOUND,
       });
     }
     const updateUser = await existingUser.update(req.body);
 
     return res.status(200).json(updateUser);
-  } catch (error) {
-    res.status(500).send({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
 
-const deleteUser = async (req, res) => {
+const deleteUser = async (req, res, next) => {
   try {
     const { id } = req.params;
+
+    const existingUser = await Users.findByPk(id);
+    if (!existingUser) {
+      return res.status(404).json({
+        message: UserErrors.USER_NOT_FOUND,
+      });
+    }
+
     await Users.destroy({
       where: {
         id,
       },
     });
-    res.sendStatus(204);
-  } catch (error) {
-    res.status(500).send({ message: error.message });
+
+    return res.sendStatus(204);
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
 

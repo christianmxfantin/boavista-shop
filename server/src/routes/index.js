@@ -10,7 +10,7 @@ const categoriesRouter = require("../api/categories/categories.router");
 const discountsRouter = require("../api/discounts/discounts.router");
 const productsRouter = require("../api/products/products.router");
 const ordersRouter = require("../api/orders/orders.router");
-const { ApiErrors } = require("../api/api.errors");
+const apiRouter = require("../api/api/api.router");
 
 const routerAPI = (app) => {
   const router = express.Router();
@@ -25,12 +25,7 @@ const routerAPI = (app) => {
   router.use("/discounts", discountsRouter);
   router.use("/products", productsRouter);
   router.use("/orders", ordersRouter);
-  app.all("*", (req, res, next) => {
-    const err = new Error(ApiErrors.URL_INVALID);
-    err.statusCode = 404;
-    err.url = req.originalUrl;
-    next(err);
-  });
+  app.all("*", apiRouter);
 };
 
 module.exports = routerAPI;

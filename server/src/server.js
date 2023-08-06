@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 
 dotenv.config();
 const app = express();
+const logger = require("./utils/logger.js");
 
 const port = process.env.PORT || 4000;
 const routerAPI = require("./routes/index.js");
@@ -19,19 +20,30 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
+process.on("uncaughtException", (err) => {
+  logger.error("Uncaught Rejection Error: ", err);
+  process.exit(1);
+});
+process.on("unhandledRejection", (err) => {
+  logger.error("Unhandled Rejection Error: ", err);
+  process.exit(1);
+});
+
 routerAPI(app);
 
 //Middleware
 app.use(SecurityMiddleware);
+logger.info("Backend started succesfully");
 
-async function main() {
+const main = async () => {
   try {
     app.listen(port, () => {
       console.log(`Server running on: http://localhost:${port}`);
     });
-  } catch (error) {
-    console.error("Server unavailable", error);
+  } catch (err) {
+    logger.error("Error running Server: ", err);
+    process.exit(1);
   }
-}
+};
 
 main();
