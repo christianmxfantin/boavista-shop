@@ -1,9 +1,15 @@
-const bcrypt = require("bcryptjs");
 const db = require("../../db/models/index.js");
 const { RolesErrors } = require("../roles/roles.errors.js");
 const { UserErrors } = require("./users.errors.js");
 const ErrorHandler = require("../../utils/errorHandler.js");
 const logger = require("../../utils/logger.js");
+const {
+  namesValidate,
+  surnamesValidate,
+  emailValidate,
+  passwordValidate,
+} = require("./users.validations.js");
+const { hashPassword } = require("../../utils/hashPassword.js");
 
 const Users = db.users;
 const Roles = db.roles;
@@ -44,22 +50,29 @@ const createUser = async (req, res, next) => {
   try {
     const { names, surnames, email, password, roleId } = req.body;
 
-    const regexName = /^[\p{L} -]+$/u;
-    if (!regexName.test(names)) {
+    //Validate data with regex
+    const namesValidated = namesValidate(names);
+    if (!namesValidated) {
       return res.status(401).json({
         message: UserErrors.NAMES_INVALID,
       });
     }
-
-    const regexEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    if (!regexEmail.test(email)) {
+    if (surnames.length !== 0) {
+      const surnamesValidated = surnamesValidate(surnames);
+      if (!surnamesValidated) {
+        return res.status(401).json({
+          message: UserErrors.SURNAMES_INVALID,
+        });
+      }
+    }
+    const emailValidated = emailValidate(email);
+    if (!emailValidated) {
       return res.status(401).json({
         message: UserErrors.EMAIL_INVALID,
       });
     }
-
-    const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
-    if (!regexPassword.test(password)) {
+    const passwordValidated = passwordValidate(password);
+    if (!passwordValidated) {
       return res.status(401).json({
         message: UserErrors.PASSWORD_INVALID,
       });
@@ -82,7 +95,7 @@ const createUser = async (req, res, next) => {
     }
 
     //Hash the password and create the user
-    const hashedPassword = bcrypt.hashSync(password, 10);
+    const hashedPassword = await hashPassword(password);
     const newUser = {
       names,
       surnames,

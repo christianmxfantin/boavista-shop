@@ -1,7 +1,19 @@
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
+const argon2 = require("argon2");
 const crypto = require("crypto");
+
 const db = require("../../db/models/index.js");
+const { UserErrors } = require("../users/users.errors.js");
+const { RolesErrors } = require("../roles/roles.errors.js");
+const ErrorHandler = require("../../utils/errorHandler.js");
+const logger = require("../../utils/logger.js");
+const {
+  namesValidate,
+  surnamesValidate,
+  emailValidate,
+  passwordValidate,
+} = require("../users/users.validations.js");
+const { hashPassword } = require("../../utils/hashPassword.js");
 
 const Roles = db.roles;
 const Users = db.users;
@@ -9,7 +21,7 @@ const Users = db.users;
 //Create a Secret for JWT
 const TOKEN_SECRET = crypto.randomBytes(128).toString("hex");
 
-const register = async (req, res) => {
+const register = async (req, res, next) => {
   try {
     const { names, surnames, email, password, roleId } = req.body;
 
@@ -17,28 +29,55 @@ const register = async (req, res) => {
     const existingEmail = await Users.findOne({ where: { email } });
     if (existingEmail) {
       return res.status(409).json({
-        message: "Unauthorized: This email is already exists",
+        message: UserErrors.EMAIL_ALREADY_EXISTS,
       });
     }
 
     //Check if roleId exists in role table
-    //It's only for users type web
     const existingRole = await Roles.findByPk(roleId);
     if (!existingRole) {
       return res.status(409).json({
-        message: "Conflict: The role doesn't exist",
+        message: RolesErrors.ROLE_NOT_FOUND,
       });
     }
 
-    //Check the password isn't empty
-    if (password === "") {
+    //Check quantity of password characters
+    if (password.length < 8 || password.length > 18) {
       return res.status(401).json({
-        message: "Unauthorized: This password is empty",
+        message: UserErrors.PASSWORD_LENGTH,
+      });
+    }
+
+    //Validate data with regex
+    const namesValidated = namesValidate(names);
+    if (!namesValidated) {
+      return res.status(401).json({
+        message: UserErrors.NAMES_INVALID,
+      });
+    }
+    if (surnames.length !== 0) {
+      const surnamesValidated = surnamesValidate(surnames);
+      if (!surnamesValidated) {
+        return res.status(401).json({
+          message: UserErrors.SURNAMES_INVALID,
+        });
+      }
+    }
+    const emailValidated = emailValidate(email);
+    if (!emailValidated) {
+      return res.status(401).json({
+        message: UserErrors.EMAIL_INVALID,
+      });
+    }
+    const passwordValidated = passwordValidate(password);
+    if (!passwordValidated) {
+      return res.status(401).json({
+        message: UserErrors.PASSWORD_INVALID,
       });
     }
 
     //Hash the password and create the user
-    const hashedPassword = bcrypt.hashSync(password, 10);
+    const hashedPassword = await hashPassword(password);
     const newUser = {
       names,
       surnames,
@@ -63,12 +102,14 @@ const register = async (req, res) => {
       email: savedUser.email,
       role: "Web",
     });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
 
-const login = async (req, res) => {
+const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
@@ -76,39 +117,47 @@ const login = async (req, res) => {
     const userFound = await Users.findOne({ where: { email } });
     if (!userFound) {
       return res.status(401).json({
-        message: "Unauthorized: This email doesn't exist",
+        message: UserErrors.EMAIL_INVALID,
       });
     }
-    // const userFound = userSearch.users.dataValues;
-    // console.log(userSearch.users);
-    // console.log(userFound);
 
     //Check if roleId exists in role table
     const existingRole = await Roles.findByPk(userFound.roleId);
     if (!existingRole) {
       return res.status(409).json({
-        message: "Conflict: The role doesn't exist",
+        message: RolesErrors.ROLE_NOT_FOUND,
       });
     }
 
-    //Check the password isn't empty
-    if (password === "") {
+    //Check quantity of password characters
+    if (password.length < 8 || password.length > 18) {
       return res.status(401).json({
-        message: "Unauthorized: This password is empty",
+        message: UserErrors.PASSWORD_LENGTH,
       });
     }
 
-    // console.log(req.body);
-    // console.log(password, userFound.password);
+    //Validate data with regex
+    const emailValidated = emailValidate(email);
+    if (!emailValidated) {
+      return res.status(401).json({
+        message: UserErrors.EMAIL_INVALID,
+      });
+    }
+    const passwordValidated = passwordValidate(password);
+    if (!passwordValidated) {
+      return res.status(401).json({
+        message: UserErrors.PASSWORD_INVALID,
+      });
+    }
 
     //Compare the password
-    // bcrypt.compare(password, userFound.password, (err, result) => {
-    //   if (err || !result) {
-    //     return res.status(401).json({
-    //       message: ["Unauthorized: The password is invalid"],
-    //     });
-    //   }
-    // });
+    const storedPassword = userFound.password.toString();
+    const passwordIsValid = await argon2.verify(storedPassword, password);
+    if (!passwordIsValid) {
+      return res.status(401).json({
+        message: UserErrors.PASSWORD_INVALID,
+      });
+    }
 
     // Create a Token
     const token = jwt.sign({ id: userFound.id }, TOKEN_SECRET, {
@@ -125,18 +174,22 @@ const login = async (req, res) => {
       email: userFound.email,
       role: existingRole.name,
     });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
 
-const googleAuth = async (req, res) => {
+const googleAuth = async (req, res, next) => {
   try {
     // const response = await Users.findAll();
     // res.status(200).send(response);
-    res.status(200).send("Google is authenticated");
-  } catch (error) {
-    res.status(500).send({ message: error.message });
+    return res.status(200).send("Google is authenticated");
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
 
@@ -146,7 +199,7 @@ const token = async (req, res) => {
 
     if (!token)
       return res.status(401).json({
-        message: "Unauthorized: The user is invalid",
+        message: UserErrors.TOKEN_INVALID,
       });
 
     jwt.verify(token, TOKEN_SECRET, async (error, user) => {
@@ -158,7 +211,7 @@ const token = async (req, res) => {
       const userFound = await Users.findByPk(user.id);
       if (!userFound)
         return res.status(401).json({
-          message: "Unauthorized: The user is invalid",
+          message: UserErrors.USER_NOT_FOUND,
         });
 
       return res.status(200).json({

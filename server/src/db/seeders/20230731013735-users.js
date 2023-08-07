@@ -1,17 +1,16 @@
 const { v4: uuidv4 } = require("uuid");
+const argon2 = require("argon2");
 const crypto = require("crypto");
 
 const db = require("../../db/models/index.js");
 const Roles = db.roles;
 
-const generatePassword = () => {
-  // Crea un buffer con bytes aleatorios
-  const buffer = crypto.randomBytes(18);
+//Helper for Hash the Password
+const hashPassword = (password) => {
+  const salt = crypto.randomBytes(32);
+  const hashedPassword = argon2.hash(password, { salt });
 
-  // Convierte los bytes en una cadena hexadecimal
-  const randomPassword = buffer.toString("hex");
-
-  return randomPassword;
+  return hashedPassword;
 };
 
 module.exports = {
@@ -25,7 +24,7 @@ module.exports = {
         names: "Romina",
         surnames: "Echegazi",
         email: "rechegazi@boavista.com",
-        password: generatePassword(),
+        password: await hashPassword("Carola2023"),
         createdAt: new Date(),
         updatedAt: new Date(),
         roleId: roles[0].dataValues.id, //admin
@@ -36,7 +35,7 @@ module.exports = {
         names: "Juan Ernesto",
         surnames: "García",
         email: "jgarcia@boavista.com",
-        password: generatePassword(),
+        password: await hashPassword("Ernesto2023"),
         createdAt: new Date(),
         updatedAt: new Date(),
         roleId: roles[1].dataValues.id, //user
@@ -47,7 +46,7 @@ module.exports = {
         names: "Federico",
         surnames: "Del Solar",
         email: "fededelsolar@gmail.com",
-        password: generatePassword(),
+        password: await hashPassword("Azul2024"),
         createdAt: new Date(),
         updatedAt: new Date(),
         roleId: roles[2].dataValues.id, //web

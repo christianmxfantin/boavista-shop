@@ -58,10 +58,6 @@ module.exports = (sequelize, DataTypes) => {
           notEmpty: {
             msg: emptyField("contraseña"),
           },
-          len: {
-            args: [8, 18],
-            msg: lengthField("contraseña", 8, 18),
-          },
         },
       },
     },
