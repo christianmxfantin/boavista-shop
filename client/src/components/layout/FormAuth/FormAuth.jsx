@@ -26,6 +26,7 @@ import {
   ButtonsContainer,
   FormAuthEmail,
 } from "./FormAuth.styles";
+import Toast from "../Toast/Toast";
 import { Controller, useForm } from "react-hook-form";
 import { validations } from "../../../helpers/validations";
 import { loginResponse, registerResponse } from "../../../api/auth";
@@ -38,6 +39,11 @@ const FormAuth = ({ formType, role }) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [isToastVisible, setIsToastVisible] = useState(false);
+  const [toastData, setToastData] = useState({
+    severity: "success",
+    message: "",
+  });
   const {
     register,
     handleSubmit,
@@ -78,44 +84,109 @@ const FormAuth = ({ formType, role }) => {
   const onSubmit = async (formValues) => {
     switch (formType) {
       case "login":
-        const userData = {
-          email: formValues.email.trim(),
-          password: formValues.password.trim(),
-        };
+        try {
+          const userData = {
+            email: formValues.email.trim(),
+            password: formValues.password.trim(),
+          };
 
-        const loginUser = await loginResponse(userData);
-        dispatch(setUser(loginUser.data));
+          const loginUser = await loginResponse(userData);
+          dispatch(setUser(loginUser.data));
 
-        if (loginUser.data.role.toLowerCase().trim() !== "Web") {
-          navigate("/dashboard");
-        } else {
-          navigate("/");
+          if (loginUser.data.role.toLowerCase().trim() !== "Web") {
+            navigate("/dashboard");
+          } else {
+            navigate("/");
+          }
+        } catch (error) {
+          // console.error("Error en la solicitud:", err);
+
+          if (!error.response || error.request) {
+            setIsToastVisible(true);
+            setToastData({
+              severity: "error",
+              message: "Ocurrió un error al procesar la solicitud",
+            });
+            return;
+          }
+
+          if (error.response.status > 399 || error.response.status < 500) {
+            //client error
+            setIsToastVisible(true);
+            setToastData({
+              severity: "error",
+              message: "Los datos ingresados no son válidos",
+            });
+            return;
+          }
+
+          if (error.response.status > 499) {
+            //server error
+            setIsToastVisible(true);
+            setToastData({
+              severity: "error",
+              message: "El servidor no está disponible",
+            });
+            return;
+          }
         }
         break;
 
       case "register":
-        //Check if exists the Web role in database
-        const roles = await getRoles();
-        const roleName = roles.data.find(
-          (role) => role.names.toLowerCase().trim() === "web"
-        );
+        try {
+          //Check if exists the Web role in database
+          const roles = await getRoles();
+          const roleName = roles.data.find(
+            (role) => role.names.toLowerCase().trim() === "web"
+          );
 
-        //Register the user and sing in
-        const newUser = {
-          names: formValues.names.trim(),
-          surnames: formValues.surnames.trim(),
-          email: formValues.email.toLowerCase().trim(),
-          password: formValues.password.trim(),
-          role_id: roleName.id,
-        };
-        const registerUser = await registerResponse(newUser);
+          //Register the user and sing in
+          const newUser = {
+            names: formValues.names.trim(),
+            surnames: formValues.surnames.trim(),
+            email: formValues.email.toLowerCase().trim(),
+            password: formValues.password.trim(),
+            role_id: roleName.id,
+          };
+          const registerUser = await registerResponse(newUser);
 
-        dispatch(setUser(registerUser.data));
-        navigate("/");
+          dispatch(setUser(registerUser.data));
+          navigate("/");
+        } catch (error) {
+          // console.error("Error en la solicitud:", err);
+
+          if (!error.response || error.request) {
+            setIsToastVisible(true);
+            setToastData({
+              severity: "error",
+              message: "Ocurrió un error al procesar la solicitud",
+            });
+            return;
+          }
+
+          if (error.response.status > 399 || error.response.status < 500) {
+            //client error
+            setIsToastVisible(true);
+            setToastData({
+              severity: "error",
+              message: "Los datos ingresados no son válidos",
+            });
+            return;
+          }
+
+          if (error.response.status > 499) {
+            //server error
+            setIsToastVisible(true);
+            setToastData({
+              severity: "error",
+              message: "El servidor no está disponible",
+            });
+            return;
+          }
+        }
         break;
 
       default:
-        console.log("Tipo de Formulario no reconocido");
     }
 
     reset();
@@ -379,6 +450,11 @@ const FormAuth = ({ formType, role }) => {
           )}
         </ButtonsContainer>
       </FormAuthContainer>
+      <Toast
+        isToastVisible={isToastVisible}
+        setIsToastVisible={setIsToastVisible}
+        toastData={toastData}
+      />
     </main>
   );
 };

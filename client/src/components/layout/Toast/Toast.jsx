@@ -2,8 +2,14 @@ import { useTheme } from "@emotion/react";
 import { Alert, IconButton, Snackbar } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
-const Toast = ({ isToastVisible, setIsToastVisible, message }) => {
+const Toast = ({ isToastVisible, setIsToastVisible, toastData }) => {
   const theme = useTheme();
+
+  if (!toastData) {
+    return null;
+  }
+
+  const { severity, message } = toastData;
 
   const handleClose = (reason) => {
     if (reason === "clickaway") {
@@ -38,11 +44,14 @@ const Toast = ({ isToastVisible, setIsToastVisible, message }) => {
       }}
     >
       <Alert
-        severity="success"
+        severity={severity}
         action={action}
         sx={{
           width: "100%",
-          backgroundColor: theme.palette.success[500],
+          backgroundColor:
+            severity === "success"
+              ? theme.palette.success[500]
+              : theme.palette.error[500],
           color: theme.palette.secondary.A100,
           "& .MuiAlert-icon": {
             color: theme.palette.secondary.A100,

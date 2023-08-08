@@ -19,7 +19,7 @@ export const products = {
   },
   3: {
     id: 3,
-    name: "Lápices Staedtler x 24 unidades",
+    name: "Lápices Schneider x 24 unidades",
     price: 500,
     stock: 1200,
   },
