@@ -1,34 +1,40 @@
 const { Sequelize } = require("sequelize");
 const db = require("../../db/models/index.js");
+const { CategoriesErrors } = require("./categories.errors.js");
 
 const Categories = db.categories;
 
-const getCategories = async (req, res) => {
+const getCategories = async (req, res, next) => {
   try {
     const categories = await Categories.findAll();
+
     return res.status(200).json(categories);
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
 
-const getCategoryById = async (req, res) => {
+const getCategoryById = async (req, res, next) => {
   try {
     const { id } = req.params;
 
     const existingCategory = await Categories.findByPk(id);
     if (!existingCategory) {
-      return res.status(409).json({
-        message: "Conflict: This category doesn't exist",
+      return res.status(404).json({
+        message: CategoriesErrors.CATEGORY_NOT_FOUND,
       });
     }
 
     return res.status(200).json(existingCategory);
-  } catch (error) {
-    return res.status(500).send({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
-const createCategory = async (req, res) => {
+const createCategory = async (req, res, next) => {
   try {
     const name = req.body.name.trim();
 
@@ -39,50 +45,63 @@ const createCategory = async (req, res) => {
         name.toLowerCase()
       ),
     });
-
     if (existingCategory !== null) {
       return res.status(409).json({
-        message: "Unauthorized: This category already exists",
+        message: CategoriesErrors.CATEGORY_ALREADY_EXISTS,
       });
     }
 
     const newCategory = await Categories.create(req.body);
 
     return res.status(201).json(newCategory);
-  } catch (error) {
-    return res.status(500).send({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
 
-const updateCategory = async (req, res) => {
+const updateCategory = async (req, res, next) => {
   try {
     const { id } = req.params;
 
     const existingCategory = await Categories.findByPk(id);
     if (!existingCategory) {
-      return res.status(409).json({
-        message: "Conflict: This category doesn't exist",
+      return res.status(404).json({
+        message: CategoriesErrors.CATEGORY_NOT_FOUND,
       });
     }
     const updateCategory = await existingCategory.update(req.body);
 
     return res.status(200).json(updateCategory);
-  } catch (error) {
-    return res.status(500).send({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
 
-const deleteCategory = async (req, res) => {
+const deleteCategory = async (req, res, next) => {
   try {
     const { id } = req.params;
+
+    const existingCategory = await Categories.findByPk(id);
+    if (!existingCategory) {
+      return res.status(404).json({
+        message: CategoriesErrors.CATEGORY_NOT_FOUND,
+      });
+    }
+
     await Categories.destroy({
       where: {
         id,
       },
     });
     return res.sendStatus(204);
-  } catch (error) {
-    return res.status(500).send({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
 

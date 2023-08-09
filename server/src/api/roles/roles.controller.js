@@ -1,31 +1,39 @@
 const { Sequelize } = require("sequelize");
 const db = require("../../db/models/index.js");
+const ErrorHandler = require("../../utils/errorHandler.js");
+const logger = require("../../utils/logger.js");
+const { RolesErrors } = require("./roles.errors.js");
 
 const Roles = db.roles;
 
-const getRoles = async (req, res) => {
+const getRoles = async (req, res, next) => {
   try {
     const roles = await Roles.findAll();
+
     return res.status(200).json(roles);
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
 
-const getRoleById = async (req, res) => {
+const getRoleById = async (req, res, next) => {
   try {
     const { id } = req.params;
 
     const existingRole = await Roles.findByPk(id);
     if (!existingRole) {
-      return res.status(409).json({
-        message: "Conflict: This role doesn't exist",
+      return res.status(404).json({
+        message: RolesErrors.ROLE_NOT_FOUND,
       });
     }
 
     return res.status(200).json(existingRole);
-  } catch (error) {
-    return res.status(500).send({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
 const createRole = async (req, res) => {
@@ -41,48 +49,62 @@ const createRole = async (req, res) => {
     });
 
     if (existingRole !== null) {
-      return res.status(409).json({
-        message: "Unauthorized: This role already exists",
+      return res.status(404).json({
+        message: RolesErrors.ROLE_NOT_FOUND,
       });
     }
 
     const newRole = await Roles.create(req.body);
 
     return res.status(201).json(newRole);
-  } catch (error) {
-    return res.status(500).send({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
 
-const updateRole = async (req, res) => {
+const updateRole = async (req, res, next) => {
   try {
     const { id } = req.params;
 
     const existingRole = await Roles.findByPk(id);
     if (!existingRole) {
-      return res.status(409).json({
-        message: "Conflict: This role doesn't exist",
+      return res.status(404).json({
+        message: RolesErrors.ROLE_NOT_FOUND,
       });
     }
     const updateRole = await existingRole.update(req.body);
 
     return res.status(200).json(updateRole);
-  } catch (error) {
-    return res.status(500).send({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
 
-const deleteRole = async (req, res) => {
+const deleteRole = async (req, res, next) => {
   try {
     const { id } = req.params;
+
+    const existingRole = await Roles.findByPk(id);
+    if (!existingRole) {
+      return res.status(404).json({
+        message: RolesErrors.ROLE_NOT_FOUND,
+      });
+    }
+
     await Roles.destroy({
       where: {
         id,
       },
     });
     return res.sendStatus(204);
-  } catch (error) {
-    return res.status(500).send({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
 

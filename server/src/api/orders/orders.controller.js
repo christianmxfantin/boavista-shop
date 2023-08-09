@@ -1,82 +1,105 @@
 const db = require("../../db/models/index.js");
+const ErrorHandler = require("../../utils/errorHandler.js");
+const logger = require("../../utils/logger.js");
+const { UsersErrors } = require("../users/users.errors.js");
+const { OrdersErrors } = require("./orders.errors.js");
 
 const Orders = db.orders;
 const Users = db.users;
 
-const getOrders = async (req, res) => {
+const getOrders = async (req, res, next) => {
   try {
     const orders = await Orders.findAll();
+
     return res.status(200).json(orders);
-  } catch (error) {
-    return res.status(500).send({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
 
-const getOrderById = async (req, res) => {
+const getOrderById = async (req, res, next) => {
   try {
     const { id } = req.params;
 
     const existingOrder = await Orders.findByPk(id);
     if (!existingOrder) {
-      return res.status(409).json({
-        message: "Conflict: This order doesn't exist",
+      return res.status(404).json({
+        message: OrdersErrors.ORDER_NOT_FOUND,
       });
     }
 
     return res.status(200).json(existingOrder);
-  } catch (error) {
-    return res.status(500).send({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
-const createOrder = async (req, res) => {
+const createOrder = async (req, res, next) => {
   try {
     const { userId } = req.body;
 
     //Check if userId exists in user table
     const existingUser = await Users.findByPk(userId);
     if (!existingUser) {
-      return res.status(409).json({
-        message: "Conflict: The user doesn't exist",
+      return res.status(404).json({
+        message: UsersErrors.USER_NOT_FOUND,
       });
     }
 
     const newOrder = await Orders.create(req.body);
 
     return res.status(201).send(newOrder);
-  } catch (error) {
-    return res.status(500).send({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
 
-const updateOrder = async (req, res) => {
+const updateOrder = async (req, res, next) => {
   try {
     const { id } = req.params;
 
     const existingOrder = await Orders.findByPk(id);
     if (!existingOrder) {
-      return res.status(409).json({
-        message: "Conflict: This order doesn't exist",
+      return res.status(404).json({
+        message: OrdersErrors.ORDER_NOT_FOUND,
       });
     }
     const updateOrder = await existingOrder.update(req.body);
 
     return res.status(200).json(updateOrder);
-  } catch (error) {
-    return res.status(500).send({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
 
-const deleteOrder = async (req, res) => {
+const deleteOrder = async (req, res, next) => {
   try {
     const { id } = req.params;
+
+    const existingOrder = await Orders.findByPk(id);
+    if (!existingOrder) {
+      return res.status(404).json({
+        message: OrdersErrors.ORDER_NOT_FOUND,
+      });
+    }
+
     await Orders.destroy({
       where: {
         id,
       },
     });
     res.sendStatus(204);
-  } catch (error) {
-    res.status(500).send({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
 

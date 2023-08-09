@@ -1,6 +1,6 @@
 const db = require("../../db/models/index.js");
 const { RolesErrors } = require("../roles/roles.errors.js");
-const { UserErrors } = require("./users.errors.js");
+const { UsersErrors } = require("./users.errors.js");
 const ErrorHandler = require("../../utils/errorHandler.js");
 const logger = require("../../utils/logger.js");
 const {
@@ -35,7 +35,7 @@ const getUserById = async (req, res, next) => {
     const existingUser = await Users.findByPk(id);
     if (!existingUser) {
       return res.status(404).json({
-        message: UserErrors.USER_NOT_FOUND,
+        message: UsersErrors.USER_NOT_FOUND,
       });
     }
 
@@ -53,28 +53,28 @@ const createUser = async (req, res, next) => {
     //Validate data with regex
     const namesValidated = namesValidate(names);
     if (!namesValidated) {
-      return res.status(401).json({
-        message: UserErrors.NAMES_INVALID,
+      return res.status(400).json({
+        message: UsersErrors.NAMES_INVALID,
       });
     }
     if (surnames.length !== 0) {
       const surnamesValidated = surnamesValidate(surnames);
       if (!surnamesValidated) {
-        return res.status(401).json({
-          message: UserErrors.SURNAMES_INVALID,
+        return res.status(400).json({
+          message: UsersErrors.SURNAMES_INVALID,
         });
       }
     }
     const emailValidated = emailValidate(email);
     if (!emailValidated) {
-      return res.status(401).json({
-        message: UserErrors.EMAIL_INVALID,
+      return res.status(400).json({
+        message: UsersErrors.EMAIL_INVALID,
       });
     }
     const passwordValidated = passwordValidate(password);
     if (!passwordValidated) {
-      return res.status(401).json({
-        message: UserErrors.PASSWORD_INVALID,
+      return res.status(400).json({
+        message: UsersErrors.PASSWORD_INVALID,
       });
     }
 
@@ -90,7 +90,7 @@ const createUser = async (req, res, next) => {
     const existingEmail = await Users.findOne({ where: { email } });
     if (existingEmail) {
       return res.status(409).json({
-        message: UserErrors.EMAIL_ALREADY_EXISTS,
+        message: UsersErrors.EMAIL_ALREADY_EXISTS,
       });
     }
 
@@ -113,7 +113,7 @@ const createUser = async (req, res, next) => {
       role: "User",
     });
   } catch (err) {
-    const error = new ErrorHandler(err);
+    const error = new ErrorHandler(err.message, err.statusCode);
     logger.error(err);
     next(error);
   }
@@ -122,14 +122,70 @@ const createUser = async (req, res, next) => {
 const updateUser = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const { names, surnames, email, password, roleId } = req.body;
 
     const existingUser = await Users.findByPk(id);
     if (!existingUser) {
       return res.status(404).json({
-        message: UserErrors.USER_NOT_FOUND,
+        message: UsersErrors.USER_NOT_FOUND,
       });
     }
-    const updateUser = await existingUser.update(req.body);
+
+    //Validate data with regex
+    const namesValidated = namesValidate(names);
+    if (!namesValidated) {
+      return res.status(400).json({
+        message: UsersErrors.NAMES_INVALID,
+      });
+    }
+    if (surnames.length !== 0) {
+      const surnamesValidated = surnamesValidate(surnames);
+      if (!surnamesValidated) {
+        return res.status(400).json({
+          message: UsersErrors.SURNAMES_INVALID,
+        });
+      }
+    }
+    const emailValidated = emailValidate(email);
+    if (!emailValidated) {
+      return res.status(400).json({
+        message: UsersErrors.EMAIL_INVALID,
+      });
+    }
+    const passwordValidated = passwordValidate(password);
+    if (!passwordValidated) {
+      return res.status(400).json({
+        message: UsersErrors.PASSWORD_INVALID,
+      });
+    }
+
+    //Check if roleId exists in role table
+    const existingRole = await Roles.findByPk(roleId);
+    if (!existingRole) {
+      return res.status(404).json({
+        message: RolesErrors.ROLE_NOT_FOUND,
+      });
+    }
+
+    //Check if email is already exists
+    const existingEmail = await Users.findOne({ where: { email } });
+    if (existingEmail) {
+      return res.status(409).json({
+        message: UsersErrors.EMAIL_ALREADY_EXISTS,
+      });
+    }
+
+    //Hash the password and create the user
+    const hashedPassword = await hashPassword(password);
+    const newUser = {
+      names,
+      surnames,
+      email,
+      password: hashedPassword,
+      roleId,
+    };
+
+    const updateUser = await existingUser.update(newUser);
 
     return res.status(200).json(updateUser);
   } catch (err) {
@@ -146,7 +202,7 @@ const deleteUser = async (req, res, next) => {
     const existingUser = await Users.findByPk(id);
     if (!existingUser) {
       return res.status(404).json({
-        message: UserErrors.USER_NOT_FOUND,
+        message: UsersErrors.USER_NOT_FOUND,
       });
     }
 

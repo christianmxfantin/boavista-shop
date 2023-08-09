@@ -1,85 +1,106 @@
 const { Sequelize } = require("sequelize");
 const db = require("../../db/models/index.js");
+const ErrorHandler = require("../../utils/errorHandler.js");
+const logger = require("../../utils/logger.js");
+const { DiscountsErrors } = require("./discounts.errors.js");
 
 const Discounts = db.discounts;
 
-const getDiscounts = async (req, res) => {
+const getDiscounts = async (req, res, next) => {
   try {
     const discounts = await Discounts.findAll();
+
     return res.status(200).json(discounts);
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
 
-const getDiscountById = async (req, res) => {
+const getDiscountById = async (req, res, next) => {
   try {
     const { id } = req.params;
 
     const existingDiscount = await Discounts.findByPk(id);
     if (!existingDiscount) {
-      return res.status(409).json({
-        message: "Conflict: This discount doesn't exist",
+      return res.status(404).json({
+        message: DiscountsErrors.DISCOUNT_NOT_FOUND,
       });
     }
 
     return res.status(200).json(existingDiscount);
-  } catch (error) {
-    return res.status(500).send({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
-const createDiscount = async (req, res) => {
+const createDiscount = async (req, res, next) => {
   try {
     const percentage = req.body.percentage;
 
-    // Check if discount already exists (case-insensitive)
+    // Check if discount already exists
     const existingDiscount = await Discounts.findOne({
       where: { percentage },
     });
-
     if (existingDiscount !== null) {
       return res.status(409).json({
-        message: "Unauthorized: This discount already exists",
+        message: DiscountsErrors.DISCOUNT_ALREADY_EXISTS,
       });
     }
 
     const newDiscount = await Discounts.create(req.body);
 
     return res.status(201).json(newDiscount);
-  } catch (error) {
-    return res.status(500).send({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
 
-const updateDiscount = async (req, res) => {
+const updateDiscount = async (req, res, next) => {
   try {
     const { id } = req.params;
 
     const existingDiscount = await Discounts.findByPk(id);
     if (!existingDiscount) {
-      return res.status(409).json({
-        message: "Conflict: This discount doesn't exist",
+      return res.status(404).json({
+        message: DiscountsErrors.DISCOUNT_NOT_FOUND,
       });
     }
     const updateDiscount = await existingDiscount.update(req.body);
 
     return res.status(200).json(updateDiscount);
-  } catch (error) {
-    return res.status(500).send({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
 
-const deleteDiscount = async (req, res) => {
+const deleteDiscount = async (req, res, next) => {
   try {
     const { id } = req.params;
+
+    const existingDiscount = await Discounts.findByPk(id);
+    if (!existingDiscount) {
+      return res.status(404).json({
+        message: DiscountsErrors.DISCOUNT_NOT_FOUND,
+      });
+    }
+
     await Discounts.destroy({
       where: {
         id,
       },
     });
     return res.sendStatus(204);
-  } catch (error) {
-    return res.status(500).send({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
 

@@ -193,7 +193,7 @@ const googleAuth = async (req, res, next) => {
   }
 };
 
-const token = async (req, res) => {
+const token = async (req, res, next) => {
   try {
     const { token } = req.cookies;
 
@@ -219,8 +219,10 @@ const token = async (req, res) => {
         email: userFound.email,
       });
     });
-  } catch (error) {
-    res.status(500).send({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
 

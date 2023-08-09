@@ -1,6 +1,6 @@
 const { lengthField } = require("../../db/db.errors");
 
-const UserErrors = {
+const UsersErrors = {
   NAMES_INVALID: "Los nombres ingresados no son válidos",
   SURNAMES_INVALID: "Los apellidos ingresados no son válidos",
   EMAIL_INVALID: "El email ingresado no es válido",
@@ -17,4 +17,4 @@ const UserErrors = {
   //   "Te registraste usando tu cuenta de Google. Por favor, inicia sesión con ese método.",
 };
 
-module.exports = { UserErrors };
+module.exports = { UsersErrors };
