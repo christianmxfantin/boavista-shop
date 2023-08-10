@@ -3,13 +3,7 @@ const { RolesErrors } = require("../roles/roles.errors.js");
 const { UsersErrors } = require("./users.errors.js");
 const ErrorHandler = require("../../utils/errorHandler.js");
 const logger = require("../../utils/logger.js");
-const {
-  namesValidate,
-  surnamesValidate,
-  emailValidate,
-  passwordValidate,
-} = require("./users.validations.js");
-const { hashPassword } = require("../../utils/hashPassword.js");
+const { createAndUpdateUser } = require("./users.validations.js");
 
 const Users = db.users;
 const Roles = db.roles;
@@ -48,70 +42,17 @@ const getUserById = async (req, res, next) => {
 };
 const createUser = async (req, res, next) => {
   try {
-    const { names, surnames, email, password, roleId } = req.body;
-
-    //Validate data with regex
-    const namesValidated = namesValidate(names);
-    if (!namesValidated) {
-      return res.status(400).json({
-        message: UsersErrors.NAMES_INVALID,
+    const userData = await createAndUpdateUser(req, res, next);
+    if (userData) {
+      const savedUser = await Users.create(userData);
+      return res.status(201).json({
+        id: savedUser.id,
+        names: savedUser.names,
+        surnames: savedUser.surnames,
+        email: savedUser.email,
+        role: "User",
       });
     }
-    if (surnames.length !== 0) {
-      const surnamesValidated = surnamesValidate(surnames);
-      if (!surnamesValidated) {
-        return res.status(400).json({
-          message: UsersErrors.SURNAMES_INVALID,
-        });
-      }
-    }
-    const emailValidated = emailValidate(email);
-    if (!emailValidated) {
-      return res.status(400).json({
-        message: UsersErrors.EMAIL_INVALID,
-      });
-    }
-    const passwordValidated = passwordValidate(password);
-    if (!passwordValidated) {
-      return res.status(400).json({
-        message: UsersErrors.PASSWORD_INVALID,
-      });
-    }
-
-    //Check if roleId exists in role table
-    const existingRole = await Roles.findByPk(roleId);
-    if (!existingRole) {
-      return res.status(404).json({
-        message: RolesErrors.ROLE_NOT_FOUND,
-      });
-    }
-
-    //Check if email is already exists
-    const existingEmail = await Users.findOne({ where: { email } });
-    if (existingEmail) {
-      return res.status(409).json({
-        message: UsersErrors.EMAIL_ALREADY_EXISTS,
-      });
-    }
-
-    //Hash the password and create the user
-    const hashedPassword = await hashPassword(password);
-    const newUser = {
-      names,
-      surnames,
-      email,
-      password: hashedPassword,
-      roleId,
-    };
-    const savedUser = await Users.create(newUser);
-
-    return res.status(201).json({
-      id: savedUser.id,
-      names: savedUser.names,
-      surnames: savedUser.surnames,
-      email: savedUser.email,
-      role: "User",
-    });
   } catch (err) {
     const error = new ErrorHandler(err.message, err.statusCode);
     logger.error(err);
@@ -122,72 +63,25 @@ const createUser = async (req, res, next) => {
 const updateUser = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { names, surnames, email, password, roleId } = req.body;
 
-    const existingUser = await Users.findByPk(id);
-    if (!existingUser) {
-      return res.status(404).json({
-        message: UsersErrors.USER_NOT_FOUND,
-      });
-    }
-
-    //Validate data with regex
-    const namesValidated = namesValidate(names);
-    if (!namesValidated) {
-      return res.status(400).json({
-        message: UsersErrors.NAMES_INVALID,
-      });
-    }
-    if (surnames.length !== 0) {
-      const surnamesValidated = surnamesValidate(surnames);
-      if (!surnamesValidated) {
-        return res.status(400).json({
-          message: UsersErrors.SURNAMES_INVALID,
+    const userData = await createAndUpdateUser(req, res, next);
+    if (userData) {
+      const existingUser = await Users.findByPk(id);
+      if (!existingUser) {
+        return res.status(404).json({
+          message: UsersErrors.USER_NOT_FOUND,
         });
       }
-    }
-    const emailValidated = emailValidate(email);
-    if (!emailValidated) {
-      return res.status(400).json({
-        message: UsersErrors.EMAIL_INVALID,
+
+      const updatedUser = await existingUser.update(userData);
+      return res.status(200).json({
+        id: updatedUser.id,
+        names: updatedUser.names,
+        surnames: updatedUser.surnames,
+        email: updatedUser.email,
+        role: "User",
       });
     }
-    const passwordValidated = passwordValidate(password);
-    if (!passwordValidated) {
-      return res.status(400).json({
-        message: UsersErrors.PASSWORD_INVALID,
-      });
-    }
-
-    //Check if roleId exists in role table
-    const existingRole = await Roles.findByPk(roleId);
-    if (!existingRole) {
-      return res.status(404).json({
-        message: RolesErrors.ROLE_NOT_FOUND,
-      });
-    }
-
-    //Check if email is already exists
-    const existingEmail = await Users.findOne({ where: { email } });
-    if (existingEmail) {
-      return res.status(409).json({
-        message: UsersErrors.EMAIL_ALREADY_EXISTS,
-      });
-    }
-
-    //Hash the password and create the user
-    const hashedPassword = await hashPassword(password);
-    const newUser = {
-      names,
-      surnames,
-      email,
-      password: hashedPassword,
-      roleId,
-    };
-
-    const updateUser = await existingUser.update(newUser);
-
-    return res.status(200).json(updateUser);
   } catch (err) {
     const error = new ErrorHandler(err.message, err.statusCode);
     logger.error(err);

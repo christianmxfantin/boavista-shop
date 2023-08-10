@@ -1,4 +1,4 @@
-const { emptyField, lengthField } = require("../db.errors");
+const { UsersErrors } = require("../../api/users/users.errors");
 
 module.exports = (sequelize, DataTypes) => {
   const Users = sequelize.define(
@@ -24,41 +24,39 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notEmpty: {
-            msg: emptyField("nombre"),
-          },
-          len: {
-            args: [1, 100],
-            msg: lengthField("nombre", 1, 100),
+          is: {
+            args: /^[\p{L} -]{1,100}$/u,
+            msg: UsersErrors.NAMES_INVALID,
           },
         },
       },
       surnames: {
         type: DataTypes.STRING,
         allowNull: true,
+        validate: {
+          regexSurnamesValidate(value) {
+            if (value.length !== 0) {
+              if (!/^[\p{L} -]{1,100}$/u.test(value)) {
+                throw new Error(UsersErrors.SURNAMES_INVALID);
+              }
+            }
+          },
+        },
       },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
         validate: {
-          notEmpty: {
-            msg: emptyField("email"),
-          },
-          len: {
-            args: [6, 255],
-            msg: lengthField("email", 6, 255),
+          is: {
+            args: /^(?=.{6,100}$)[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+            msg: UsersErrors.EMAIL_INVALID,
           },
         },
       },
       password: {
         type: DataTypes.BLOB,
         allowNull: false,
-        validate: {
-          notEmpty: {
-            msg: emptyField("contraseña"),
-          },
-        },
       },
     },
     {
