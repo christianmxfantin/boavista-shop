@@ -42,7 +42,7 @@ const getUserById = async (req, res, next) => {
 };
 const createUser = async (req, res, next) => {
   try {
-    const userData = await createAndUpdateUser(req, res, next);
+    const userData = await createAndUpdateUser(req, res, next, "users-create");
     if (userData) {
       const savedUser = await Users.create(userData);
       return res.status(201).json({
@@ -64,7 +64,7 @@ const updateUser = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const userData = await createAndUpdateUser(req, res, next);
+    const userData = await createAndUpdateUser(req, res, next, "users-update");
     if (userData) {
       const existingUser = await Users.findByPk(id);
       if (!existingUser) {

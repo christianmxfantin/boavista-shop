@@ -3,17 +3,11 @@ const argon2 = require("argon2");
 const crypto = require("crypto");
 
 const db = require("../../db/models/index.js");
-const { UserErrors } = require("../users/users.errors.js");
+const { UsersErrors } = require("../users/users.errors.js");
 const { RolesErrors } = require("../roles/roles.errors.js");
 const ErrorHandler = require("../../utils/errorHandler.js");
 const logger = require("../../utils/logger.js");
-const {
-  namesValidate,
-  surnamesValidate,
-  emailValidate,
-  passwordValidate,
-} = require("../users/users.validations.js");
-const { hashPassword } = require("../../utils/hashPassword.js");
+const { createAndUpdateUser } = require("../users/users.validations.js");
 
 const Roles = db.roles;
 const Users = db.users;
@@ -23,85 +17,26 @@ const TOKEN_SECRET = crypto.randomBytes(128).toString("hex");
 
 const register = async (req, res, next) => {
   try {
-    const { names, surnames, email, password, roleId } = req.body;
+    const userData = await createAndUpdateUser(req, res, next, "register");
+    if (userData) {
+      const savedUser = await Users.create(userData);
 
-    //Check if email is already exists
-    const existingEmail = await Users.findOne({ where: { email } });
-    if (existingEmail) {
-      return res.status(409).json({
-        message: UserErrors.EMAIL_ALREADY_EXISTS,
+      // Create a Token
+      const token = jwt.sign({ id: savedUser.id }, TOKEN_SECRET, {
+        expiresIn: 3600, // 1 hour
+      });
+
+      //Send cookie with data
+      res.cookie("token", token);
+
+      return res.status(201).json({
+        id: savedUser.id,
+        names: savedUser.names,
+        surnames: savedUser.surnames,
+        email: savedUser.email,
+        role: "Web",
       });
     }
-
-    //Check if roleId exists in role table
-    const existingRole = await Roles.findByPk(roleId);
-    if (!existingRole) {
-      return res.status(409).json({
-        message: RolesErrors.ROLE_NOT_FOUND,
-      });
-    }
-
-    //Check quantity of password characters
-    if (password.length < 8 || password.length > 18) {
-      return res.status(401).json({
-        message: UserErrors.PASSWORD_LENGTH,
-      });
-    }
-
-    //Validate data with regex
-    const namesValidated = namesValidate(names);
-    if (!namesValidated) {
-      return res.status(401).json({
-        message: UserErrors.NAMES_INVALID,
-      });
-    }
-    if (surnames.length !== 0) {
-      const surnamesValidated = surnamesValidate(surnames);
-      if (!surnamesValidated) {
-        return res.status(401).json({
-          message: UserErrors.SURNAMES_INVALID,
-        });
-      }
-    }
-    const emailValidated = emailValidate(email);
-    if (!emailValidated) {
-      return res.status(401).json({
-        message: UserErrors.EMAIL_INVALID,
-      });
-    }
-    const passwordValidated = passwordValidate(password);
-    if (!passwordValidated) {
-      return res.status(401).json({
-        message: UserErrors.PASSWORD_INVALID,
-      });
-    }
-
-    //Hash the password and create the user
-    const hashedPassword = await hashPassword(password);
-    const newUser = {
-      names,
-      surnames,
-      email,
-      password: hashedPassword,
-      roleId,
-    };
-    const savedUser = await Users.create(newUser);
-
-    // Create a Token
-    const token = jwt.sign({ id: savedUser.id }, TOKEN_SECRET, {
-      expiresIn: 3600, // 1 hour
-    });
-
-    //Send cookie with data
-    res.cookie("token", token);
-
-    return res.status(201).json({
-      id: savedUser.id,
-      names: savedUser.names,
-      surnames: savedUser.surnames,
-      email: savedUser.email,
-      role: "Web",
-    });
   } catch (err) {
     const error = new ErrorHandler(err.message, err.statusCode);
     logger.error(err);
@@ -111,69 +46,36 @@ const register = async (req, res, next) => {
 
 const login = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const userData = await createAndUpdateUser(req, res, next, "login");
+    if (userData) {
+      //Compare the password
+      const storedPassword = userData.storedPassword.toString();
+      const passwordIsValid = await argon2.verify(
+        storedPassword,
+        userData.password
+      );
+      if (!passwordIsValid) {
+        return res.status(401).json({
+          message: UsersErrors.PASSWORD_INVALID,
+        });
+      }
 
-    //Check if user exists
-    const userFound = await Users.findOne({ where: { email } });
-    if (!userFound) {
-      return res.status(401).json({
-        message: UserErrors.EMAIL_INVALID,
+      // Create a Token
+      const token = jwt.sign({ id: userData.id }, TOKEN_SECRET, {
+        expiresIn: 3600, // 1 hour
+      });
+
+      //Send cookie with data
+      res.cookie("token", token);
+
+      return res.status(200).json({
+        id: userData.id,
+        names: userData.names,
+        surnames: userData.surnames,
+        email: userData.email,
+        role: userData.roleId,
       });
     }
-
-    //Check if roleId exists in role table
-    const existingRole = await Roles.findByPk(userFound.roleId);
-    if (!existingRole) {
-      return res.status(409).json({
-        message: RolesErrors.ROLE_NOT_FOUND,
-      });
-    }
-
-    //Check quantity of password characters
-    if (password.length < 8 || password.length > 18) {
-      return res.status(401).json({
-        message: UserErrors.PASSWORD_LENGTH,
-      });
-    }
-
-    //Validate data with regex
-    const emailValidated = emailValidate(email);
-    if (!emailValidated) {
-      return res.status(401).json({
-        message: UserErrors.EMAIL_INVALID,
-      });
-    }
-    const passwordValidated = passwordValidate(password);
-    if (!passwordValidated) {
-      return res.status(401).json({
-        message: UserErrors.PASSWORD_INVALID,
-      });
-    }
-
-    //Compare the password
-    const storedPassword = userFound.password.toString();
-    const passwordIsValid = await argon2.verify(storedPassword, password);
-    if (!passwordIsValid) {
-      return res.status(401).json({
-        message: UserErrors.PASSWORD_INVALID,
-      });
-    }
-
-    // Create a Token
-    const token = jwt.sign({ id: userFound.id }, TOKEN_SECRET, {
-      expiresIn: 3600, // 1 hour
-    });
-
-    //Send cookie with data
-    res.cookie("token", token);
-
-    return res.status(201).json({
-      id: userFound.id,
-      names: userFound.names,
-      surnames: userFound.surnames,
-      email: userFound.email,
-      role: existingRole.name,
-    });
   } catch (err) {
     const error = new ErrorHandler(err.message, err.statusCode);
     logger.error(err);
@@ -199,7 +101,7 @@ const token = async (req, res, next) => {
 
     if (!token)
       return res.status(401).json({
-        message: UserErrors.TOKEN_INVALID,
+        message: UsersErrors.TOKEN_INVALID,
       });
 
     jwt.verify(token, TOKEN_SECRET, async (error, user) => {
@@ -211,7 +113,7 @@ const token = async (req, res, next) => {
       const userFound = await Users.findByPk(user.id);
       if (!userFound)
         return res.status(401).json({
-          message: UserErrors.USER_NOT_FOUND,
+          message: UsersErrors.USER_NOT_FOUND,
         });
 
       return res.status(200).json({
