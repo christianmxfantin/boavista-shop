@@ -85,9 +85,16 @@ const FormAuth = ({ formType, role }) => {
     switch (formType) {
       case "login":
         try {
+          //Check if exists the Web role in database
+          const roles = await getRoles();
+          const roleName = roles.data.find(
+            (role) => role.name.toLowerCase().trim() === "web"
+          );
+
           const userData = {
             email: formValues.email.trim(),
             password: formValues.password.trim(),
+            roleId: roleName.id,
           };
 
           const loginUser = await loginResponse(userData);
@@ -100,8 +107,8 @@ const FormAuth = ({ formType, role }) => {
           }
         } catch (error) {
           // console.error("Error en la solicitud:", err);
-
-          if (!error.response || error.request) {
+          console.log(error.response);
+          if (!error.response) {
             setIsToastVisible(true);
             setToastData({
               severity: "error",
@@ -137,7 +144,7 @@ const FormAuth = ({ formType, role }) => {
           //Check if exists the Web role in database
           const roles = await getRoles();
           const roleName = roles.data.find(
-            (role) => role.names.toLowerCase().trim() === "web"
+            (role) => role.name.toLowerCase().trim() === "web"
           );
 
           //Register the user and sing in
@@ -146,7 +153,7 @@ const FormAuth = ({ formType, role }) => {
             surnames: formValues.surnames.trim(),
             email: formValues.email.toLowerCase().trim(),
             password: formValues.password.trim(),
-            role_id: roleName.id,
+            roleId: roleName.id,
           };
           const registerUser = await registerResponse(newUser);
 
@@ -154,12 +161,14 @@ const FormAuth = ({ formType, role }) => {
           navigate("/");
         } catch (error) {
           // console.error("Error en la solicitud:", err);
+          console.log(error.response);
 
-          if (!error.response || error.request) {
+          if (error.response.statusText === "Conflict") {
+            //client error
             setIsToastVisible(true);
             setToastData({
               severity: "error",
-              message: "Ocurrió un error al procesar la solicitud",
+              message: error.response.data.message,
             });
             return;
           }
@@ -180,6 +189,15 @@ const FormAuth = ({ formType, role }) => {
             setToastData({
               severity: "error",
               message: "El servidor no está disponible",
+            });
+            return;
+          }
+
+          if (!error.response) {
+            setIsToastVisible(true);
+            setToastData({
+              severity: "error",
+              message: "Ocurrió un error al procesar la solicitud",
             });
             return;
           }
@@ -278,7 +296,9 @@ const FormAuth = ({ formType, role }) => {
                 pattern: validations.names.pattern,
               })}
               error={!!errors.surnames}
-              helperText={errors.surnames && errors.names.errorDataNotValid}
+              helperText={
+                errors.surnames && validations.names.errorDataNotValid
+              }
             />
           </FormAuthName>
         )}
