@@ -56,6 +56,16 @@ db.products.belongsTo(db.categories, {
   targetId: "id",
 });
 
+//Products with Users
+db.users.hasMany(db.products, {
+  foreignKey: "userId",
+  sourceKey: "id",
+});
+db.products.belongsTo(db.users, {
+  foreignKey: "userId",
+  targetId: "id",
+});
+
 //Addresses with Users
 db.users.hasMany(db.addresses, {
   foreignKey: "userId",

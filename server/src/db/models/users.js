@@ -9,7 +9,6 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
         allowNull: false,
-        unique: true,
       },
       // imageURL: {
       //   type: DataTypes.STRING,
@@ -21,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       //   },
       // },
       names: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(100),
         allowNull: false,
         validate: {
           is: {
@@ -31,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       surnames: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(100),
         allowNull: true,
         validate: {
           regexSurnamesValidate(value) {
@@ -44,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       email: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(100),
         allowNull: false,
         unique: true,
         validate: {
@@ -55,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       password: {
-        type: DataTypes.BLOB,
+        type: DataTypes.STRING(255),
         allowNull: false,
       },
     },

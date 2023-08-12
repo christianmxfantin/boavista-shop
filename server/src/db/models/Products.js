@@ -1,4 +1,4 @@
-const { emptyField, lengthField } = require("../db.errors");
+const { ProductsErrors } = require("../../api/products/products.errors");
 
 module.exports = (sequelize, DataTypes) => {
   const Products = sequelize.define(
@@ -13,18 +13,21 @@ module.exports = (sequelize, DataTypes) => {
       // imageURL: {
       //   type: DataTypes.STRING,
       //   allowNull: false,
+      //   validate: {
+      //     notEmpty: {
+      //       msg: emptyField("imágen URL"),
+      //     },
+      //   },
+      // },
       // },
       name: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(100),
         allowNull: false,
         unique: true,
         validate: {
-          notEmpty: {
-            msg: emptyField("nombre"),
-          },
-          len: {
-            args: [1, 100],
-            msg: lengthField("nombre", 1, 100),
+          is: {
+            args: /^[a-zA-Z0-9\s\-.,!()+]{1,100}$/,
+            msg: ProductsErrors.NAME_INVALID,
           },
         },
       },
@@ -32,26 +35,19 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
         validate: {
-          notEmpty: {
-            msg: emptyField("precio"),
-          },
           isDecimal: {
-            msg: "Solo se permiten números decimales",
+            msg: ProductsErrors.PRICE_INVALID,
           },
           checkDecimalLength(value) {
             const stringValue = value.toString();
             const [integerPart, decimalPart] = stringValue.split(".");
 
             if (integerPart.length > 10) {
-              throw new Error(
-                "Solo puedes ingresar hasta 10 dígitos antes del punto decimal"
-              );
+              throw new Error(ProductsErrors.PRICE_INTEGER_PART);
             }
 
             if (decimalPart && decimalPart.length > 2) {
-              throw new Error(
-                "Solo puedes ingresar hasta 2 dígitos después del punto decimal"
-              );
+              throw new Error(ProductsErrors.PRICE_DECIMAL_PART);
             }
           },
         },
@@ -60,21 +56,15 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: true,
         validate: {
-          notEmpty: {
-            msg: emptyField("stock"),
-          },
-          len: {
-            args: [1, 10],
-            msg: lengthField("stock", 1, 10),
-          },
-          isInt: {
-            msg: "Solo se permiten números",
+          is: {
+            args: /^\d{1,10}$/,
+            msg: ProductsErrors.STOCK_INVALID,
           },
         },
       },
     },
     {
-      timestamps: false,
+      timestamps: true,
     }
   );
   return Products;

@@ -66,6 +66,7 @@ const updateUser = async (req, res, next) => {
 
     const userData = await createAndUpdateUser(req, res, next, "users-update");
     if (userData) {
+      //Check if user id exists
       const existingUser = await Users.findByPk(id);
       if (!existingUser) {
         return res.status(404).json({
