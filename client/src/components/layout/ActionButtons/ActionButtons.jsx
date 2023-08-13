@@ -12,7 +12,6 @@ const ActionButtons = ({ database, setShowAddNew }) => {
   const [selectedData, setSelectedData] = useState({});
 
   const handleEdit = (data) => {
-    console.log("entra aca");
     //TIENE QUE ENVIAR EL ID CON LA DATA
     switch (typeData) {
       case "billings":
@@ -30,7 +29,6 @@ const ActionButtons = ({ database, setShowAddNew }) => {
   };
 
   const handleDelete = (data) => {
-    console.log("o enter here");
     //TIENE QUE ENVIAR SOLO EL ID PARA BORRAR
     switch (typeData) {
       case "billings":

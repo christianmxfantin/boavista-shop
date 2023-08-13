@@ -4,12 +4,10 @@ import { useSelector } from "react-redux";
 
 const Dashboard = () => {
   const { user } = useSelector((state) => state.auth);
+  const userRole = user.role.toLowerCase().trim();
 
-  if (
-    user.role.toLowerCase().trim() === "admin" ||
-    user.role.toLowerCase().trim() === "user"
-  )
-    return <FormAuth formType="dashboard" role={user.role} />;
+  if (userRole === "admin" || userRole === "user")
+    return <FormAuth formType="dashboard" role={userRole} />;
   return <Navigate to="/login" replace />;
 };
 

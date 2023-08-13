@@ -85,29 +85,22 @@ const FormAuth = ({ formType, role }) => {
     switch (formType) {
       case "login":
         try {
-          //Check if exists the Web role in database
-          const roles = await getRoles();
-          const roleName = roles.data.find(
-            (role) => role.name.toLowerCase().trim() === "web"
-          );
-
           const userData = {
-            email: formValues.email.trim(),
-            password: formValues.password.trim(),
-            roleId: roleName.id,
+            email: formValues.email.toLowerCase().trim(),
+            password: formValues.password,
           };
 
           const loginUser = await loginResponse(userData);
           dispatch(setUser(loginUser.data));
 
-          if (loginUser.data.role.toLowerCase().trim() !== "Web") {
+          if (loginUser.data.role.toLowerCase().trim() !== "web") {
             navigate("/dashboard");
           } else {
             navigate("/");
           }
         } catch (error) {
           // console.error("Error en la solicitud:", err);
-          console.log(error.response);
+          console.log(error);
           if (!error.response) {
             setIsToastVisible(true);
             setToastData({
@@ -152,7 +145,7 @@ const FormAuth = ({ formType, role }) => {
             names: formValues.names.trim(),
             surnames: formValues.surnames.trim(),
             email: formValues.email.toLowerCase().trim(),
-            password: formValues.password.trim(),
+            password: formValues.password,
             roleId: roleName.id,
           };
           const registerUser = await registerResponse(newUser);
@@ -435,7 +428,7 @@ const FormAuth = ({ formType, role }) => {
             </>
           ) : (
             <>
-              {role === "Admin" && (
+              {role === "admin" && (
                 <Button
                   variant="contained"
                   sx={{

@@ -1,5 +1,5 @@
 import { useTheme } from "@emotion/react";
-// import { Button } from "../../ui/Button";
+import { useForm } from "react-hook-form";
 import { Button } from "@mui/material";
 import {
   TableActionsModal,
@@ -17,9 +17,18 @@ import {
   TableDeleteLine2,
   TableDeleteLine3,
 } from "./TableActions.styles";
+import useProducts from "../../../hooks/useProducts";
 
 const TableActions = ({ showModal, setShowModal, selectedData }) => {
   const theme = useTheme();
+  const { updateProduct } = useProducts();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm({ mode: "onBlur" });
 
   if (!selectedData) {
     return null;
@@ -27,18 +36,45 @@ const TableActions = ({ showModal, setShowModal, selectedData }) => {
   const { actionType, data } = selectedData;
 
   const handleCancelButton = () => {
+    reset();
     setShowModal(false);
-    console.log("Cancel");
   };
+  // console.log(data);
 
-  const handleConfirmButton = () => {
+  const onSubmit = async (formValues) => {
+    switch (actionType) {
+      case "edit-product":
+        try {
+          const updatedProduct = {
+            id: data.id,
+            name: formValues.name.trim(),
+            price: 500.0,
+            stock: 1200,
+          };
+
+          console.log(updatedProduct);
+          await updateProduct(data.id, updatedProduct);
+        } catch (error) {
+          console.log(error);
+        }
+
+        break;
+
+      default:
+    }
+
     setShowModal(false);
-    console.log("Confirm");
+    reset();
   };
 
   return (
     <TableActionsModal open={showModal}>
-      <TableActionsContainer>
+      <TableActionsContainer
+        component={"form"}
+        autoComplete="off"
+        noValidate
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <TableActionsTitle
           variant="h4"
           sx={{
@@ -52,21 +88,43 @@ const TableActions = ({ showModal, setShowModal, selectedData }) => {
         </TableActionsTitle>
         {actionType === "edit-product" ? (
           <TableEditContainer>
-            <TableImage>Avatar</TableImage>
+            <TableImage>Imágen del Producto</TableImage>
             <TableInputContainer>
-              <TableNameInput
-                placeholder={`Nombre ${
-                  actionType === "edit-product" ? "del Producto" : "de Usuario"
-                }`}
-                value={data.name}
-                // onChange={(e) => setSelectedData(e.target.value)}
-              ></TableNameInput>
-              {actionType === "edit-products" && (
-                <TablePriceInput
-                  placeholder="Precio Unitario"
-                  value={data.price}
-                  // onChange={(e) => setSelectedPrice(e.target.value)}
-                />
+              {actionType === "edit-user" && (
+                <>
+                  <TableNameInput
+                    placeholder="Nombre de Usuario"
+                    value={data.name}
+                  ></TableNameInput>
+                  <TableNameInput />
+                </>
+              )}
+              {actionType === "edit-product" && (
+                <>
+                  <TableNameInput
+                    defaultValue={data.name}
+                    name="name"
+                    type="text"
+                    variant="outlined"
+                    size="small"
+                    placeholder="Nombre del Producto"
+                    required
+                    {...register("name", {
+                      required: true,
+                      // pattern: validations.names.pattern,
+                    })}
+                    // error={!!errors.name}
+                    // helperText={
+                    //   watch("name")
+                    //     ? errors.name && validations.names.errorDataNotValid
+                    //     : errors.name && validations.errorEmptyField
+                    // }
+                  />
+                  <TablePriceInput
+                    placeholder="Precio Unitario"
+                    defaultValue={data.price}
+                  />
+                </>
               )}
             </TableInputContainer>
           </TableEditContainer>
@@ -117,6 +175,7 @@ const TableActions = ({ showModal, setShowModal, selectedData }) => {
             Cancelar
           </Button>
           <Button
+            type="submit"
             variant="contained"
             sx={{
               width: "376px",
@@ -135,9 +194,8 @@ const TableActions = ({ showModal, setShowModal, selectedData }) => {
                     : theme.palette.error[700],
               },
             }}
-            onClick={handleConfirmButton}
           >
-            {actionType === "edit" ? "Guardar" : "Borrar"}
+            {actionType === "edit-product" ? "Guardar" : "Borrar"}
           </Button>
         </TableButtonsContainer>
       </TableActionsContainer>

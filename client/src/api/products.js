@@ -1,13 +1,15 @@
 import axios from "./axios";
 
-export const getProducts = async () => axios.get("/products");
+export const getProductsResponse = async () => axios.get("/products");
 
-export const getProductById = async (id) => axios.get(`/products/${id}`);
+export const getProductByIdResponse = async (id) =>
+  axios.get(`/products/${id}`);
 
-export const createProduct = async (product) =>
+export const createProductResponse = async (product) =>
   axios.post("/products", product);
 
-export const updateProduct = async (product) =>
-  axios.put(`/products/${product.id}`, product);
+export const updateProductResponse = async (id, product) =>
+  axios.put(`/products/${id}`, product);
 
-export const deleteProduct = async (id) => axios.delete(`/products/${id}`);
+export const deleteProductResponse = async (id) =>
+  axios.delete(`/products/${id}`);
