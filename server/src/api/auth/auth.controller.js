@@ -4,7 +4,6 @@ const crypto = require("crypto");
 
 const db = require("../../db/models/index.js");
 const { UsersErrors } = require("../users/users.errors.js");
-const { RolesErrors } = require("../roles/roles.errors.js");
 const ErrorHandler = require("../../utils/errorHandler.js");
 const logger = require("../../utils/logger.js");
 const { createAndUpdateUser } = require("../users/users.validations.js");
@@ -34,7 +33,7 @@ const register = async (req, res, next) => {
         names: savedUser.names,
         surnames: savedUser.surnames,
         email: savedUser.email,
-        role: "Web",
+        role: savedUser.role,
       });
     }
   } catch (err) {
@@ -50,6 +49,7 @@ const login = async (req, res, next) => {
     if (userData) {
       //Compare the password
       const storedPassword = userData.storedPassword.toString();
+      console.log(storedPassword, userData.password);
       const passwordIsValid = await argon2.verify(
         storedPassword,
         userData.password
@@ -73,7 +73,7 @@ const login = async (req, res, next) => {
         names: userData.names,
         surnames: userData.surnames,
         email: userData.email,
-        role: userData.roleId,
+        role: userData.role,
       });
     }
   } catch (err) {
