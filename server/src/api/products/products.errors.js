@@ -9,6 +9,8 @@ const ProductsErrors = {
   STOCK_INVALID: "El stock solo permite ingresar hasta 4 dígitos.",
   PRODUCT_NOT_FOUND: "El producto ingresado no existe.",
   PRODUCT_NAME_ALREADY_EXISTS: "El nombre del producto ingresado ya existe.",
+  ROLE_DELETE_ACTION:
+    "Debe ser un usuario administrador para poder borrar un producto.",
 };
 
 module.exports = { ProductsErrors };

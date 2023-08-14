@@ -1,12 +1,10 @@
 const db = require("../../db/models/index.js");
-const { RolesErrors } = require("../roles/roles.errors.js");
 const { UsersErrors } = require("./users.errors.js");
 const ErrorHandler = require("../../utils/errorHandler.js");
 const logger = require("../../utils/logger.js");
 const { createAndUpdateUser } = require("./users.validations.js");
 
 const Users = db.users;
-const Roles = db.roles;
 
 const getUsers = async (req, res, next) => {
   try {

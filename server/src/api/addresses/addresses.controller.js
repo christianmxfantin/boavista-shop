@@ -1,34 +1,42 @@
 const db = require("../../db/models/index.js");
+const ErrorHandler = require("../../utils/errorHandler.js");
+const logger = require("../../utils/logger.js");
+const { AddressesErrors } = require("./addresses.errors.js");
 
 const Addresses = db.addresses;
 const Users = db.users;
 
-const getAddresses = async (req, res) => {
+const getAddresses = async (req, res, next) => {
   try {
     const addresses = await Addresses.findAll();
+
     return res.status(200).json(addresses);
-  } catch (error) {
-    return res.status(500).send({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
 
-const getAddressById = async (req, res) => {
+const getAddressById = async (req, res, next) => {
   try {
     const { id } = req.params;
 
     const existingAddress = await Addresses.findByPk(id);
     if (!existingAddress) {
-      return res.status(409).json({
-        message: "Conflict: This address doesn't exist",
+      return res.status(404).json({
+        message: AddressesErrors.ADDRESS_NOT_FOUND,
       });
     }
 
     return res.status(200).json(existingAddress);
-  } catch (error) {
-    return res.status(500).send({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
-const createAddress = async (req, res) => {
+const createAddress = async (req, res, next) => {
   try {
     const { userId } = req.body;
 
@@ -43,12 +51,14 @@ const createAddress = async (req, res) => {
     const newAddress = await Addresses.create(req.body);
 
     return res.status(201).send(newAddress);
-  } catch (error) {
-    return res.status(500).send({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
 
-const updateAddress = async (req, res) => {
+const updateAddress = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -62,12 +72,14 @@ const updateAddress = async (req, res) => {
     const updateAddress = await existingAddress.update(req.body);
 
     return res.status(200).json(updateAddress);
-  } catch (error) {
-    return res.status(500).send({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
 
-const deleteAddress = async (req, res) => {
+const deleteAddress = async (req, res, next) => {
   try {
     const { id } = req.params;
     await Addresses.destroy({
@@ -76,8 +88,10 @@ const deleteAddress = async (req, res) => {
       },
     });
     res.sendStatus(204);
-  } catch (error) {
-    res.status(500).send({ message: error.message });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
   }
 };
 
