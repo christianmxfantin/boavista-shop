@@ -1,41 +1,14 @@
-export const validations = {
-  errorEmptyField: "El campo no puede estar vacío",
-  names: {
-    pattern: /^[\p{L} -]+$/u,
-    errorDataNotValid: "Los datos ingresados son inválidos",
-  },
-  mail: {
-    pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-    errorDataNotValid: "Los datos ingresados son inválidos",
-  },
-  password: {
-    pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-    errorDataNotValid:
-      "El campo debe contener al menos 8 caracteres, incluyendo al menos un número, una letra minúscula y una letra mayúscula",
-  },
-  address: {
-    pattern: /^[\p{L}\d\s.,'#-]+$/u,
-    errorDataNotValid:
-      "La dirección solo puede contener caracteres alfanuméricos, comas, puntos, guiones medios (-), apóstrofes (') y el símbolo numeral (#)",
-  },
-  phone: {
-    pattern: /^(?=.*[0-9].*)[0-9()+ ]{5,}$/,
-    errorDataNotValid:
-      "Los números telefónicos solo pueden incluir números, espacios, el símbolo de suma (+), los paréntesis () y al menos cinco dígitos como mínimo",
-  },
-  cardNumber: {
-    errorDataNotValid: "El número de tarjeta ingresado no es válido",
-  },
-  cardExpirationDate: {
-    pattern: /^[0-9]{4}$/,
-    errorDataNotValid:
-      "La fecha de expiración debe ser superior al mes y el año actual, y solo puede contener dos dígitos para el mes (MM) y dos dígitos para el año (AA)",
-  },
-  cardCVC: {
-    pattern: /^[0-9]{3,4}$/,
-    errorDataNotValid:
-      "El Código de Seguridad solo puede contener números, como mínimo 3 dígitos y como máximo 4 dígitos",
-  },
+import { PaymentsErrors } from "../errors/payments.errors";
+
+export const PatternValidations = {
+  NAMES_AND_SURNAMES: /^[\p{L} -]{1,100}$/u,
+  EMAIL: /^(?=.{6,100}$)[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+  PASSWORD: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,18}$/,
+  ADDRESS: /^[a-zA-Z0-9\s.,'#-]{1,100}$/,
+  PHONE: /^(?=.*[0-9].*)[0-9()+ ]{5,100}$/,
+  COMMENTS: /^[a-zA-Z0-9\s.,!?"'()-]{0,200}$/,
+  CARD_EXPIRATION_DATE: /^[0-9]{4}$/,
+  CVC: /^[0-9]{3,4}$/,
 };
 
 export const validateCardNumber = (cardNumber) => {
@@ -57,7 +30,7 @@ export const validateCardNumber = (cardNumber) => {
   }
 
   if ((sum % 10 === 0) === false) {
-    return validations.cardNumber.errorDataNotValid;
+    return PaymentsErrors.CARD_NUMBER_INVALID;
   }
 };
 
@@ -75,7 +48,7 @@ export const monthYearCheck = (value) => {
     inputYear < currentYear ||
     (inputYear === currentYear && inputMonth < currentMonth)
   ) {
-    return validations.cardExpirationDate.errorDataNotValid;
+    return PaymentsErrors.CARD_EXPIRATION_DATE_INVALID;
   }
 
   return true;

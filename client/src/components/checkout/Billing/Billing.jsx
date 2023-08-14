@@ -22,7 +22,7 @@ import useProvincias from "../../../hooks/useProvincias";
 import useLocalidades from "../../../hooks/useLocalidades";
 import { Controller, useForm } from "react-hook-form";
 import ButtonsContainer from "../../layout/ButtonsContainer/ButtonsContainer";
-import { validations } from "../../../helpers/validations";
+import { PatternValidations } from "../../../helpers/validations";
 import {
   FormHelperText,
   IconButton,
@@ -31,6 +31,9 @@ import {
   Tooltip,
 } from "@mui/material";
 import CardAddress from "../../layout/CardAddress/CardAddress";
+import { UsersErrors } from "../../../errors/users.errors";
+import { EmptyFieldError } from "../../../errors/emptyField.errors";
+import { AddressesErrors } from "../../../errors/addresses.errors";
 
 const Billing = ({
   formType,
@@ -246,13 +249,13 @@ const Billing = ({
                     required
                     {...register("names", {
                       required: true,
-                      pattern: validations.names.pattern,
+                      pattern: PatternValidations.NAMES_AND_SURNAMES,
                     })}
                     error={!!errors.names}
                     helperText={
                       watch("names")
-                        ? errors.names && validations.names.errorDataNotValid
-                        : errors.names && validations.errorEmptyField
+                        ? errors.names && UsersErrors.NAMES_INVALID
+                        : errors.names && EmptyFieldError.EMPTY_ERROR
                     }
                   />
                   <SurnamesInput
@@ -281,12 +284,10 @@ const Billing = ({
                         !editConfirmationData)
                     }
                     {...register("surnames", {
-                      pattern: validations.names.pattern,
+                      pattern: PatternValidations.NAMES_AND_SURNAMES,
                     })}
                     error={!!errors.surnames}
-                    helperText={
-                      errors.surnames && validations.names.errorDataNotValid
-                    }
+                    helperText={errors.surnames && UsersErrors.SURNAMES_INVALID}
                   />
                 </>
               )}
@@ -312,14 +313,13 @@ const Billing = ({
                     required
                     {...register("address", {
                       required: true,
-                      pattern: validations.address.pattern,
+                      pattern: PatternValidations.ADDRESS,
                     })}
                     error={!!errors.address}
                     helperText={
                       watch("address")
-                        ? errors.address &&
-                          validations.address.errorDataNotValid
-                        : errors.address && validations.errorEmptyField
+                        ? errors.address && AddressesErrors.ADDRESS_INVALID
+                        : errors.address && EmptyFieldError.EMPTY_ERROR
                     }
                   />{" "}
                   <StateSelectContainer>
@@ -358,7 +358,7 @@ const Billing = ({
                           <FormHelperText error={!!errors.state}>
                             {errors.state &&
                             field.value !== "Seleccione una Provincia"
-                              ? "Debe seleccionar una Provincia para continuar"
+                              ? AddressesErrors.STATE_INVALID
                               : ""}
                           </FormHelperText>
                         </>
@@ -400,7 +400,7 @@ const Billing = ({
                           <FormHelperText error={!!errors.city}>
                             {errors.city &&
                             field.value !== "Seleccione una Localidad"
-                              ? "Debe seleccionar una Localidad para continuar"
+                              ? AddressesErrors.CITY_INVALID
                               : ""}
                           </FormHelperText>
                         </>
@@ -425,8 +425,19 @@ const Billing = ({
                       style: {
                         padding: 0,
                       },
+                      inputProps: {
+                        maxLength: 200,
+                      },
                     }}
-                    {...register("comments")}
+                    {...register("comments", {
+                      pattern: PatternValidations.COMMENTS,
+                    })}
+                    error={!!errors.email}
+                    helperText={
+                      watch("email")
+                        ? errors.email && AddressesErrors.COMMENTS_INVALID
+                        : errors.email && EmptyFieldError.EMPTY_ERROR
+                    }
                   >
                     Observaciones
                   </CommentsInput>
@@ -450,13 +461,13 @@ const Billing = ({
                     required
                     {...register("email", {
                       required: true,
-                      pattern: validations.mail.pattern,
+                      pattern: PatternValidations.EMAIL,
                     })}
                     error={!!errors.email}
                     helperText={
                       watch("email")
-                        ? errors.email && validations.mail.errorDataNotValid
-                        : errors.email && validations.errorEmptyField
+                        ? errors.email && UsersErrors.EMAIL_INVALID
+                        : errors.email && EmptyFieldError.EMPTY_ERROR
                     }
                   />
                   <PhoneInput
@@ -473,13 +484,13 @@ const Billing = ({
                     required
                     {...register("phone", {
                       required: true,
-                      pattern: validations.phone.pattern,
+                      pattern: PatternValidations.PHONE,
                     })}
                     error={!!errors.phone}
                     helperText={
                       watch("phone")
-                        ? errors.phone && validations.phone.errorDataNotValid
-                        : errors.phone && validations.errorEmptyField
+                        ? errors.phone && AddressesErrors.PHONE_INVALID
+                        : errors.phone && EmptyFieldError.EMPTY_ERROR
                     }
                   />
                 </>

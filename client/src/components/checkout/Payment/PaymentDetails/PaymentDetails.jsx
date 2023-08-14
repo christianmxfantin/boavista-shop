@@ -12,14 +12,17 @@ import {
 import { InputAdornment } from "@mui/material";
 import { useForm } from "react-hook-form";
 import {
-  validations,
   validateCardNumber,
   monthYearCheck,
+  PatternValidations,
 } from "../../../../helpers/validations";
 import DoneAdornment from "../../../layout/DoneAdornment/DoneAdornment";
 import { Icon } from "../../../ui/Icon";
 import { VisaIconSvg, MasterCardIconSvg, AmexIconSvg } from "../../../ui/Svg";
 import CardAddress from "../../../layout/CardAddress/CardAddress";
+import { EmptyFieldError } from "../../../../errors/emptyField.errors";
+import { PaymentsErrors } from "../../../../errors/payments.errors";
+import { UsersErrors } from "../../../../errors/users.errors";
 
 const PaymentDetails = ({
   formType,
@@ -139,7 +142,7 @@ const PaymentDetails = ({
         }}
         inputRef={cardNumberValue}
         {...register("cardNumber", {
-          required: validations.errorEmptyField,
+          required: EmptyFieldError.EMPTY_ERROR,
           validate: validateCardNumber,
           onChange: handleChangeCardType,
         })}
@@ -168,11 +171,11 @@ const PaymentDetails = ({
           }}
           inputRef={cardExpirationDateValue}
           {...register("cardExpirationDate", {
-            required: validations.errorEmptyField,
+            required: EmptyFieldError.EMPTY_ERROR,
             validate: monthYearCheck,
             pattern: {
-              value: validations.cardExpirationDate.pattern,
-              message: validations.cardExpirationDate.errorDataNotValid,
+              value: PatternValidations.CARD_EXPIRATION_DATE,
+              message: PaymentsErrors.CARD_EXPIRATION_DATE_INVALID,
             },
           })}
           error={!!errors.cardExpirationDate}
@@ -196,18 +199,18 @@ const PaymentDetails = ({
             ),
           }}
           {...register("cardCVC", {
-            required: validations.errorEmptyField,
+            required: EmptyFieldError.EMPTY_ERROR,
             minLength: {
-              value: validations.cardCVC.pattern,
-              message: validations.cardCVC.errorDataNotValid,
+              value: PatternValidations.CVC,
+              message: PaymentsErrors.CVC_INVALID,
             },
             maxLength: {
-              value: validations.cardCVC.pattern,
-              message: validations.cardCVC.errorDataNotValid,
+              value: PatternValidations.CVC,
+              message: PaymentsErrors.CVC_INVALID,
             },
             pattern: {
-              value: validations.cardCVC.pattern,
-              message: validations.cardCVC.errorDataNotValid,
+              value: PatternValidations.CVC,
+              message: PaymentsErrors.CVC_INVALID,
             },
           })}
           error={!!errors.cardCVC}
@@ -233,14 +236,14 @@ const PaymentDetails = ({
         inputRef={cardNameValue}
         {...register("cardName", {
           required: true,
-          pattern: validations.names.pattern,
+          pattern: PatternValidations.NAMES_AND_SURNAMES,
           onChange: handleChangeToUpperCase,
         })}
         error={!!errors.cardName}
         helperText={
           watch("cardName")
-            ? errors.cardName && validations.names.errorDataNotValid
-            : errors.cardName && validations.errorEmptyField
+            ? errors.cardName && UsersErrors.NAMES_INVALID
+            : errors.cardName && EmptyFieldError.EMPTY_ERROR
         }
       />
       <ButtonsContainer

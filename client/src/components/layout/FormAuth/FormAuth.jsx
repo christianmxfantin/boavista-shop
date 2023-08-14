@@ -28,11 +28,13 @@ import {
 } from "./FormAuth.styles";
 import Toast from "../Toast/Toast";
 import { Controller, useForm } from "react-hook-form";
-import { validations } from "../../../helpers/validations";
 import { loginResponse, registerResponse } from "../../../api/auth";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../reducers/auth";
 import { getRoles } from "../../../api/roles";
+import { UsersErrors } from "../../../errors/users.errors";
+import { EmptyFieldError } from "../../../errors/emptyField.errors";
+import { PatternValidations } from "../../../helpers/validations";
 
 const FormAuth = ({ formType, role }) => {
   const dispatch = useDispatch();
@@ -259,13 +261,13 @@ const FormAuth = ({ formType, role }) => {
               required
               {...register("names", {
                 required: true,
-                pattern: validations.names.pattern,
+                pattern: PatternValidations.NAMES_AND_SURNAMES,
               })}
               error={!!errors.names}
               helperText={
                 watch("names")
-                  ? errors.names && validations.names.errorDataNotValid
-                  : errors.names && validations.errorEmptyField
+                  ? errors.names && UsersErrors.NAMES_INVALID
+                  : errors.names && EmptyFieldError.EMPTY_ERROR
               }
             />
             <SurnameInput
@@ -286,12 +288,10 @@ const FormAuth = ({ formType, role }) => {
                 ),
               }}
               {...register("surnames", {
-                pattern: validations.names.pattern,
+                pattern: PatternValidations.NAMES_AND_SURNAMES,
               })}
               error={!!errors.surnames}
-              helperText={
-                errors.surnames && validations.names.errorDataNotValid
-              }
+              helperText={errors.surnames && UsersErrors.SURNAMES_INVALID}
             />
           </FormAuthName>
         )}
@@ -311,13 +311,13 @@ const FormAuth = ({ formType, role }) => {
               required
               {...register("email", {
                 required: true,
-                pattern: validations.mail.pattern,
+                pattern: PatternValidations.EMAIL,
               })}
               error={!!errors.email}
               helperText={
                 watch("email")
-                  ? errors.email && validations.mail.errorDataNotValid
-                  : errors.email && validations.errorEmptyField
+                  ? errors.email && UsersErrors.EMAIL_INVALID
+                  : errors.email && EmptyFieldError.EMPTY_ERROR
               }
             />
             <PasswordInput
@@ -352,13 +352,13 @@ const FormAuth = ({ formType, role }) => {
               }}
               {...register("password", {
                 required: true,
-                pattern: validations.password.pattern,
+                pattern: PatternValidations.PASSWORD,
               })}
               error={!!errors.password}
               helperText={
                 watch("password")
-                  ? errors.password && validations.password.errorDataNotValid
-                  : errors.password && validations.errorEmptyField
+                  ? errors.password && UsersErrors.PASSWORD_INVALID
+                  : errors.password && EmptyFieldError.EMPTY_ERROR
               }
             />
           </FormAuthEmail>
@@ -382,7 +382,7 @@ const FormAuth = ({ formType, role }) => {
               )}
             />
             <FormHelperText error={!!errors.terms}>
-              {!!errors.terms && "Debe aceptar los términos para continuar"}
+              {!!errors.terms && UsersErrors.TERMS_ERROR}
             </FormHelperText>
           </>
         )}
