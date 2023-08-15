@@ -64,13 +64,28 @@ const createCategory = async (req, res, next) => {
 const updateCategory = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const name = req.body.name.trim();
 
-    const existingCategory = await Categories.findByPk(id);
-    if (!existingCategory) {
+    const existingCategoryId = await Categories.findByPk(id);
+    if (!existingCategoryId) {
       return res.status(404).json({
         message: CategoriesErrors.CATEGORY_NOT_FOUND,
       });
     }
+
+    // Check if category already exists (case-insensitive)
+    const existingCategory = await Categories.findOne({
+      where: Sequelize.where(
+        Sequelize.fn("LOWER", Sequelize.col("name")),
+        name.toLowerCase()
+      ),
+    });
+    if (existingCategory !== null) {
+      return res.status(409).json({
+        message: CategoriesErrors.CATEGORY_ALREADY_EXISTS,
+      });
+    }
+
     const updateCategory = await existingCategory.update(req.body);
 
     return res.status(200).json(updateCategory);

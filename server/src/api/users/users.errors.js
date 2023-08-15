@@ -1,5 +1,3 @@
-const { lengthField } = require("../../db/db.errors");
-
 const UsersErrors = {
   NAMES_INVALID:
     "Los nombres ingresados no son válidos. Ten en cuenta que solo se permiten entre 1 y 100 caracteres.",

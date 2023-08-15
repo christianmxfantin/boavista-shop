@@ -1,6 +1,7 @@
 const db = require("../../db/models/index.js");
 const ErrorHandler = require("../../utils/errorHandler.js");
 const logger = require("../../utils/logger.js");
+const { UsersErrors } = require("../users/users.errors.js");
 const { AddressesErrors } = require("./addresses.errors.js");
 
 const Addresses = db.addresses;
@@ -43,8 +44,8 @@ const createAddress = async (req, res, next) => {
     //Check if userId exists in users table
     const existingUser = await Users.findByPk(userId);
     if (!existingUser) {
-      return res.status(409).json({
-        message: "Conflict: The user doesn't exist",
+      return res.status(404).json({
+        message: UsersErrors.USER_NOT_FOUND,
       });
     }
 
@@ -65,8 +66,8 @@ const updateAddress = async (req, res, next) => {
     //Check if address id exists
     const existingAddress = await Addresses.findByPk(id);
     if (!existingAddress) {
-      return res.status(409).json({
-        message: "Conflict: This address doesn't exist",
+      return res.status(404).json({
+        message: UsersErrors.USER_NOT_FOUND,
       });
     }
     const updateAddress = await existingAddress.update(req.body);
@@ -82,12 +83,21 @@ const updateAddress = async (req, res, next) => {
 const deleteAddress = async (req, res, next) => {
   try {
     const { id } = req.params;
+
+    const existingAddress = await Addresses.findByPk(id);
+    if (!existingAddress) {
+      return res.status(404).json({
+        message: AddressesErrors.ADDRESS_NOT_FOUND,
+      });
+    }
+
     await Addresses.destroy({
       where: {
         id,
       },
     });
-    res.sendStatus(204);
+
+    return res.sendStatus(204);
   } catch (err) {
     const error = new ErrorHandler(err.message, err.statusCode);
     logger.error(err);

@@ -62,6 +62,7 @@ const createOrder = async (req, res, next) => {
 const updateOrder = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const { userId } = req.body;
 
     const existingOrder = await Orders.findByPk(id);
     if (!existingOrder) {
@@ -69,6 +70,15 @@ const updateOrder = async (req, res, next) => {
         message: OrdersErrors.ORDER_NOT_FOUND,
       });
     }
+
+    //Check if userId exists in user table
+    const existingUser = await Users.findByPk(userId);
+    if (!existingUser) {
+      return res.status(404).json({
+        message: UsersErrors.USER_NOT_FOUND,
+      });
+    }
+
     const updateOrder = await existingOrder.update(req.body);
 
     return res.status(200).json(updateOrder);

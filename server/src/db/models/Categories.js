@@ -1,3 +1,5 @@
+const { CategoriesErrors } = require("../../api/categories/categories.errors");
+
 module.exports = (sequelize, DataTypes) => {
   const Categories = sequelize.define(
     "categories",
@@ -9,9 +11,15 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       name: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(100),
         allowNull: false,
         unique: true,
+        validate: {
+          is: {
+            args: /^[\p{L} -]{1,100}$/u,
+            msg: CategoriesErrors.NAME_INVALID,
+          },
+        },
       },
     },
     {

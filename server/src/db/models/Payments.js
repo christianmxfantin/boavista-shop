@@ -1,3 +1,5 @@
+const { PaymentsErrors } = require("../../api/payments/payments.errors");
+
 module.exports = (sequelize, DataTypes) => {
   const Payments = sequelize.define(
     "payments",
@@ -7,15 +9,27 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
         allowNull: false,
-        unique: true,
       },
       company_card: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(100),
         allowNull: false,
+        unique: true,
+        validate: {
+          is: {
+            args: /^[\p{L} -]{1,100}$/u,
+            msg: PaymentsErrors.COMPANY_CARD_INVALID,
+          },
+        },
       },
       final_number: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(4),
         allowNull: false,
+        validate: {
+          is: {
+            args: /^[0-9]{1,4}$/,
+            msg: PaymentsErrors.FINAL_NUMBER_INVALID,
+          },
+        },
       },
     },
     {

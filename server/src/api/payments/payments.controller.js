@@ -74,6 +74,7 @@ const createPayment = async (req, res, next) => {
 const updatePayment = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const { paymentTypeId, userId } = req.body;
 
     const existingPayment = await Payments.findByPk(id);
     if (!existingPayment) {
@@ -81,6 +82,23 @@ const updatePayment = async (req, res, next) => {
         message: PaymentsErrors.PAYMENT_NOT_FOUND,
       });
     }
+
+    //Check if paymentTypeId exists in payments-types table
+    const existingPaymentType = await PaymentsTypes.findByPk(paymentTypeId);
+    if (!existingPaymentType) {
+      return res.status(404).json({
+        message: PaymentsTypesErrors.PAYMENT_TYPE_NOT_FOUND,
+      });
+    }
+
+    //Check if userId exists in user table
+    const existingUser = await Users.findByPk(userId);
+    if (!existingUser) {
+      return res.status(404).json({
+        message: UsersErrors.USER_NOT_FOUND,
+      });
+    }
+
     const updatePayment = await existingPayment.update(req.body);
 
     return res.status(200).json(updatePayment);
@@ -96,7 +114,7 @@ const deletePayment = async (req, res, next) => {
     const { id } = req.params;
 
     const existingPayment = await Payments.findByPk(id);
-    if (!existingUser) {
+    if (!existingPayment) {
       return res.status(404).json({
         message: PaymentsErrors.PAYMENT_NOT_FOUND,
       });

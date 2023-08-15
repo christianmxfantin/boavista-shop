@@ -56,9 +56,12 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: true,
         validate: {
-          is: {
-            args: /^\d{1,10}$/,
-            msg: ProductsErrors.STOCK_INVALID,
+          stockValidate(value) {
+            if (value.length !== 0) {
+              if (!/^\d{1,10}$/.test(value)) {
+                throw new Error(ProductsErrors.STOCK_INVALID);
+              }
+            }
           },
         },
       },

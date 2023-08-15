@@ -1,3 +1,5 @@
+const { OrdersErrors } = require("../../api/orders/orders.errors");
+
 module.exports = (sequelize, DataTypes) => {
   const Orders = sequelize.define(
     "orders",
@@ -7,11 +9,17 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
         allowNull: false,
-        unique: true,
       },
       order: {
         type: DataTypes.JSONB,
         allowNull: false,
+        validate: {
+          jsonValidate(value) {
+            if (!JSON.parse(value)) {
+              throw new Error(OrdersErrors.ORDER_INVALID);
+            }
+          },
+        },
       },
     },
     {

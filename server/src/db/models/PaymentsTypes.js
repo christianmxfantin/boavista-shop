@@ -1,3 +1,7 @@
+const {
+  PaymentsTypesErrors,
+} = require("../../api/paymentsTypes/paymentsTypes.errors");
+
 module.exports = (sequelize, DataTypes) => {
   const PaymentsTypes = sequelize.define(
     "payments-types",
@@ -7,11 +11,17 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
         allowNull: false,
-        unique: true,
       },
       name: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(50),
         allowNull: false,
+        unique: true,
+        validate: {
+          is: {
+            args: /^[\p{L} -]{1,50}$/u,
+            msg: PaymentsTypesErrors.NAME_INVALID,
+          },
+        },
       },
     },
     {
