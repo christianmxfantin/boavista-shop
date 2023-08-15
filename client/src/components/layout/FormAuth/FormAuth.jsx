@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   Button,
   Checkbox,
@@ -26,7 +28,6 @@ import {
   ButtonsContainer,
   FormAuthEmail,
 } from "./FormAuth.styles";
-import Toast from "../Toast/Toast";
 import { Controller, useForm } from "react-hook-form";
 import { loginResponse, registerResponse } from "../../../api/auth";
 import { useDispatch } from "react-redux";
@@ -35,17 +36,13 @@ import { getRoles } from "../../../api/roles";
 import { UsersErrors } from "../../../errors/users.errors";
 import { EmptyFieldError } from "../../../errors/emptyField.errors";
 import { PatternValidations } from "../../../helpers/validations";
+import { toastOptions } from "../../../utils/toastOptions";
 
 const FormAuth = ({ formType, role }) => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const [isToastVisible, setIsToastVisible] = useState(false);
-  const [toastData, setToastData] = useState({
-    severity: "success",
-    message: "",
-  });
   const {
     register,
     handleSubmit,
@@ -54,6 +51,21 @@ const FormAuth = ({ formType, role }) => {
     reset,
     formState: { errors },
   } = useForm({ mode: "onBlur" });
+
+  //catch errors
+  const responseErrors = (error) => {
+    //client error
+    if (error.response.status > 399 || error.response.status < 500) {
+      toast.error("Los datos ingresados no son válidos", toastOptions);
+      return;
+    }
+
+    //server error
+    if (error.response.status > 499) {
+      toast.error("El servidor no está disponible", toastOptions);
+      return;
+    }
+  };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -64,10 +76,6 @@ const FormAuth = ({ formType, role }) => {
   const handleGoogleAuth = () => {
     console.log("Inicio con Google");
   };
-
-  // const handleFacebookAuth = () => {
-  //   console.log("Inicio con Facebook");
-  // };
 
   const handleTopButton = () => {
     navigate("/dashboard/users");
@@ -102,35 +110,16 @@ const FormAuth = ({ formType, role }) => {
           }
         } catch (error) {
           // console.error("Error en la solicitud:", err);
-          console.log(error);
+
           if (!error.response) {
-            setIsToastVisible(true);
-            setToastData({
-              severity: "error",
-              message: "Ocurrió un error al procesar la solicitud",
-            });
+            toast.error(
+              "Ocurrió un error al procesar la solicitud",
+              toastOptions
+            );
             return;
           }
 
-          if (error.response.status > 399 || error.response.status < 500) {
-            //client error
-            setIsToastVisible(true);
-            setToastData({
-              severity: "error",
-              message: "Los datos ingresados no son válidos",
-            });
-            return;
-          }
-
-          if (error.response.status > 499) {
-            //server error
-            setIsToastVisible(true);
-            setToastData({
-              severity: "error",
-              message: "El servidor no está disponible",
-            });
-            return;
-          }
+          responseErrors(error);
         }
         break;
 
@@ -156,44 +145,20 @@ const FormAuth = ({ formType, role }) => {
           navigate("/");
         } catch (error) {
           // console.error("Error en la solicitud:", err);
-          console.log(error.response);
 
           if (error.response.statusText === "Conflict") {
             //client error
-            setIsToastVisible(true);
-            setToastData({
-              severity: "error",
-              message: error.response.data.message,
-            });
+            toast.error(error.response.data.message, toastOptions);
             return;
           }
 
-          if (error.response.status > 399 || error.response.status < 500) {
-            //client error
-            setIsToastVisible(true);
-            setToastData({
-              severity: "error",
-              message: "Los datos ingresados no son válidos",
-            });
-            return;
-          }
-
-          if (error.response.status > 499) {
-            //server error
-            setIsToastVisible(true);
-            setToastData({
-              severity: "error",
-              message: "El servidor no está disponible",
-            });
-            return;
-          }
+          responseErrors(error);
 
           if (!error.response) {
-            setIsToastVisible(true);
-            setToastData({
-              severity: "error",
-              message: "Ocurrió un error al procesar la solicitud",
-            });
+            toast.error(
+              "Ocurrió un error al procesar la solicitud",
+              toastOptions
+            );
             return;
           }
         }
@@ -235,13 +200,6 @@ const FormAuth = ({ formType, role }) => {
               >
                 Google
               </GoogleButton>
-              {/* <FacebookButton
-                variant="outlined"
-                startIcon={<Icon name="Facebook" />}
-                onClick={handleFacebookAuth}
-              >
-                Facebook
-              </FacebookButton> */}
             </FormAuthSocialButtons>
             <Underline
               width={376}
@@ -463,11 +421,7 @@ const FormAuth = ({ formType, role }) => {
           )}
         </ButtonsContainer>
       </FormAuthContainer>
-      <Toast
-        isToastVisible={isToastVisible}
-        setIsToastVisible={setIsToastVisible}
-        toastData={toastData}
-      />
+      <ToastContainer />
     </main>
   );
 };

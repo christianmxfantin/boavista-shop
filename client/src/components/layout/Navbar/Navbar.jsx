@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme, css } from "@emotion/react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   Avatar,
   Badge,
@@ -25,8 +27,8 @@ import {
   SearchContainer,
 } from "./Navbar.styles";
 import TestImage from "../../../images/product2.jpg";
-import Toast from "../Toast/Toast";
 import { unsetUser } from "../../../reducers/auth";
+import { toastOptions } from "../../../utils/toastOptions";
 
 const Navbar = ({ isLoginForm }) => {
   const theme = useTheme();
@@ -37,7 +39,6 @@ const Navbar = ({ isLoginForm }) => {
   const { total } = useSelector((state) => state.cart);
 
   const [isHover, setIsHover] = useState(false);
-  const [isToastVisible, setIsToastVisible] = useState(false);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -106,11 +107,12 @@ const Navbar = ({ isLoginForm }) => {
     setAnchorElUser(null);
     dispatch(unsetUser());
     logout();
+    window.location.reload();
     navigate("/", { replace: true });
-    setIsToastVisible(true);
-    setTimeout(() => {
-      window.location.reload();
-    }, 10000);
+    toast.success("La sesión se ha cerrado correctamente", toastOptions);
+    // setTimeout(() => {
+    //   window.location.reload();
+    // }, 5000);
   };
 
   return (
@@ -257,11 +259,7 @@ const Navbar = ({ isLoginForm }) => {
           )}
         </Toolbar>
       </NavbarContainer>
-      <Toast
-        isToastVisible={isToastVisible}
-        setIsToastVisible={setIsToastVisible}
-        message="La sesión se ha cerrado correctamente"
-      />
+      <ToastContainer />
     </>
   );
 };
