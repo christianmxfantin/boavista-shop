@@ -1,9 +1,10 @@
 import { useState } from "react";
 import {
-  createProductResponse,
-  getProductByIdResponse,
   getProductsResponse,
+  getProductByIdResponse,
+  createProductResponse,
   updateProductResponse,
+  deleteProductResponse,
 } from "../api/products";
 
 const useProducts = () => {
@@ -50,7 +51,7 @@ const useProducts = () => {
 
   const deleteProduct = async (id) => {
     try {
-      const res = await deleteProduct(id);
+      const res = await deleteProductResponse(id);
       setProducts(res.data);
     } catch (error) {
       setErrors(error);

@@ -16,11 +16,14 @@ import { useForm } from "react-hook-form";
 import { Icon } from "../../ui/Icon";
 import ButtonsContainer from "../ButtonsContainer/ButtonsContainer";
 import TestImage from "../../../images/product2.jpg";
+import { getUserByIdResponse } from "../../../api/users";
+import useUsers from "../../../hooks/api/useUsers";
 // import CameraAltIcon from "@mui/icons-material/CameraAlt";
 
 const AccountData = ({ formType }) => {
   const theme = useTheme();
   const { user } = useSelector((state) => state.auth);
+  const { updateUser } = useUsers();
 
   const [changeEmail, setChangeEmail] = useState(false);
   const [changePassword, setChangePassword] = useState(false);
@@ -58,10 +61,27 @@ const AccountData = ({ formType }) => {
     }
   };
 
-  const onSubmit = (formValues) => {
+  const onSubmit = async (formValues) => {
     if (!changePassword) {
       //Change Email Form
-      console.log("CHANGE EMAIL", formValues);
+      try {
+        const userFound = await getUserByIdResponse(user.id);
+
+        const updatedUser = {
+          id: user.id,
+          // imageURL: "imageURL",
+          names: userFound.data.names,
+          surnames: userFound.data.surnames,
+          email: formValues.newEmail.toLowerCase().trim(),
+          password: userFound.data.password,
+          roleId: userFound.data.roleId,
+        };
+
+        console.log(userFound.data);
+        await updateUser(user.id, updatedUser);
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       //Change Password Form
       console.log("CHANGE PASSWORD", formValues);
@@ -104,11 +124,12 @@ const AccountData = ({ formType }) => {
               /> */}
             </AvatarContainer>
             <ChangeEmailInput
+              defaultValue={user.email}
               name="newEmail"
               type="email"
               variant="outlined"
               size="small"
-              placeholder={user.email}
+              // placeholder={user.email}
               disabled={!changeEmail ? true : false}
               required
               {...register("newEmail", {

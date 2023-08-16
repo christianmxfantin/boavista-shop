@@ -22,7 +22,7 @@ const Profile = () => {
       <ProfileContainer>
         <ProfileTitle />
         <ProfileData
-          title="Datos de Cuenta"
+          title="Datos de la Cuenta"
           component={<AccountData formType="profile" />}
         />
         <ProfileData

@@ -36,7 +36,7 @@ import { getRoles } from "../../../api/roles";
 import { UsersErrors } from "../../../errors/users.errors";
 import { EmptyFieldError } from "../../../errors/emptyField.errors";
 import { PatternValidations } from "../../../helpers/validations";
-import { toastOptions } from "../../../utils/toastOptions";
+import { toastColor } from "../../../utils/toastOptions";
 
 const FormAuth = ({ formType, role }) => {
   const dispatch = useDispatch();
@@ -56,13 +56,13 @@ const FormAuth = ({ formType, role }) => {
   const responseErrors = (error) => {
     //client error
     if (error.response.status > 399 || error.response.status < 500) {
-      toast.error("Los datos ingresados no son válidos", toastOptions);
+      toast.error("Los datos ingresados no son válidos", toastColor("error"));
       return;
     }
 
     //server error
     if (error.response.status > 499) {
-      toast.error("El servidor no está disponible", toastOptions);
+      toast.error("El servidor no está disponible", toastColor("error"));
       return;
     }
   };
@@ -114,7 +114,7 @@ const FormAuth = ({ formType, role }) => {
           if (!error.response) {
             toast.error(
               "Ocurrió un error al procesar la solicitud",
-              toastOptions
+              toastColor("error")
             );
             return;
           }
@@ -133,6 +133,7 @@ const FormAuth = ({ formType, role }) => {
 
           //Register the user and sing in
           const newUser = {
+            // imageURL: "imageURL",
             names: formValues.names.trim(),
             surnames: formValues.surnames.trim(),
             email: formValues.email.toLowerCase().trim(),
@@ -148,7 +149,7 @@ const FormAuth = ({ formType, role }) => {
 
           if (error.response.statusText === "Conflict") {
             //client error
-            toast.error(error.response.data.message, toastOptions);
+            toast.error(error.response.data.message, toastColor("error"));
             return;
           }
 
@@ -157,7 +158,7 @@ const FormAuth = ({ formType, role }) => {
           if (!error.response) {
             toast.error(
               "Ocurrió un error al procesar la solicitud",
-              toastOptions
+              toastColor("error")
             );
             return;
           }

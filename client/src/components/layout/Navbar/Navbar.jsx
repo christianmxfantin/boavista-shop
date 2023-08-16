@@ -28,7 +28,7 @@ import {
 } from "./Navbar.styles";
 import TestImage from "../../../images/product2.jpg";
 import { unsetUser } from "../../../reducers/auth";
-import { toastOptions } from "../../../utils/toastOptions";
+import { toastColor } from "../../../utils/toastOptions";
 
 const Navbar = ({ isLoginForm }) => {
   const theme = useTheme();
@@ -109,10 +109,10 @@ const Navbar = ({ isLoginForm }) => {
     logout();
     window.location.reload();
     navigate("/", { replace: true });
-    toast.success("La sesión se ha cerrado correctamente", toastOptions);
-    // setTimeout(() => {
-    //   window.location.reload();
-    // }, 5000);
+    toast.success(
+      "La sesión se ha cerrado correctamente",
+      toastColor("success")
+    );
   };
 
   return (
