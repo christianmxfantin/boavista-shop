@@ -20,10 +20,12 @@ const createAndUpdateUser = async (req, res, next, type) => {
 
     //Check the password with RegExp before hash
     const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,18}$/;
-    if (!regexPassword.test(password)) {
-      return res.status(400).json({
-        message: UsersErrors.PASSWORD_INVALID,
-      });
+    if (type !== "users-update") {
+      if (!regexPassword.test(password)) {
+        return res.status(400).json({
+          message: UsersErrors.PASSWORD_INVALID,
+        });
+      }
     }
 
     //Check if email is already exists

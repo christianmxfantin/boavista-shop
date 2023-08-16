@@ -49,7 +49,6 @@ const login = async (req, res, next) => {
     if (userData) {
       //Compare the password
       const storedPassword = userData.storedPassword.toString();
-      console.log(storedPassword, userData.password);
       const passwordIsValid = await argon2.verify(
         storedPassword,
         userData.password
