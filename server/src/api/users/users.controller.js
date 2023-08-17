@@ -43,12 +43,13 @@ const createUser = async (req, res, next) => {
     const userData = await createAndUpdateUser(req, res, next, "users-create");
     if (userData) {
       const savedUser = await Users.create(userData);
+
       return res.status(201).json({
         id: savedUser.id,
         names: savedUser.names,
         surnames: savedUser.surnames,
         email: savedUser.email,
-        role: "User",
+        roleId: savedUser.roleId,
       });
     }
   } catch (err) {
@@ -64,6 +65,8 @@ const updateUser = async (req, res, next) => {
 
     const userData = await createAndUpdateUser(req, res, next, "users-update");
     if (userData) {
+      console.log("DESPUES DEL CHECK: ", userData);
+
       //Check if user id exists
       const existingUser = await Users.findByPk(id);
       if (!existingUser) {
@@ -78,7 +81,7 @@ const updateUser = async (req, res, next) => {
         names: updatedUser.names,
         surnames: updatedUser.surnames,
         email: updatedUser.email,
-        role: "User",
+        roleId: updatedUser.roleId,
       });
     }
   } catch (err) {

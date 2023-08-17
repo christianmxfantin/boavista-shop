@@ -17,6 +17,7 @@ const TOKEN_SECRET = crypto.randomBytes(128).toString("hex");
 const register = async (req, res, next) => {
   try {
     const userData = await createAndUpdateUser(req, res, next, "register");
+    console.log(userData);
     if (userData) {
       const savedUser = await Users.create(userData);
 
@@ -33,7 +34,7 @@ const register = async (req, res, next) => {
         names: savedUser.names,
         surnames: savedUser.surnames,
         email: savedUser.email,
-        role: savedUser.role,
+        roleId: savedUser.roleId,
       });
     }
   } catch (err) {
@@ -72,7 +73,7 @@ const login = async (req, res, next) => {
         names: userData.names,
         surnames: userData.surnames,
         email: userData.email,
-        role: userData.role,
+        roleId: userData.roleId,
       });
     }
   } catch (err) {

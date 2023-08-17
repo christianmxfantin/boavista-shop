@@ -46,8 +46,8 @@ const createAndUpdateUser = async (req, res, next, type) => {
     }
 
     //Check if roleId exists in role table
+    const existingRole = await Roles.findByPk(roleId);
     if (type === "register") {
-      const existingRole = await Roles.findByPk(roleId);
       if (!existingRole) {
         return res.status(404).json({
           message: RolesErrors.ROLE_NOT_FOUND,
@@ -74,9 +74,9 @@ const createAndUpdateUser = async (req, res, next, type) => {
     }
 
     //Search role name in database
-    const role = await Roles.findByPk(
-      type === "login" ? existingEmail.roleId : roleId
-    );
+    // const role = await Roles.findByPk(
+    //   type === "login" ? existingEmail.roleId : roleId
+    // );
 
     //Hash the password and create the user
     const hashedPassword = await hashPassword(password);
@@ -85,8 +85,8 @@ const createAndUpdateUser = async (req, res, next, type) => {
           names,
           surnames,
           email,
-          password: hashedPassword,
-          role: role.name,
+          password: type === "users-update" ? password : hashedPassword,
+          roleId,
         }
       : {
           id: existingEmail.id,
@@ -95,7 +95,7 @@ const createAndUpdateUser = async (req, res, next, type) => {
           email: existingEmail.email,
           password,
           storedPassword: existingEmail.password,
-          role: role.name,
+          roleId: existingEmail.roleId,
         };
   } catch (err) {
     const error = new ErrorHandler(err.message, err.statusCode);
