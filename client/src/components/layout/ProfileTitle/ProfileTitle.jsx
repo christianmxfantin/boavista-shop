@@ -1,12 +1,28 @@
+import { useEffect, useState } from "react";
 import { useTheme } from "@emotion/react";
 import { useSelector } from "react-redux";
+import { getRoleById } from "../../../api/roles";
 import { ProfileTitleContainer } from "./ProfileTitle.styles";
 import { Typography } from "@mui/material";
 
 const ProfileTitle = () => {
   const theme = useTheme();
   const { user } = useSelector((state) => state.auth);
-  const role = user.role.trim().toLowerCase();
+  const roleId = user.roleId;
+  const [roleName, setRoleName] = useState("");
+
+  useEffect(() => {
+    const getRoleName = async () => {
+      try {
+        const roles = await getRoleById(roleId);
+        setRoleName(roles.name);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getRoleName();
+  }, [roleId]);
 
   return (
     <ProfileTitleContainer>
@@ -21,17 +37,17 @@ const ProfileTitle = () => {
           padding: theme.spacing(0.5),
           borderRadius: theme.spacing(0.5),
           backgroundColor:
-            role === "admin"
+            roleName === "admin"
               ? theme.palette.success[500]
-              : role === "user"
+              : roleName === "user"
               ? theme.palette.primary[500]
               : theme.palette.secondary[500],
           color: theme.palette.secondary.A100,
         }}
       >
-        {role === "admin"
+        {roleName === "admin"
           ? "Administrador"
-          : role === "user"
+          : roleName === "user"
           ? "Usuario"
           : "Usuario Web"}
       </Typography>

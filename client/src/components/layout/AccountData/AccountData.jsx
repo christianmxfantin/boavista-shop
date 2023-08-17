@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTheme } from "@emotion/react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Avatar, Button, IconButton, InputAdornment } from "@mui/material";
 import {
   AccountDataContainer,
@@ -16,14 +16,14 @@ import { useForm } from "react-hook-form";
 import { Icon } from "../../ui/Icon";
 import ButtonsContainer from "../ButtonsContainer/ButtonsContainer";
 import TestImage from "../../../images/product2.jpg";
-import { getUserByIdResponse } from "../../../api/users";
-import useUsers from "../../../hooks/api/useUsers";
+import { getUserByIdResponse, updateUserResponse } from "../../../api/users";
+import { setUser } from "../../../reducers/auth";
 // import CameraAltIcon from "@mui/icons-material/CameraAlt";
 
 const AccountData = ({ formType }) => {
   const theme = useTheme();
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const { updateUser } = useUsers();
 
   const [changeEmail, setChangeEmail] = useState(false);
   const [changePassword, setChangePassword] = useState(false);
@@ -67,8 +67,8 @@ const AccountData = ({ formType }) => {
       try {
         const userFound = await getUserByIdResponse(user.id);
 
-        const updatedUser = {
-          id: user.id,
+        const userData = {
+          id: userFound.data.id,
           // imageURL: "imageURL",
           names: userFound.data.names,
           surnames: userFound.data.surnames,
@@ -77,8 +77,11 @@ const AccountData = ({ formType }) => {
           roleId: userFound.data.roleId,
         };
 
-        console.log(userFound.data);
-        await updateUser(user.id, updatedUser);
+        const res = await updateUserResponse(userFound.data.id, userData);
+        const updatedUser = res.data;
+
+        dispatch(setUser(updatedUser));
+        window.location.reload();
       } catch (error) {
         console.log(error);
       }

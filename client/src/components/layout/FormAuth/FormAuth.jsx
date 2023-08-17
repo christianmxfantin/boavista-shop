@@ -32,7 +32,7 @@ import { Controller, useForm } from "react-hook-form";
 import { loginResponse, registerResponse } from "../../../api/auth";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../reducers/auth";
-import { getRoles } from "../../../api/roles";
+import { getRoleById, getRoles } from "../../../api/roles";
 import { UsersErrors } from "../../../errors/users.errors";
 import { EmptyFieldError } from "../../../errors/emptyField.errors";
 import { PatternValidations } from "../../../helpers/validations";
@@ -103,13 +103,17 @@ const FormAuth = ({ formType, role }) => {
           const loginUser = await loginResponse(userData);
           dispatch(setUser(loginUser.data));
 
-          if (loginUser.data.role.toLowerCase().trim() !== "web") {
+          //Search the role id in database
+          const roles = await getRoleById(loginUser.data.roleId);
+          const roleName = roles.data.name;
+
+          if (roleName !== "web") {
             navigate("/dashboard");
           } else {
             navigate("/");
           }
         } catch (error) {
-          // console.error("Error en la solicitud:", err);
+          // console.error("Error en la solicitud:", error);
 
           if (!error.response) {
             toast.error(
@@ -145,7 +149,7 @@ const FormAuth = ({ formType, role }) => {
           dispatch(setUser(registerUser.data));
           navigate("/");
         } catch (error) {
-          // console.error("Error en la solicitud:", err);
+          // console.error("Error en la solicitud:", error);
 
           if (error.response.statusText === "Conflict") {
             //client error
