@@ -65,8 +65,6 @@ const updateUser = async (req, res, next) => {
 
     const userData = await createAndUpdateUser(req, res, next, "users-update");
     if (userData) {
-      console.log("DESPUES DEL CHECK: ", userData);
-
       //Check if user id exists
       const existingUser = await Users.findByPk(id);
       if (!existingUser) {

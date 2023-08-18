@@ -37,7 +37,7 @@ const createAndUpdateUser = async (req, res, next, type) => {
         });
       }
     }
-    if (type !== "login") {
+    if (type !== "login" || type === "users-update") {
       if (existingEmail) {
         return res.status(409).json({
           message: UsersErrors.EMAIL_ALREADY_EXISTS,

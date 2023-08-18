@@ -3,9 +3,10 @@ const router = express.Router();
 const authController = require("./auth.controller");
 
 router
+  .get("/token", authController.token)
   .post("/register", authController.register)
   .post("/login", authController.login)
   .post("/google", authController.googleAuth)
-  .get("/token", authController.token);
+  .put("/change-password/:id", authController.changePassword);
 
 module.exports = router;

@@ -7,6 +7,7 @@ const { UsersErrors } = require("../users/users.errors.js");
 const ErrorHandler = require("../../utils/errorHandler.js");
 const logger = require("../../utils/logger.js");
 const { createAndUpdateUser } = require("../users/users.validations.js");
+const { hashPassword } = require("../../utils/hashPassword.js");
 
 const Roles = db.roles;
 const Users = db.users;
@@ -85,9 +86,8 @@ const login = async (req, res, next) => {
 
 const googleAuth = async (req, res, next) => {
   try {
-    // const response = await Users.findAll();
-    // res.status(200).send(response);
-    return res.status(200).send("Google is authenticated");
+    //data
+    // return res.status(200).send("Google is authenticated");
   } catch (err) {
     const error = new ErrorHandler(err.message, err.statusCode);
     logger.error(err);
@@ -128,9 +128,58 @@ const token = async (req, res, next) => {
   }
 };
 
+const changePassword = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { newPassword, confirmPassword } = req.body;
+
+    //Check the password with RegExp before hash
+    const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,18}$/;
+    if (!regexPassword.test(newPassword)) {
+      //probar con "new || confirm"
+      return res.status(400).json({
+        message: UsersErrors.PASSWORD_INVALID,
+      });
+    }
+    if (!regexPassword.test(confirmPassword)) {
+      return res.status(400).json({
+        message: UsersErrors.PASSWORD_INVALID,
+      });
+    }
+
+    //Chequear que la nueva password no sea igual a la que esta en la base
+    //Chequear que la nueva password sea igual a la confirm password
+
+    //Check if user id exists
+    const existingUser = await Users.findByPk(id);
+    if (!existingUser) {
+      return res.status(404).json({
+        message: UsersErrors.USER_NOT_FOUND,
+      });
+    }
+
+    const hashedPassword = await hashPassword(newPassword);
+    const user = {
+      names: existingUser.names,
+      surnames: existingUser.surnames,
+      email: existingUser.email,
+      password: hashedPassword,
+      roleId: existingUser.roleId,
+    };
+    await existingUser.update(user);
+
+    return res.status(200);
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
+  }
+};
+
 module.exports = {
   register,
   login,
   googleAuth,
   token,
+  changePassword,
 };
