@@ -13,6 +13,7 @@ import PageNotFound from "./pages/pageNotFound/PageNotFound";
 import AuthRoute from "./components/auth/AuthRoute";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import List from "./pages/admin/List/List";
+import FormAuth from "./components/layout/FormAuth/FormAuth";
 
 const App = () => {
   return (
@@ -46,6 +47,16 @@ const App = () => {
               <>
                 <Navbar isLoginForm={true} />
                 <Register />
+              </>
+            }
+          />
+          <Route
+            exact
+            path="/auth/change-password"
+            element={
+              <>
+                <Navbar isLoginForm={true} />
+                <FormAuth formType="change-password" />
               </>
             }
           />

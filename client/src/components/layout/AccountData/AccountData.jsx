@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { useTheme } from "@emotion/react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Avatar, Button, IconButton, InputAdornment } from "@mui/material";
 import {
   AccountDataContainer,
+  ChangeNamesInput,
+  ChangeSurnamesInput,
   ChangeEmailInput,
   ConfirmPasswordInput,
-  LastPasswordInput,
   NewPasswordInput,
   ButtonContainer,
   AccountInfoContainer,
@@ -18,10 +22,17 @@ import ButtonsContainer from "../ButtonsContainer/ButtonsContainer";
 import TestImage from "../../../images/product2.jpg";
 import { getUserByIdResponse, updateUserResponse } from "../../../api/users";
 import { setUser } from "../../../reducers/auth";
+import { toastColor } from "../../../utils/toastOptions";
+import { ErrorsMessages } from "../../../utils/toastMessages";
+import { PatternValidations } from "../../../helpers/validations";
+import { UsersErrors } from "../../../errors/users.errors";
+import { EmptyFieldError } from "../../../errors/emptyField.errors";
+import { changePasswordResponse } from "../../../api/auth";
 // import CameraAltIcon from "@mui/icons-material/CameraAlt";
 
-const AccountData = ({ formType }) => {
+const AccountData = ({ formType, newPassword }) => {
   const theme = useTheme();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
 
@@ -35,6 +46,19 @@ const AccountData = ({ formType }) => {
     reset,
     formState: { errors },
   } = useForm({ mode: "onBlur" });
+
+  const statusErrors = (error) => {
+    //client error
+    if (error.response.status > 399 || error.response.status < 500) {
+      toast.error(ErrorsMessages.CLIENT_STATUS, toastColor("error"));
+      return;
+    }
+    //server error
+    if (error.response.status > 499) {
+      toast.error(ErrorsMessages.SERVER_STATUS, toastColor("error"));
+      return;
+    }
+  };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -53,6 +77,10 @@ const AccountData = ({ formType }) => {
   };
 
   const handleClickCancel = () => {
+    if (newPassword) {
+      navigate("/login");
+    }
+
     reset();
     if (changeEmail) {
       setChangeEmail(false);
@@ -63,15 +91,15 @@ const AccountData = ({ formType }) => {
 
   const onSubmit = async (formValues) => {
     if (!changePassword) {
-      //Change Email Form
+      //Change Email
       try {
         const userFound = await getUserByIdResponse(user.id);
 
         const userData = {
           id: userFound.data.id,
           // imageURL: "imageURL",
-          names: userFound.data.names,
-          surnames: userFound.data.surnames,
+          names: formValues.newNames.trim(),
+          surnames: formValues.newSurnames ? formValues.newSurnames.trim() : "",
           email: formValues.newEmail.toLowerCase().trim(),
           password: userFound.data.password,
           roleId: userFound.data.roleId,
@@ -81,13 +109,43 @@ const AccountData = ({ formType }) => {
         const updatedUser = res.data;
 
         dispatch(setUser(updatedUser));
+        // toast.success("Los cambios se han guardado", toastColor("success"));
         window.location.reload();
       } catch (error) {
-        console.log(error);
+        console.error("Error en la solicitud:", error);
+
+        if (!error.response) {
+          toast.error(ErrorsMessages.RESPONSE_ERROR, toastColor("error"));
+          return;
+        }
+        statusErrors(error);
       }
     } else {
-      //Change Password Form
-      console.log("CHANGE PASSWORD", formValues);
+      //Change Password
+      try {
+        const userFound = await getUserByIdResponse(user.id);
+
+        const userData = {
+          newPassword: formValues.newPassword,
+          confirmPassword: formValues.confirmPassword,
+        };
+
+        const res = await changePasswordResponse(userFound.data.id, userData);
+
+        console.log(res.data);
+        if (res.data.status === 200) {
+          toast.success("Los cambios se han guardado", toastColor("success"));
+          navigate("/login");
+        }
+      } catch (error) {
+        console.error("Error en la solicitud:", error);
+
+        if (!error.response) {
+          toast.error(ErrorsMessages.RESPONSE_ERROR, toastColor("error"));
+          return;
+        }
+        statusErrors(error);
+      }
     }
 
     handleClickCancel();
@@ -101,7 +159,7 @@ const AccountData = ({ formType }) => {
         noValidate
         onSubmit={handleSubmit(onSubmit)}
       >
-        {!changePassword ? (
+        {!changePassword && !newPassword ? (
           <AccountInfoContainer>
             <AvatarContainer>
               <Avatar
@@ -126,71 +184,60 @@ const AccountData = ({ formType }) => {
                 }}
               /> */}
             </AvatarContainer>
+            <ChangeNamesInput
+              defaultValue={user.names}
+              name="newNames"
+              type="text"
+              variant="outlined"
+              size="small"
+              disabled={!changeEmail ? true : false}
+              required
+              {...register("newNames", {
+                required: true,
+                pattern: PatternValidations.NAMES_AND_SURNAMES,
+              })}
+              error={!!errors.newNames}
+              helperText={
+                watch("newNames")
+                  ? errors.newNames && UsersErrors.NAMES_INVALID
+                  : errors.newNames && EmptyFieldError.EMPTY_ERROR
+              }
+            />
+            <ChangeSurnamesInput
+              defaultValue={user.surnames}
+              name="newSurnames"
+              type="text"
+              variant="outlined"
+              size="small"
+              disabled={!changeEmail ? true : false}
+              {...register("newSurnames", {
+                pattern: PatternValidations.NAMES_AND_SURNAMES,
+              })}
+              error={!!errors.newSurnames}
+              helperText={errors.newNames && UsersErrors.SURNAMES_INVALID}
+            />
             <ChangeEmailInput
               defaultValue={user.email}
               name="newEmail"
               type="email"
               variant="outlined"
               size="small"
-              // placeholder={user.email}
               disabled={!changeEmail ? true : false}
               required
               {...register("newEmail", {
                 required: true,
-                pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                pattern: PatternValidations.EMAIL,
               })}
               error={!!errors.newEmail}
               helperText={
                 watch("newEmail")
-                  ? errors.newEmail && "Los datos ingresados son inválidos"
-                  : errors.newEmail && "El campo no puede estar vacío"
+                  ? errors.newEmail && UsersErrors.EMAIL_INVALID
+                  : errors.newEmail && EmptyFieldError.EMPTY_ERROR
               }
             />
           </AccountInfoContainer>
-        ) : (
+        ) : changePassword || newPassword ? (
           <>
-            <LastPasswordInput
-              name="lastPassword"
-              type="password"
-              variant="outlined"
-              size="small"
-              placeholder="Ingresa tu Contraseña Anterior"
-              required
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {showPassword ? (
-                        <Icon
-                          name="Visibility-off"
-                          color={theme.palette.primary[300]}
-                        />
-                      ) : (
-                        <Icon
-                          name="Visibility"
-                          color={theme.palette.primary[300]}
-                        />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              {...register("lastPassword", {
-                required: true,
-                pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-              })}
-              error={!!errors.lastPassword}
-              helperText={
-                watch("lastPassword")
-                  ? errors.lastPassword &&
-                    "El campo debe contener al menos 8 caracteres, incluyendo al menos un número, una letra minúscula y una letra mayúscula"
-                  : errors.lastPassword && "El campo no puede estar vacío"
-              }
-            />
             <NewPasswordInput
               name="newPassword"
               type="password"
@@ -272,8 +319,8 @@ const AccountData = ({ formType }) => {
               }
             />
           </>
-        )}
-        {changePassword || changeEmail ? (
+        ) : null}
+        {changePassword || newPassword || changeEmail ? (
           <ButtonsContainer
             formType={formType}
             leftName="Cancelar"
@@ -288,7 +335,7 @@ const AccountData = ({ formType }) => {
               onClick={handleClickChangeEmail}
               sx={{ width: "50%" }}
             >
-              Cambiar Email
+              Modificar Datos
             </Button>
             <Button
               variant="contained"
@@ -301,6 +348,7 @@ const AccountData = ({ formType }) => {
           </ButtonContainer>
         )}
       </AccountDataContainer>
+      <ToastContainer />
     </>
   );
 };

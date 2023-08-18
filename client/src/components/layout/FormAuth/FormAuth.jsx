@@ -10,6 +10,7 @@ import {
   FormHelperText,
   IconButton,
   InputAdornment,
+  Link,
   Tooltip,
 } from "@mui/material";
 import { Icon } from "../../ui/Icon";
@@ -33,10 +34,13 @@ import { loginResponse, registerResponse } from "../../../api/auth";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../reducers/auth";
 import { getRoleById, getRoles } from "../../../api/roles";
+
 import { UsersErrors } from "../../../errors/users.errors";
 import { EmptyFieldError } from "../../../errors/emptyField.errors";
 import { PatternValidations } from "../../../helpers/validations";
 import { toastColor } from "../../../utils/toastOptions";
+import { ErrorsMessages } from "../../../utils/toastMessages";
+import AccountData from "../AccountData/AccountData";
 
 const FormAuth = ({ formType, role }) => {
   const dispatch = useDispatch();
@@ -52,17 +56,15 @@ const FormAuth = ({ formType, role }) => {
     formState: { errors },
   } = useForm({ mode: "onBlur" });
 
-  //catch errors
-  const responseErrors = (error) => {
+  const statusErrors = (error) => {
     //client error
     if (error.response.status > 399 || error.response.status < 500) {
-      toast.error("Los datos ingresados no son válidos", toastColor("error"));
+      toast.error(ErrorsMessages.CLIENT_STATUS, toastColor("error"));
       return;
     }
-
     //server error
     if (error.response.status > 499) {
-      toast.error("El servidor no está disponible", toastColor("error"));
+      toast.error(ErrorsMessages.SERVER_STATUS, toastColor("error"));
       return;
     }
   };
@@ -91,6 +93,10 @@ const FormAuth = ({ formType, role }) => {
     }
   };
 
+  const handleChangePassword = () => {
+    navigate("/auth/change-password");
+  };
+
   const onSubmit = async (formValues) => {
     switch (formType) {
       case "login":
@@ -113,17 +119,11 @@ const FormAuth = ({ formType, role }) => {
             navigate("/");
           }
         } catch (error) {
-          // console.error("Error en la solicitud:", error);
-
           if (!error.response) {
-            toast.error(
-              "Ocurrió un error al procesar la solicitud",
-              toastColor("error")
-            );
+            toast.error(ErrorsMessages.RESPONSE_ERROR, toastColor("error"));
             return;
           }
-
-          responseErrors(error);
+          statusErrors(error);
         }
         break;
 
@@ -149,21 +149,15 @@ const FormAuth = ({ formType, role }) => {
           dispatch(setUser(registerUser.data));
           navigate("/");
         } catch (error) {
-          // console.error("Error en la solicitud:", error);
-
           if (error.response.statusText === "Conflict") {
-            //client error
             toast.error(error.response.data.message, toastColor("error"));
             return;
           }
 
-          responseErrors(error);
+          statusErrors(error);
 
           if (!error.response) {
-            toast.error(
-              "Ocurrió un error al procesar la solicitud",
-              toastColor("error")
-            );
+            toast.error(ErrorsMessages.RESPONSE_ERROR, toastColor("error"));
             return;
           }
         }
@@ -193,8 +187,11 @@ const FormAuth = ({ formType, role }) => {
             ? "Ingresa a tu cuenta a través de"
             : formType === "register"
             ? "Completa tus datos"
+            : formType === "change-password"
+            ? "Modifica tu contraseña"
             : "Panel de Administración"}
         </FormAuthTitle>
+        {formType === "change-password" && <AccountData newPassword={true} />}
         {formType === "login" && (
           <FormAuthSocial component={"section"}>
             <FormAuthSocialButtons>
@@ -258,7 +255,7 @@ const FormAuth = ({ formType, role }) => {
             />
           </FormAuthName>
         )}
-        {formType !== "dashboard" && (
+        {formType !== "dashboard" && formType !== "change-password" && (
           <FormAuthEmail
             sx={{
               marginTop: formType === "login" && theme.spacing(4),
@@ -326,6 +323,17 @@ const FormAuth = ({ formType, role }) => {
             />
           </FormAuthEmail>
         )}
+        {formType === "login" && (
+          <Link
+            style={{
+              marginBottom: theme.spacing(2),
+              cursor: "pointer",
+            }}
+            onClick={handleChangePassword}
+          >
+            ¿Olvidaste tu contraseña?
+          </Link>
+        )}
         {formType === "register" && (
           <>
             <Controller
@@ -356,7 +364,7 @@ const FormAuth = ({ formType, role }) => {
             justifyContent: formType === "dashboard" ? "center" : "initial",
           }}
         >
-          {formType !== "dashboard" ? (
+          {formType === "login" || formType === "register" ? (
             <>
               <Button
                 type="submit"
@@ -389,7 +397,7 @@ const FormAuth = ({ formType, role }) => {
                   : "Ingresa con tus datos"}
               </Button>
             </>
-          ) : (
+          ) : formType === "dashboard" && formType === "change-password" ? (
             <>
               {role === "admin" && (
                 <Button
@@ -423,7 +431,7 @@ const FormAuth = ({ formType, role }) => {
                 Productos
               </Button>
             </>
-          )}
+          ) : null}
         </ButtonsContainer>
       </FormAuthContainer>
       <ToastContainer />

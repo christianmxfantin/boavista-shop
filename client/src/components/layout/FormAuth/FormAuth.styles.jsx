@@ -70,7 +70,7 @@ export const EmailInput = styled(TextField)(({ theme }) => ({
 }));
 
 export const PasswordInput = styled(TextField)(({ theme }) => ({
-  marginBottom: theme.spacing(1), //8px
+  // marginBottom: theme.spacing(1), //8px
 }));
 
 export const ButtonsContainer = styled(Box)(() => ({

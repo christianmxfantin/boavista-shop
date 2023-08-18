@@ -17,11 +17,15 @@ export const AvatarContainer = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(4),
 }));
 
-export const ChangeEmailInput = styled(TextField)(() => ({
+export const ChangeNamesInput = styled(TextField)(() => ({
   //styles
 }));
 
-export const LastPasswordInput = styled(TextField)(() => ({
+export const ChangeSurnamesInput = styled(TextField)(() => ({
+  //styles
+}));
+
+export const ChangeEmailInput = styled(TextField)(() => ({
   //styles
 }));
 
