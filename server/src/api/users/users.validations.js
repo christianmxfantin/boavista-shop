@@ -73,11 +73,6 @@ const createAndUpdateUser = async (req, res, next, type) => {
       }
     }
 
-    //Search role name in database
-    // const role = await Roles.findByPk(
-    //   type === "login" ? existingEmail.roleId : roleId
-    // );
-
     //Hash the password and create the user
     const hashedPassword = await hashPassword(password);
     return type !== "login"

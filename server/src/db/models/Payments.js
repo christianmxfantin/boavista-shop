@@ -10,10 +10,10 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         allowNull: false,
       },
-      company_card: {
+      companyCard: {
         type: DataTypes.STRING(100),
         allowNull: false,
-        unique: true,
+        // unique: true,
         validate: {
           is: {
             args: /^[\p{L} -]{1,100}$/u,
@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-      final_number: {
+      finalNumber: {
         type: DataTypes.STRING(4),
         allowNull: false,
         validate: {

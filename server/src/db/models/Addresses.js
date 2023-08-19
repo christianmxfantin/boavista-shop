@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       type: {
         type: DataTypes.STRING(20),
         allowNull: false,
-        unique: true,
+        // unique: true,
         validate: {
           is: {
             args: /^[a-zA-Z\s]{1,20}$/,
@@ -55,7 +55,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(100),
         allowNull: true,
         defaultValue: "Argentina",
-        unique: true,
+        // unique: true,
         validate: {
           is: {
             args: /^[a-zA-Z0-9\s\/]{1,100}$/,

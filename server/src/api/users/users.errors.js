@@ -7,6 +7,9 @@ const UsersErrors = {
     "El email ingresado no es válido. Ten en cuenta que solo se permiten entre 6 y 100 caracteres.",
   PASSWORD_INVALID:
     "La contraseña ingresada no es válida. Ten en cuenta que solo se permiten entre 8 y 18 caracteres.",
+  PASSWORD_NOT_EQUAL: "Las contraseñas ingresadas no coinciden.",
+  PASSWORD_HAS_ALREADY_USED:
+    "La contraseña ingresada ya se ha utilizado anteriormente. Por favor, vuelve a intentar con una contraseña diferente.",
   EMAIL_ALREADY_EXISTS: "Ya existe una cuenta con el email que has ingresado.",
   USER_NOT_FOUND: "El usuario ingresado no existe.",
   TOKEN_INVALID: "El usuario no está autenticado.",

@@ -147,15 +147,27 @@ const changePassword = async (req, res, next) => {
       });
     }
 
-    //Chequear que la nueva password no sea igual a la que esta en la base
-
-    //Chequear que la nueva password sea igual a la confirm password
+    //Check new password is equal to the confirm password
+    if (newPassword !== confirmPassword) {
+      return res.status(400).json({
+        message: UsersErrors.PASSWORD_NOT_EQUAL,
+      });
+    }
 
     //Check if user id exists
     const existingUser = await Users.findByPk(id);
     if (!existingUser) {
       return res.status(404).json({
         message: UsersErrors.USER_NOT_FOUND,
+      });
+    }
+
+    //Check new password is different as the one in the database
+    const storedPassword = existingUser.password.toString();
+    const comparePasswords = await argon2.verify(storedPassword, newPassword);
+    if (comparePasswords) {
+      return res.status(409).json({
+        message: UsersErrors.PASSWORD_HAS_ALREADY_USED,
       });
     }
 
