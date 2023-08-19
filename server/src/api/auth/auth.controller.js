@@ -148,6 +148,7 @@ const changePassword = async (req, res, next) => {
     }
 
     //Chequear que la nueva password no sea igual a la que esta en la base
+
     //Chequear que la nueva password sea igual a la confirm password
 
     //Check if user id exists
@@ -168,7 +169,7 @@ const changePassword = async (req, res, next) => {
     };
     await existingUser.update(user);
 
-    return res.status(200);
+    return res.sendStatus(200);
   } catch (err) {
     const error = new ErrorHandler(err.message, err.statusCode);
     logger.error(err);

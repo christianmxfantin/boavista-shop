@@ -38,6 +38,26 @@ const getUserById = async (req, res, next) => {
     next(error);
   }
 };
+
+const getUserByEmail = async (req, res, next) => {
+  try {
+    const { email } = req.params;
+
+    const existingUser = await Users.findOne({ where: { email } });
+    if (!existingUser) {
+      return res.status(400).json({
+        message: UsersErrors.USER_NOT_FOUND,
+      });
+    }
+
+    return res.status(200).json({ id: existingUser.id });
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
+  }
+};
+
 const createUser = async (req, res, next) => {
   try {
     const userData = await createAndUpdateUser(req, res, next, "users-create");
@@ -117,6 +137,7 @@ const deleteUser = async (req, res, next) => {
 module.exports = {
   getUsers,
   getUserById,
+  getUserByEmail,
   createUser,
   updateUser,
   deleteUser,
