@@ -40,7 +40,6 @@ import { EmptyFieldError } from "../../../errors/emptyField.errors";
 import { PatternValidations } from "../../../helpers/validations";
 import { toastColor } from "../../../utils/toastOptions";
 import { ErrorsMessages } from "../../../utils/toastMessages";
-import AccountData from "../AccountData/AccountData";
 
 const FormAuth = ({ formType, role }) => {
   const dispatch = useDispatch();
@@ -187,11 +186,8 @@ const FormAuth = ({ formType, role }) => {
             ? "Ingresa a tu cuenta a través de"
             : formType === "register"
             ? "Completa tus datos"
-            : formType === "change-password"
-            ? "Modifica tu contraseña"
             : "Panel de Administración"}
         </FormAuthTitle>
-        {formType === "change-password" && <AccountData newPassword={true} />}
         {formType === "login" && (
           <FormAuthSocial component={"section"}>
             <FormAuthSocialButtons>
@@ -255,7 +251,7 @@ const FormAuth = ({ formType, role }) => {
             />
           </FormAuthName>
         )}
-        {formType !== "dashboard" && formType !== "change-password" && (
+        {formType !== "dashboard" && (
           <FormAuthEmail
             sx={{
               marginTop: formType === "login" && theme.spacing(4),
@@ -397,7 +393,7 @@ const FormAuth = ({ formType, role }) => {
                   : "Ingresa con tus datos"}
               </Button>
             </>
-          ) : formType === "dashboard" && formType === "change-password" ? (
+          ) : formType === "dashboard" ? (
             <>
               {role === "admin" && (
                 <Button

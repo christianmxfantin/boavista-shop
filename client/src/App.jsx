@@ -13,7 +13,7 @@ import PageNotFound from "./pages/pageNotFound/PageNotFound";
 import AuthRoute from "./components/auth/AuthRoute";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import List from "./pages/admin/List/List";
-import FormAuth from "./components/layout/FormAuth/FormAuth";
+import ForgetPassword from "./components/layout/ForgetPassword/ForgetPassword";
 
 const App = () => {
   return (
@@ -56,7 +56,7 @@ const App = () => {
             element={
               <>
                 <Navbar isLoginForm={true} />
-                <FormAuth formType="change-password" />
+                <ForgetPassword />
               </>
             }
           />

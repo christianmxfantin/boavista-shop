@@ -4,5 +4,7 @@ export const UsersErrors = {
   EMAIL_INVALID: "El email ingresado no es válido",
   PASSWORD_INVALID:
     "La contraseña debe contener al menos 8 caracteres, incluyendo al menos un número, una letra minúscula y una letra mayúscula",
+  PASSWORD_NOT_EQUAL:
+    "La contraseña ingresada debe coincidir con la nueva contraseña",
   TERMS_ERROR: "Acepta los Términos y Condiciones para poder continuar",
 };

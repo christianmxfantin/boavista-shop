@@ -30,7 +30,7 @@ import { EmptyFieldError } from "../../../errors/emptyField.errors";
 import { changePasswordResponse } from "../../../api/auth";
 // import CameraAltIcon from "@mui/icons-material/CameraAlt";
 
-const AccountData = ({ formType, newPassword }) => {
+const AccountData = ({ formType, newPassword, userId }) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -77,11 +77,14 @@ const AccountData = ({ formType, newPassword }) => {
   };
 
   const handleClickCancel = () => {
+    reset();
+
+    //si estas en FormAuth vuelve a login
     if (newPassword) {
       navigate("/login");
     }
 
-    reset();
+    //sino va a Profile
     if (changeEmail) {
       setChangeEmail(false);
     } else {
@@ -90,7 +93,7 @@ const AccountData = ({ formType, newPassword }) => {
   };
 
   const onSubmit = async (formValues) => {
-    if (!changePassword) {
+    if (!changePassword && !newPassword) {
       //Change Email
       try {
         const userFound = await getUserByIdResponse(user.id);
@@ -120,10 +123,14 @@ const AccountData = ({ formType, newPassword }) => {
         }
         statusErrors(error);
       }
-    } else {
+    }
+
+    if (changePassword || newPassword) {
       //Change Password
       try {
-        const userFound = await getUserByIdResponse(user.id);
+        // console.log(userId);
+        const data = userId ? userId : user.id;
+        const userFound = await getUserByIdResponse(data);
 
         const userData = {
           newPassword: formValues.newPassword,
@@ -132,10 +139,12 @@ const AccountData = ({ formType, newPassword }) => {
 
         const res = await changePasswordResponse(userFound.data.id, userData);
 
-        console.log(res.data);
-        if (res.data.status === 200) {
-          toast.success("Los cambios se han guardado", toastColor("success"));
-          navigate("/login");
+        if (res.status === 200) {
+          // navigate("/login");
+          toast.success(
+            "Los cambios se han guardado correctamente",
+            toastColor("success")
+          );
         }
       } catch (error) {
         console.error("Error en la solicitud:", error);
@@ -240,7 +249,7 @@ const AccountData = ({ formType, newPassword }) => {
           <>
             <NewPasswordInput
               name="newPassword"
-              type="password"
+              type={showPassword ? "text" : "password"}
               variant="outlined"
               size="small"
               placeholder="Escribe tu Nueva Contraseña"
@@ -269,17 +278,19 @@ const AccountData = ({ formType, newPassword }) => {
                 ),
               }}
               {...register("newPassword", {
-                required: true && "El campo no puede estar vacío",
-                validate: (value) =>
-                  value !== watch("lastPassword") ||
-                  "La contraseña ingresada debe ser diferente a la contraseña anterior",
+                required: true,
+                pattern: PatternValidations.PASSWORD,
               })}
               error={!!errors.newPassword}
-              helperText={errors.newPassword && errors.newPassword.message}
+              helperText={
+                watch("newPassword")
+                  ? errors.newPassword && UsersErrors.PASSWORD_INVALID
+                  : errors.newPassword && EmptyFieldError.EMPTY_ERROR
+              }
             />
             <ConfirmPasswordInput
               name="confirmPassword"
-              type="password"
+              type={showPassword ? "text" : "password"}
               variant="outlined"
               size="small"
               placeholder="Repite la Nueva Contraseña"
@@ -308,10 +319,10 @@ const AccountData = ({ formType, newPassword }) => {
                 ),
               }}
               {...register("confirmPassword", {
-                required: true && "El campo no puede estar vacío",
+                required: true,
                 validate: (value) =>
                   value === watch("newPassword") ||
-                  "La contraseña ingresada debe coincidir con la nueva contraseña",
+                  UsersErrors.PASSWORD_NOT_EQUAL,
               })}
               error={!!errors.confirmPassword}
               helperText={
