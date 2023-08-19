@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useTheme } from "@emotion/react";
 import {
   ItemComponentContainer,
@@ -6,9 +7,29 @@ import {
   ItemTitleContainer,
 } from "./CardAddressItemTitle.styles";
 import ActionButtons from "../ActionButtons/ActionButtons";
+import { getPaymentsTypesResponse } from "../../../api/paymentsType";
 
 const CardAddressItemTitle = ({ data, formType, itemType, setShowAddNew }) => {
   const theme = useTheme();
+  const [paymentsType, setPaymentsType] = useState([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const res = await getPaymentsTypesResponse();
+        setPaymentsType(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getData();
+  }, []);
+
+  const typeCard = (paymentTypeId) => {
+    console.log(paymentTypeId);
+    const card = paymentsType.find((data) => data.id === paymentTypeId);
+    return card.name;
+  };
 
   return (
     <ItemComponentContainer>
@@ -29,9 +50,9 @@ const CardAddressItemTitle = ({ data, formType, itemType, setShowAddNew }) => {
             marginLeft: formType !== "profile" ? 0 : theme.spacing(2),
           }}
         >
-          {`${
-            data.typeCard === "credit" ? "Visa Crédito" : "Visa Débito"
-          } terminada en ${data.finalNumber}`}
+          {`${data.companyCard} ${typeCard(data.paymentTypeId)} terminada en ${
+            data.finalNumber
+          }`}
         </ItemTitle>
       )}
       <ActionButtons

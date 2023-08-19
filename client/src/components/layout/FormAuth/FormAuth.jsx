@@ -68,6 +68,10 @@ const FormAuth = ({ formType, role }) => {
     }
   };
 
+  const handleCopyPaste = (e) => {
+    e.preventDefault();
+  };
+
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (e) => {
@@ -83,12 +87,17 @@ const FormAuth = ({ formType, role }) => {
   };
 
   const handleBottomButton = () => {
-    if (formType === "login") {
-      navigate("/register");
-    } else if (formType === "register") {
-      navigate("/login");
-    } else {
-      navigate("/dashboard/products");
+    switch (formType) {
+      case "login":
+        navigate("/register");
+        break;
+      case "register":
+        navigate("/login");
+        break;
+      case "dashboard":
+        navigate("/dashboard/products");
+        break;
+      default:
     }
   };
 
@@ -306,6 +315,9 @@ const FormAuth = ({ formType, role }) => {
                   </InputAdornment>
                 ),
               }}
+              onCopy={handleCopyPaste}
+              onCut={handleCopyPaste}
+              onPaste={handleCopyPaste}
               {...register("password", {
                 required: true,
                 pattern: PatternValidations.PASSWORD,

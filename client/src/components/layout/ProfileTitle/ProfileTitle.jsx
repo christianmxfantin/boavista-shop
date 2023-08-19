@@ -15,7 +15,8 @@ const ProfileTitle = () => {
     const getRoleName = async () => {
       try {
         const roles = await getRoleById(roleId);
-        setRoleName(roles.name);
+        const name = roles.data.name.toLowerCase().trim();
+        setRoleName(name);
       } catch (error) {
         console.log(error);
       }

@@ -60,6 +60,10 @@ const AccountData = ({ formType, newPassword, userId }) => {
     }
   };
 
+  const handleCopyPaste = (e) => {
+    e.preventDefault();
+  };
+
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (e) => {
@@ -115,7 +119,7 @@ const AccountData = ({ formType, newPassword, userId }) => {
         // toast.success("Los cambios se han guardado", toastColor("success"));
         window.location.reload();
       } catch (error) {
-        console.error("Error en la solicitud:", error);
+        // console.error("Error en la solicitud:", error);
 
         if (!error.response) {
           toast.error(ErrorsMessages.RESPONSE_ERROR, toastColor("error"));
@@ -140,14 +144,18 @@ const AccountData = ({ formType, newPassword, userId }) => {
         const res = await changePasswordResponse(userFound.data.id, userData);
 
         if (res.status === 200) {
-          // navigate("/login");
           toast.success(
             "Los cambios se han guardado correctamente",
             toastColor("success")
           );
         }
       } catch (error) {
-        console.error("Error en la solicitud:", error);
+        // console.error("Error en la solicitud:", error);
+
+        if (error.response.statusText === "Conflict") {
+          toast.error(error.response.data.message, toastColor("error"));
+          return;
+        }
 
         if (!error.response) {
           toast.error(ErrorsMessages.RESPONSE_ERROR, toastColor("error"));
@@ -277,6 +285,9 @@ const AccountData = ({ formType, newPassword, userId }) => {
                   </InputAdornment>
                 ),
               }}
+              onCopy={handleCopyPaste}
+              onCut={handleCopyPaste}
+              onPaste={handleCopyPaste}
               {...register("newPassword", {
                 required: true,
                 pattern: PatternValidations.PASSWORD,
@@ -318,6 +329,9 @@ const AccountData = ({ formType, newPassword, userId }) => {
                   </InputAdornment>
                 ),
               }}
+              onCopy={handleCopyPaste}
+              onCut={handleCopyPaste}
+              onPaste={handleCopyPaste}
               {...register("confirmPassword", {
                 required: true,
                 validate: (value) =>

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useTheme } from "@emotion/react";
 import { Button } from "@mui/material";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import AccountData from "../AccountData/AccountData";
 import {
   EmailInput,
@@ -13,6 +15,8 @@ import { PatternValidations } from "../../../helpers/validations";
 import { UsersErrors } from "../../../errors/users.errors";
 import { EmptyFieldError } from "../../../errors/emptyField.errors";
 import { getUserByEmailResponse } from "../../../api/users";
+import { ErrorsMessages } from "../../../utils/toastMessages";
+import { toastColor } from "../../../utils/toastOptions";
 
 const ForgetPassword = () => {
   const theme = useTheme();
@@ -27,15 +31,33 @@ const ForgetPassword = () => {
     formState: { errors },
   } = useForm({ mode: "onBlur" });
 
+  const statusErrors = (error) => {
+    //client error
+    if (error.response.status > 399 || error.response.status < 500) {
+      toast.error(ErrorsMessages.CLIENT_STATUS, toastColor("error"));
+      return;
+    }
+    //server error
+    if (error.response.status > 499) {
+      toast.error(ErrorsMessages.SERVER_STATUS, toastColor("error"));
+      return;
+    }
+  };
+
   const onSubmit = async (formValues) => {
     try {
       const userFound = await getUserByEmailResponse(formValues.email);
-      console.log(userFound.data.id);
       setUserId(userFound.data.id);
       setShowEmail(false);
       reset();
     } catch (error) {
-      console.log(error);
+      // console.error("Error en la solicitud:", error);
+
+      if (!error.response) {
+        toast.error(ErrorsMessages.RESPONSE_ERROR, toastColor("error"));
+        return;
+      }
+      statusErrors(error);
     }
   };
 
@@ -89,6 +111,7 @@ const ForgetPassword = () => {
         </ForgetPasswordForm>
         {!showEmail && <AccountData newPassword={true} userId={userId} />}
       </ForgetPasswordContainer>
+      <ToastContainer />
     </main>
   );
 };

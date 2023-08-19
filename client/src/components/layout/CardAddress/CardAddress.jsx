@@ -17,38 +17,8 @@ import CardAddressItemTitle from "../CardAddressItemTitle/CardAddressItemTitle";
 import Billing from "../../checkout/Billing/Billing";
 import PaymentDetails from "../../checkout/Payment/PaymentDetails/PaymentDetails";
 import { Icon } from "../../ui/Icon";
-
-const myAddress = [
-  {
-    id: 1,
-    type: "Casa",
-    address: "Lavalleja 1345 5to Piso Dpto 60",
-    state: "CABA",
-    city: "Coghlan",
-    comments: "La puerta de rejas verde es Portería",
-  },
-  {
-    id: 2,
-    type: "Trabajo",
-    address: "Montevideo 534 11vo Piso",
-    state: "CABA",
-    city: "San Nicolás",
-    comments: "No dejar los productos en Portería",
-  },
-];
-
-const myCards = [
-  {
-    id: 1,
-    finalNumber: 1142,
-    typeCard: "debit",
-  },
-  {
-    id: 2,
-    finalNumber: 5454,
-    typeCard: "credit",
-  },
-];
+import { getAddressesResponse } from "../../../api/addresses";
+import { getPaymentsResponse } from "../../../api/payments";
 
 const CardAddress = ({
   formType,
@@ -61,18 +31,33 @@ const CardAddress = ({
   isButtonDisabled,
   setIsButtonDisabled,
 }) => {
-  //despues borrar
-  let data = itemType === "address" ? myAddress : myCards;
-
   const theme = useTheme();
+  const [data, setData] = useState([]);
   const [showAddNew, setShowAddNew] = useState(false);
   const [selectedValue, setSelectedValue] = useState(0);
 
   useEffect(() => {
+    const getData = async () => {
+      try {
+        if (itemType === "address") {
+          const res = await getAddressesResponse();
+          setData(res.data);
+        }
+
+        if (itemType === "card") {
+          const res = await getPaymentsResponse();
+          setData(res.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getData();
+
     if (formType !== "profile") {
       setIsButtonDisabled(true);
     }
-  }, [formType, setIsButtonDisabled]);
+  }, [formType, itemType, setIsButtonDisabled]);
 
   const handleChangeRadio = (id) => {
     setSelectedValue(id);

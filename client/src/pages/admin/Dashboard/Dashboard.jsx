@@ -13,7 +13,8 @@ const Dashboard = () => {
     const getRoleName = async () => {
       try {
         const roles = await getRoleById(roleId);
-        setRoleName(roles.name);
+        const name = roles.data.name.toLowerCase().trim();
+        setRoleName(name);
       } catch (error) {
         console.log(error);
       }
@@ -22,8 +23,9 @@ const Dashboard = () => {
     getRoleName();
   }, [roleId]);
 
-  if (roleName === "admin" || roleName === "user")
+  if (roleName !== "web") {
     return <FormAuth formType="dashboard" role={roleName} />;
+  }
   return <Navigate to="/login" replace />;
 };
 
