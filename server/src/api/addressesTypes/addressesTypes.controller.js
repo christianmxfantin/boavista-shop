@@ -6,7 +6,7 @@ const { RolesErrors } = require("./roles.errors.js");
 
 const Roles = db.roles;
 
-const getRoles = async (req, res, next) => {
+const getAddressesTypes = async (req, res, next) => {
   try {
     const roles = await Roles.findAll();
 
@@ -18,7 +18,7 @@ const getRoles = async (req, res, next) => {
   }
 };
 
-const getRoleById = async (req, res, next) => {
+const getAddressTypeById = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -36,7 +36,7 @@ const getRoleById = async (req, res, next) => {
     next(error);
   }
 };
-const createRole = async (req, res, next) => {
+const createAddressType = async (req, res, next) => {
   try {
     const name = req.body.name.trim();
 
@@ -63,7 +63,7 @@ const createRole = async (req, res, next) => {
   }
 };
 
-const updateRole = async (req, res, next) => {
+const updateAddressType = async (req, res, next) => {
   try {
     const { id } = req.params;
     const name = req.body.name.trim();
@@ -98,7 +98,7 @@ const updateRole = async (req, res, next) => {
   }
 };
 
-const deleteRole = async (req, res, next) => {
+const deleteAddressType = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -123,9 +123,9 @@ const deleteRole = async (req, res, next) => {
 };
 
 module.exports = {
-  getRoles,
-  getRoleById,
-  createRole,
-  updateRole,
-  deleteRole,
+  getAddressesTypes,
+  getAddressTypeById,
+  createAddressType,
+  updateAddressType,
+  deleteAddressType,
 };

@@ -37,7 +37,7 @@ const createAndUpdateUser = async (req, res, next, type) => {
         });
       }
     }
-    if (type !== "login" || type === "users-update") {
+    if (type !== "login" && type !== "users-update") {
       if (existingEmail) {
         return res.status(409).json({
           message: UsersErrors.EMAIL_ALREADY_EXISTS,
@@ -47,7 +47,7 @@ const createAndUpdateUser = async (req, res, next, type) => {
 
     //Check if roleId exists in role table
     const existingRole = await Roles.findByPk(roleId);
-    if (type === "register") {
+    if (type !== "login") {
       if (!existingRole) {
         return res.status(404).json({
           message: RolesErrors.ROLE_NOT_FOUND,

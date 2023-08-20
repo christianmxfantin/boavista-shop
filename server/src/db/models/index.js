@@ -17,7 +17,12 @@ db.sequelize = sequelize;
 db.roles = require("./Roles.js")(sequelize, DataTypes);
 db.users = require("./Users.js")(sequelize, DataTypes);
 db.addresses = require("./Addresses.js")(sequelize, DataTypes);
+db.addressesTypes = require("./AddressesTypes.js")(sequelize, DataTypes);
+db.cities = require("./Cities.js")(sequelize, DataTypes);
+db.states = require("./States.js")(sequelize, DataTypes);
+db.countries = require("./Countries.js")(sequelize, DataTypes);
 db.payments = require("./Payments.js")(sequelize, DataTypes);
+db.cardCompanies = require("./CardCompanies.js")(sequelize, DataTypes);
 db.paymentsTypes = require("./PaymentsTypes.js")(sequelize, DataTypes);
 db.orders = require("./Orders.js")(sequelize, DataTypes);
 db.products = require("./Products.js")(sequelize, DataTypes);
@@ -66,6 +71,46 @@ db.products.belongsTo(db.users, {
   targetId: "id",
 });
 
+//Addresses with AddressesTypes
+db.addressesTypes.hasMany(db.addresses, {
+  foreignKey: "addressTypeId",
+  sourceKey: "id",
+});
+db.addresses.belongsTo(db.addressesTypes, {
+  foreignKey: "addressTypeId",
+  targetId: "id",
+});
+
+//Addresses with Cities
+db.cities.hasMany(db.addresses, {
+  foreignKey: "cityId",
+  sourceKey: "id",
+});
+db.addresses.belongsTo(db.cities, {
+  foreignKey: "cityId",
+  targetId: "id",
+});
+
+//Addresses with States
+db.states.hasMany(db.addresses, {
+  foreignKey: "stateId",
+  sourceKey: "id",
+});
+db.addresses.belongsTo(db.states, {
+  foreignKey: "stateId",
+  targetId: "id",
+});
+
+//Addresses with Countries
+db.countries.hasMany(db.addresses, {
+  foreignKey: "countryId",
+  sourceKey: "id",
+});
+db.addresses.belongsTo(db.countries, {
+  foreignKey: "countryId",
+  targetId: "id",
+});
+
 //Addresses with Users
 db.users.hasMany(db.addresses, {
   foreignKey: "userId",
@@ -73,6 +118,16 @@ db.users.hasMany(db.addresses, {
 });
 db.addresses.belongsTo(db.users, {
   foreignKey: "userId",
+  targetId: "id",
+});
+
+//Payments with CardCompanies
+db.cardCompanies.hasMany(db.payments, {
+  foreignKey: "cardCompanyId",
+  sourceKey: "id",
+});
+db.payments.belongsTo(db.cardCompanies, {
+  foreignKey: "cardCompanyId",
   targetId: "id",
 });
 

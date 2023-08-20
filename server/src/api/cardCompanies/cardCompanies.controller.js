@@ -6,7 +6,7 @@ const { RolesErrors } = require("./roles.errors.js");
 
 const Roles = db.roles;
 
-const getRoles = async (req, res, next) => {
+const getCardCompanies = async (req, res, next) => {
   try {
     const roles = await Roles.findAll();
 
@@ -18,7 +18,7 @@ const getRoles = async (req, res, next) => {
   }
 };
 
-const getRoleById = async (req, res, next) => {
+const getCardCompanyById = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -36,7 +36,7 @@ const getRoleById = async (req, res, next) => {
     next(error);
   }
 };
-const createRole = async (req, res, next) => {
+const createCardCompany = async (req, res, next) => {
   try {
     const name = req.body.name.trim();
 
@@ -63,7 +63,7 @@ const createRole = async (req, res, next) => {
   }
 };
 
-const updateRole = async (req, res, next) => {
+const updateCardCompany = async (req, res, next) => {
   try {
     const { id } = req.params;
     const name = req.body.name.trim();
@@ -98,7 +98,7 @@ const updateRole = async (req, res, next) => {
   }
 };
 
-const deleteRole = async (req, res, next) => {
+const deleteCardCompany = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -123,9 +123,9 @@ const deleteRole = async (req, res, next) => {
 };
 
 module.exports = {
-  getRoles,
-  getRoleById,
-  createRole,
-  updateRole,
-  deleteRole,
+  getCardCompanies,
+  getCardCompanyById,
+  createCardCompany,
+  updateCardCompany,
+  deleteCardCompany,
 };

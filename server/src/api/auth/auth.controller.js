@@ -107,7 +107,7 @@ const token = async (req, res, next) => {
     jwt.verify(token, TOKEN_SECRET, async (error, user) => {
       if (error)
         return res.status(401).json({
-          message: error,
+          message: UsersErrors.TOKEN_INVALID,
         });
 
       const userFound = await Users.findByPk(user.id);

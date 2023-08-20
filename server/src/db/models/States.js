@@ -1,22 +1,24 @@
-const { PaymentsErrors } = require("../../api/payments/payments.errors");
+const { StatesErrors } = require("../../api/states/states.errors");
 
 module.exports = (sequelize, DataTypes) => {
-  const Payments = sequelize.define(
-    "payments",
+  const States = sequelize.define(
+    "states",
     {
       id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
         allowNull: false,
+        unique: true,
       },
-      finalNumber: {
-        type: DataTypes.STRING(4),
+      name: {
+        type: DataTypes.STRING(100),
         allowNull: false,
+        unique: true,
         validate: {
           is: {
-            args: /^[0-9]{1,4}$/,
-            msg: PaymentsErrors.FINAL_NUMBER_INVALID,
+            args: /^[\p{L} -]{1,100}$/u,
+            msg: StatesErrors.NAME_INVALID,
           },
         },
       },
@@ -25,5 +27,5 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: false,
     }
   );
-  return Payments;
+  return States;
 };

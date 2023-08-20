@@ -68,7 +68,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           is: {
-            args: /^(?=.*[0-9].*)[0-9()+ ]{5,100}$/,
+            args: /^(?=.*[0-9].*)[0-9()+ -]{5,100}$/,
             msg: AddressesErrors.PHONE_INVALID,
           },
         },
