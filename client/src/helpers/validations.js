@@ -5,7 +5,7 @@ export const PatternValidations = {
   EMAIL: /^(?=.{6,100}$)[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
   PASSWORD: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,18}$/,
   ADDRESS: /^[a-zA-Z0-9\s.,'#-]{1,100}$/,
-  PHONE: /^(?=.*[0-9].*)[0-9()+ ]{5,100}$/,
+  PHONE: /^(?=.*[0-9].*)[0-9()+ -]{5,100}$/,
   COMMENTS: /^[a-zA-Z0-9\s.,!?"'()-]{0,200}$/,
   CARD_EXPIRATION_DATE: /^[0-9]{4}$/,
   CVC: /^[0-9]{3,4}$/,
