@@ -12,12 +12,12 @@ module.exports = (sequelize, DataTypes) => {
         unique: true,
       },
       name: {
-        type: DataTypes.STRING(100),
+        type: DataTypes.STRING(50),
         allowNull: false,
         unique: true,
         validate: {
           is: {
-            args: /^[\p{L} -]{1,100}$/u,
+            args: /^[a-zA-Z0-9\s\/]{1,50}$/,
             msg: StatesErrors.NAME_INVALID,
           },
         },

@@ -71,6 +71,46 @@ db.products.belongsTo(db.users, {
   targetId: "id",
 });
 
+//Cities with States
+db.states.hasMany(db.cities, {
+  foreignKey: "stateId",
+  sourceKey: "id",
+});
+db.cities.belongsTo(db.states, {
+  foreignKey: "stateId",
+  targetId: "id",
+});
+
+//Cities with Countries
+db.countries.hasMany(db.cities, {
+  foreignKey: "countryId",
+  sourceKey: "id",
+});
+db.cities.belongsTo(db.countries, {
+  foreignKey: "countryId",
+  targetId: "id",
+});
+
+//States with Countries
+db.countries.hasMany(db.states, {
+  foreignKey: "countryId",
+  sourceKey: "id",
+});
+db.states.belongsTo(db.countries, {
+  foreignKey: "countryId",
+  targetId: "id",
+});
+
+//AddressesTypes with Users
+db.users.hasMany(db.addressesTypes, {
+  foreignKey: "userId",
+  sourceKey: "id",
+});
+db.addressesTypes.belongsTo(db.users, {
+  foreignKey: "userId",
+  targetId: "id",
+});
+
 //Addresses with AddressesTypes
 db.addressesTypes.hasMany(db.addresses, {
   foreignKey: "addressTypeId",

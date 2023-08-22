@@ -14,12 +14,11 @@ module.exports = (sequelize, DataTypes) => {
         unique: true,
       },
       name: {
-        type: DataTypes.STRING(50),
+        type: DataTypes.STRING(20),
         allowNull: false,
-        unique: true,
         validate: {
           is: {
-            args: /^[\p{L} -]{1,50}$/u,
+            args: /^[a-zA-Z\s]{1,20}$/,
             msg: AddressesTypesErrors.NAME_INVALID,
           },
         },
