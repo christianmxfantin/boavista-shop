@@ -1,6 +1,5 @@
 const db = require("../../db/models/index.js");
 const ErrorHandler = require("../../utils/errorHandler.js");
-const { hashPassword } = require("../../utils/hashPassword.js");
 const logger = require("../../utils/logger.js");
 const { CategoriesErrors } = require("../categories/categories.errors.js");
 const { DiscountsErrors } = require("../discounts/discounts.errors.js");

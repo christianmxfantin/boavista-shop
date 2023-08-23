@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
         unique: true,
         validate: {
           is: {
-            args: /^[a-zA-Z0-9\s\/]{1,100}$/,
+            args: /^[\p{L} -]{1,100}$/u,
             msg: CountriesErrors.NAME_INVALID,
           },
         },

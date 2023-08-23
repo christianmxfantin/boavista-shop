@@ -3,8 +3,10 @@ const db = require("../../db/models/index.js");
 const ErrorHandler = require("../../utils/errorHandler.js");
 const logger = require("../../utils/logger.js");
 const { AddressesTypesErrors } = require("./addressesTypes.errors.js");
+const { UsersErrors } = require("../users/users.errors.js");
 
 const AddressesTypes = db.addressesTypes;
+const Users = db.users;
 
 const getAddressesTypes = async (req, res, next) => {
   try {
@@ -41,7 +43,7 @@ const createAddressType = async (req, res, next) => {
     const { userId } = req.body;
     const name = req.body.name.trim();
 
-    // Check if address type already exists (case-insensitive)
+    // Check if address type already exists (case-insensitive) for the same user
     const existingAddressType = await AddressesTypes.findOne({
       where: {
         userId,
@@ -54,6 +56,14 @@ const createAddressType = async (req, res, next) => {
     if (existingAddressType) {
       return res.status(409).json({
         message: AddressesTypesErrors.ADDRESS_TYPE_ALREADY_EXISTS,
+      });
+    }
+
+    //Check if userId exists in users table
+    const existingUser = await Users.findByPk(userId);
+    if (!existingUser) {
+      return res.status(404).json({
+        message: UsersErrors.USER_NOT_FOUND,
       });
     }
 
@@ -93,6 +103,14 @@ const updateAddressType = async (req, res, next) => {
     if (existingAddressName) {
       return res.status(409).json({
         message: AddressesTypesErrors.ADDRESS_TYPE_ALREADY_EXISTS,
+      });
+    }
+
+    //Check if userId exists in users table
+    const existingUser = await Users.findByPk(userId);
+    if (!existingUser) {
+      return res.status(404).json({
+        message: UsersErrors.USER_NOT_FOUND,
       });
     }
 

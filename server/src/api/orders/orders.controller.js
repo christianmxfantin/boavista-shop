@@ -64,6 +64,7 @@ const updateOrder = async (req, res, next) => {
     const { id } = req.params;
     const { userId } = req.body;
 
+    //Check if order id exists
     const existingOrder = await Orders.findByPk(id);
     if (!existingOrder) {
       return res.status(404).json({

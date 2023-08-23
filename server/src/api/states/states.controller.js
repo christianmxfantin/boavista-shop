@@ -3,8 +3,10 @@ const db = require("../../db/models/index.js");
 const ErrorHandler = require("../../utils/errorHandler.js");
 const logger = require("../../utils/logger.js");
 const { StatesErrors } = require("./states.errors.js");
+const { CountriesErrors } = require("../countries/countries.errors.js");
 
 const States = db.states;
+const Countries = db.countries;
 
 const getStates = async (req, res, next) => {
   try {
@@ -38,6 +40,7 @@ const getStateById = async (req, res, next) => {
 };
 const createState = async (req, res, next) => {
   try {
+    const { countryId } = req.body;
     const name = req.body.name.trim();
 
     // Check if state already exists (case-insensitive)
@@ -50,6 +53,14 @@ const createState = async (req, res, next) => {
     if (existingState) {
       return res.status(409).json({
         message: StatesErrors.STATE_ALREADY_EXISTS,
+      });
+    }
+
+    //Check if countryId exists in countries table
+    const existingCountry = await Countries.findByPk(countryId);
+    if (!existingCountry) {
+      return res.status(404).json({
+        message: CountriesErrors.COUNTRY_NOT_FOUND,
       });
     }
 
@@ -66,6 +77,7 @@ const createState = async (req, res, next) => {
 const updateState = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const { countryId } = req.body;
     const name = req.body.name.trim();
 
     const existingState = await States.findByPk(id);
@@ -85,6 +97,14 @@ const updateState = async (req, res, next) => {
     if (existingStateName) {
       return res.status(409).json({
         message: StatesErrors.STATE_ALREADY_EXISTS,
+      });
+    }
+
+    //Check if countryId exists in countries table
+    const existingCountry = await Countries.findByPk(countryId);
+    if (!existingCountry) {
+      return res.status(404).json({
+        message: CountriesErrors.COUNTRY_NOT_FOUND,
       });
     }
 
