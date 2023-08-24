@@ -3,6 +3,7 @@ const db = require("../../db/models/index.js");
 const ErrorHandler = require("../../utils/errorHandler.js");
 const logger = require("../../utils/logger.js");
 const { DiscountsErrors } = require("./discounts.errors.js");
+const { ApiErrors } = require("../api/api.errors.js");
 
 const Discounts = db.discounts;
 
@@ -25,7 +26,7 @@ const getDiscountById = async (req, res, next) => {
     const existingDiscount = await Discounts.findByPk(id);
     if (!existingDiscount) {
       return res.status(404).json({
-        message: DiscountsErrors.DISCOUNT_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 
@@ -68,7 +69,7 @@ const updateDiscount = async (req, res, next) => {
     const existingDiscountId = await Discounts.findByPk(id);
     if (!existingDiscountId) {
       return res.status(404).json({
-        message: DiscountsErrors.DISCOUNT_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 
@@ -99,7 +100,7 @@ const deleteDiscount = async (req, res, next) => {
     const existingDiscount = await Discounts.findByPk(id);
     if (!existingDiscount) {
       return res.status(404).json({
-        message: DiscountsErrors.DISCOUNT_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 

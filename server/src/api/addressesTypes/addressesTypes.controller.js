@@ -4,6 +4,7 @@ const ErrorHandler = require("../../utils/errorHandler.js");
 const logger = require("../../utils/logger.js");
 const { AddressesTypesErrors } = require("./addressesTypes.errors.js");
 const { UsersErrors } = require("../users/users.errors.js");
+const { ApiErrors } = require("../api/api.errors.js");
 
 const AddressesTypes = db.addressesTypes;
 const Users = db.users;
@@ -27,7 +28,7 @@ const getAddressTypeById = async (req, res, next) => {
     const existingAddressType = await AddressesTypes.findByPk(id);
     if (!existingAddressType) {
       return res.status(404).json({
-        message: AddressesTypesErrors.ADDRESS_TYPE_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 
@@ -86,7 +87,7 @@ const updateAddressType = async (req, res, next) => {
     const existingAddressType = await AddressesTypes.findByPk(id);
     if (!existingAddressType) {
       return res.status(404).json({
-        message: AddressesTypesErrors.ADDRESS_TYPE_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 
@@ -131,7 +132,7 @@ const deleteAddressType = async (req, res, next) => {
     const existingAddressType = await AddressesTypes.findByPk(id);
     if (!existingAddressType) {
       return res.status(404).json({
-        message: AddressesTypesErrors.ADDRESS_TYPE_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 

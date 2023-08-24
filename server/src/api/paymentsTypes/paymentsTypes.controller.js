@@ -3,6 +3,7 @@ const db = require("../../db/models/index.js");
 const ErrorHandler = require("../../utils/errorHandler.js");
 const logger = require("../../utils/logger.js");
 const { PaymentsTypesErrors } = require("./paymentsTypes.errors.js");
+const { ApiErrors } = require("../api/api.errors.js");
 
 const PaymentsTypes = db.paymentsTypes;
 
@@ -25,7 +26,7 @@ const getPaymentTypeById = async (req, res, next) => {
     const existingPaymentType = await PaymentsTypes.findByPk(id);
     if (!existingPaymentType) {
       return res.status(404).json({
-        message: PaymentsTypesErrors.PAYMENT_TYPE_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 
@@ -71,7 +72,7 @@ const updatePaymentType = async (req, res, next) => {
     const existingPaymentType = await PaymentsTypes.findByPk(id);
     if (!existingPaymentType) {
       return res.status(404).json({
-        message: PaymentsTypesErrors.PAYMENT_TYPE_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
     const updatePaymentType = await existingPaymentType.update(req.body);
@@ -91,7 +92,7 @@ const deletePaymentType = async (req, res, next) => {
     const existingPaymentType = await PaymentsTypes.findByPk(id);
     if (!existingPaymentType) {
       return res.status(404).json({
-        message: PaymentsTypes.PAYMENT_TYPE_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 

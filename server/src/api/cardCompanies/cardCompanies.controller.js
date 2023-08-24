@@ -3,6 +3,7 @@ const db = require("../../db/models/index.js");
 const ErrorHandler = require("../../utils/errorHandler.js");
 const logger = require("../../utils/logger.js");
 const { CardCompaniesErrors } = require("./cardCompanies.errors.js");
+const { ApiErrors } = require("../api/api.errors.js");
 
 const CardCompanies = db.cardCompanies;
 
@@ -25,7 +26,7 @@ const getCardCompanyById = async (req, res, next) => {
     const existingCardCompany = await CardCompanies.findByPk(id);
     if (!existingCardCompany) {
       return res.status(404).json({
-        message: CardCompaniesErrors.CARD_COMPANY_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 
@@ -71,7 +72,7 @@ const updateCardCompany = async (req, res, next) => {
     const existingCardCompany = await CardCompanies.findByPk(id);
     if (!existingCardCompany) {
       return res.status(404).json({
-        message: CardCompaniesErrors.CARD_COMPANY_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 
@@ -105,7 +106,7 @@ const deleteCardCompany = async (req, res, next) => {
     const existingCardCompany = await CardCompanies.findByPk(id);
     if (!existingCardCompany) {
       return res.status(404).json({
-        message: CardCompaniesErrors.CARD_COMPANY_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 

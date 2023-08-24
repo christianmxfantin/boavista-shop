@@ -1,6 +1,7 @@
 const db = require("../../db/models/index.js");
 const ErrorHandler = require("../../utils/errorHandler.js");
 const logger = require("../../utils/logger.js");
+const { ApiErrors } = require("../api/api.errors.js");
 const { CitiesErrors } = require("./cities.errors.js");
 const { createAndUpdateCity } = require("./cities.validations.js");
 
@@ -25,7 +26,7 @@ const getCityById = async (req, res, next) => {
     const existingCity = await Cities.findByPk(id);
     if (!existingCity) {
       return res.status(404).json({
-        message: CitiesErrors.CITY_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 
@@ -60,7 +61,7 @@ const updateCity = async (req, res, next) => {
       const existingCity = await Cities.findByPk(id);
       if (!existingCity) {
         return res.status(404).json({
-          message: CitiesErrors.CITY_NOT_FOUND,
+          message: ApiErrors.ID_NOT_FOUND,
         });
       }
 
@@ -82,7 +83,7 @@ const deleteCity = async (req, res, next) => {
     const existingCity = await Cities.findByPk(id);
     if (!existingCity) {
       return res.status(404).json({
-        message: CitiesErrors.CITY_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 

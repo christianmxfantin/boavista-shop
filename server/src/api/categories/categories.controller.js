@@ -1,6 +1,7 @@
 const { Sequelize } = require("sequelize");
 const db = require("../../db/models/index.js");
 const { CategoriesErrors } = require("./categories.errors.js");
+const { ApiErrors } = require("../api/api.errors.js");
 
 const Categories = db.categories;
 
@@ -23,7 +24,7 @@ const getCategoryById = async (req, res, next) => {
     const existingCategory = await Categories.findByPk(id);
     if (!existingCategory) {
       return res.status(404).json({
-        message: CategoriesErrors.CATEGORY_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 
@@ -69,7 +70,7 @@ const updateCategory = async (req, res, next) => {
     const existingCategoryId = await Categories.findByPk(id);
     if (!existingCategoryId) {
       return res.status(404).json({
-        message: CategoriesErrors.CATEGORY_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 
@@ -103,7 +104,7 @@ const deleteCategory = async (req, res, next) => {
     const existingCategory = await Categories.findByPk(id);
     if (!existingCategory) {
       return res.status(404).json({
-        message: CategoriesErrors.CATEGORY_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 

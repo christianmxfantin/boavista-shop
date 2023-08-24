@@ -1,6 +1,7 @@
 const db = require("../../db/models/index.js");
 const ErrorHandler = require("../../utils/errorHandler.js");
 const logger = require("../../utils/logger.js");
+const { ApiErrors } = require("../api/api.errors.js");
 const { ProductsErrors } = require("./products.errors.js");
 const { createAndUpdateProduct } = require("./products.validations.js");
 
@@ -25,7 +26,7 @@ const getProductById = async (req, res, next) => {
     const existingProduct = await Products.findByPk(id);
     if (!existingProduct) {
       return res.status(404).json({
-        message: ProductsErrors.PRODUCT_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 
@@ -60,7 +61,7 @@ const updateProduct = async (req, res, next) => {
       const existingProduct = await Products.findByPk(id);
       if (!existingProduct) {
         return res.status(404).json({
-          message: ProductsErrors.PRODUCT_NOT_FOUND,
+          message: ApiErrors.ID_NOT_FOUND,
         });
       }
 
@@ -81,15 +82,7 @@ const deleteProduct = async (req, res, next) => {
     const existingProduct = await Products.findByPk(id);
     if (!existingProduct) {
       return res.status(404).json({
-        message: ProductsErrors.PRODUCT_NOT_FOUND,
-      });
-    }
-
-    //Check if userId is Admin
-    const existingRole = await Roles.findByPk(userId);
-    if (existingRole.name.toLowerCase().trim() !== "admin") {
-      return res.status(404).json({
-        message: ProductsErrors.ROLE_DELETE_ACTION,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 

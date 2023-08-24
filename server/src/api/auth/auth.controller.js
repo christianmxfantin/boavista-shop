@@ -8,6 +8,7 @@ const ErrorHandler = require("../../utils/errorHandler.js");
 const logger = require("../../utils/logger.js");
 const { createAndUpdateUser } = require("../users/users.validations.js");
 const { hashPassword } = require("../../utils/hashPassword.js");
+const { ApiErrors } = require("../api/api.errors.js");
 
 const Roles = db.roles;
 const Users = db.users;
@@ -158,7 +159,7 @@ const changePassword = async (req, res, next) => {
     const existingUser = await Users.findByPk(id);
     if (!existingUser) {
       return res.status(404).json({
-        message: UsersErrors.USER_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 

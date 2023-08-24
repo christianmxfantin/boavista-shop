@@ -3,6 +3,7 @@ const db = require("../../db/models/index.js");
 const ErrorHandler = require("../../utils/errorHandler.js");
 const logger = require("../../utils/logger.js");
 const { CountriesErrors } = require("./countries.errors.js");
+const { ApiErrors } = require("../api/api.errors.js");
 
 const Countries = db.countries;
 
@@ -25,7 +26,7 @@ const getCountryById = async (req, res, next) => {
     const existingCountry = await Countries.findByPk(id);
     if (!existingCountry) {
       return res.status(404).json({
-        message: CountriesErrors.COUNTRY_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 
@@ -71,7 +72,7 @@ const updateCountry = async (req, res, next) => {
     const existingCountry = await Countries.findByPk(id);
     if (!existingCountry) {
       return res.status(404).json({
-        message: CountriesErrors.COUNTRY_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 
@@ -105,7 +106,7 @@ const deleteCountry = async (req, res, next) => {
     const existingCountry = await Countries.findByPk(id);
     if (!existingCountry) {
       return res.status(404).json({
-        message: CountriesErrors.COUNTRY_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 

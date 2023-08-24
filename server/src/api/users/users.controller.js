@@ -3,6 +3,7 @@ const { UsersErrors } = require("./users.errors.js");
 const ErrorHandler = require("../../utils/errorHandler.js");
 const logger = require("../../utils/logger.js");
 const { createAndUpdateUser } = require("./users.validations.js");
+const { ApiErrors } = require("../api/api.errors.js");
 
 const Users = db.users;
 
@@ -27,7 +28,7 @@ const getUserById = async (req, res, next) => {
     const existingUser = await Users.findByPk(id);
     if (!existingUser) {
       return res.status(404).json({
-        message: UsersErrors.USER_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 
@@ -89,7 +90,7 @@ const updateUser = async (req, res, next) => {
       const existingUser = await Users.findByPk(id);
       if (!existingUser) {
         return res.status(404).json({
-          message: UsersErrors.USER_NOT_FOUND,
+          message: ApiErrors.ID_NOT_FOUND,
         });
       }
 
@@ -116,7 +117,7 @@ const deleteUser = async (req, res, next) => {
     const existingUser = await Users.findByPk(id);
     if (!existingUser) {
       return res.status(404).json({
-        message: UsersErrors.USER_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 

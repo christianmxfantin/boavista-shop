@@ -1,6 +1,7 @@
 const db = require("../../db/models/index.js");
 const ErrorHandler = require("../../utils/errorHandler.js");
 const logger = require("../../utils/logger.js");
+const { ApiErrors } = require("../api/api.errors.js");
 const { UsersErrors } = require("../users/users.errors.js");
 const { OrdersErrors } = require("./orders.errors.js");
 
@@ -26,7 +27,7 @@ const getOrderById = async (req, res, next) => {
     const existingOrder = await Orders.findByPk(id);
     if (!existingOrder) {
       return res.status(404).json({
-        message: OrdersErrors.ORDER_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 
@@ -68,7 +69,7 @@ const updateOrder = async (req, res, next) => {
     const existingOrder = await Orders.findByPk(id);
     if (!existingOrder) {
       return res.status(404).json({
-        message: OrdersErrors.ORDER_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 
@@ -97,7 +98,7 @@ const deleteOrder = async (req, res, next) => {
     const existingOrder = await Orders.findByPk(id);
     if (!existingOrder) {
       return res.status(404).json({
-        message: OrdersErrors.ORDER_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 

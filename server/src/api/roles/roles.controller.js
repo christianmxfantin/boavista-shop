@@ -3,6 +3,7 @@ const db = require("../../db/models/index.js");
 const ErrorHandler = require("../../utils/errorHandler.js");
 const logger = require("../../utils/logger.js");
 const { RolesErrors } = require("./roles.errors.js");
+const { ApiErrors } = require("../api/api.errors.js");
 
 const Roles = db.roles;
 
@@ -25,7 +26,7 @@ const getRoleById = async (req, res, next) => {
     const existingRole = await Roles.findByPk(id);
     if (!existingRole) {
       return res.status(404).json({
-        message: RolesErrors.ROLE_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 
@@ -71,7 +72,7 @@ const updateRole = async (req, res, next) => {
     const existingRole = await Roles.findByPk(id);
     if (!existingRole) {
       return res.status(404).json({
-        message: RolesErrors.ROLE_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 
@@ -105,7 +106,7 @@ const deleteRole = async (req, res, next) => {
     const existingRole = await Roles.findByPk(id);
     if (!existingRole) {
       return res.status(404).json({
-        message: RolesErrors.ROLE_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 

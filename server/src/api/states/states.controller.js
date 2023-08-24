@@ -4,6 +4,7 @@ const ErrorHandler = require("../../utils/errorHandler.js");
 const logger = require("../../utils/logger.js");
 const { StatesErrors } = require("./states.errors.js");
 const { CountriesErrors } = require("../countries/countries.errors.js");
+const { ApiErrors } = require("../api/api.errors.js");
 
 const States = db.states;
 const Countries = db.countries;
@@ -27,7 +28,7 @@ const getStateById = async (req, res, next) => {
     const existingState = await States.findByPk(id);
     if (!existingState) {
       return res.status(404).json({
-        message: StatesErrors.STATE_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 
@@ -83,7 +84,7 @@ const updateState = async (req, res, next) => {
     const existingState = await States.findByPk(id);
     if (!existingState) {
       return res.status(404).json({
-        message: StatesErrors.STATE_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 
@@ -125,7 +126,7 @@ const deleteState = async (req, res, next) => {
     const existingState = await States.findByPk(id);
     if (!existingState) {
       return res.status(404).json({
-        message: StatesErrors.STATE_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 

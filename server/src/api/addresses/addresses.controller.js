@@ -26,7 +26,7 @@ const getAddressById = async (req, res, next) => {
     const existingAddress = await Addresses.findByPk(id);
     if (!existingAddress) {
       return res.status(404).json({
-        message: AddressesErrors.ADDRESS_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 
@@ -82,7 +82,7 @@ const deleteAddress = async (req, res, next) => {
     const existingAddress = await Addresses.findByPk(id);
     if (!existingAddress) {
       return res.status(404).json({
-        message: AddressesErrors.ADDRESS_NOT_FOUND,
+        message: ApiErrors.ID_NOT_FOUND,
       });
     }
 
