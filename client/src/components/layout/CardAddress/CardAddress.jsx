@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTheme } from "@emotion/react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   Button,
   FormControl,
@@ -19,6 +21,9 @@ import PaymentDetails from "../../checkout/Payment/PaymentDetails/PaymentDetails
 import { Icon } from "../../ui/Icon";
 import { getAddressesResponse } from "../../../api/addresses";
 import { getPaymentsResponse } from "../../../api/payments";
+import { ErrorsMessages } from "../../../utils/toastMessages";
+import { toastColor } from "../../../utils/toastOptions";
+import { useSelector } from "react-redux";
 
 const CardAddress = ({
   formType,
@@ -32,24 +37,49 @@ const CardAddress = ({
   setIsButtonDisabled,
 }) => {
   const theme = useTheme();
+  const { user } = useSelector((state) => state.auth);
+  const userID = user.id;
+
   const [data, setData] = useState([]);
   const [showAddNew, setShowAddNew] = useState(false);
   const [selectedValue, setSelectedValue] = useState(0);
+
+  const statusErrors = (error) => {
+    //client error
+    if (error.response.status > 399 || error.response.status < 500) {
+      toast.error(ErrorsMessages.CLIENT_STATUS, toastColor("error"));
+      return;
+    }
+    //server error
+    if (error.response.status > 499) {
+      toast.error(ErrorsMessages.SERVER_STATUS, toastColor("error"));
+      return;
+    }
+  };
 
   useEffect(() => {
     const getData = async () => {
       try {
         if (itemType === "address") {
           const res = await getAddressesResponse();
-          setData(res.data);
+          const addresses = res.data.filter(
+            (address) => address.userId === userID
+          );
+          setData(addresses);
         }
 
         if (itemType === "card") {
           const res = await getPaymentsResponse();
-          setData(res.data);
+          const cards = res.data.filter((card) => card.userId === userID);
+          setData(cards);
         }
       } catch (error) {
-        console.log(error);
+        statusErrors(error);
+
+        if (!error.response) {
+          toast.error(ErrorsMessages.RESPONSE_ERROR, toastColor("error"));
+          return;
+        }
       }
     };
     getData();
@@ -57,7 +87,7 @@ const CardAddress = ({
     if (formType !== "profile") {
       setIsButtonDisabled(true);
     }
-  }, [formType, itemType, setIsButtonDisabled]);
+  }, [formType, itemType, setIsButtonDisabled, userID]);
 
   const handleChangeRadio = (id) => {
     setSelectedValue(id);
@@ -94,99 +124,102 @@ const CardAddress = ({
       />
     )
   ) : (
-    <CardAddressContainer
-      sx={{
-        width:
-          formType === "payment"
-            ? "50%"
-            : formType === "profile"
-            ? "100%"
-            : "inherit",
-        marginTop: formType === "payment" && theme.spacing(2),
-      }}
-    >
-      <CardAddressItemContainer>
-        {formType !== "profile" ? (
-          <FormControl defaultValue="">
-            <RadioGroup>
+    <>
+      <CardAddressContainer
+        sx={{
+          width:
+            formType === "payment"
+              ? "50%"
+              : formType === "profile"
+              ? "100%"
+              : "inherit",
+          marginTop: formType === "payment" && theme.spacing(2),
+        }}
+      >
+        <CardAddressItemContainer>
+          {formType !== "profile" ? (
+            <FormControl defaultValue="">
+              <RadioGroup>
+                {data.map((data) => (
+                  <FormControlLabel
+                    key={data.id}
+                    sx={{
+                      margin: 0,
+                      marginBottom: theme.spacing(1),
+                      padding: theme.spacing(1),
+                      borderRadius: theme.spacing(1),
+                      "&:hover": {
+                        backgroundColor: theme.palette.primary[300],
+                        color: theme.palette.secondary.A100,
+                      },
+                    }}
+                    value={data.id}
+                    control={
+                      <Radio
+                        name={`id${data.id}`}
+                        checked={selectedValue === data.id}
+                        onChange={() => handleChangeRadio(data.id)}
+                        value={data.id}
+                        inputProps={{ "aria-label": `id${data.id}` }}
+                      />
+                    }
+                    label={
+                      <CardAddressItemTitle
+                        data={data}
+                        formType={formType}
+                        itemType={itemType}
+                        setShowAddNew={setShowAddNew}
+                      />
+                    }
+                  />
+                ))}
+              </RadioGroup>
+            </FormControl>
+          ) : (
+            <>
               {data.map((data) => (
-                <FormControlLabel
+                <CardAddressItem
                   key={data.id}
                   sx={{
-                    margin: 0,
-                    marginBottom: theme.spacing(1),
-                    padding: theme.spacing(1),
-                    borderRadius: theme.spacing(1),
                     "&:hover": {
                       backgroundColor: theme.palette.primary[300],
                       color: theme.palette.secondary.A100,
                     },
                   }}
-                  value={data.id}
-                  control={
-                    <Radio
-                      name={`id${data.id}`}
-                      checked={selectedValue === data.id}
-                      onChange={() => handleChangeRadio(data.id)}
-                      value={data.id}
-                      inputProps={{ "aria-label": `id${data.id}` }}
-                    />
-                  }
-                  label={
-                    <CardAddressItemTitle
-                      data={data}
-                      formType={formType}
-                      itemType={itemType}
-                      setShowAddNew={setShowAddNew}
-                    />
-                  }
-                />
-              ))}
-            </RadioGroup>
-          </FormControl>
-        ) : (
-          <>
-            {data.map((data) => (
-              <CardAddressItem
-                key={data.id}
-                sx={{
-                  "&:hover": {
-                    backgroundColor: theme.palette.primary[300],
-                    color: theme.palette.secondary.A100,
-                  },
-                }}
-              >
-                <IconContainer
-                  sx={{ alignItems: itemType === "address" && "center" }}
                 >
-                  <Icon
-                    name={
-                      itemType === "address" ? "address-card" : "credit-card"
-                    }
+                  <IconContainer
+                    sx={{ alignItems: itemType === "address" && "center" }}
+                  >
+                    <Icon
+                      name={
+                        itemType === "address" ? "address-card" : "credit-card"
+                      }
+                    />
+                  </IconContainer>
+                  <CardAddressItemTitle
+                    data={data}
+                    formType={formType}
+                    itemType={itemType}
+                    setShowAddNew={setShowAddNew}
                   />
-                </IconContainer>
-                <CardAddressItemTitle
-                  data={data}
-                  formType={formType}
-                  itemType={itemType}
-                  setShowAddNew={setShowAddNew}
-                />
-              </CardAddressItem>
-            ))}
-          </>
-        )}
-      </CardAddressItemContainer>
-      <Button
-        variant={formType === "profile" ? "text" : "contained"}
-        disabled={formType !== "profile" && !isButtonDisabled}
-        onClick={handleClickButton}
-        sx={{ width: "100%", marginTop: formType === "profile" && "16px" }}
-      >
-        {itemType === "address"
-          ? "Agregar Nueva Dirección"
-          : "Agregar Método de Pago"}
-      </Button>
-    </CardAddressContainer>
+                </CardAddressItem>
+              ))}
+            </>
+          )}
+        </CardAddressItemContainer>
+        <Button
+          variant={formType === "profile" ? "text" : "contained"}
+          disabled={formType !== "profile" && !isButtonDisabled}
+          onClick={handleClickButton}
+          sx={{ width: "100%", marginTop: formType === "profile" && "16px" }}
+        >
+          {itemType === "address"
+            ? "Agregar Nueva Dirección"
+            : "Agregar Método de Pago"}
+        </Button>
+      </CardAddressContainer>
+      <ToastContainer />
+    </>
   );
 };
 
