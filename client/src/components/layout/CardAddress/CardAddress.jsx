@@ -100,7 +100,7 @@ const CardAddress = ({
     }
   };
 
-  const handleClickButton = () => {
+  const handleAddNewButton = () => {
     setShowAddNew(true);
   };
 
@@ -210,7 +210,7 @@ const CardAddress = ({
         <Button
           variant={formType === "profile" ? "text" : "contained"}
           disabled={formType !== "profile" && !isButtonDisabled}
-          onClick={handleClickButton}
+          onClick={handleAddNewButton}
           sx={{ width: "100%", marginTop: formType === "profile" && "16px" }}
         >
           {itemType === "address"

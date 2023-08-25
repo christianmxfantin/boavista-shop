@@ -13,9 +13,11 @@ import { getPaymentsTypesResponse } from "../../../api/paymentsType";
 import { getCardCompaniesResponse } from "../../../api/cardCompanies";
 import { ErrorsMessages } from "../../../utils/toastMessages";
 import { toastColor } from "../../../utils/toastOptions";
+import { getAddressesTypesResponse } from "../../../api/addressesTypes";
 
 const CardAddressItemTitle = ({ data, formType, itemType, setShowAddNew }) => {
   const theme = useTheme();
+  const [addressType, setAddressType] = useState([]);
   const [paymentType, setPaymentType] = useState([]);
   const [cardCompany, setCardCompany] = useState([]);
 
@@ -35,6 +37,8 @@ const CardAddressItemTitle = ({ data, formType, itemType, setShowAddNew }) => {
   useEffect(() => {
     const getData = async () => {
       try {
+        const address = await getAddressesTypesResponse();
+        setAddressType(address.data);
         const type = await getPaymentsTypesResponse();
         setPaymentType(type.data);
         const name = await getCardCompaniesResponse();
@@ -50,6 +54,11 @@ const CardAddressItemTitle = ({ data, formType, itemType, setShowAddNew }) => {
     };
     getData();
   }, []);
+
+  const addressTypeName = (addressTypeId) => {
+    const address = addressType.find((data) => data.id === addressTypeId);
+    return address && address.name;
+  };
 
   const typeCard = (paymentTypeId) => {
     const card = paymentType.find((data) => data.id === paymentTypeId);
@@ -71,7 +80,7 @@ const CardAddressItemTitle = ({ data, formType, itemType, setShowAddNew }) => {
                 marginLeft: theme.spacing(2),
               }}
             >
-              {data.type}
+              {`${addressTypeName(data.addressTypeId)}`}
             </ItemTitle>
             <ItemData variant="subtitle2">{data.address}</ItemData>
           </ItemTitleContainer>

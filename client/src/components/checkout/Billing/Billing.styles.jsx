@@ -30,11 +30,7 @@ export const CheckoutContainer = styled(Box)(({ theme }) => ({
   flexDirection: "column",
 }));
 
-export const NamesInput = styled(TextField)(({ theme }) => ({
-  marginTop: theme.spacing(2), //16px
-}));
-
-export const SurnamesInput = styled(TextField)(({ theme }) => ({
+export const AddressTypeInput = styled(TextField)(({ theme }) => ({
   //styles
 }));
 

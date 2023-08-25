@@ -1,5 +1,8 @@
 import { useState, useRef, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useTheme } from "@emotion/react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Icon as EditIcon, Icon } from "../../ui/Icon";
 import {
   BillingContainer,
@@ -7,8 +10,7 @@ import {
   BillingTitle,
   DataContainer,
   CheckoutContainer,
-  NamesInput,
-  SurnamesInput,
+  AddressTypeInput,
   AddressInput,
   CommentsInput,
   EmailInput,
@@ -34,6 +36,14 @@ import CardAddress from "../../layout/CardAddress/CardAddress";
 import { UsersErrors } from "../../../errors/users.errors";
 import { EmptyFieldError } from "../../../errors/emptyField.errors";
 import { AddressesErrors } from "../../../errors/addresses.errors";
+import { createAddressResponse } from "../../../api/addresses";
+import { ErrorsMessages, SuccessMessages } from "../../../utils/toastMessages";
+import { toastColor } from "../../../utils/toastOptions";
+import {
+  addressTypeByNameResponse,
+  createAddressTypeResponse,
+} from "../../../api/addressesTypes";
+import { cityByNameResponse } from "../../../api/cities";
 
 const Billing = ({
   formType,
@@ -50,6 +60,7 @@ const Billing = ({
 }) => {
   const theme = useTheme();
   const nameInput = useRef();
+  const { user } = useSelector((state) => state.auth);
 
   const [showMyAddress, setShowMyAddress] = useState(false);
   const [editCheckoutMode, setEditCheckoutMode] = useState(false);
@@ -57,6 +68,19 @@ const Billing = ({
 
   const provincias = useProvincias();
   const localidades = useLocalidades({ provincia });
+
+  const statusErrors = (error) => {
+    //client error
+    if (error.response.status > 399 || error.response.status < 500) {
+      toast.error(ErrorsMessages.CLIENT_STATUS, toastColor("error"));
+      return;
+    }
+    //server error
+    if (error.response.status > 499) {
+      toast.error(ErrorsMessages.SERVER_STATUS, toastColor("error"));
+      return;
+    }
+  };
 
   //API Fake
   let api = true;
@@ -133,11 +157,12 @@ const Billing = ({
   };
 
   const handleCancel = () => {
-    if (Object.keys(errors).length === 0) {
-      if (formType === "profile") {
-        reset();
-      }
+    if (formType === "profile") {
+      setShowMyAddress(true);
+      reset();
+    }
 
+    if (Object.keys(errors).length === 0) {
       if (formType === "billing") {
         setShowMyAddress(false);
       } else if (formType === "profile" || formType === "shipping") {
@@ -163,18 +188,66 @@ const Billing = ({
   // stateRef.current.childNodes[0].textContent = "Selecciona tu Provincia";
   // cityRef.current.childNodes[0].textContent = "Selecciona tu Localidad";
 
-  const onSubmit = (formValues) => {
-    console.log(formValues);
+  const onSubmit = async (formValues) => {
+    // console.log(formValues);
+
+    if (formType === "profile" || (formType === "shipping" && !showMyAddress)) {
+      //save new address
+      try {
+        const addressTypeName = {
+          name: formValues.addressType.toLowerCase().trim(),
+          userId: user.id,
+        };
+        await addressTypeByNameResponse(addressTypeName);
+
+        const addressTypeResponse = await createAddressTypeResponse(
+          addressTypeName
+        );
+
+        const addressTypeId = addressTypeResponse.data.id;
+
+        const city = await cityByNameResponse({ name: formValues.city.trim() });
+        const cityId = city.data.id;
+
+        const stateId = city.data.stateId;
+        const countryId = city.data.countryId;
+
+        const newAddress = {
+          address: formValues.address.trim(),
+          phone: formValues.phone.trim(),
+          addressTypeId,
+          cityId,
+          stateId,
+          countryId,
+          userId: user.id,
+        };
+
+        await createAddressResponse(newAddress);
+        toast.success(SuccessMessages.CHANGES_DONE, toastColor("success"));
+      } catch (error) {
+        console.log(error);
+        if (error.response.statusText === "Conflict") {
+          toast.error(error.response.data.message, toastColor("error"));
+          return;
+        }
+
+        statusErrors(error);
+
+        if (!error.response) {
+          toast.error(ErrorsMessages.RESPONSE_ERROR, toastColor("error"));
+          return;
+        }
+      }
+    }
 
     if (formType === "billing") {
-      //save billing data
       setStepperData((prevData) => ({ ...prevData, billing: formValues }));
       handleRight();
     }
 
-    if (formType === "shipping" && !showMyAddress) {
-      //save new address
-    }
+    // if (formType === "shipping" && !showMyAddress) {
+    //   //save new address
+    // }
 
     if (
       formType === "billing-confirmation" ||
@@ -231,72 +304,36 @@ const Billing = ({
               }}
             >
               {(formType === "billing" ||
-                formType === "profile" ||
-                formType === "billing-confirmation") && (
-                <>
-                  <NamesInput
-                    name="names"
-                    type="text"
-                    variant="outlined"
-                    size="small"
-                    placeholder="Ingresa tus Nombres"
-                    disabled={
-                      (formType === "billing" && !editCheckoutMode) ||
-                      (formType === "billing-confirmation" &&
-                        !editConfirmationData)
-                    }
-                    inputRef={nameInput}
-                    required
-                    {...register("names", {
-                      required: true,
-                      pattern: PatternValidations.NAMES_AND_SURNAMES,
-                    })}
-                    error={!!errors.names}
-                    helperText={
-                      watch("names")
-                        ? errors.names && UsersErrors.NAMES_INVALID
-                        : errors.names && EmptyFieldError.EMPTY_ERROR
-                    }
-                  />
-                  <SurnamesInput
-                    name="surnames"
-                    type="text"
-                    variant="outlined"
-                    size="small"
-                    placeholder="Ingresa tus Apellidos"
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <Tooltip title="En el mundo hay varias personas sin apellidos, por ese motivo no es un campo requerido. De igual modo, te sugerimos que completes este campo si lo tienes.">
-                            <IconButton edge="end">
-                              <Icon
-                                name="Info"
-                                color={theme.palette.primary[300]}
-                              />
-                            </IconButton>
-                          </Tooltip>
-                        </InputAdornment>
-                      ),
-                    }}
-                    disabled={
-                      (formType === "billing" && !editCheckoutMode) ||
-                      (formType === "billing-confirmation" &&
-                        !editConfirmationData)
-                    }
-                    {...register("surnames", {
-                      pattern: PatternValidations.NAMES_AND_SURNAMES,
-                    })}
-                    error={!!errors.surnames}
-                    helperText={errors.surnames && UsersErrors.SURNAMES_INVALID}
-                  />
-                </>
-              )}
-              {(formType === "billing" ||
                 formType === "shipping" ||
                 formType === "profile" ||
                 formType === "billing-confirmation" ||
                 formType === "shipping-confirmation") && (
                 <>
+                  <AddressTypeInput
+                    name="addressType"
+                    type="text"
+                    variant="outlined"
+                    size="small"
+                    placeholder="Ingresa un Tipo de Dirección. Ej: Casa, Trabajo, etc."
+                    disabled={
+                      (formType === "billing" && !editCheckoutMode) ||
+                      (formType === "billing-confirmation" &&
+                        !editConfirmationData) ||
+                      (formType === "shipping-confirmation" &&
+                        !editConfirmationData)
+                    }
+                    required
+                    {...register("addressType", {
+                      required: true,
+                      pattern: PatternValidations.NAMES_AND_SURNAMES,
+                    })}
+                    error={!!errors.addressType}
+                    helperText={
+                      watch("addressType")
+                        ? errors.addressType && UsersErrors.NAMES_INVALID
+                        : errors.addressType && EmptyFieldError.EMPTY_ERROR
+                    }
+                  />
                   <AddressInput
                     name="address"
                     type="text"
@@ -327,7 +364,9 @@ const Billing = ({
                       name="state"
                       control={control}
                       rules={{ required: true }}
-                      defaultValue={formType === "billing" && 1}
+                      defaultValue={
+                        (formType === "billing" || formType === "profile") && 1
+                      }
                       render={({ field }) => (
                         <>
                           <StateSelect
@@ -369,7 +408,9 @@ const Billing = ({
                     <Controller
                       name="city"
                       control={control}
-                      defaultValue={formType === "billing" && 1}
+                      defaultValue={
+                        (formType === "billing" || formType === "profile") && 1
+                      }
                       rules={{ required: true }}
                       render={({ field }) => (
                         <>
@@ -527,6 +568,7 @@ const Billing = ({
           </DataContainer>
         </BillingContainer>
       )}
+      <ToastContainer />
     </section>
   );
 };
