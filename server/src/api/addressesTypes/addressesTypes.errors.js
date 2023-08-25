@@ -1,6 +1,6 @@
 const AddressesTypesErrors = {
-  NAME_INVALID: "El nombre ingresado no es válido.",
-  ADDRESS_TYPE_ALREADY_EXISTS: "El nombre ingresado ya existe.",
+  NAME_INVALID: "El tipo de dirección ingresado no es válido.",
+  ADDRESS_TYPE_ALREADY_EXISTS: "El tipo de dirección ingresado ya existe.",
 };
 
 module.exports = { AddressesTypesErrors };

@@ -1,3 +1,4 @@
+const { Sequelize } = require("sequelize");
 const db = require("../../db/models/index.js");
 const ErrorHandler = require("../../utils/errorHandler.js");
 const logger = require("../../utils/logger.js");
@@ -37,6 +38,31 @@ const getCityById = async (req, res, next) => {
     next(error);
   }
 };
+
+const cityByName = async (req, res, next) => {
+  try {
+    const name = req.body.name.trim();
+
+    const existingCity = await Cities.findOne({
+      where: Sequelize.where(
+        Sequelize.fn("LOWER", Sequelize.col("name")),
+        Sequelize.fn("LOWER", name)
+      ),
+    });
+    if (!existingCity) {
+      return res.status(404).json({
+        message: CitiesErrors.CITY_NOT_FOUND,
+      });
+    }
+
+    return res.status(200).json(existingCity);
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
+  }
+};
+
 const createCity = async (req, res, next) => {
   try {
     const cityData = await createAndUpdateCity(req, res, next);
@@ -103,6 +129,7 @@ const deleteCity = async (req, res, next) => {
 module.exports = {
   getCities,
   getCityById,
+  cityByName,
   createCity,
   updateCity,
   deleteCity,
