@@ -39,6 +39,31 @@ const getStateById = async (req, res, next) => {
     next(error);
   }
 };
+
+const stateByName = async (req, res, next) => {
+  try {
+    const name = req.body.name.trim();
+
+    const existingState = await States.findOne({
+      where: Sequelize.where(
+        Sequelize.fn("LOWER", Sequelize.col("name")),
+        Sequelize.fn("LOWER", name)
+      ),
+    });
+    if (!existingState) {
+      return res.status(200).json({
+        message: StatesErrors.STATE_IS_AVAILABLE,
+      });
+    }
+
+    return res.status(200).json(existingState);
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
+  }
+};
+
 const createState = async (req, res, next) => {
   try {
     const { countryId } = req.body;
@@ -146,6 +171,7 @@ const deleteState = async (req, res, next) => {
 module.exports = {
   getStates,
   getStateById,
+  stateByName,
   createState,
   updateState,
   deleteState,

@@ -5,6 +5,7 @@ const statesController = require("./states.controller");
 router
   .get("/", statesController.getStates)
   .get("/:id", statesController.getStateById)
+  .post("/name", statesController.stateByName)
   .post("/", statesController.createState)
   .put("/:id", statesController.updateState)
   .delete("/:id", statesController.deleteState);
