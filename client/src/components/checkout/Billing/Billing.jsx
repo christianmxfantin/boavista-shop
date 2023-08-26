@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useTheme } from "@emotion/react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Icon as EditIcon, Icon } from "../../ui/Icon";
+import { Icon as EditIcon } from "../../ui/Icon";
 import {
   BillingContainer,
   BillingTitleContainer,
@@ -13,7 +13,6 @@ import {
   AddressTypeInput,
   AddressInput,
   CommentsInput,
-  EmailInput,
   PhoneInput,
   StateSelectContainer,
   StateSelect,
@@ -25,13 +24,7 @@ import useLocalidades from "../../../hooks/useLocalidades";
 import { Controller, useForm } from "react-hook-form";
 import ButtonsContainer from "../../layout/ButtonsContainer/ButtonsContainer";
 import { PatternValidations } from "../../../helpers/validations";
-import {
-  FormHelperText,
-  IconButton,
-  InputAdornment,
-  MenuItem,
-  Tooltip,
-} from "@mui/material";
+import { FormHelperText, MenuItem } from "@mui/material";
 import CardAddress from "../../layout/CardAddress/CardAddress";
 import { UsersErrors } from "../../../errors/users.errors";
 import { EmptyFieldError } from "../../../errors/emptyField.errors";
@@ -43,7 +36,7 @@ import {
   addressTypeByNameResponse,
   createAddressTypeResponse,
 } from "../../../api/addressesTypes";
-import { cityByNameResponse } from "../../../api/cities";
+import { cityByNameResponse, createCityResponse } from "../../../api/cities";
 
 const Billing = ({
   formType,
@@ -194,21 +187,46 @@ const Billing = ({
     if (formType === "profile" || (formType === "shipping" && !showMyAddress)) {
       //save new address
       try {
+        let addressTypeId;
+
+        //envio el tipo de direccion y el usuario para obtener el id
         const addressTypeName = {
           name: formValues.addressType.toLowerCase().trim(),
           userId: user.id,
         };
-        await addressTypeByNameResponse(addressTypeName);
-
-        const addressTypeResponse = await createAddressTypeResponse(
+        const addressTypeNameResponse = await addressTypeByNameResponse(
           addressTypeName
         );
 
-        const addressTypeId = addressTypeResponse.data.id;
+        //si el tipo de direccion no existe, lo creo
+        if (
+          addressTypeNameResponse.data.message ===
+          "El tipo de dirección ingresado está disponible."
+        ) {
+          const addressTypeResponse = await createAddressTypeResponse(
+            addressTypeName
+          );
+          addressTypeId = addressTypeResponse.data.id;
+        } else {
+          //si existe, guardo el id
+          addressTypeId = addressTypeNameResponse.data.id;
+        }
 
+        //busco si la ciudad esta disponible
         const city = await cityByNameResponse({ name: formValues.city.trim() });
-        const cityId = city.data.id;
 
+        if (
+          city.data.message === "El nombre de Ciudad ingresado está disponible."
+        ) {
+          //si la ciudad no existe, la creo
+          const cityResponse = await createCityResponse(addressTypeName);
+          addressTypeId = addressTypeResponse.data.id;
+        } else {
+          //si existe, guardo el id
+          addressTypeId = addressTypeNameResponse.data.id;
+        }
+
+        const cityId = city.data.id;
         const stateId = city.data.stateId;
         const countryId = city.data.countryId;
 
@@ -228,6 +246,7 @@ const Billing = ({
         console.log(error);
         if (error.response.statusText === "Conflict") {
           toast.error(error.response.data.message, toastColor("error"));
+          reset();
           return;
         }
 
@@ -487,54 +506,29 @@ const Billing = ({
               {(formType === "billing" ||
                 formType === "profile" ||
                 formType === "billing-confirmation") && (
-                <>
-                  <EmailInput
-                    name="email"
-                    type="email"
-                    variant="outlined"
-                    size="small"
-                    placeholder="Ingresa tu Email"
-                    disabled={
-                      (formType === "billing" && !editCheckoutMode) ||
-                      (formType === "billing-confirmation" &&
-                        !editConfirmationData)
-                    }
-                    required
-                    {...register("email", {
-                      required: true,
-                      pattern: PatternValidations.EMAIL,
-                    })}
-                    error={!!errors.email}
-                    helperText={
-                      watch("email")
-                        ? errors.email && UsersErrors.EMAIL_INVALID
-                        : errors.email && EmptyFieldError.EMPTY_ERROR
-                    }
-                  />
-                  <PhoneInput
-                    name="phone"
-                    type="tel"
-                    variant="outlined"
-                    size="small"
-                    placeholder="Ingrese su Teléfono"
-                    disabled={
-                      (formType === "billing" && !editCheckoutMode) ||
-                      (formType === "billing-confirmation" &&
-                        !editConfirmationData)
-                    }
-                    required
-                    {...register("phone", {
-                      required: true,
-                      pattern: PatternValidations.PHONE,
-                    })}
-                    error={!!errors.phone}
-                    helperText={
-                      watch("phone")
-                        ? errors.phone && AddressesErrors.PHONE_INVALID
-                        : errors.phone && EmptyFieldError.EMPTY_ERROR
-                    }
-                  />
-                </>
+                <PhoneInput
+                  name="phone"
+                  type="tel"
+                  variant="outlined"
+                  size="small"
+                  placeholder="Ingrese su Teléfono"
+                  disabled={
+                    (formType === "billing" && !editCheckoutMode) ||
+                    (formType === "billing-confirmation" &&
+                      !editConfirmationData)
+                  }
+                  required
+                  {...register("phone", {
+                    required: true,
+                    pattern: PatternValidations.PHONE,
+                  })}
+                  error={!!errors.phone}
+                  helperText={
+                    watch("phone")
+                      ? errors.phone && AddressesErrors.PHONE_INVALID
+                      : errors.phone && EmptyFieldError.EMPTY_ERROR
+                  }
+                />
               )}
             </CheckoutContainer>
             <ButtonsContainer

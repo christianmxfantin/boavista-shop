@@ -58,10 +58,6 @@ export const CommentsInput = styled(TextField)(({ theme }) => ({
   marginTop: theme.spacing(2), //16px
 }));
 
-export const EmailInput = styled(TextField)(({ theme }) => ({
-  marginTop: theme.spacing(1), //8px
-}));
-
 export const PhoneInput = styled(TextField)(({ theme }) => ({
-  //styles
+  marginTop: theme.spacing(1), //8px
 }));
