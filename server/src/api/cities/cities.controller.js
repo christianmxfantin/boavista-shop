@@ -50,8 +50,8 @@ const cityByName = async (req, res, next) => {
       ),
     });
     if (!existingCity) {
-      return res.status(404).json({
-        message: CitiesErrors.CITY_NOT_FOUND,
+      return res.status(200).json({
+        message: CitiesErrors.CITY_IS_AVAILABLE,
       });
     }
 

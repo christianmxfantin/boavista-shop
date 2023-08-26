@@ -5,8 +5,10 @@ const logger = require("../../utils/logger.js");
 const { AddressesTypesErrors } = require("./addressesTypes.errors.js");
 const { UsersErrors } = require("../users/users.errors.js");
 const { ApiErrors } = require("../api/api.errors.js");
+const { AddressesErrors } = require("../addresses/addresses.errors.js");
 
 const AddressesTypes = db.addressesTypes;
+const Addresses = db.addresses;
 const Users = db.users;
 
 const getAddressesTypes = async (req, res, next) => {
@@ -62,13 +64,14 @@ const addressTypeByName = async (req, res, next) => {
         ),
       },
     });
-    if (existingAddressType) {
-      return res.status(409).json({
-        message: AddressesTypesErrors.ADDRESS_TYPE_ALREADY_EXISTS,
+
+    if (!existingAddressType) {
+      return res.status(200).json({
+        message: AddressesTypesErrors.ADDRESS_TYPE_IS_AVAILABLE,
       });
     }
 
-    return res.status(200).json({ message: "El nombre está disponible." });
+    return res.status(200).json(existingAddressType);
   } catch (err) {
     const error = new ErrorHandler(err.message, err.statusCode);
     logger.error(err);
