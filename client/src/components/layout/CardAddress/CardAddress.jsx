@@ -42,6 +42,8 @@ const CardAddress = ({
 
   const [data, setData] = useState([]);
   const [showAddNew, setShowAddNew] = useState(false);
+  const [editBilling, setEditBilling] = useState(false);
+  const [editID, setEditID] = useState();
   const [selectedValue, setSelectedValue] = useState(0);
 
   const statusErrors = (error) => {
@@ -89,6 +91,8 @@ const CardAddress = ({
     }
   }, [formType, itemType, setIsButtonDisabled, userID]);
 
+  const getDataID = data.filter((data) => data.id === editID);
+
   const handleChangeRadio = (id) => {
     setSelectedValue(id);
     setIsButtonDisabled(false);
@@ -111,6 +115,10 @@ const CardAddress = ({
         setSelectedAddress={setSelectedAddress}
         isButtonDisabled={isButtonDisabled}
         setIsButtonDisabled={setIsButtonDisabled}
+        editProfileAddress={{
+          editAddress: editBilling,
+          addressData: getDataID[0],
+        }}
       />
     ) : (
       <PaymentDetails
@@ -201,6 +209,8 @@ const CardAddress = ({
                     formType={formType}
                     itemType={itemType}
                     setShowAddNew={setShowAddNew}
+                    setEditID={setEditID}
+                    setEditBilling={setEditBilling}
                   />
                 </CardAddressItem>
               ))}

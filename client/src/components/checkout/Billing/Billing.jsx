@@ -36,7 +36,16 @@ import {
   addressTypeByNameResponse,
   createAddressTypeResponse,
 } from "../../../api/addressesTypes";
-import { cityByNameResponse, createCityResponse } from "../../../api/cities";
+import {
+  cityByNameResponse,
+  createCityResponse,
+  getCityByIdResponse,
+} from "../../../api/cities";
+import {
+  countryByNameResponse,
+  createCountryResponse,
+} from "../../../api/countries";
+import { createStateResponse, stateByNameResponse } from "../../../api/states";
 
 const Billing = ({
   formType,
@@ -50,11 +59,14 @@ const Billing = ({
   editConfirmationData,
   setEditConfirmationData,
   setIsEditVisible,
+  editProfileAddress,
 }) => {
   const theme = useTheme();
   const nameInput = useRef();
   const { user } = useSelector((state) => state.auth);
+  const { editAddress, addressData } = editProfileAddress;
 
+  const [billingData, setBillingData] = useState({});
   const [showMyAddress, setShowMyAddress] = useState(false);
   const [editCheckoutMode, setEditCheckoutMode] = useState(false);
   const [provincia, setProvincia] = useState("");
@@ -75,44 +87,89 @@ const Billing = ({
     }
   };
 
-  //API Fake
-  let api = true;
-  let myBilling = {};
-  if (api && formType === "billing") {
-    //cargar data de API
-    myBilling = {
-      id: 1,
-      names: "Lionel Andrés",
-      surnames: "Messi",
-      address: "Lampilagucho 563",
-      // state: "Santa Fe",
-      // city: "Rosario",
-      email: "elliodelagente@gmail.com",
-      phone: "5555 3477",
+  const getCityName = async (id) => {
+    try {
+      const res = await getCityByIdResponse(id);
+      return res.data.name;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    let api = true;
+
+    const getData = async () => {
+      try {
+        let myBilling = {};
+        if (api && formType === "billing") {
+          //cargar data de API
+          myBilling = {
+            id: 1,
+            names: "Lionel Andrés",
+            surnames: "Messi",
+            address: "Lampilagucho 563",
+            // state: "Santa Fe",
+            // city: "Rosario",
+            email: "elliodelagente@gmail.com",
+            phone: "5555 3477",
+          };
+          setBillingData(myBilling);
+        } else if (confirmationData) {
+          myBilling = {
+            id: 1,
+            names: confirmationData.names,
+            surnames: confirmationData.surnames,
+            address: confirmationData.address,
+            // state: confirmationData.state,
+            // city: confirmationData.city,
+            email: confirmationData.email,
+            phone: confirmationData.phone,
+          };
+          setBillingData(myBilling);
+        } else if (editAddress) {
+          const city = await getCityName(addressData.cityId);
+          myBilling = {
+            address: addressData.address,
+            // state: getStateName(addressData.stateId),
+            city,
+            // city: "Coghlan",
+            phone: addressData.phone,
+          };
+          setBillingData(myBilling);
+          // console.log(billingData);
+        } else {
+          myBilling = {
+            addressType: "",
+            address: "",
+            state: "",
+            city: "",
+            phone: "",
+          };
+          setBillingData(myBilling);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     };
-  } else if (confirmationData) {
-    myBilling = {
-      id: 1,
-      names: confirmationData.names,
-      surnames: confirmationData.surnames,
-      address: confirmationData.address,
-      // state: confirmationData.state,
-      // city: confirmationData.city,
-      email: confirmationData.email,
-      phone: confirmationData.phone,
-    };
-  } else {
-    myBilling = {
-      id: 1,
-      names: "",
-      surnames: "",
-      address: "",
-      state: "",
-      city: "",
-      email: "",
-      phone: "",
-    };
-  }
+    getData();
+
+    if (!api) {
+      setEditCheckoutMode(true);
+    }
+
+    if (formType === "shipping") {
+      setEditCheckoutMode(true);
+    }
+  }, [
+    addressData.address,
+    addressData.cityId,
+    addressData.phone,
+    billingData,
+    confirmationData,
+    editAddress,
+    formType,
+  ]);
 
   const {
     register,
@@ -124,25 +181,15 @@ const Billing = ({
   } = useForm({
     mode: "onBlur",
     defaultValues: {
-      names: myBilling.names,
-      surnames: myBilling.surnames,
-      address: myBilling.address,
-      // state: myBilling.state,
-      // city: myBilling.city,
-      email: myBilling.email,
-      phone: myBilling.phone,
+      // names: myBilling.names,
+      // surnames: myBilling.surnames,
+      address: billingData.address,
+      // // state: myBilling.state,
+      // // city: myBilling.city,
+      // email: myBilling.email,
+      // phone: myBilling.phone,
     },
   });
-
-  useEffect(() => {
-    if (!api) {
-      setEditCheckoutMode(true);
-    }
-
-    if (formType === "shipping") {
-      setEditCheckoutMode(true);
-    }
-  }, [api, formType]);
 
   const handleCheckoutEdit = () => {
     setEditCheckoutMode(true);
@@ -187,8 +234,6 @@ const Billing = ({
     if (formType === "profile" || (formType === "shipping" && !showMyAddress)) {
       //save new address
       try {
-        let addressTypeId;
-
         //envio el tipo de direccion y el usuario para obtener el id
         const addressTypeName = {
           name: formValues.addressType.toLowerCase().trim(),
@@ -198,11 +243,12 @@ const Billing = ({
           addressTypeName
         );
 
-        //si el tipo de direccion no existe, lo creo
+        let addressTypeId;
         if (
           addressTypeNameResponse.data.message ===
           "El tipo de dirección ingresado está disponible."
         ) {
+          //si el tipo de direccion no existe, lo creo
           const addressTypeResponse = await createAddressTypeResponse(
             addressTypeName
           );
@@ -212,23 +258,62 @@ const Billing = ({
           addressTypeId = addressTypeNameResponse.data.id;
         }
 
-        //busco si la ciudad esta disponible
-        const city = await cityByNameResponse({ name: formValues.city.trim() });
+        let countryIdResponse;
+        const country = await countryByNameResponse({
+          name: "Argentina",
+        });
+        if (
+          country.data.message ===
+          "El nombre de País ingresado está disponible."
+        ) {
+          const countryResponse = await createCountryResponse({
+            name: formValues.country.trim(),
+          });
+          countryIdResponse = countryResponse.data.id;
+        } else {
+          //si existe, guardo el id
+          countryIdResponse = country.data.id;
+        }
 
+        let stateIdResponse;
+        const state = await stateByNameResponse({
+          name: formValues.state.trim(),
+        });
+        if (
+          state.data.message ===
+          "El nombre de Estado ingresado está disponible."
+        ) {
+          const stateResponse = await createStateResponse({
+            name: formValues.state.trim(),
+            countryId: countryIdResponse,
+          });
+          stateIdResponse = stateResponse.data.id;
+        } else {
+          //si existe, guardo el id
+          stateIdResponse = state.data.id;
+        }
+
+        let cityIdResponse;
+        const city = await cityByNameResponse({
+          name: formValues.city.trim(),
+        });
         if (
           city.data.message === "El nombre de Ciudad ingresado está disponible."
         ) {
-          //si la ciudad no existe, la creo
-          const cityResponse = await createCityResponse(addressTypeName);
-          addressTypeId = addressTypeResponse.data.id;
+          const cityResponse = await createCityResponse({
+            name: formValues.city.trim(),
+            countryId: countryIdResponse,
+            stateId: stateIdResponse,
+          });
+          cityIdResponse = cityResponse.data.id;
         } else {
           //si existe, guardo el id
-          addressTypeId = addressTypeNameResponse.data.id;
+          cityIdResponse = city.data.id;
         }
 
-        const cityId = city.data.id;
-        const stateId = city.data.stateId;
-        const countryId = city.data.countryId;
+        const countryId = countryIdResponse;
+        const stateId = stateIdResponse;
+        const cityId = cityIdResponse;
 
         const newAddress = {
           address: formValues.address.trim(),

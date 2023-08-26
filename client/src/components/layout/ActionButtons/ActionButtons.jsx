@@ -4,7 +4,12 @@ import { ActionButtonsContainer } from "./ActionButtons.styles";
 import TableActions from "../TableActions/TableActions";
 import { Icon as EditIcon, Icon as DeleteIcon } from "../../ui/Icon";
 
-const ActionButtons = ({ database, setShowAddNew }) => {
+const ActionButtons = ({
+  database,
+  setShowAddNew,
+  setEditID,
+  setEditBilling,
+}) => {
   const { typeData, data } = database;
 
   const theme = useTheme();
@@ -15,9 +20,8 @@ const ActionButtons = ({ database, setShowAddNew }) => {
     //TIENE QUE ENVIAR EL ID CON LA DATA
     switch (typeData) {
       case "billings":
-        setShowAddNew(true);
-        break;
-      case "cards":
+        setEditID(data.id);
+        setEditBilling(true);
         setShowAddNew(true);
         break;
       case "products":

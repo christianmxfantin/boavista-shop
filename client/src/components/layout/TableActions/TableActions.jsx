@@ -52,12 +52,10 @@ const TableActions = ({ showModal, setShowModal, selectedData }) => {
             stock: 1200,
           };
 
-          console.log(updatedProduct);
           await updateProduct(data.id, updatedProduct);
         } catch (error) {
           console.log(error);
         }
-
         break;
 
       default:

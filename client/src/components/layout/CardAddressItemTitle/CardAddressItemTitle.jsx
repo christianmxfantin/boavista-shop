@@ -15,7 +15,14 @@ import { ErrorsMessages } from "../../../utils/toastMessages";
 import { toastColor } from "../../../utils/toastOptions";
 import { getAddressesTypesResponse } from "../../../api/addressesTypes";
 
-const CardAddressItemTitle = ({ data, formType, itemType, setShowAddNew }) => {
+const CardAddressItemTitle = ({
+  data,
+  formType,
+  itemType,
+  setShowAddNew,
+  setEditID,
+  setEditBilling,
+}) => {
   const theme = useTheme();
   const [addressType, setAddressType] = useState([]);
   const [paymentType, setPaymentType] = useState([]);
@@ -101,6 +108,8 @@ const CardAddressItemTitle = ({ data, formType, itemType, setShowAddNew }) => {
             data,
           }}
           setShowAddNew={setShowAddNew}
+          setEditID={setEditID}
+          setEditBilling={setEditBilling}
         />
       </ItemComponentContainer>
       <ToastContainer />
