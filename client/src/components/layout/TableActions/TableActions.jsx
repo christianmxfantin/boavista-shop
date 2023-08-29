@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useTheme } from "@emotion/react";
 import { useForm } from "react-hook-form";
 import { Button } from "@mui/material";
@@ -18,10 +19,20 @@ import {
   TableDeleteLine3,
 } from "./TableActions.styles";
 import useProducts from "../../../hooks/useProducts";
+import { getAddressTypeName } from "../../checkout/Billing/Billing.helpers";
+import { deleteAddressResponse } from "../../../api/addresses";
 
 const TableActions = ({ showModal, setShowModal, selectedData }) => {
   const theme = useTheme();
   const { updateProduct } = useProducts();
+
+  let actionType = "";
+  let data = "";
+  if (selectedData !== undefined) {
+    ({ actionType, data } = selectedData);
+  }
+
+  const [addressType, setAddressType] = useState("");
   const {
     register,
     handleSubmit,
@@ -30,10 +41,19 @@ const TableActions = ({ showModal, setShowModal, selectedData }) => {
     formState: { errors },
   } = useForm({ mode: "onBlur" });
 
-  if (!selectedData) {
-    return null;
-  }
-  const { actionType, data } = selectedData;
+  useEffect(() => {
+    const getData = async () => {
+      if (data) {
+        try {
+          const addressTypeName = await getAddressTypeName(data.addressTypeId);
+          setAddressType(addressTypeName);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+    getData();
+  }, [data, selectedData]);
 
   const handleCancelButton = () => {
     reset();
@@ -53,6 +73,18 @@ const TableActions = ({ showModal, setShowModal, selectedData }) => {
           };
 
           await updateProduct(data.id, updatedProduct);
+        } catch (error) {
+          console.log(error);
+        }
+        break;
+
+      case "delete-billing":
+        try {
+          const res = await deleteAddressResponse(data.id);
+          if (res.status === 204) {
+            // window.location.reload();
+            //actualizar el listado de direcciones
+          }
         } catch (error) {
           console.log(error);
         }
@@ -142,7 +174,7 @@ const TableActions = ({ showModal, setShowModal, selectedData }) => {
               }`}</TableDeleteLine1>
               <TableDeleteLine2>
                 {actionType === "delete-billing"
-                  ? data.type
+                  ? addressType
                   : actionType === "delete-payment"
                   ? `Visa débito terminada en ${data.finalNumber}`
                   : actionType === "delete-product"

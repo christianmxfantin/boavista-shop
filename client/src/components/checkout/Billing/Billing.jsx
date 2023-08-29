@@ -29,23 +29,19 @@ import CardAddress from "../../layout/CardAddress/CardAddress";
 import { UsersErrors } from "../../../errors/users.errors";
 import { EmptyFieldError } from "../../../errors/emptyField.errors";
 import { AddressesErrors } from "../../../errors/addresses.errors";
-import { createAddressResponse } from "../../../api/addresses";
-import { ErrorsMessages, SuccessMessages } from "../../../utils/toastMessages";
+import { SuccessMessages } from "../../../utils/toastMessages";
 import { toastColor } from "../../../utils/toastOptions";
 import {
-  addressTypeByNameResponse,
-  createAddressTypeResponse,
-} from "../../../api/addressesTypes";
+  conflictError,
+  responseError,
+  statusErrors,
+} from "../../../utils/toastErrors";
 import {
-  cityByNameResponse,
-  createCityResponse,
-  getCityByIdResponse,
-} from "../../../api/cities";
-import {
-  countryByNameResponse,
-  createCountryResponse,
-} from "../../../api/countries";
-import { createStateResponse, stateByNameResponse } from "../../../api/states";
+  getAddressTypeName,
+  getCityName,
+  getStateName,
+  saveNewAddress,
+} from "./Billing.helpers";
 
 const Billing = ({
   formType,
@@ -74,103 +70,6 @@ const Billing = ({
   const provincias = useProvincias();
   const localidades = useLocalidades({ provincia });
 
-  const statusErrors = (error) => {
-    //client error
-    if (error.response.status > 399 || error.response.status < 500) {
-      toast.error(ErrorsMessages.CLIENT_STATUS, toastColor("error"));
-      return;
-    }
-    //server error
-    if (error.response.status > 499) {
-      toast.error(ErrorsMessages.SERVER_STATUS, toastColor("error"));
-      return;
-    }
-  };
-
-  const getCityName = async (id) => {
-    try {
-      const res = await getCityByIdResponse(id);
-      return res.data.name;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    let api = true;
-
-    const getData = async () => {
-      try {
-        let myBilling = {};
-        if (api && formType === "billing") {
-          //cargar data de API
-          myBilling = {
-            id: 1,
-            names: "Lionel Andrés",
-            surnames: "Messi",
-            address: "Lampilagucho 563",
-            // state: "Santa Fe",
-            // city: "Rosario",
-            email: "elliodelagente@gmail.com",
-            phone: "5555 3477",
-          };
-          setBillingData(myBilling);
-        } else if (confirmationData) {
-          myBilling = {
-            id: 1,
-            names: confirmationData.names,
-            surnames: confirmationData.surnames,
-            address: confirmationData.address,
-            // state: confirmationData.state,
-            // city: confirmationData.city,
-            email: confirmationData.email,
-            phone: confirmationData.phone,
-          };
-          setBillingData(myBilling);
-        } else if (editAddress) {
-          const city = await getCityName(addressData.cityId);
-          myBilling = {
-            address: addressData.address,
-            // state: getStateName(addressData.stateId),
-            city,
-            // city: "Coghlan",
-            phone: addressData.phone,
-          };
-          setBillingData(myBilling);
-          // console.log(billingData);
-        } else {
-          myBilling = {
-            addressType: "",
-            address: "",
-            state: "",
-            city: "",
-            phone: "",
-          };
-          setBillingData(myBilling);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getData();
-
-    if (!api) {
-      setEditCheckoutMode(true);
-    }
-
-    if (formType === "shipping") {
-      setEditCheckoutMode(true);
-    }
-  }, [
-    addressData.address,
-    addressData.cityId,
-    addressData.phone,
-    billingData,
-    confirmationData,
-    editAddress,
-    formType,
-  ]);
-
   const {
     register,
     handleSubmit,
@@ -180,16 +79,84 @@ const Billing = ({
     formState: { errors },
   } = useForm({
     mode: "onBlur",
-    defaultValues: {
-      // names: myBilling.names,
-      // surnames: myBilling.surnames,
-      address: billingData.address,
-      // // state: myBilling.state,
-      // // city: myBilling.city,
-      // email: myBilling.email,
-      // phone: myBilling.phone,
-    },
   });
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        let myBilling = {};
+        // if (formType === "billing") {
+        //   myBilling = {
+        //     id: 1,
+        //     names: "Lionel Andrés",
+        //     surnames: "Messi",
+        //     address: "Lampilagucho 563",
+        //     // state: "Santa Fe",
+        //     // city: "Rosario",
+        //     email: "elliodelagente@gmail.com",
+        //     phone: "5555 3477",
+        //   };
+        // }
+
+        // if (confirmationData) {
+        //   myBilling = {
+        //     id: 1,
+        //     names: confirmationData.names,
+        //     surnames: confirmationData.surnames,
+        //     address: confirmationData.address,
+        //     // state: confirmationData.state,
+        //     // city: confirmationData.city,
+        //     email: confirmationData.email,
+        //     phone: confirmationData.phone,
+        //   };
+        // }
+
+        if (editAddress) {
+          const myBillingData = addressData;
+          const addressType = await getAddressTypeName(
+            myBillingData.addressTypeId
+          );
+          const city = await getCityName(myBillingData.cityId);
+          const state = await getStateName(myBillingData.stateId);
+          myBilling = {
+            addressType,
+            address: myBillingData.address,
+            // state,
+            // city,
+            phone: myBillingData.phone,
+          };
+        }
+
+        setBillingData(myBilling);
+      } catch (error) {
+        console.log(error);
+        statusErrors(error);
+        responseError(error);
+      }
+    };
+    getData();
+  }, [addressData, confirmationData, editAddress, formType]);
+
+  useEffect(() => {
+    let api = true;
+    if (!api) {
+      setEditCheckoutMode(true);
+    }
+
+    if (formType === "shipping") {
+      setEditCheckoutMode(true);
+    }
+  }, [formType]);
+
+  useEffect(() => {
+    reset({
+      addressType: billingData.addressType,
+      address: billingData.address,
+      state: billingData.state,
+      city: billingData.city,
+      phone: billingData.phone,
+    });
+  }, [billingData, reset]);
 
   const handleCheckoutEdit = () => {
     setEditCheckoutMode(true);
@@ -229,118 +196,17 @@ const Billing = ({
   // cityRef.current.childNodes[0].textContent = "Selecciona tu Localidad";
 
   const onSubmit = async (formValues) => {
-    // console.log(formValues);
-
     if (formType === "profile" || (formType === "shipping" && !showMyAddress)) {
-      //save new address
       try {
-        //envio el tipo de direccion y el usuario para obtener el id
-        const addressTypeName = {
-          name: formValues.addressType.toLowerCase().trim(),
-          userId: user.id,
-        };
-        const addressTypeNameResponse = await addressTypeByNameResponse(
-          addressTypeName
-        );
-
-        let addressTypeId;
-        if (
-          addressTypeNameResponse.data.message ===
-          "El tipo de dirección ingresado está disponible."
-        ) {
-          //si el tipo de direccion no existe, lo creo
-          const addressTypeResponse = await createAddressTypeResponse(
-            addressTypeName
-          );
-          addressTypeId = addressTypeResponse.data.id;
-        } else {
-          //si existe, guardo el id
-          addressTypeId = addressTypeNameResponse.data.id;
-        }
-
-        let countryIdResponse;
-        const country = await countryByNameResponse({
-          name: "Argentina",
-        });
-        if (
-          country.data.message ===
-          "El nombre de País ingresado está disponible."
-        ) {
-          const countryResponse = await createCountryResponse({
-            name: formValues.country.trim(),
-          });
-          countryIdResponse = countryResponse.data.id;
-        } else {
-          //si existe, guardo el id
-          countryIdResponse = country.data.id;
-        }
-
-        let stateIdResponse;
-        const state = await stateByNameResponse({
-          name: formValues.state.trim(),
-        });
-        if (
-          state.data.message ===
-          "El nombre de Estado ingresado está disponible."
-        ) {
-          const stateResponse = await createStateResponse({
-            name: formValues.state.trim(),
-            countryId: countryIdResponse,
-          });
-          stateIdResponse = stateResponse.data.id;
-        } else {
-          //si existe, guardo el id
-          stateIdResponse = state.data.id;
-        }
-
-        let cityIdResponse;
-        const city = await cityByNameResponse({
-          name: formValues.city.trim(),
-        });
-        if (
-          city.data.message === "El nombre de Ciudad ingresado está disponible."
-        ) {
-          const cityResponse = await createCityResponse({
-            name: formValues.city.trim(),
-            countryId: countryIdResponse,
-            stateId: stateIdResponse,
-          });
-          cityIdResponse = cityResponse.data.id;
-        } else {
-          //si existe, guardo el id
-          cityIdResponse = city.data.id;
-        }
-
-        const countryId = countryIdResponse;
-        const stateId = stateIdResponse;
-        const cityId = cityIdResponse;
-
-        const newAddress = {
-          address: formValues.address.trim(),
-          phone: formValues.phone.trim(),
-          addressTypeId,
-          cityId,
-          stateId,
-          countryId,
-          userId: user.id,
-        };
-
-        await createAddressResponse(newAddress);
+        saveNewAddress(formValues, user);
         toast.success(SuccessMessages.CHANGES_DONE, toastColor("success"));
       } catch (error) {
         console.log(error);
-        if (error.response.statusText === "Conflict") {
-          toast.error(error.response.data.message, toastColor("error"));
-          reset();
-          return;
-        }
 
+        conflictError(error);
         statusErrors(error);
-
-        if (!error.response) {
-          toast.error(ErrorsMessages.RESPONSE_ERROR, toastColor("error"));
-          return;
-        }
+        responseError(error);
+        reset();
       }
     }
 
