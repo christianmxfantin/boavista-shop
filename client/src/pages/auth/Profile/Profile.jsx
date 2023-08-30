@@ -47,8 +47,7 @@ const Profile = () => {
       <TableActions
         showModal={showModal}
         setShowModal={setShowModal}
-        deleteType="account"
-        // data={profile}
+        selectedData={{ actionType: "delete-account" }}
       />
     </main>
   );

@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useTheme } from "@emotion/react";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import ButtonsContainer from "../../../layout/ButtonsContainer/ButtonsContainer";
 import {
   PaymentDetailsContainer,
@@ -23,6 +26,10 @@ import CardAddress from "../../../layout/CardAddress/CardAddress";
 import { EmptyFieldError } from "../../../../errors/emptyField.errors";
 import { PaymentsErrors } from "../../../../errors/payments.errors";
 import { UsersErrors } from "../../../../errors/users.errors";
+import { saveNewPayment } from "./PaymentDetails.helpers";
+import { SuccessMessages } from "../../../../utils/toastMessages";
+import { toastColor } from "../../../../utils/toastOptions";
+import { responseError, statusErrors } from "../../../../utils/toastErrors";
 
 const PaymentDetails = ({
   formType,
@@ -37,6 +44,8 @@ const PaymentDetails = ({
   const cardNumberValue = useRef("");
   const cardExpirationDateValue = useRef("");
   const cardNameValue = useRef("");
+  const { user } = useSelector((state) => state.auth);
+
   const [showMyCards, setShowMyCards] = useState(false);
   const [cardType, setCardType] = useState("");
 
@@ -87,10 +96,16 @@ const PaymentDetails = ({
   };
 
   const onSubmit = (formValues) => {
-    console.log(formValues);
-    //save payment data
-
-    handleClickCancel();
+    try {
+      saveNewPayment(formValues, cardType, user);
+      toast.success(SuccessMessages.CHANGES_DONE, toastColor("success"));
+      handleClickCancel();
+    } catch (error) {
+      console.log(error);
+      statusErrors(error);
+      responseError(error);
+      reset();
+    }
   };
 
   return showMyCards ? (

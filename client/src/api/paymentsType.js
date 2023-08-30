@@ -6,6 +6,9 @@ export const getPaymentsTypesResponse = async () =>
 export const getPaymentTypeByIdResponse = async (id) =>
   axios.get(`/payments-types/${id}`);
 
+export const paymentTypeByNameResponse = async (paymentType) =>
+  axios.post("/payments-types/name", paymentType);
+
 export const createPaymentTypeResponse = async (paymentType) =>
   axios.post("/payments-types", paymentType);
 

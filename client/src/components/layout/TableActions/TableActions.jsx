@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useTheme } from "@emotion/react";
 import { useForm } from "react-hook-form";
 import { Button } from "@mui/material";
@@ -21,9 +22,12 @@ import {
 import useProducts from "../../../hooks/useProducts";
 import { getAddressTypeName } from "../../checkout/Billing/Billing.helpers";
 import { deleteAddressResponse } from "../../../api/addresses";
+import { deletePaymentResponse } from "../../../api/payments";
+import { deleteUserResponse } from "../../../api/users";
 
 const TableActions = ({ showModal, setShowModal, selectedData }) => {
   const theme = useTheme();
+  const { user } = useSelector((state) => state.auth);
   const { updateProduct } = useProducts();
 
   let actionType = "";
@@ -82,6 +86,31 @@ const TableActions = ({ showModal, setShowModal, selectedData }) => {
         try {
           const res = await deleteAddressResponse(data.id);
           if (res.status === 204) {
+            // window.location.reload();
+            //actualizar el listado de direcciones
+          }
+        } catch (error) {
+          console.log(error);
+        }
+        break;
+
+      case "delete-payment":
+        try {
+          const res = await deletePaymentResponse(data.id);
+          if (res.status === 204) {
+            // window.location.reload();
+            //actualizar el listado de direcciones
+          }
+        } catch (error) {
+          console.log(error);
+        }
+        break;
+
+      case "delete-account":
+        try {
+          const res = await deleteUserResponse(user.id);
+          if (res.status === 204) {
+            //hacer logout de user como esta en Navbar
             // window.location.reload();
             //actualizar el listado de direcciones
           }

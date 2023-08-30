@@ -195,14 +195,13 @@ const Billing = ({
   // stateRef.current.childNodes[0].textContent = "Selecciona tu Provincia";
   // cityRef.current.childNodes[0].textContent = "Selecciona tu Localidad";
 
-  const onSubmit = async (formValues) => {
+  const onSubmit = (formValues) => {
     if (formType === "profile" || (formType === "shipping" && !showMyAddress)) {
       try {
         saveNewAddress(formValues, user);
         toast.success(SuccessMessages.CHANGES_DONE, toastColor("success"));
       } catch (error) {
         console.log(error);
-
         conflictError(error);
         statusErrors(error);
         responseError(error);
@@ -214,10 +213,6 @@ const Billing = ({
       setStepperData((prevData) => ({ ...prevData, billing: formValues }));
       handleRight();
     }
-
-    // if (formType === "shipping" && !showMyAddress) {
-    //   //save new address
-    // }
 
     if (
       formType === "billing-confirmation" ||

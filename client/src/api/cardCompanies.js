@@ -6,6 +6,9 @@ export const getCardCompaniesResponse = async () =>
 export const getCardCompanyByIdResponse = async (id) =>
   axios.get(`/card-companies/${id}`);
 
+export const cardCompanyByNameResponse = async (cardCompany) =>
+  axios.post("/card-companies/name", cardCompany);
+
 export const createCardCompanyResponse = async (cardCompany) =>
   axios.post("/card-companies", cardCompany);
 

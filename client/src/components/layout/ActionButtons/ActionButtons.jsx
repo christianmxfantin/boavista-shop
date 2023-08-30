@@ -47,9 +47,6 @@ const ActionButtons = ({
       case "users":
         setSelectedData({ actionType: "delete-user", data });
         break;
-      case "accounts":
-        setSelectedData({ actionType: "delete-account", data });
-        break;
       default:
       //coso
     }
@@ -59,13 +56,15 @@ const ActionButtons = ({
   return (
     <>
       <ActionButtonsContainer>
-        <EditIcon
-          name="Edit-Data"
-          size={30}
-          color={theme.palette.primary[500]}
-          sx={{ marginRight: theme.spacing(1) }}
-          onClick={() => handleEdit(data)}
-        />
+        {typeData !== "cards" && (
+          <EditIcon
+            name="Edit-Data"
+            size={30}
+            color={theme.palette.primary[500]}
+            sx={{ marginRight: theme.spacing(1) }}
+            onClick={() => handleEdit(data)}
+          />
+        )}
         <DeleteIcon
           name="Delete-Data"
           size={30}
