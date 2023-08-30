@@ -37,6 +37,31 @@ const getCardCompanyById = async (req, res, next) => {
     next(error);
   }
 };
+
+const cardCompanyByName = async (req, res, next) => {
+  try {
+    const name = req.body.name.trim();
+
+    const existingCardCompany = await CardCompanies.findOne({
+      where: Sequelize.where(
+        Sequelize.fn("LOWER", Sequelize.col("name")),
+        Sequelize.fn("LOWER", name)
+      ),
+    });
+    if (existingCardCompany) {
+      return res.status(409).json({
+        message: CardCompaniesErrors.CARD_COMPANY_ALREADY_EXISTS,
+      });
+    }
+
+    return res.status(200).json(existingCardCompany);
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
+  }
+};
+
 const createCardCompany = async (req, res, next) => {
   try {
     const name = req.body.name.trim();
@@ -126,6 +151,7 @@ const deleteCardCompany = async (req, res, next) => {
 module.exports = {
   getCardCompanies,
   getCardCompanyById,
+  cardCompanyByName,
   createCardCompany,
   updateCardCompany,
   deleteCardCompany,
