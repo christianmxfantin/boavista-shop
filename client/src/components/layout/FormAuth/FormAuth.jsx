@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import { toast, ToastContainer } from "react-toastify";
@@ -40,11 +40,16 @@ import { EmptyFieldError } from "../../../errors/emptyField.errors";
 import { PatternValidations } from "../../../helpers/validations";
 import { toastColor } from "../../../utils/toastOptions";
 import { ErrorsMessages } from "../../../utils/toastMessages";
+import { capitalizeWords } from "../../../utils/capitalizeWords";
 
 const FormAuth = ({ formType, role }) => {
-  const dispatch = useDispatch();
+  const namesInputValue = useRef("");
+  const surnamesInputValue = useRef("");
+
   const theme = useTheme();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [showPassword, setShowPassword] = useState(false);
   const {
     register,
@@ -66,6 +71,17 @@ const FormAuth = ({ formType, role }) => {
       toast.error(ErrorsMessages.SERVER_STATUS, toastColor("error"));
       return;
     }
+  };
+
+  const handleNamesBlur = () => {
+    namesInputValue.current.value = capitalizeWords(
+      namesInputValue.current.value
+    );
+  };
+  const handleSurnamesBlur = () => {
+    surnamesInputValue.current.value = capitalizeWords(
+      surnamesInputValue.current.value
+    );
   };
 
   const handleCopyPaste = (e) => {
@@ -224,9 +240,11 @@ const FormAuth = ({ formType, role }) => {
               size="small"
               placeholder="Ingresa tus Nombres"
               required
+              inputRef={namesInputValue}
               {...register("names", {
                 required: true,
                 pattern: PatternValidations.NAMES_AND_SURNAMES,
+                onBlur: handleNamesBlur,
               })}
               error={!!errors.names}
               helperText={
@@ -252,8 +270,10 @@ const FormAuth = ({ formType, role }) => {
                   </InputAdornment>
                 ),
               }}
+              inputRef={surnamesInputValue}
               {...register("surnames", {
                 pattern: PatternValidations.NAMES_AND_SURNAMES,
+                onBlur: handleSurnamesBlur,
               })}
               error={!!errors.surnames}
               helperText={errors.surnames && UsersErrors.SURNAMES_INVALID}
