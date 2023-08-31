@@ -48,9 +48,9 @@ const paymentTypeByName = async (req, res, next) => {
         Sequelize.fn("LOWER", name)
       ),
     });
-    if (existingPaymentType) {
-      return res.status(409).json({
-        message: PaymentsTypesErrors.PAYMENT_TYPE_ALREADY_EXISTS,
+    if (!existingPaymentType) {
+      return res.status(200).json({
+        message: PaymentsTypesErrors.PAYMENT_TYPE_IS_AVAILABLE,
       });
     }
 

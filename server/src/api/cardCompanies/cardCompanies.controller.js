@@ -48,9 +48,9 @@ const cardCompanyByName = async (req, res, next) => {
         Sequelize.fn("LOWER", name)
       ),
     });
-    if (existingCardCompany) {
-      return res.status(409).json({
-        message: CardCompaniesErrors.CARD_COMPANY_ALREADY_EXISTS,
+    if (!existingCardCompany) {
+      return res.status(200).json({
+        message: CardCompaniesErrors.CARD_COMPANY_IS_AVAILABLE,
       });
     }
 
