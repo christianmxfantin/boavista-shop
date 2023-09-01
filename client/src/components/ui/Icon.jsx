@@ -22,6 +22,9 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import DoneIcon from "@mui/icons-material/Done";
 import PlaceIcon from "@mui/icons-material/Place";
+import HomeIcon from "@mui/icons-material/Home";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import InventoryIcon from "@mui/icons-material/Inventory";
 
 export const Icon = ({ name, color, size, onClick }) => {
   const icons = [
@@ -309,6 +312,45 @@ export const Icon = ({ name, color, size, onClick }) => {
         <SvgIcon
           aria-label="Icono de Dirección"
           component={PlaceIcon}
+          sx={{
+            color: color,
+            fontSize: size,
+          }}
+        />
+      ),
+    },
+    {
+      name: "address",
+      img: (
+        <SvgIcon
+          aria-label="Icono de Direcciones"
+          component={HomeIcon}
+          sx={{
+            color: color,
+            fontSize: size,
+          }}
+        />
+      ),
+    },
+    {
+      name: "checkout",
+      img: (
+        <SvgIcon
+          aria-label="Icono de Carrito de Compras"
+          component={AddShoppingCartIcon}
+          sx={{
+            color: color,
+            fontSize: size,
+          }}
+        />
+      ),
+    },
+    {
+      name: "products",
+      img: (
+        <SvgIcon
+          aria-label="Icono de Caja Cerrada con Productos"
+          component={InventoryIcon}
           sx={{
             color: color,
             fontSize: size,

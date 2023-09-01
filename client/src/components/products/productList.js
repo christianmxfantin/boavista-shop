@@ -44,3 +44,5 @@ export const products = {
     stock: 1200,
   },
 };
+
+// export const products = [];

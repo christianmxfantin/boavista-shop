@@ -1,11 +1,15 @@
 import { useSelector } from "react-redux";
-import CheckoutEmpty from "../../components/checkout/CheckoutEmpty/CheckoutEmpty";
+import EmptyData from "../../components/layout/EmptyData/EmptyData";
 import CheckoutFull from "../../components/checkout/CheckoutFull/CheckoutFull";
 
 const Checkout = () => {
   const { total } = useSelector((state) => state.cart);
 
-  return total === 0 ? <CheckoutEmpty /> : <CheckoutFull />;
+  return total === 0 ? (
+    <EmptyData iconName="checkout" size={180} title="órdenes" />
+  ) : (
+    <CheckoutFull />
+  );
 };
 
 export default Checkout;

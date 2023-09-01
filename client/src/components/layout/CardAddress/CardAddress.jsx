@@ -24,6 +24,7 @@ import { getPaymentsResponse } from "../../../api/payments";
 import { ErrorsMessages } from "../../../utils/toastMessages";
 import { toastColor } from "../../../utils/toastOptions";
 import { useSelector } from "react-redux";
+import EmptyData from "../EmptyData/EmptyData";
 
 const CardAddress = ({
   formType,
@@ -145,6 +146,13 @@ const CardAddress = ({
         }}
       >
         <CardAddressItemContainer>
+          {data.length === 0 && (
+            <EmptyData
+              iconName={itemType}
+              size={100}
+              title={itemType === "address" ? "direcciones" : "tarjetas"}
+            />
+          )}
           {formType !== "profile" ? (
             <FormControl defaultValue="">
               <RadioGroup>

@@ -2,10 +2,7 @@ import {
   cardCompanyByNameResponse,
   createCardCompanyResponse,
 } from "../../../../api/cardCompanies";
-import {
-  cardTypeResponse,
-  createPaymentResponse,
-} from "../../../../api/payments";
+import { createPaymentResponse } from "../../../../api/payments";
 import {
   createPaymentTypeResponse,
   paymentTypeByNameResponse,
@@ -31,16 +28,8 @@ export const saveNewPayment = async (formValues, cardType, user) => {
       cardCompanyId = cardResponse.data.id;
     }
 
-    //traer si es debito o credito desde Mercado Pago
-    const card = {
-      card_number: formValues.cardNumber,
-      expiration_date: formValues.expirationDate,
-      cvv: formValues.cardCVC,
-    };
-    const cardTypeRes = await cardTypeResponse(card);
-
     const paymentType = {
-      name: cardTypeRes.data.card_type.toLowerCase().trim(),
+      name: "Crédito",
     };
     const paymentResponse = await paymentTypeByNameResponse(paymentType);
 
