@@ -9,11 +9,10 @@ import {
   ItemTitleContainer,
 } from "./CardAddressItemTitle.styles";
 import ActionButtons from "../ActionButtons/ActionButtons";
-import { getPaymentsTypesResponse } from "../../../api/paymentsType";
-import { getCardCompaniesResponse } from "../../../api/cardCompanies";
+import { getCardCompanyByIdResponse } from "../../../api/cardCompanies";
 import { ErrorsMessages } from "../../../utils/toastMessages";
 import { toastColor } from "../../../utils/toastOptions";
-import { getAddressesTypesResponse } from "../../../api/addressesTypes";
+import { getAddressTypeByIdResponse } from "../../../api/addressesTypes";
 
 const CardAddressItemTitle = ({
   data,
@@ -25,7 +24,6 @@ const CardAddressItemTitle = ({
 }) => {
   const theme = useTheme();
   const [addressType, setAddressType] = useState([]);
-  const [paymentType, setPaymentType] = useState([]);
   const [cardCompany, setCardCompany] = useState([]);
 
   const statusErrors = (error) => {
@@ -44,12 +42,14 @@ const CardAddressItemTitle = ({
   useEffect(() => {
     const getData = async () => {
       try {
-        const address = await getAddressesTypesResponse();
-        setAddressType(address.data);
-        const type = await getPaymentsTypesResponse();
-        setPaymentType(type.data);
-        const name = await getCardCompaniesResponse();
-        setCardCompany(name.data);
+        if (itemType === "address") {
+          const address = await getAddressTypeByIdResponse(data.addressTypeId);
+          setAddressType(address.data.name);
+        }
+        if (itemType === "card") {
+          const cardName = await getCardCompanyByIdResponse(data.cardCompanyId);
+          setCardCompany(cardName.data.name);
+        }
       } catch (error) {
         statusErrors(error);
 
@@ -60,22 +60,7 @@ const CardAddressItemTitle = ({
       }
     };
     getData();
-  }, []);
-
-  const addressTypeName = (addressTypeId) => {
-    const address = addressType.find((data) => data.id === addressTypeId);
-    return address && address.name;
-  };
-
-  const typeCard = (paymentTypeId) => {
-    const card = paymentType.find((data) => data.id === paymentTypeId);
-    return card && card.name;
-  };
-
-  const cardName = (cardCompanyId) => {
-    const card = cardCompany.find((data) => data.id === cardCompanyId);
-    return card && card.name;
-  };
+  }, [itemType, data.addressTypeId, data.cardCompanyId]);
 
   return (
     <>
@@ -87,7 +72,7 @@ const CardAddressItemTitle = ({
                 marginLeft: theme.spacing(2),
               }}
             >
-              {`${addressTypeName(data.addressTypeId)}`}
+              {addressType}
             </ItemTitle>
             <ItemData variant="subtitle2">{data.address}</ItemData>
           </ItemTitleContainer>
@@ -97,9 +82,7 @@ const CardAddressItemTitle = ({
               marginLeft: formType !== "profile" ? 0 : theme.spacing(2),
             }}
           >
-            {`${cardName(data.cardCompanyId)} ${typeCard(
-              data.paymentTypeId
-            )} terminada en ${data.finalNumber}`}
+            {`${cardCompany} terminada en ${data.finalNumber}`}
           </ItemTitle>
         )}
         <ActionButtons

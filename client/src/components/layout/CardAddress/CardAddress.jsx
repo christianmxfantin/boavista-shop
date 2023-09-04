@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTheme } from "@emotion/react";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   Button,
@@ -21,10 +21,10 @@ import PaymentDetails from "../../checkout/Payment/PaymentDetails/PaymentDetails
 import { Icon } from "../../ui/Icon";
 import { getAddressesResponse } from "../../../api/addresses";
 import { getPaymentsResponse } from "../../../api/payments";
-import { ErrorsMessages } from "../../../utils/toastMessages";
-import { toastColor } from "../../../utils/toastOptions";
 import { useSelector } from "react-redux";
 import EmptyData from "../EmptyData/EmptyData";
+import { responseError, statusErrors } from "../../../utils/toastErrors";
+import useAddresses from "../../../hooks/api/useAddresses";
 
 const CardAddress = ({
   formType,
@@ -34,7 +34,7 @@ const CardAddress = ({
   handleLeft,
   handleRight,
   setStepperData,
-  isButtonDisabled,
+  // isButtonDisabled,
   setIsButtonDisabled,
 }) => {
   const theme = useTheme();
@@ -46,53 +46,42 @@ const CardAddress = ({
   const [editBilling, setEditBilling] = useState(false);
   const [editID, setEditID] = useState();
   const [selectedValue, setSelectedValue] = useState(0);
-
-  const statusErrors = (error) => {
-    //client error
-    if (error.response.status > 399 || error.response.status < 500) {
-      toast.error(ErrorsMessages.CLIENT_STATUS, toastColor("error"));
-      return;
-    }
-    //server error
-    if (error.response.status > 499) {
-      toast.error(ErrorsMessages.SERVER_STATUS, toastColor("error"));
-      return;
-    }
-  };
+  const { addresses, setAddresses, getAddresses } = useAddresses();
 
   useEffect(() => {
     const getData = async () => {
       try {
         if (itemType === "address") {
-          const res = await getAddressesResponse();
-          const addresses = res.data.filter(
-            (address) => address.userId === userID
-          );
-          setData(addresses);
+          const addresses = await getAddresses(userID);
+          setAddresses(addresses);
         }
 
-        if (itemType === "card") {
-          const res = await getPaymentsResponse();
-          const cards = res.data.filter((card) => card.userId === userID);
-          setData(cards);
-        }
+        // if (itemType === "card") {
+        //   const res = await getPaymentsResponse();
+        //   const cards = res.data.filter((card) => card.userId === userID);
+        //   setData(cards);
+        // }
       } catch (error) {
+        console.log(error);
         statusErrors(error);
-
-        if (!error.response) {
-          toast.error(ErrorsMessages.RESPONSE_ERROR, toastColor("error"));
-          return;
-        }
+        responseError(error);
       }
     };
     getData();
 
-    if (formType !== "profile") {
-      setIsButtonDisabled(true);
-    }
-  }, [formType, itemType, setIsButtonDisabled, userID]);
+    // if (formType !== "profile") {
+    //   setIsButtonDisabled(true);
+    // }
+  }, [itemType, userID, getAddresses, setAddresses]);
 
-  const getDataID = data.filter((data) => data.id === editID);
+  //ID para editar Addresses
+  const getAddressID = addresses.filter((address) => address.id === editID);
+
+  const isButtonDisabled = formType !== "profile";
+
+  // if (itemType === "address"){
+  //   setData(addresses)
+  // }
 
   const handleChangeRadio = (id) => {
     setSelectedValue(id);
@@ -118,7 +107,7 @@ const CardAddress = ({
         setIsButtonDisabled={setIsButtonDisabled}
         editProfileAddress={{
           editAddress: editBilling,
-          addressData: getDataID[0],
+          addressData: getAddressID[0],
         }}
       />
     ) : (
@@ -146,7 +135,7 @@ const CardAddress = ({
         }}
       >
         <CardAddressItemContainer>
-          {data.length === 0 && (
+          {addresses.length === 0 && (
             <EmptyData
               iconName={itemType}
               size={100}
@@ -193,7 +182,7 @@ const CardAddress = ({
             </FormControl>
           ) : (
             <>
-              {data.map((data) => (
+              {addresses.map((data) => (
                 <CardAddressItem
                   key={data.id}
                   sx={{

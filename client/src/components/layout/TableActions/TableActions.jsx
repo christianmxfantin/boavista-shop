@@ -20,15 +20,17 @@ import {
   TableDeleteLine3,
 } from "./TableActions.styles";
 import useProducts from "../../../hooks/useProducts";
-import { getAddressTypeName } from "../../checkout/Billing/Billing.helpers";
-import { deleteAddressResponse } from "../../../api/addresses";
 import { deletePaymentResponse } from "../../../api/payments";
 import { deleteUserResponse } from "../../../api/users";
+import { getAddressTypeByIdResponse } from "../../../api/addressesTypes";
+import { getCardCompanyByIdResponse } from "../../../api/cardCompanies";
+import useAddresses from "../../../hooks/api/useAddresses";
 
 const TableActions = ({ showModal, setShowModal, selectedData }) => {
   const theme = useTheme();
   const { user } = useSelector((state) => state.auth);
   const { updateProduct } = useProducts();
+  const { deleteAddress } = useAddresses();
 
   let actionType = "";
   let data = "";
@@ -37,33 +39,38 @@ const TableActions = ({ showModal, setShowModal, selectedData }) => {
   }
 
   const [addressType, setAddressType] = useState("");
-  const {
-    register,
-    handleSubmit,
-    watch,
-    reset,
-    formState: { errors },
-  } = useForm({ mode: "onBlur" });
+  const [cardCompany, setCardCompany] = useState("");
+  const { register, handleSubmit, reset } = useForm({ mode: "onBlur" });
 
   useEffect(() => {
     const getData = async () => {
       if (data) {
         try {
-          const addressTypeName = await getAddressTypeName(data.addressTypeId);
-          setAddressType(addressTypeName);
+          if (actionType === "delete-billing") {
+            const addressTypeResponse = await getAddressTypeByIdResponse(
+              data.addressTypeId
+            );
+            setAddressType(addressTypeResponse.data.name);
+          }
+
+          if (actionType === "delete-payment") {
+            const cardCompanyResponse = await getCardCompanyByIdResponse(
+              data.cardCompanyId
+            );
+            setCardCompany(cardCompanyResponse.data.name);
+          }
         } catch (error) {
           console.log(error);
         }
       }
     };
     getData();
-  }, [data, selectedData]);
+  }, [actionType, data, selectedData]);
 
   const handleCancelButton = () => {
     reset();
     setShowModal(false);
   };
-  // console.log(data);
 
   const onSubmit = async (formValues) => {
     switch (actionType) {
@@ -83,15 +90,16 @@ const TableActions = ({ showModal, setShowModal, selectedData }) => {
         break;
 
       case "delete-billing":
-        try {
-          const res = await deleteAddressResponse(data.id);
-          if (res.status === 204) {
-            // window.location.reload();
-            //actualizar el listado de direcciones
-          }
-        } catch (error) {
-          console.log(error);
-        }
+        // try {
+        //   const res = await deleteAddressResponse(data.id);
+        //   if (res.status === 204) {
+        //     //actualizar listado de direcciones
+        //     // getAddresses()
+        //   }
+        // } catch (error) {
+        //   console.log(error);
+        // }
+        deleteAddress(data.id, user.id);
         break;
 
       case "delete-payment":
@@ -104,6 +112,7 @@ const TableActions = ({ showModal, setShowModal, selectedData }) => {
         } catch (error) {
           console.log(error);
         }
+
         break;
 
       case "delete-account":
@@ -205,7 +214,7 @@ const TableActions = ({ showModal, setShowModal, selectedData }) => {
                 {actionType === "delete-billing"
                   ? addressType
                   : actionType === "delete-payment"
-                  ? `Visa débito terminada en ${data.finalNumber}`
+                  ? `${cardCompany} terminada en ${data.finalNumber}`
                   : actionType === "delete-product"
                   ? data.name
                   : actionType === "delete-user"

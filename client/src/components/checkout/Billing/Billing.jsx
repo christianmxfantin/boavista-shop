@@ -42,6 +42,7 @@ import {
   getStateName,
   saveNewAddress,
 } from "./Billing.helpers";
+import useAddresses from "../../../hooks/api/useAddresses";
 
 const Billing = ({
   formType,
@@ -59,6 +60,7 @@ const Billing = ({
 }) => {
   const theme = useTheme();
   const nameInput = useRef();
+  const { createAddress } = useAddresses();
   const { user } = useSelector((state) => state.auth);
   const { editAddress, addressData } = editProfileAddress;
 
@@ -195,10 +197,11 @@ const Billing = ({
   // stateRef.current.childNodes[0].textContent = "Selecciona tu Provincia";
   // cityRef.current.childNodes[0].textContent = "Selecciona tu Localidad";
 
-  const onSubmit = (formValues) => {
+  const onSubmit = async (formValues) => {
     if (formType === "profile" || (formType === "shipping" && !showMyAddress)) {
       try {
-        saveNewAddress(formValues, user);
+        const newAddress = await saveNewAddress(formValues, user);
+        await createAddress(newAddress);
         toast.success(SuccessMessages.CHANGES_DONE, toastColor("success"));
       } catch (error) {
         console.log(error);

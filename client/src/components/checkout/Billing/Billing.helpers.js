@@ -137,7 +137,8 @@ export const saveNewAddress = async (formValues, user) => {
       userId: user.id,
     };
 
-    await createAddressResponse(newAddress);
+    console.log(newAddress);
+    return newAddress;
   } catch (error) {
     console.log(error);
   }

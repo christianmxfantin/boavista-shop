@@ -59,13 +59,13 @@ const useProducts = () => {
   };
 
   return {
+    products,
+    errors,
     getProducts,
     getProductById,
     createProduct,
     updateProduct,
     deleteProduct,
-    products,
-    errors,
   };
 };
 
