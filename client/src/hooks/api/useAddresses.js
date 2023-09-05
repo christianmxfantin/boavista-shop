@@ -15,7 +15,6 @@ const useAddresses = () => {
     try {
       const res = await getAddressesResponse();
       const address = res.data.filter((address) => address.userId === userID);
-      // console.log(address);
       return address;
     } catch (error) {
       console.log(error);
@@ -60,7 +59,7 @@ const useAddresses = () => {
   const deleteAddress = async (id, userID) => {
     try {
       const address = await getAddresses(userID);
-      console.log(address);
+      // console.log(address);
       const res = await deleteAddressResponse(id);
       if (res.status === 204) {
         const addressData = address.filter((address) => address.id !== id);

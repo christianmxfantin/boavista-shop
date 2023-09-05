@@ -162,8 +162,8 @@ const FormAuth = ({ formType, role }) => {
           //Register the user and sing in
           const newUser = {
             // imageURL: "imageURL",
-            names: formValues.names.trim(),
-            surnames: formValues.surnames.trim(),
+            names: capitalizeWords(formValues.names.trim()),
+            surnames: capitalizeWords(formValues.surnames.trim()),
             email: formValues.email.toLowerCase().trim(),
             password: formValues.password,
             roleId: roleName.id,

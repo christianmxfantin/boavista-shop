@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import { useForm } from "react-hook-form";
 import { Button } from "@mui/material";
@@ -20,17 +21,24 @@ import {
   TableDeleteLine3,
 } from "./TableActions.styles";
 import useProducts from "../../../hooks/useProducts";
-import { deletePaymentResponse } from "../../../api/payments";
 import { deleteUserResponse } from "../../../api/users";
 import { getAddressTypeByIdResponse } from "../../../api/addressesTypes";
 import { getCardCompanyByIdResponse } from "../../../api/cardCompanies";
 import useAddresses from "../../../hooks/api/useAddresses";
+import usePayments from "../../../hooks/api/usePayments";
+import useAuth from "../../../hooks/useAuth";
+import { unsetUser } from "../../../reducers/auth";
 
 const TableActions = ({ showModal, setShowModal, selectedData }) => {
   const theme = useTheme();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+
   const { updateProduct } = useProducts();
-  const { deleteAddress } = useAddresses();
+  const { setAddresses, deleteAddress } = useAddresses();
+  const { setPayments, deletePayment } = usePayments();
+  const { logout } = useAuth();
 
   let actionType = "";
   let data = "";
@@ -90,38 +98,34 @@ const TableActions = ({ showModal, setShowModal, selectedData }) => {
         break;
 
       case "delete-billing":
-        // try {
-        //   const res = await deleteAddressResponse(data.id);
-        //   if (res.status === 204) {
-        //     //actualizar listado de direcciones
-        //     // getAddresses()
-        //   }
-        // } catch (error) {
-        //   console.log(error);
-        // }
-        deleteAddress(data.id, user.id);
+        try {
+          await deleteAddress(data.id, user.id);
+          setAddresses((prevAddresses) =>
+            prevAddresses.filter((address) => address.id !== data.id)
+          );
+        } catch (error) {
+          console.error(error);
+        }
         break;
 
       case "delete-payment":
         try {
-          const res = await deletePaymentResponse(data.id);
-          if (res.status === 204) {
-            // window.location.reload();
-            //actualizar el listado de direcciones
-          }
+          await deletePayment(data.id, user.id);
+          setPayments((prevPayments) =>
+            prevPayments.filter((payment) => payment.id !== data.id)
+          );
         } catch (error) {
-          console.log(error);
+          console.error(error);
         }
-
         break;
 
       case "delete-account":
         try {
           const res = await deleteUserResponse(user.id);
           if (res.status === 204) {
-            //hacer logout de user como esta en Navbar
-            // window.location.reload();
-            //actualizar el listado de direcciones
+            dispatch(unsetUser());
+            logout();
+            navigate("/", { replace: true });
           }
         } catch (error) {
           console.log(error);

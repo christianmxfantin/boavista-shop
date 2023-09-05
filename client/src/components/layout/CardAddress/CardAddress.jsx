@@ -25,6 +25,7 @@ import { useSelector } from "react-redux";
 import EmptyData from "../EmptyData/EmptyData";
 import { responseError, statusErrors } from "../../../utils/toastErrors";
 import useAddresses from "../../../hooks/api/useAddresses";
+import usePayments from "../../../hooks/api/usePayments";
 
 const CardAddress = ({
   formType,
@@ -41,26 +42,28 @@ const CardAddress = ({
   const { user } = useSelector((state) => state.auth);
   const userID = user.id;
 
-  const [data, setData] = useState([]);
+  const { addresses, setAddresses, getAddresses } = useAddresses();
+  const { payments, setPayments, getPayments } = usePayments();
+
   const [showAddNew, setShowAddNew] = useState(false);
   const [editBilling, setEditBilling] = useState(false);
   const [editID, setEditID] = useState();
   const [selectedValue, setSelectedValue] = useState(0);
-  const { addresses, setAddresses, getAddresses } = useAddresses();
 
   useEffect(() => {
     const getData = async () => {
       try {
         if (itemType === "address") {
-          const addresses = await getAddresses(userID);
-          setAddresses(addresses);
+          const addressesData = await getAddresses(userID);
+          setAddresses(addressesData);
+          console.log(addressesData);
         }
 
-        // if (itemType === "card") {
-        //   const res = await getPaymentsResponse();
-        //   const cards = res.data.filter((card) => card.userId === userID);
-        //   setData(cards);
-        // }
+        if (itemType === "card") {
+          const paymentsData = await getPayments(userID);
+          setPayments(paymentsData);
+          console.log(paymentsData);
+        }
       } catch (error) {
         console.log(error);
         statusErrors(error);
@@ -72,16 +75,19 @@ const CardAddress = ({
     // if (formType !== "profile") {
     //   setIsButtonDisabled(true);
     // }
-  }, [itemType, userID, getAddresses, setAddresses]);
+  }, [itemType, userID, getAddresses, setAddresses, getPayments, setPayments]);
 
-  //ID para editar Addresses
-  const getAddressID = addresses.filter((address) => address.id === editID);
-
+  //coso
   const isButtonDisabled = formType !== "profile";
 
-  // if (itemType === "address"){
-  //   setData(addresses)
-  // }
+  let data = [];
+  let getAddressID;
+  if (itemType === "address") {
+    data = addresses;
+    getAddressID = data.filter((address) => address.id === editID);
+  } else if (itemType === "card") {
+    data = payments;
+  }
 
   const handleChangeRadio = (id) => {
     setSelectedValue(id);
@@ -135,7 +141,7 @@ const CardAddress = ({
         }}
       >
         <CardAddressItemContainer>
-          {addresses.length === 0 && (
+          {addresses.length === 0 && payments.length === 0 && (
             <EmptyData
               iconName={itemType}
               size={100}
@@ -182,7 +188,7 @@ const CardAddress = ({
             </FormControl>
           ) : (
             <>
-              {addresses.map((data) => (
+              {data.map((data) => (
                 <CardAddressItem
                   key={data.id}
                   sx={{
