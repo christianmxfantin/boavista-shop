@@ -37,10 +37,10 @@ import {
   statusErrors,
 } from "../../../utils/toastErrors";
 import {
+  createAddressData,
   getAddressTypeName,
   getCityName,
   getStateName,
-  saveNewAddress,
 } from "./Billing.helpers";
 import useAddresses from "../../../hooks/api/useAddresses";
 
@@ -60,14 +60,16 @@ const Billing = ({
 }) => {
   const theme = useTheme();
   const nameInput = useRef();
-  const { createAddress } = useAddresses();
+  const { createAddress, updateAddress } = useAddresses();
   const { user } = useSelector((state) => state.auth);
-  const { editAddress, addressData } = editProfileAddress;
+  const { editAddress, editData } = editProfileAddress;
 
   const [billingData, setBillingData] = useState({});
   const [showMyAddress, setShowMyAddress] = useState(false);
   const [editCheckoutMode, setEditCheckoutMode] = useState(false);
   const [provincia, setProvincia] = useState("");
+  const [stateName, setStateName] = useState("");
+  const [cityName, setCityName] = useState("");
 
   const provincias = useProvincias();
   const localidades = useLocalidades({ provincia });
@@ -114,17 +116,20 @@ const Billing = ({
         // }
 
         if (editAddress) {
-          const myBillingData = addressData;
+          const myBillingData = editData;
           const addressType = await getAddressTypeName(
             myBillingData.addressTypeId
           );
-          const city = await getCityName(myBillingData.cityId);
+
           const state = await getStateName(myBillingData.stateId);
+          const city = await getCityName(myBillingData.cityId);
+          // setCityName(city);
+
           myBilling = {
             addressType,
             address: myBillingData.address,
-            // state,
-            // city,
+            state,
+            city,
             phone: myBillingData.phone,
           };
         }
@@ -137,7 +142,7 @@ const Billing = ({
       }
     };
     getData();
-  }, [addressData, confirmationData, editAddress, formType]);
+  }, [formType, confirmationData, editAddress, editData]);
 
   useEffect(() => {
     let api = true;
@@ -198,10 +203,27 @@ const Billing = ({
   // cityRef.current.childNodes[0].textContent = "Selecciona tu Localidad";
 
   const onSubmit = async (formValues) => {
-    if (formType === "profile" || (formType === "shipping" && !showMyAddress)) {
+    if (
+      (formType === "profile" && !editAddress) ||
+      (formType === "shipping" && !showMyAddress)
+    ) {
       try {
-        const newAddress = await saveNewAddress(formValues, user);
+        const newAddress = await createAddressData(formValues, user);
         await createAddress(newAddress);
+        toast.success(SuccessMessages.CHANGES_DONE, toastColor("success"));
+      } catch (error) {
+        console.log(error);
+        conflictError(error);
+        statusErrors(error);
+        responseError(error);
+        reset();
+      }
+    }
+
+    if (formType === "profile" && editAddress) {
+      try {
+        const addressData = await createAddressData(formValues, user);
+        await updateAddress(editData.id, addressData);
         toast.success(SuccessMessages.CHANGES_DONE, toastColor("success"));
       } catch (error) {
         console.log(error);
@@ -333,7 +355,10 @@ const Billing = ({
                       control={control}
                       rules={{ required: true }}
                       defaultValue={
-                        (formType === "billing" || formType === "profile") && 1
+                        formType === "billing" ||
+                        (formType === "profile" && !editAddress)
+                          ? 1
+                          : stateName
                       }
                       render={({ field }) => (
                         <>
@@ -377,7 +402,10 @@ const Billing = ({
                       name="city"
                       control={control}
                       defaultValue={
-                        (formType === "billing" || formType === "profile") && 1
+                        formType === "billing" ||
+                        (formType === "profile" && !editAddress)
+                          ? 1
+                          : cityName
                       }
                       rules={{ required: true }}
                       render={({ field }) => (

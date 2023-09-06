@@ -113,7 +113,7 @@ const CardAddress = ({
         setIsButtonDisabled={setIsButtonDisabled}
         editProfileAddress={{
           editAddress: editBilling,
-          addressData: getAddressID[0],
+          editData: getAddressID[0],
         }}
       />
     ) : (

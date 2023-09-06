@@ -46,7 +46,7 @@ export const getStateName = async (id) => {
   }
 };
 
-export const saveNewAddress = async (formValues, user) => {
+export const createAddressData = async (formValues, user) => {
   try {
     //envio el tipo de direccion y el usuario para obtener el id
     const addressTypeName = {
