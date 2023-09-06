@@ -39,7 +39,12 @@ const getAddressById = async (req, res, next) => {
 };
 const createAddress = async (req, res, next) => {
   try {
-    const addressData = await createAndUpdateAddress(req, res, next);
+    const addressData = await createAndUpdateAddress(
+      req,
+      res,
+      next,
+      "address-create"
+    );
     if (addressData) {
       const newAddress = await Addresses.create(addressData);
       return res.status(201).json(newAddress);
@@ -55,7 +60,12 @@ const updateAddress = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const addressData = await createAndUpdateAddress(req, res, next);
+    const addressData = await createAndUpdateAddress(
+      req,
+      res,
+      next,
+      "address-update"
+    );
     if (addressData) {
       //Check if address id exists
       const existingAddress = await Addresses.findByPk(id);

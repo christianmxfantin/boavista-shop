@@ -18,22 +18,24 @@ const States = db.states;
 const Countries = db.countries;
 const Users = db.users;
 
-const createAndUpdateAddress = async (req, res, next) => {
+const createAndUpdateAddress = async (req, res, next, type) => {
   try {
     const { address, addressTypeId, cityId, stateId, countryId, userId } =
       req.body;
 
     // Check if address type already exists (case-insensitive) for the same user
-    const duplicateAddressType = await Addresses.findOne({
-      where: {
-        userId,
-        addressTypeId,
-      },
-    });
-    if (duplicateAddressType) {
-      return res.status(409).json({
-        message: AddressesTypesErrors.ADDRESS_TYPE_ALREADY_EXISTS,
+    if (type === "address-create") {
+      const duplicateAddressType = await AddressesTypes.findOne({
+        where: {
+          userId,
+          addressTypeId,
+        },
       });
+      if (duplicateAddressType) {
+        return res.status(409).json({
+          message: AddressesTypesErrors.ADDRESS_TYPE_ALREADY_EXISTS,
+        });
+      }
     }
 
     //Check if addressTypeId exists in address type table
@@ -77,19 +79,21 @@ const createAndUpdateAddress = async (req, res, next) => {
     }
 
     // Check if address already exists (case-insensitive) for the same user
-    const existingAddress = await Addresses.findOne({
-      where: {
-        userId,
-        [Sequelize.Op.and]: Sequelize.where(
-          Sequelize.fn("LOWER", Sequelize.col("address")),
-          address.toLowerCase()
-        ),
-      },
-    });
-    if (existingAddress) {
-      return res.status(409).json({
-        message: AddressesErrors.ADDRESS_ALREADY_EXISTS,
+    if (type === "address-create") {
+      const existingAddress = await Addresses.findOne({
+        where: {
+          userId,
+          [Sequelize.Op.and]: Sequelize.where(
+            Sequelize.fn("LOWER", Sequelize.col("address")),
+            address.toLowerCase()
+          ),
+        },
       });
+      if (existingAddress) {
+        return res.status(409).json({
+          message: AddressesErrors.ADDRESS_ALREADY_EXISTS,
+        });
+      }
     }
 
     return req.body;
