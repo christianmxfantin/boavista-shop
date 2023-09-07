@@ -20,7 +20,7 @@ import {
   TableDeleteLine2,
   TableDeleteLine3,
 } from "./TableActions.styles";
-import useProducts from "../../../hooks/useProducts";
+import useProducts from "../../../hooks/api/useProducts";
 import { deleteUserResponse } from "../../../api/users";
 import { getAddressTypeByIdResponse } from "../../../api/addressesTypes";
 import { getCardCompanyByIdResponse } from "../../../api/cardCompanies";

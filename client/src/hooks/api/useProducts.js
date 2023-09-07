@@ -5,18 +5,20 @@ import {
   createProductResponse,
   updateProductResponse,
   deleteProductResponse,
-} from "../api/products";
+} from "../../api/products";
+import { responseError, statusErrors } from "../../utils/toastErrors";
 
 const useProducts = () => {
   const [products, setProducts] = useState([]);
-  const [errors, setErrors] = useState();
 
   const getProducts = async () => {
     try {
       const res = await getProductsResponse();
       setProducts(res.data);
     } catch (error) {
-      setErrors(error);
+      console.log(error);
+      statusErrors(error);
+      responseError(error);
     }
   };
 
@@ -25,7 +27,9 @@ const useProducts = () => {
       const res = await getProductByIdResponse(id);
       setProducts(res.data);
     } catch (error) {
-      setErrors(error);
+      console.log(error);
+      statusErrors(error);
+      responseError(error);
     }
   };
 
@@ -34,7 +38,9 @@ const useProducts = () => {
       const res = await createProductResponse(product);
       setProducts(res.data);
     } catch (error) {
-      setErrors(error);
+      console.log(error);
+      statusErrors(error);
+      responseError(error);
     }
   };
 
@@ -44,8 +50,9 @@ const useProducts = () => {
       const res = await updateProductResponse(id, product);
       setProducts(res.data);
     } catch (error) {
-      setErrors(error);
       console.log(error);
+      statusErrors(error);
+      responseError(error);
     }
   };
 
@@ -54,13 +61,15 @@ const useProducts = () => {
       const res = await deleteProductResponse(id);
       setProducts(res.data);
     } catch (error) {
-      setErrors(error);
+      console.log(error);
+      statusErrors(error);
+      responseError(error);
     }
   };
 
   return {
     products,
-    errors,
+    setProducts,
     getProducts,
     getProductById,
     createProduct,

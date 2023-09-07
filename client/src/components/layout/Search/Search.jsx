@@ -77,11 +77,11 @@ const Search = () => {
     const lowerText = text
       .toLowerCase()
       .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, (char) => "");
+      .replace(/[\u0300-\u036f]/g, () => "");
     const lowerQuery = searchValue
       .toLowerCase()
       .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, (char) => "");
+      .replace(/[\u0300-\u036f]/g, () => "");
     const startIndex = lowerText.indexOf(lowerQuery);
     if (startIndex === -1) {
       return text;

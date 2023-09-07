@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import {
   ProductContainer,
@@ -6,8 +7,8 @@ import {
   ProductListContainer,
   ProductListItem,
 } from "./Products.styles";
-
-import { products } from "../../../components/products/productList";
+import useProducts from "../../../hooks/api/useProducts";
+import useCategories from "../../../hooks/api/useCategories";
 
 import ProductFilter from "../../../components/products/ProductFilter";
 import ProductItem from "../../../components/products/ProductItem/ProductItem";
@@ -15,7 +16,22 @@ import ProductTitle from "../../../components/products/ProductTitle/ProductTitle
 import EmptyData from "../../../components/layout/EmptyData/EmptyData";
 
 const Products = () => {
-  // let totResults = 2;
+  const { products, getProducts } = useProducts();
+  const { categories, getCategories } = useCategories();
+
+  useEffect(() => {
+    getProducts();
+    getCategories();
+  }, []);
+
+  //crear array de categorias
+  const categoriesID = [
+    ...new Set(products.map((product) => product.categoryId)),
+  ];
+  const categoriesData = categories.filter((category) =>
+    categoriesID.includes(category.id)
+  );
+
   let { search } = useLocation();
   let searchData = decodeURIComponent(search.slice(3).replace(/\+/g, " "));
 
@@ -24,11 +40,11 @@ const Products = () => {
       product.name
         .toLowerCase()
         .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, (char) => "") ===
+        .replace(/[\u0300-\u036f]/g, () => "") ===
       searchData
         .toLowerCase()
         .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, (char) => "")
+        .replace(/[\u0300-\u036f]/g, () => "")
   );
 
   return (
@@ -38,21 +54,22 @@ const Products = () => {
       ) : (
         <ProductContainer component={"main"}>
           <ProductFilters component={"aside"}>
-            <ProductFilter />
+            <ProductFilter categories={categoriesData} />
           </ProductFilters>
           <ProductData component={"section"}>
             <ProductTitle
               search={search && searchData}
+              // category={category}
               totResults={search ? searchProducts.length : products.length}
             />
             <ProductListContainer container spacing={3}>
               {!searchData
-                ? Object.values(products).map((product) => (
+                ? products.map((product) => (
                     <ProductListItem item key={product.id}>
                       <ProductItem data={product} />
                     </ProductListItem>
                   ))
-                : Object.values(products).map((product) => (
+                : products.map((product) => (
                     <ProductListItem item key={product.id}>
                       <ProductItem data={product} />
                     </ProductListItem>

@@ -1,16 +1,19 @@
 import { MenuItem } from "@mui/material";
 import { ProductCategorySelect } from "./ProductCategory.styles";
 
-const ProductCategory = () => {
+const ProductCategory = ({ categories }) => {
   return (
     <ProductCategorySelect
       name="productCategory"
       variant="outlined"
       defaultValue={1}
     >
-      <MenuItem value={1}>Categoría 1</MenuItem>
-      <MenuItem value={2}>Categoría 2</MenuItem>
-      <MenuItem value={3}>Categoría 3</MenuItem>
+      <MenuItem value={1}>Selecciona una Categoría</MenuItem>
+      {categories.map((category, index) => (
+        <MenuItem value={category.name} key={index}>
+          {category.name}
+        </MenuItem>
+      ))}
     </ProductCategorySelect>
   );
 };

@@ -14,7 +14,7 @@ const ProductTitle = ({ search, totResults }) => {
     <ProductTitleContainer component={"article"}>
       <ProductCategory>
         <ProductCategoryTitle variant="h5">
-          {search ? search : "Categoría"}
+          {search ? search : "Todas las Categorías"}
         </ProductCategoryTitle>
         <ProductCategoryQuantity variant="subtitle1">
           {totResults} artículos

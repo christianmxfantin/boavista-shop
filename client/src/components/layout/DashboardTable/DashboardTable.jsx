@@ -10,7 +10,7 @@ import {
 import { Avatar, TableBody, TableHead, TableRow } from "@mui/material";
 import AvatarImage from "../../../images/product.jpg";
 import ActionButtons from "../ActionButtons/ActionButtons";
-import useProducts from "../../../hooks/useProducts";
+import useProducts from "../../../hooks/api/useProducts";
 import { useEffect } from "react";
 
 const DashboardTable = ({ typeData }) => {
@@ -20,7 +20,7 @@ const DashboardTable = ({ typeData }) => {
 
   useEffect(() => {
     getProducts();
-  }, []);
+  }, [getProducts]);
 
   let database;
   if (typeData === "users") {
