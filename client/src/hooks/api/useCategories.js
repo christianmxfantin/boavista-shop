@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { responseError, statusErrors } from "../../utils/toastErrors";
 import {
+  createCategoryResponse,
+  deleteCategoryResponse,
   getCategoriesResponse,
   getCategoryByIdResponse,
+  updateCategoryResponse,
 } from "../../api/categories";
 
 const useCategories = () => {
@@ -30,48 +33,47 @@ const useCategories = () => {
     }
   };
 
-  // const createProduct = async (product) => {
-  //   try {
-  //     const res = await createProductResponse(product);
-  //     setProducts(res.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //     statusErrors(error);
-  //     responseError(error);
-  //   }
-  // };
+  const createCategory = async (category) => {
+    try {
+      const res = await createCategoryResponse(category);
+      setCategories(res.data);
+    } catch (error) {
+      console.log(error);
+      statusErrors(error);
+      responseError(error);
+    }
+  };
 
-  // const updateProduct = async (id, product) => {
-  //   try {
-  //     console.log(product);
-  //     const res = await updateProductResponse(id, product);
-  //     setProducts(res.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //     statusErrors(error);
-  //     responseError(error);
-  //   }
-  // };
+  const updateCategory = async (id, category) => {
+    try {
+      const res = await updateCategoryResponse(id, category);
+      setCategories(res.data);
+    } catch (error) {
+      console.log(error);
+      statusErrors(error);
+      responseError(error);
+    }
+  };
 
-  // const deleteProduct = async (id) => {
-  //   try {
-  //     const res = await deleteProductResponse(id);
-  //     setProducts(res.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //     statusErrors(error);
-  //     responseError(error);
-  //   }
-  // };
+  const deleteCategory = async (id) => {
+    try {
+      const res = await deleteCategoryResponse(id);
+      setCategories(res.data);
+    } catch (error) {
+      console.log(error);
+      statusErrors(error);
+      responseError(error);
+    }
+  };
 
   return {
     categories,
     setCategories,
     getCategories,
     getCategoryById,
-    // createProduct,
-    // updateProduct,
-    // deleteProduct,
+    createCategory,
+    updateCategory,
+    deleteCategory,
   };
 };
 

@@ -1,18 +1,32 @@
-import { Typography } from "@mui/material";
+import { MenuItem } from "@mui/material";
 import {
   ProductDiscountCard,
+  ProductDiscountSelect,
   ProductDiscountTitle,
-  ProductDiscountData,
 } from "./ProductDiscount.styles";
 
-const ProductDiscount = () => {
+const ProductDiscount = ({ discounts, discountFilter, setDiscountFilter }) => {
+  const handleDiscountChange = (value) => {
+    // console.log(value);
+    setDiscountFilter(value);
+  };
+
   return (
     <ProductDiscountCard>
       <ProductDiscountTitle>Descuentos</ProductDiscountTitle>
-      <ProductDiscountData>
-        {/* COMPONENTE QUE GENERA LA DATA AUTOMATICAMENTE DESDE LA BD */}
-        <Typography>5% OFF, 10% OFF, 20% OFF</Typography>
-      </ProductDiscountData>
+      <ProductDiscountSelect
+        name="productCategory"
+        variant="outlined"
+        defaultValue={1}
+        onChange={(e) => handleDiscountChange(e.target.value)}
+      >
+        <MenuItem value={1}>Selecciona un Descuento</MenuItem>
+        {discounts.map((discount, index) => (
+          <MenuItem value={discount.percentage} key={index}>
+            {`${discount.percentage}% OFF`}
+          </MenuItem>
+        ))}
+      </ProductDiscountSelect>
     </ProductDiscountCard>
   );
 };

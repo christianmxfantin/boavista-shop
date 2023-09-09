@@ -5,11 +5,11 @@ export const getCategoriesResponse = async () => axios.get("/categories");
 export const getCategoryByIdResponse = async (id) =>
   axios.get(`/categories/${id}`);
 
-// export const createPaymentResponse = async (payment) =>
-//   axios.post("/payments", payment);
+export const createCategoryResponse = async (category) =>
+  axios.post("/categories", category);
 
-// export const updatePaymentResponse = async (id, payment) =>
-//   axios.put(`/payments/${id}`, payment);
+export const updateCategoryResponse = async (id, category) =>
+  axios.put(`/categories/${id}`, category);
 
-// export const deletePaymentResponse = async (id) =>
-//   axios.delete(`/payments/${id}`);
+export const deleteCategoryResponse = async (id) =>
+  axios.delete(`/categories/${id}`);
