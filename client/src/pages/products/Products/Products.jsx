@@ -21,29 +21,123 @@ const Products = () => {
   const { categories, getCategories } = useCategories();
   const { discounts, getDiscounts } = useDiscounts();
 
-  const [discountFilter, setDiscountFilter] = useState();
-
   useEffect(() => {
     getProducts();
     getCategories();
     getDiscounts();
   }, []);
 
-  //crear array de productos con filtro de descuentos
-
-  //crear array de categorias y descuentos
+  //crear array de categorias para poner en el select
   const categoriesID = [
     ...new Set(products.map((product) => product.categoryId)),
   ];
   const categoriesData = categories.filter((category) =>
     categoriesID.includes(category.id)
   );
+
+  //crear array de descuentos para poner en el select
   const discountsID = [
     ...new Set(products.map((product) => product.discountId)),
   ];
   const discountsData = discounts.filter(
     (discount) => discountsID.includes(discount.id) && discount.percentage !== 0
   );
+
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedPrice, setSelectedPrice] = useState([0, 0]);
+  const [selectedDiscount, setSelectedDiscount] = useState(null);
+  const [list, setList] = useState(products);
+  const [resultsFound, setResultsFound] = useState(true);
+
+  const applyFilters = () => {
+    let updatedList = products;
+    // console.log(updatedList);
+
+    //Order Filter
+    if (selectedOrder === 3) {
+      updatedList = updatedList.sort(
+        (a, b) => parseFloat(a.price) - parseFloat(b.price)
+      );
+      console.log(updatedList);
+    }
+    if (selectedOrder === 2) {
+      updatedList = updatedList.sort(
+        (a, b) => parseFloat(b.price) - parseFloat(a.price)
+      );
+      console.log(updatedList);
+    }
+
+    //Category Filter
+    if (selectedCategory && selectedCategory !== 1) {
+      const categoryID = categories.find(
+        (category) => category.name === selectedCategory
+      );
+      updatedList = updatedList.filter(
+        (product) => product.categoryId === categoryID.id
+      );
+    }
+
+    //Price Filter
+    const minPrice = selectedPrice[0];
+    const maxPrice = selectedPrice[1];
+
+    if (selectedPrice && minPrice !== 0) {
+      updatedList = updatedList.filter(
+        (product) => parseFloat(product.price) >= parseFloat(minPrice)
+      );
+    }
+
+    if (selectedPrice && maxPrice !== 0) {
+      updatedList = updatedList.filter(
+        (product) => parseFloat(product.price) <= parseFloat(maxPrice)
+      );
+    }
+
+    //Discount Filter
+    if (selectedDiscount && selectedDiscount !== 1 && selectedDiscount !== 2) {
+      const discountID = discounts.find(
+        (discount) => discount.percentage === selectedDiscount
+      );
+      updatedList = updatedList.filter(
+        (product) => product.discountId === discountID.id
+      );
+    }
+
+    //Mostrar productos sin descuento
+    if (selectedDiscount === 2) {
+      const discountID = discounts.find(
+        (discount) => discount.percentage === 0
+      );
+      updatedList = updatedList.filter(
+        (product) => product.discountId === discountID.id
+      );
+    }
+
+    //Deseleccionar Categoria
+    if (selectedCategory === 1) {
+      setSelectedCategory(null);
+    }
+
+    //Deseleccionar Descuentos
+    if (selectedDiscount === 1) {
+      setSelectedDiscount(null);
+    }
+
+    setList(updatedList);
+
+    !updatedList.length ? setResultsFound(false) : setResultsFound(true);
+  };
+
+  useEffect(() => {
+    applyFilters();
+  }, [
+    products,
+    selectedOrder,
+    selectedCategory,
+    selectedPrice,
+    selectedDiscount,
+  ]);
 
   let { search } = useLocation();
   let searchData = decodeURIComponent(search.slice(3).replace(/\+/g, " "));
@@ -60,30 +154,32 @@ const Products = () => {
         .replace(/[\u0300-\u036f]/g, () => "")
   );
 
-  console.log(discountFilter);
   return (
-    <>
-      {products.length === 0 ? (
-        <EmptyData iconName="products" size={180} title="productos" />
-      ) : (
-        <ProductContainer component={"main"}>
-          <ProductFilters component={"aside"}>
-            <ProductFilter
-              categories={categoriesData}
-              discounts={discountsData}
-              discountsFilter={discountFilter}
-              setDiscountFilter={setDiscountFilter}
-            />
-          </ProductFilters>
-          <ProductData component={"section"}>
+    <ProductContainer component={"main"}>
+      <ProductFilters component={"aside"}>
+        <ProductFilter
+          categories={categoriesData}
+          discounts={discountsData}
+          setSelectedCategory={setSelectedCategory}
+          selectedPrice={selectedPrice}
+          setSelectedPrice={setSelectedPrice}
+          setSelectedDiscount={setSelectedDiscount}
+        />
+      </ProductFilters>
+      <ProductData component={"section"}>
+        {!resultsFound ? (
+          <EmptyData iconName="products" size={180} title="productos" />
+        ) : (
+          <>
             <ProductTitle
               search={search && searchData}
-              // category={category}
-              totResults={search ? searchProducts.length : products.length}
+              category={selectedCategory}
+              totResults={search ? searchProducts.length : list.length}
+              setSelectedOrder={setSelectedOrder}
             />
             <ProductListContainer container spacing={3}>
               {!searchData
-                ? products.map((product) => (
+                ? list.map((product) => (
                     <ProductListItem item key={product.id}>
                       <ProductItem data={product} />
                     </ProductListItem>
@@ -94,10 +190,10 @@ const Products = () => {
                     </ProductListItem>
                   ))}
             </ProductListContainer>
-          </ProductData>
-        </ProductContainer>
-      )}
-    </>
+          </>
+        )}
+      </ProductData>
+    </ProductContainer>
   );
 };
 

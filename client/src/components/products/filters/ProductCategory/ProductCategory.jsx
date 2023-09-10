@@ -4,7 +4,11 @@ import {
   ProductCategoryTitle,
 } from "./ProductCategory.styles";
 
-const ProductCategory = ({ categories }) => {
+const ProductCategory = ({ categories, setSelectedCategory }) => {
+  const handleCategoryChange = (value) => {
+    setSelectedCategory(value);
+  };
+
   return (
     <>
       <ProductCategoryTitle>Categorías</ProductCategoryTitle>
@@ -12,8 +16,9 @@ const ProductCategory = ({ categories }) => {
         name="productCategory"
         variant="outlined"
         defaultValue={1}
+        onChange={(e) => handleCategoryChange(e.target.value)}
       >
-        <MenuItem value={1}>Selecciona una Categoría</MenuItem>
+        <MenuItem value={1}>Mostrar Todos</MenuItem>
         {categories.map((category, index) => (
           <MenuItem value={category.name} key={index}>
             {category.name}

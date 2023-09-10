@@ -6,18 +6,25 @@ import { Typography } from "@mui/material";
 const ProductFilter = ({
   categories,
   discounts,
-  discountFilter,
-  setDiscountFilter,
+  setSelectedCategory,
+  selectedPrice,
+  setSelectedPrice,
+  setSelectedDiscount,
 }) => {
   return (
     <>
       <Typography sx={{ fontWeight: "bold" }}>Filtros</Typography>
-      <ProductCategory categories={categories} />
-      <ProductPrice />
+      <ProductCategory
+        categories={categories}
+        setSelectedCategory={setSelectedCategory}
+      />
+      <ProductPrice
+        selectedPrice={selectedPrice}
+        setSelectedPrice={setSelectedPrice}
+      />
       <ProductDiscount
         discounts={discounts}
-        discountFilter={discountFilter}
-        setDiscountFilter={setDiscountFilter}
+        setSelectedDiscount={setSelectedDiscount}
       />
     </>
   );

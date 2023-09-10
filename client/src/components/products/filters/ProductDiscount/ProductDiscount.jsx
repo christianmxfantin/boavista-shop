@@ -5,10 +5,9 @@ import {
   ProductDiscountTitle,
 } from "./ProductDiscount.styles";
 
-const ProductDiscount = ({ discounts, discountFilter, setDiscountFilter }) => {
+const ProductDiscount = ({ discounts, setSelectedDiscount }) => {
   const handleDiscountChange = (value) => {
-    // console.log(value);
-    setDiscountFilter(value);
+    setSelectedDiscount(value);
   };
 
   return (
@@ -20,7 +19,8 @@ const ProductDiscount = ({ discounts, discountFilter, setDiscountFilter }) => {
         defaultValue={1}
         onChange={(e) => handleDiscountChange(e.target.value)}
       >
-        <MenuItem value={1}>Selecciona un Descuento</MenuItem>
+        <MenuItem value={1}>Mostrar Todos</MenuItem>
+        <MenuItem value={2}>Sin descuento</MenuItem>
         {discounts.map((discount, index) => (
           <MenuItem value={discount.percentage} key={index}>
             {`${discount.percentage}% OFF`}
