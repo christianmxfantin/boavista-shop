@@ -27,7 +27,7 @@ export const CartItemTitle = styled(Typography)(({ theme }) => ({
 }));
 
 export const CartItemPriceContainer = styled(Box)(({ theme }) => ({
-  width: "70px",
+  width: "150px",
   height: "30px",
   display: "flex",
   justifyContent: "center",

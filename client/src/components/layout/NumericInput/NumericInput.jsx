@@ -12,8 +12,13 @@ import { Icon } from "../../ui/Icon";
 
 import { addOneToCart, removeOneFromCart } from "../../../reducers/cart";
 
-const NumericInput = ({ type, total, data }) => {
-  const { formType, id } = data;
+const NumericInput = ({ type, total, setQuantityPrice, data }) => {
+  let formType;
+  let id;
+  if (data) {
+    ({ formType, id } = data);
+  }
+
   const theme = useTheme();
   const dispatch = useDispatch();
 
@@ -25,6 +30,7 @@ const NumericInput = ({ type, total, data }) => {
     }
 
     if (formType === "cart") {
+      setQuantityPrice(count + 1);
       dispatch(addOneToCart(id));
     }
   };
@@ -34,6 +40,7 @@ const NumericInput = ({ type, total, data }) => {
       setCount(count - 1);
     }
     if (formType === "cart") {
+      setQuantityPrice(count - 1);
       dispatch(removeOneFromCart(id));
     }
   };

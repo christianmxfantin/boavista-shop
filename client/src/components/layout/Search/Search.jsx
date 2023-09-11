@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import {
@@ -7,8 +7,8 @@ import {
   StyledInputBase,
 } from "./Search.styles";
 import { Icon as SearchIcon } from "../../ui/Icon";
-import { products } from "../../products/productList";
 import { List, ListItem, ListItemText, Paper, Popper } from "@mui/material";
+import useProducts from "../../../hooks/api/useProducts";
 
 const Search = () => {
   const navigate = useNavigate();
@@ -17,6 +17,11 @@ const Search = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
   const inputRef = useRef(null);
+  const { products, getProducts } = useProducts();
+
+  useEffect(() => {
+    getProducts();
+  }, []);
 
   const handleCleanInput = () => {
     setSearchResults([]);
@@ -25,10 +30,17 @@ const Search = () => {
     inputRef.current.blur();
   };
 
-  const handleListItemClick = (index) => {
+  const handleListItemClick = (e, index) => {
     setSelectedItemIndex(index);
     setSearchValue(searchResults[index]?.name);
-    console.log(setSearchValue(searchResults[index]?.name));
+    let q = e.target.value;
+    navigate({
+      pathname: "/products",
+      search: `?${createSearchParams({
+        q,
+      })}`,
+    });
+    handleCleanInput();
   };
 
   const handleKeyDown = (e) => {
@@ -145,7 +157,7 @@ const Search = () => {
                   >
                     <ListItemText
                       primary={renderResultText(result.name)}
-                      onClick={() => handleListItemClick(index)}
+                      onClick={(e) => handleListItemClick(e, index)}
                     />
                   </ListItem>
                 ))}

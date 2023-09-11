@@ -24,20 +24,6 @@ export const ItemTitleBack = styled(Typography)(({ theme }) => ({
   },
 }));
 
-export const ItemTitleCategories = styled(Typography)(({ theme }) => ({
-  cursor: "pointer",
-  "&:hover": {
-    color: theme.palette.secondary[500],
-  },
-}));
-
-export const ItemTitleShareContainer = styled(Box)(({ theme }) => ({
-  cursor: "pointer",
-  "&:hover": {
-    color: theme.palette.secondary[500],
-  },
-}));
-
 export const ItemData = styled(Box)(({ theme }) => ({
   height: "450px",
   display: "flex",

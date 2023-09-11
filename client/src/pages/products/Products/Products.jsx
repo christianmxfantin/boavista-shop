@@ -43,6 +43,7 @@ const Products = () => {
     (discount) => discountsID.includes(discount.id) && discount.percentage !== 0
   );
 
+  const { search } = useLocation();
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedPrice, setSelectedPrice] = useState([0, 0]);
@@ -50,22 +51,36 @@ const Products = () => {
   const [list, setList] = useState(products);
   const [resultsFound, setResultsFound] = useState(true);
 
+  let searchData;
   const applyFilters = () => {
     let updatedList = products;
-    // console.log(updatedList);
+
+    //Search
+    if (search) {
+      searchData = decodeURIComponent(search.slice(3).replace(/\+/g, " "));
+      updatedList = updatedList.filter(
+        (product) =>
+          product.name
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, () => "") ===
+          searchData
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, () => "")
+      );
+    }
 
     //Order Filter
     if (selectedOrder === 3) {
       updatedList = updatedList.sort(
         (a, b) => parseFloat(a.price) - parseFloat(b.price)
       );
-      console.log(updatedList);
     }
     if (selectedOrder === 2) {
       updatedList = updatedList.sort(
         (a, b) => parseFloat(b.price) - parseFloat(a.price)
       );
-      console.log(updatedList);
     }
 
     //Category Filter
@@ -133,26 +148,13 @@ const Products = () => {
     applyFilters();
   }, [
     products,
+    search,
+    searchData,
     selectedOrder,
     selectedCategory,
     selectedPrice,
     selectedDiscount,
   ]);
-
-  let { search } = useLocation();
-  let searchData = decodeURIComponent(search.slice(3).replace(/\+/g, " "));
-
-  let searchProducts = Object.values(products).filter(
-    (product) =>
-      product.name
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, () => "") ===
-      searchData
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, () => "")
-  );
 
   return (
     <ProductContainer component={"main"}>
@@ -172,23 +174,17 @@ const Products = () => {
         ) : (
           <>
             <ProductTitle
-              search={search && searchData}
+              search={search && search}
               category={selectedCategory}
-              totResults={search ? searchProducts.length : list.length}
+              totResults={list.length}
               setSelectedOrder={setSelectedOrder}
             />
             <ProductListContainer container spacing={3}>
-              {!searchData
-                ? list.map((product) => (
-                    <ProductListItem item key={product.id}>
-                      <ProductItem data={product} />
-                    </ProductListItem>
-                  ))
-                : products.map((product) => (
-                    <ProductListItem item key={product.id}>
-                      <ProductItem data={product} />
-                    </ProductListItem>
-                  ))}
+              {list.map((product) => (
+                <ProductListItem item key={product.id}>
+                  <ProductItem data={product} />
+                </ProductListItem>
+              ))}
             </ProductListContainer>
           </>
         )}

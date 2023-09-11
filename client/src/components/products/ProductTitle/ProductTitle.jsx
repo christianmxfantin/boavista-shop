@@ -10,23 +10,23 @@ import {
 import { MenuItem } from "@mui/material";
 
 const ProductTitle = ({ search, totResults, category, setSelectedOrder }) => {
+  const searchData = decodeURIComponent(search.slice(3).replace(/\+/g, " "));
+
   const handleOrderByChange = (value) => {
     setSelectedOrder(value);
-    console.log(value);
   };
 
   return (
     <ProductTitleContainer component={"article"}>
       <ProductCategory>
         <ProductCategoryTitle variant="h5">
-          {search ? search : category ? category : "Todas las Categorías"}
+          {search ? searchData : category ? category : "Todas las Categorías"}
         </ProductCategoryTitle>
         <ProductCategoryQuantity variant="subtitle1">
           {totResults} {totResults === 1 ? "artículo" : "artículos"}
         </ProductCategoryQuantity>
       </ProductCategory>
       <ProductOrderByContainer>
-        {/* <ProductOrderByTitle>Ordenar por:</ProductOrderByTitle> */}
         <ProductOrderBySelect
           name="productOrder"
           variant="standard"
