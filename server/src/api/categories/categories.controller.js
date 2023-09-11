@@ -2,6 +2,8 @@ const { Sequelize } = require("sequelize");
 const db = require("../../db/models/index.js");
 const { CategoriesErrors } = require("./categories.errors.js");
 const { ApiErrors } = require("../api/api.errors.js");
+const ErrorHandler = require("../../utils/errorHandler.js");
+const logger = require("../../utils/logger.js");
 
 const Categories = db.categories;
 
