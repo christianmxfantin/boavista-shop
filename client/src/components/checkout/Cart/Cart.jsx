@@ -1,4 +1,4 @@
-// import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useTheme } from "@emotion/react";
 import {
@@ -13,17 +13,22 @@ import Underline from "../../ui/Underline";
 import ButtonsContainer from "../../layout/ButtonsContainer/ButtonsContainer";
 
 import { cleanCart } from "../../../reducers/cart";
-import { useState } from "react";
 
 const Cart = ({ formType, handleRight, setStepperData }) => {
-  let totalPrice = 0;
-
   const theme = useTheme();
   const dispatch = useDispatch();
   const { productList } = useSelector((state) => state.cart);
+  const [totalPrice, setTotalPrice] = useState(0);
 
-  const [itemPrice, setItemPrice] = useState();
-  console.log(itemPrice);
+  useEffect(() => {
+    let calculatedTotalPrice = 0;
+    Object.values(productList).forEach((item) => {
+      calculatedTotalPrice =
+        calculatedTotalPrice + parseFloat(item.price) * item.totalProduct;
+    });
+    setTotalPrice(calculatedTotalPrice);
+  }, [productList]);
+
   const handleCleanCart = () => {
     dispatch(cleanCart());
   };
@@ -32,14 +37,11 @@ const Cart = ({ formType, handleRight, setStepperData }) => {
     <CartContainer>
       <ProductsContainer>
         {Object.values(productList).map((item, index) => {
-          totalPrice += parseFloat(item.price);
           return (
             <CartItem
               key={index}
               data={item}
               color={index % 2 === 0 && theme.palette.secondary.A100}
-              itemPrice={itemPrice}
-              setItemPrice={setItemPrice}
             />
           );
         })}
@@ -47,7 +49,7 @@ const Cart = ({ formType, handleRight, setStepperData }) => {
       <Underline heigth={1} color={theme.palette.primary[500]} />
       <TotalContainer>
         <TotalTitle variant="h5">Total:</TotalTitle>
-        <TotalPrice variant="h5">$ {itemPrice}</TotalPrice>
+        <TotalPrice variant="h5">$ {totalPrice}</TotalPrice>
       </TotalContainer>
       <ButtonsContainer
         formType={formType}
@@ -55,7 +57,10 @@ const Cart = ({ formType, handleRight, setStepperData }) => {
         rightName="Continuar"
         onClickLeft={handleCleanCart}
         onClickRight={() => {
-          setStepperData((prevData) => ({ ...prevData, cart: productList }));
+          setStepperData((prevData) => ({
+            ...prevData,
+            cart: { ...productList, totalPrice },
+          }));
           handleRight();
         }}
       />

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useTheme } from "@emotion/react";
 import {
   CartItemContainer,
@@ -17,16 +17,11 @@ import NumericInput from "../../layout/NumericInput/NumericInput";
 
 import { removeAllFromCart } from "../../../reducers/cart";
 
-const CartItem = ({ data, color, itemPrice, setItemPrice }) => {
-  const { id, name, price } = data;
+const CartItem = ({ data, color }) => {
+  const { id, name, price, totalProduct } = data;
   const theme = useTheme();
   const dispatch = useDispatch();
-
   const [quantityPrice, setQuantityPrice] = useState(1);
-
-  useEffect(() => {
-    setItemPrice(quantityPrice * price);
-  }, [setItemPrice, quantityPrice, price]);
 
   const handleDeleteProduct = (id) => {
     dispatch(removeAllFromCart(id));
@@ -61,6 +56,7 @@ const CartItem = ({ data, color, itemPrice, setItemPrice }) => {
         <NumericInput
           type="center"
           total={data.stock}
+          totalProduct={totalProduct}
           setQuantityPrice={setQuantityPrice}
           data={{ formType: "cart", ...data }}
         />

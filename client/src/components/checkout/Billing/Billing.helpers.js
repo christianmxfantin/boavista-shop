@@ -1,4 +1,8 @@
-import { createAddressResponse } from "../../../api/addresses";
+import {
+  createAddressResponse,
+  getAddressByIdResponse,
+  getAddressesResponse,
+} from "../../../api/addresses";
 import {
   addressTypeByNameResponse,
   createAddressTypeResponse,
@@ -41,6 +45,25 @@ export const getStateName = async (id) => {
   try {
     const res = await getStateByIdResponse(id);
     return res.data.name;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getAddressByUser = async (userID) => {
+  try {
+    const res = await getAddressesResponse();
+    const address = res.data.filter((address) => address.userId === userID);
+    return address[0];
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getAddressById = async (id) => {
+  try {
+    const res = await getAddressByIdResponse(id);
+    return res.data;
   } catch (error) {
     console.log(error);
   }

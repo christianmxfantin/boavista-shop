@@ -12,7 +12,13 @@ import { Icon } from "../../ui/Icon";
 
 import { addOneToCart, removeOneFromCart } from "../../../reducers/cart";
 
-const NumericInput = ({ type, total, setQuantityPrice, data }) => {
+const NumericInput = ({
+  type,
+  total,
+  totalProduct,
+  setQuantityPrice,
+  data,
+}) => {
   let formType;
   let id;
   if (data) {
@@ -22,7 +28,7 @@ const NumericInput = ({ type, total, setQuantityPrice, data }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
 
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(totalProduct);
 
   const handleIncrement = () => {
     if (count < total) {
@@ -67,7 +73,7 @@ const NumericInput = ({ type, total, setQuantityPrice, data }) => {
           },
         }}
       >
-        <Quantity sx={{}}>
+        <Quantity>
           <input
             name="quantity"
             value={count}

@@ -9,13 +9,17 @@ export const cartSlice = createSlice({
   reducers: {
     addProductToCart: (state, action) => {
       const product = action.payload;
-      state.productList = {
-        ...state.productList,
-        [product.id]: {
-          ...product,
-          totalProduct: 1,
-        },
-      };
+      if (state.productList.hasOwnProperty(product.id)) {
+        state.productList[product.id].totalProduct += 1;
+      } else {
+        state.productList = {
+          ...state.productList,
+          [product.id]: {
+            ...product,
+            totalProduct: 1,
+          },
+        };
+      }
       state.total += 1;
     },
     addOneToCart: (state, action) => {

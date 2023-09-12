@@ -31,7 +31,7 @@ const Payment = ({
         onClickRight={() => {
           setStepperData((prevData) => ({
             ...prevData,
-            payment: selectedCard,
+            payment: { id: selectedCard },
           }));
           handleRight();
         }}

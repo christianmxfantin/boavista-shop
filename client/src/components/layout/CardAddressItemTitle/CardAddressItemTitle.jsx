@@ -13,6 +13,7 @@ import { getCardCompanyByIdResponse } from "../../../api/cardCompanies";
 import { ErrorsMessages } from "../../../utils/toastMessages";
 import { toastColor } from "../../../utils/toastOptions";
 import { getAddressTypeByIdResponse } from "../../../api/addressesTypes";
+import { responseError, statusErrors } from "../../../utils/toastErrors";
 
 const CardAddressItemTitle = ({
   data,
@@ -25,19 +26,6 @@ const CardAddressItemTitle = ({
   const theme = useTheme();
   const [addressType, setAddressType] = useState([]);
   const [cardCompany, setCardCompany] = useState([]);
-
-  const statusErrors = (error) => {
-    //client error
-    if (error.response.status > 399 || error.response.status < 500) {
-      toast.error(ErrorsMessages.CLIENT_STATUS, toastColor("error"));
-      return;
-    }
-    //server error
-    if (error.response.status > 499) {
-      toast.error(ErrorsMessages.SERVER_STATUS, toastColor("error"));
-      return;
-    }
-  };
 
   useEffect(() => {
     const getData = async () => {
@@ -52,11 +40,7 @@ const CardAddressItemTitle = ({
         }
       } catch (error) {
         statusErrors(error);
-
-        if (!error.response) {
-          toast.error(ErrorsMessages.RESPONSE_ERROR, toastColor("error"));
-          return;
-        }
+        responseError(error);
       }
     };
     getData();

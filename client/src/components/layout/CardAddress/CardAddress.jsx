@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useTheme } from "@emotion/react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -19,9 +20,6 @@ import CardAddressItemTitle from "../CardAddressItemTitle/CardAddressItemTitle";
 import Billing from "../../checkout/Billing/Billing";
 import PaymentDetails from "../../checkout/Payment/PaymentDetails/PaymentDetails";
 import { Icon } from "../../ui/Icon";
-import { getAddressesResponse } from "../../../api/addresses";
-import { getPaymentsResponse } from "../../../api/payments";
-import { useSelector } from "react-redux";
 import EmptyData from "../EmptyData/EmptyData";
 import { responseError, statusErrors } from "../../../utils/toastErrors";
 import useAddresses from "../../../hooks/api/useAddresses";
@@ -35,15 +33,16 @@ const CardAddress = ({
   handleLeft,
   handleRight,
   setStepperData,
-  // isButtonDisabled,
+  isButtonDisabled,
   setIsButtonDisabled,
+  confirmationData,
 }) => {
   const theme = useTheme();
   const { user } = useSelector((state) => state.auth);
   const userID = user.id;
 
   const { addresses, setAddresses, getAddresses } = useAddresses();
-  const { payments, setPayments, getPayments } = usePayments();
+  const { payments, setPayments, getPayments, getPaymentById } = usePayments();
 
   const [showAddNew, setShowAddNew] = useState(false);
   const [editBilling, setEditBilling] = useState(false);
@@ -56,13 +55,16 @@ const CardAddress = ({
         if (itemType === "address") {
           const addressesData = await getAddresses(userID);
           setAddresses(addressesData);
-          console.log(addressesData);
         }
 
         if (itemType === "card") {
           const paymentsData = await getPayments(userID);
           setPayments(paymentsData);
-          console.log(paymentsData);
+        }
+
+        if (formType === "payment-confirmation") {
+          const payment = await getPaymentById(confirmationData.id);
+          setPayments(payment);
         }
       } catch (error) {
         console.log(error);
@@ -72,13 +74,10 @@ const CardAddress = ({
     };
     getData();
 
-    // if (formType !== "profile") {
-    //   setIsButtonDisabled(true);
-    // }
+    if (formType !== "profile" && formType !== "payment-confirmation") {
+      setIsButtonDisabled(true);
+    }
   }, [itemType, userID, getAddresses, setAddresses, getPayments, setPayments]);
-
-  //coso
-  const isButtonDisabled = formType !== "profile";
 
   let data = [];
   let getAddressID;

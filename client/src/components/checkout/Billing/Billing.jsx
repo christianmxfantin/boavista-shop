@@ -38,6 +38,8 @@ import {
 } from "../../../utils/toastErrors";
 import {
   createAddressData,
+  getAddressById,
+  getAddressByUser,
   getAddressTypeName,
   getCityName,
   getStateName,
@@ -58,11 +60,16 @@ const Billing = ({
   setIsEditVisible,
   editProfileAddress,
 }) => {
+  let editAddress;
+  let editData;
+  if (formType === "profile") {
+    ({ editAddress, editData } = editProfileAddress);
+  }
+
   const theme = useTheme();
   const nameInput = useRef();
   const { createAddress, updateAddress } = useAddresses();
   const { user } = useSelector((state) => state.auth);
-  const { editAddress, editData } = editProfileAddress;
 
   const [billingData, setBillingData] = useState({});
   const [showMyAddress, setShowMyAddress] = useState(false);
@@ -89,31 +96,54 @@ const Billing = ({
     const getData = async () => {
       try {
         let myBilling = {};
-        // if (formType === "billing") {
-        //   myBilling = {
-        //     id: 1,
-        //     names: "Lionel Andrés",
-        //     surnames: "Messi",
-        //     address: "Lampilagucho 563",
-        //     // state: "Santa Fe",
-        //     // city: "Rosario",
-        //     email: "elliodelagente@gmail.com",
-        //     phone: "5555 3477",
-        //   };
-        // }
+        if (formType === "billing") {
+          const myBillingData = await getAddressByUser(user.id);
+          const addressType = await getAddressTypeName(
+            myBillingData.addressTypeId
+          );
 
-        // if (confirmationData) {
-        //   myBilling = {
-        //     id: 1,
-        //     names: confirmationData.names,
-        //     surnames: confirmationData.surnames,
-        //     address: confirmationData.address,
-        //     // state: confirmationData.state,
-        //     // city: confirmationData.city,
-        //     email: confirmationData.email,
-        //     phone: confirmationData.phone,
-        //   };
-        // }
+          const state = await getStateName(myBillingData.stateId);
+          const city = await getCityName(myBillingData.cityId);
+
+          myBilling = {
+            addressType,
+            address: myBillingData.address,
+            state,
+            city,
+            phone: myBillingData.phone,
+          };
+        }
+
+        if (confirmationData) {
+          myBilling = {
+            addressType: confirmationData.addressType,
+            address: confirmationData.address,
+            state: confirmationData.state,
+            city: confirmationData.city,
+            email: confirmationData.email,
+            phone: confirmationData.phone,
+          };
+        }
+
+        if (formType === "shipping-confirmation") {
+          const myBillingData = await getAddressById(
+            confirmationData.idAddress
+          );
+          const addressType = await getAddressTypeName(
+            myBillingData.addressTypeId
+          );
+
+          const state = await getStateName(myBillingData.stateId);
+          const city = await getCityName(myBillingData.cityId);
+
+          myBilling = {
+            addressType,
+            address: myBillingData.address,
+            state,
+            city,
+            phone: myBillingData.phone,
+          };
+        }
 
         if (editAddress) {
           const myBillingData = editData;
@@ -123,7 +153,6 @@ const Billing = ({
 
           const state = await getStateName(myBillingData.stateId);
           const city = await getCityName(myBillingData.cityId);
-          // setCityName(city);
 
           myBilling = {
             addressType,

@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useTheme } from "@emotion/react";
 import {
   ConfirmationDataContainer,
@@ -8,14 +9,12 @@ import {
 } from "./ConfirmationData.styles";
 import { Icon as EditIcon } from "../../../ui/Icon";
 import Billing from "../../Billing/Billing";
-import { useState } from "react";
+import CardAddress from "../../../layout/CardAddress/CardAddress";
 
 const ConfirmationData = ({ type, data }) => {
   const theme = useTheme();
   const [isEditVisible, setIsEditVisible] = useState(true);
   const [editConfirmationData, setEditConfirmationData] = useState(false);
-  // console.log(data);
-  // const dataGood = Object.values(data);
 
   const handleEdit = () => {
     setEditConfirmationData(true);
@@ -36,7 +35,7 @@ const ConfirmationData = ({ type, data }) => {
         </DataEdit>
       </DataTitleContainer>
       <DataInfoContainer>
-        {Object.keys(data)[0] === "names" ? (
+        {Object.keys(data)[0] === "addressType" ? (
           <Billing
             formType="billing-confirmation"
             confirmationData={data}
@@ -53,8 +52,11 @@ const ConfirmationData = ({ type, data }) => {
             setIsEditVisible={setIsEditVisible}
           />
         ) : (
-          //buscar en la BD el ID y traer el title
-          <div>Visa Terminada en 5432</div>
+          <CardAddress
+            formType="payment-confirmation"
+            itemType="card"
+            confirmationData={data}
+          />
         )}
       </DataInfoContainer>
     </ConfirmationDataContainer>
