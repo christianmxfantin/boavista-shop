@@ -10,8 +10,6 @@ import {
 } from "./CardAddressItemTitle.styles";
 import ActionButtons from "../ActionButtons/ActionButtons";
 import { getCardCompanyByIdResponse } from "../../../api/cardCompanies";
-import { ErrorsMessages } from "../../../utils/toastMessages";
-import { toastColor } from "../../../utils/toastOptions";
 import { getAddressTypeByIdResponse } from "../../../api/addressesTypes";
 import { responseError, statusErrors } from "../../../utils/toastErrors";
 
@@ -70,6 +68,7 @@ const CardAddressItemTitle = ({
           </ItemTitle>
         )}
         <ActionButtons
+          formType={formType}
           database={{
             typeData: itemType === "address" ? "billings" : "cards",
             data,

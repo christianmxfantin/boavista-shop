@@ -17,6 +17,11 @@ import PaymentSuccessful from "../../checkout/Payment/PaymentSuccessful/PaymentS
 import Payment from "../../checkout/Payment/Payment/Payment";
 
 import { cleanCart } from "../../../reducers/cart";
+import {
+  editBilling,
+  editShipping,
+  payPurchase,
+} from "./StepperCheckout.helpers";
 
 const StepperCheckout = () => {
   let stepperComponent;
@@ -42,8 +47,16 @@ const StepperCheckout = () => {
   };
 
   const handlePayment = () => {
-    //Pagar
-    console.log("Pagar");
+    if (stepperData.billing.edit) {
+      editBilling();
+    }
+
+    if (stepperData.shipping.edit) {
+      editShipping();
+    }
+
+    payPurchase();
+    console.log(stepperData);
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
@@ -86,6 +99,7 @@ const StepperCheckout = () => {
         <Confirmation
           formType="confirmation"
           confirmationData={stepperData}
+          setStepperData={setStepperData}
           handleCancelPurchase={handleCancelPurchase}
           handlePayment={handlePayment}
         />

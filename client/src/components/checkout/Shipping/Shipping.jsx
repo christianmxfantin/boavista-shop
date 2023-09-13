@@ -70,8 +70,9 @@ const Shipping = ({ formType, handleLeft, handleRight, setStepperData }) => {
           setStepperData((prevData) => ({
             ...prevData,
             shipping: {
+              addressId:
+                selectedAddress === 0 ? prevData.billing.id : selectedAddress,
               shippingData: value,
-              idAddress: selectedAddress,
             },
           }));
           handleRight();

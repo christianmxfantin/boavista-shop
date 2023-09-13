@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useTheme } from "@emotion/react";
 import { toast, ToastContainer } from "react-toastify";
@@ -67,7 +67,6 @@ const Billing = ({
   }
 
   const theme = useTheme();
-  const nameInput = useRef();
   const { createAddress, updateAddress } = useAddresses();
   const { user } = useSelector((state) => state.auth);
 
@@ -106,6 +105,7 @@ const Billing = ({
           const city = await getCityName(myBillingData.cityId);
 
           myBilling = {
+            id: myBillingData.id,
             addressType,
             address: myBillingData.address,
             state,
@@ -127,7 +127,7 @@ const Billing = ({
 
         if (formType === "shipping-confirmation") {
           const myBillingData = await getAddressById(
-            confirmationData.idAddress
+            confirmationData.addressId
           );
           const addressType = await getAddressTypeName(
             myBillingData.addressTypeId
@@ -196,7 +196,6 @@ const Billing = ({
 
   const handleCheckoutEdit = () => {
     setEditCheckoutMode(true);
-    nameInput.current.focus();
   };
 
   const handleCancel = () => {
@@ -264,15 +263,38 @@ const Billing = ({
     }
 
     if (formType === "billing") {
-      setStepperData((prevData) => ({ ...prevData, billing: formValues }));
+      setStepperData((prevData) => ({
+        ...prevData,
+        billing: { id: billingData.id, ...formValues, edit: editCheckoutMode },
+      }));
       handleRight();
     }
 
-    if (
-      formType === "billing-confirmation" ||
-      formType === "shipping-confirmation"
-    ) {
-      //save billing and shipping data confirmation
+    if (formType === "billing-confirmation") {
+      setStepperData((prevData) => {
+        const newData = { ...prevData };
+        const billingID = prevData.billing.id;
+        delete newData.billing;
+
+        return {
+          ...newData,
+          billing: { id: billingID, ...formValues, edit: true },
+        };
+      });
+      handleCancelConfirmation();
+    }
+
+    if (formType === "shipping-confirmation") {
+      setStepperData((prevData) => {
+        const newData = { ...prevData };
+        const shippingID = prevData.shipping.addressId;
+        delete newData.shipping;
+
+        return {
+          ...newData,
+          shipping: { addressId: shippingID, ...formValues, edit: true },
+        };
+      });
       handleCancelConfirmation();
     }
 
@@ -510,8 +532,10 @@ const Billing = ({
                 </>
               )}
               {(formType === "billing" ||
+                formType === "shipping" ||
                 formType === "profile" ||
-                formType === "billing-confirmation") && (
+                formType === "billing-confirmation" ||
+                formType === "shipping-confirmation") && (
                 <PhoneInput
                   name="phone"
                   type="tel"
@@ -521,6 +545,8 @@ const Billing = ({
                   disabled={
                     (formType === "billing" && !editCheckoutMode) ||
                     (formType === "billing-confirmation" &&
+                      !editConfirmationData) ||
+                    (formType === "shipping-confirmation" &&
                       !editConfirmationData)
                   }
                   required

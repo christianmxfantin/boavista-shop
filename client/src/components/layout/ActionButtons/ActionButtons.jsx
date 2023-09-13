@@ -5,6 +5,7 @@ import TableActions from "../TableActions/TableActions";
 import { Icon as EditIcon, Icon as DeleteIcon } from "../../ui/Icon";
 
 const ActionButtons = ({
+  formType,
   database,
   setShowAddNew,
   setEditID,
@@ -56,7 +57,7 @@ const ActionButtons = ({
   return (
     <>
       <ActionButtonsContainer>
-        {typeData !== "cards" && (
+        {typeData !== "cards" && formType !== "shipping" && (
           <EditIcon
             name="Edit-Data"
             size={30}
@@ -65,12 +66,16 @@ const ActionButtons = ({
             onClick={() => handleEdit(data)}
           />
         )}
-        <DeleteIcon
-          name="Delete-Data"
-          size={30}
-          color={theme.palette.error[500]}
-          onClick={() => handleDelete(data)}
-        />
+        {formType !== "shipping" &&
+          formType !== "payment" &&
+          formType !== "payment-confirmation" && (
+            <DeleteIcon
+              name="Delete-Data"
+              size={30}
+              color={theme.palette.error[500]}
+              onClick={() => handleDelete(data)}
+            />
+          )}
       </ActionButtonsContainer>
       <TableActions
         showModal={showModal}

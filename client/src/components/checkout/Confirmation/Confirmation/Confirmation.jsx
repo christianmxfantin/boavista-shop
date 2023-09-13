@@ -5,6 +5,7 @@ import ButtonsContainer from "../../../layout/ButtonsContainer/ButtonsContainer"
 const Confirmation = ({
   formType,
   confirmationData,
+  setStepperData,
   handleCancelPurchase,
   handlePayment,
 }) => {
@@ -12,8 +13,23 @@ const Confirmation = ({
 
   return (
     <ConfirmationContainer>
-      <ConfirmationData type="Facturación" data={billing} />
-      <ConfirmationData type="Envío" data={shipping} />
+      <ConfirmationData
+        type="Facturación"
+        data={billing}
+        setStepperData={setStepperData}
+      />
+      {billing.id !== shipping.addressId ? (
+        <ConfirmationData
+          type="Envío"
+          data={shipping}
+          setStepperData={setStepperData}
+        />
+      ) : (
+        <ConfirmationData
+          type="Misma dirección"
+          data="La dirección de Envío es igua a la de Facturación"
+        />
+      )}
       <ConfirmationData type="Pago" data={payment} />
       <ButtonsContainer
         formType={formType}

@@ -63,8 +63,8 @@ const CardAddress = ({
         }
 
         if (formType === "payment-confirmation") {
-          const payment = await getPaymentById(confirmationData.id);
-          setPayments(payment);
+          const paymentConfirmation = await getPaymentById(confirmationData.id);
+          setPayments([paymentConfirmation]);
         }
       } catch (error) {
         console.log(error);
@@ -147,7 +147,7 @@ const CardAddress = ({
               title={itemType === "address" ? "direcciones" : "tarjetas"}
             />
           )}
-          {formType !== "profile" ? (
+          {formType !== "profile" && formType !== "payment-confirmation" ? (
             <FormControl defaultValue="">
               <RadioGroup>
                 {data.map((data) => (
@@ -189,11 +189,16 @@ const CardAddress = ({
             <>
               {data.map((data) => (
                 <CardAddressItem
+                  disabled={formType === "payment-confirmation" && true}
                   key={data.id}
                   sx={{
                     "&:hover": {
-                      backgroundColor: theme.palette.primary[300],
-                      color: theme.palette.secondary.A100,
+                      backgroundColor:
+                        formType !== "payment-confirmation" &&
+                        theme.palette.primary[300],
+                      color:
+                        formType !== "payment-confirmation" &&
+                        theme.palette.secondary.A100,
                     },
                   }}
                 >
@@ -223,7 +228,11 @@ const CardAddress = ({
           variant={formType === "profile" ? "text" : "contained"}
           disabled={formType !== "profile" && !isButtonDisabled}
           onClick={handleAddNewButton}
-          sx={{ width: "100%", marginTop: formType === "profile" && "16px" }}
+          sx={{
+            width: "100%",
+            marginTop: formType === "profile" && "16px",
+            display: formType === "payment-confirmation" && "none",
+          }}
         >
           {itemType === "address"
             ? "Agregar Nueva Dirección"

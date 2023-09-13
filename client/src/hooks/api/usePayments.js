@@ -26,7 +26,7 @@ const usePayments = () => {
   const getPaymentById = async (id) => {
     try {
       const res = await getPaymentByIdResponse(id);
-      setPayments(res.data);
+      return res.data;
     } catch (error) {
       console.log(error);
       statusErrors(error);
@@ -59,11 +59,9 @@ const usePayments = () => {
   const deletePayment = async (id, userID) => {
     try {
       const payment = await getPayments(userID);
-      // console.log(address);
       const res = await deletePaymentResponse(id);
       if (res.status === 204) {
         const paymentData = payment.filter((payment) => payment.id !== id);
-        // console.log(addressData);
         setPayments(paymentData);
       }
     } catch (error) {
