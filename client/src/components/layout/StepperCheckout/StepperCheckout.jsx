@@ -20,7 +20,7 @@ import { cleanCart } from "../../../reducers/cart";
 import {
   editBilling,
   editShipping,
-  payPurchase,
+  saveOrder,
 } from "./StepperCheckout.helpers";
 
 const StepperCheckout = () => {
@@ -55,7 +55,7 @@ const StepperCheckout = () => {
       editShipping();
     }
 
-    payPurchase();
+    saveOrder();
     console.log(stepperData);
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };

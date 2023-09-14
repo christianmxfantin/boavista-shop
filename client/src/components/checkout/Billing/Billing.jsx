@@ -174,10 +174,10 @@ const Billing = ({
   }, [formType, confirmationData, editAddress, editData]);
 
   useEffect(() => {
-    let api = true;
-    if (!api) {
-      setEditCheckoutMode(true);
-    }
+    // let api = true;
+    // if (!api) {
+    //   setEditCheckoutMode(true);
+    // }
 
     if (formType === "shipping") {
       setEditCheckoutMode(true);
@@ -237,8 +237,10 @@ const Billing = ({
     ) {
       try {
         const newAddress = await createAddressData(formValues, user);
-        await createAddress(newAddress);
-        toast.success(SuccessMessages.CHANGES_DONE, toastColor("success"));
+        const response = await createAddress(newAddress);
+        if (response) {
+          toast.success(SuccessMessages.CHANGES_DONE, toastColor("success"));
+        }
       } catch (error) {
         console.log(error);
         conflictError(error);
@@ -251,8 +253,10 @@ const Billing = ({
     if (formType === "profile" && editAddress) {
       try {
         const addressData = await createAddressData(formValues, user);
-        await updateAddress(editData.id, addressData);
-        toast.success(SuccessMessages.CHANGES_DONE, toastColor("success"));
+        const response = await updateAddress(editData.id, addressData);
+        if (response) {
+          toast.success(SuccessMessages.CHANGES_DONE, toastColor("success"));
+        }
       } catch (error) {
         console.log(error);
         conflictError(error);
@@ -404,7 +408,9 @@ const Billing = ({
                     <Controller
                       name="state"
                       control={control}
-                      rules={{ required: true }}
+                      rules={{
+                        required: true,
+                      }}
                       defaultValue={
                         formType === "billing" ||
                         (formType === "profile" && !editAddress)
@@ -471,6 +477,7 @@ const Billing = ({
                               (formType === "shipping-confirmation" &&
                                 !editConfirmationData)
                             }
+                            required
                             onChange={(e) => {
                               field.onChange(e.target.value);
                             }}

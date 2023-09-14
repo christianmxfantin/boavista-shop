@@ -160,7 +160,6 @@ export const createAddressData = async (formValues, user) => {
       userId: user.id,
     };
 
-    console.log(newAddress);
     return newAddress;
   } catch (error) {
     console.log(error);
