@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useTheme } from "@emotion/react";
 import {
   Stepper as StepperComponent,
@@ -13,18 +13,17 @@ import Cart from "../../checkout/Cart/Cart";
 import Billing from "../../checkout/Billing/Billing";
 import Shipping from "../../checkout/Shipping/Shipping";
 import Confirmation from "../../checkout/Confirmation/Confirmation/Confirmation";
-import PaymentSuccessful from "../../checkout/Payment/PaymentSuccessful/PaymentSuccessful";
+import PaymentSuccessful from "../../../pages/checkout/PaymentSuccessful/PaymentSuccessful";
 import Payment from "../../checkout/Payment/Payment/Payment";
 
 import { cleanCart } from "../../../reducers/cart";
-import {
-  editBilling,
-  editShipping,
-  saveOrder,
-} from "./StepperCheckout.helpers";
+import { createOrderResponse } from "../../../api/orders";
 
 const StepperCheckout = () => {
   let stepperComponent;
+  const { user } = useSelector((state) => state.auth);
+  const userID = user.id;
+
   const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -46,17 +45,22 @@ const StepperCheckout = () => {
     navigate("/");
   };
 
-  const handlePayment = () => {
-    if (stepperData.billing.edit) {
-      editBilling();
+  const handlePayment = async () => {
+    try {
+      const newOrder = {
+        order: JSON.stringify(stepperData),
+        userId: userID,
+      };
+      const response = await createOrderResponse(newOrder);
+      if (response) {
+        navigate("/payment-successful", {
+          state: { orderID: response.data.id },
+        });
+      }
+    } catch (error) {
+      console.log(error);
     }
 
-    if (stepperData.shipping.edit) {
-      editShipping();
-    }
-
-    saveOrder();
-    console.log(stepperData);
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
@@ -115,38 +119,32 @@ const StepperCheckout = () => {
       );
   }
 
-  console.log(stepperData);
+  // console.log(JSON.stringify(stepperData));
 
   return (
     <>
-      {activeStep === 5 ? (
-        <PaymentSuccessful />
-      ) : (
-        <>
-          <StepperComponent
-            activeStep={activeStep}
-            connector={<StepConnector />}
-            sx={{ marginBottom: theme.spacing(3) }} //24px
-          >
-            <Step>
-              <StepLabel>Carrito de Compras</StepLabel>
-            </Step>
-            <Step>
-              <StepLabel>Facturación</StepLabel>
-            </Step>
-            <Step>
-              <StepLabel>Envío</StepLabel>
-            </Step>
-            <Step>
-              <StepLabel>Pago</StepLabel>
-            </Step>
-            <Step>
-              <StepLabel>Confirmación</StepLabel>
-            </Step>
-          </StepperComponent>
-          {stepperComponent}
-        </>
-      )}
+      <StepperComponent
+        activeStep={activeStep}
+        connector={<StepConnector />}
+        sx={{ marginBottom: theme.spacing(3) }} //24px
+      >
+        <Step>
+          <StepLabel>Carrito de Compras</StepLabel>
+        </Step>
+        <Step>
+          <StepLabel>Facturación</StepLabel>
+        </Step>
+        <Step>
+          <StepLabel>Envío</StepLabel>
+        </Step>
+        <Step>
+          <StepLabel>Pago</StepLabel>
+        </Step>
+        <Step>
+          <StepLabel>Confirmación</StepLabel>
+        </Step>
+      </StepperComponent>
+      {stepperComponent}
     </>
   );
 };

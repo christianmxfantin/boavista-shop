@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/layout/Navbar/Navbar";
+import ForgetPassword from "./components/layout/ForgetPassword/ForgetPassword";
+
 import Login from "./pages/auth/Login/Login";
 import Register from "./pages/auth/Register/Register";
 import Dashboard from "./pages/admin/Dashboard/Dashboard";
@@ -13,7 +15,7 @@ import PageNotFound from "./pages/pageNotFound/PageNotFound";
 import AuthRoute from "./components/auth/AuthRoute";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import List from "./pages/admin/List/List";
-import ForgetPassword from "./components/layout/ForgetPassword/ForgetPassword";
+import PaymentSuccessful from "./pages/checkout/PaymentSuccessful/PaymentSuccessful";
 
 const App = () => {
   return (
@@ -139,6 +141,13 @@ const App = () => {
                 <Checkout />
               </>
             }
+          />
+        </Route>
+        <Route exact path="/payment-successful" element={<PrivateRoute />}>
+          <Route
+            exact
+            path="/payment-successful"
+            element={<PaymentSuccessful />}
           />
         </Route>
         <Route

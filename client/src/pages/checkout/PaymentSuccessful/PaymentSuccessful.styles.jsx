@@ -2,11 +2,12 @@ import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export const PaymentSuccessfulContainer = styled(Box)(({ theme }) => ({
-  height: "75vh",
+  height: "100vh",
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
+  backgroundColor: theme.palette.primary[50],
 }));
 
 export const PaymentData = styled(Typography)(({ theme }) => ({

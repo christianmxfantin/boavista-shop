@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme, css } from "@emotion/react";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   Avatar,
@@ -108,11 +108,6 @@ const Navbar = ({ isLoginForm }) => {
     dispatch(unsetUser());
     logout();
     window.location.reload();
-    navigate("/", { replace: true });
-    toast.success(
-      "La sesión se ha cerrado correctamente",
-      toastColor("success")
-    );
   };
 
   return (

@@ -22,6 +22,8 @@ import {
   getStateByIdResponse,
   stateByNameResponse,
 } from "../../../api/states";
+import { capitalizeWords } from "../../../utils/capitalizeWords";
+import { conflictError } from "../../../utils/toastErrors";
 
 export const getAddressTypeName = async (id) => {
   try {
@@ -69,30 +71,31 @@ export const getAddressById = async (id) => {
   }
 };
 
-export const createAddressData = async (formValues, user) => {
+export const createAddressData = async (formValues, user, addTypeName) => {
   try {
-    //envio el tipo de direccion y el usuario para obtener el id
-    const addressTypeName = {
-      name: formValues.addressType.toLowerCase().trim(),
-      userId: user.id,
-    };
-    const addressTypeNameResponse = await addressTypeByNameResponse(
-      addressTypeName
-    );
-
     let addressTypeId;
-    if (
-      addressTypeNameResponse.data.message ===
-      "El tipo de dirección ingresado está disponible."
-    ) {
-      //si el tipo de direccion no existe, lo creo
-      const addressTypeResponse = await createAddressTypeResponse(
+    if (addTypeName.name !== formValues.addressType) {
+      //envio el tipo de direccion y el usuario para obtener el id
+      const addressTypeName = {
+        name: capitalizeWords(formValues.addressType.trim()),
+        userId: user.id,
+      };
+      const addressTypeNameRes = await addressTypeByNameResponse(
         addressTypeName
       );
-      addressTypeId = addressTypeResponse.data.id;
+
+      if (
+        addressTypeNameRes.data.message ===
+        "El tipo de dirección ingresado está disponible."
+      ) {
+        //si el tipo de direccion no existe, lo creo
+        const addressTypeResponse = await createAddressTypeResponse(
+          addressTypeName
+        );
+        addressTypeId = addressTypeResponse.data.id;
+      }
     } else {
-      //si existe, guardo el id
-      addressTypeId = addressTypeNameResponse.data.id;
+      addressTypeId = addTypeName.id;
     }
 
     let countryIdResponse;
@@ -163,5 +166,6 @@ export const createAddressData = async (formValues, user) => {
     return newAddress;
   } catch (error) {
     console.log(error);
+    conflictError(error);
   }
 };

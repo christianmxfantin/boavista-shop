@@ -236,7 +236,7 @@ const Billing = ({
       (formType === "shipping" && !showMyAddress)
     ) {
       try {
-        const newAddress = await createAddressData(formValues, user);
+        const newAddress = await createAddressData(formValues, user, "create");
         const response = await createAddress(newAddress);
         if (response) {
           toast.success(SuccessMessages.CHANGES_DONE, toastColor("success"));
@@ -252,7 +252,10 @@ const Billing = ({
 
     if (formType === "profile" && editAddress) {
       try {
-        const addressData = await createAddressData(formValues, user);
+        const addressData = await createAddressData(formValues, user, {
+          id: editData.addressTypeId,
+          name: billingData.addressType,
+        });
         const response = await updateAddress(editData.id, addressData);
         if (response) {
           toast.success(SuccessMessages.CHANGES_DONE, toastColor("success"));
@@ -411,16 +414,10 @@ const Billing = ({
                       rules={{
                         required: true,
                       }}
-                      defaultValue={
-                        formType === "billing" ||
-                        (formType === "profile" && !editAddress)
-                          ? 1
-                          : stateName
-                      }
-                      render={({ field }) => (
+                      render={({ field: { name, value, onChange } }) => (
                         <>
                           <StateSelect
-                            {...field}
+                            name={name}
                             fullWidth
                             disabled={
                               (formType === "billing" && !editCheckoutMode) ||
@@ -429,8 +426,14 @@ const Billing = ({
                               (formType === "shipping-confirmation" &&
                                 !editConfirmationData)
                             }
+                            defaultValue={
+                              formType === "billing" ||
+                              (formType === "profile" && !editAddress)
+                                ? 1
+                                : stateName
+                            }
                             onChange={(e) => {
-                              field.onChange(e.target.value);
+                              onChange(e.target.value);
                               setProvincia(e.target.value);
                             }}
                             error={!!errors.state}
@@ -446,7 +449,7 @@ const Billing = ({
                           </StateSelect>
                           <FormHelperText error={!!errors.state}>
                             {errors.state &&
-                            field.value !== "Seleccione una Provincia"
+                            value !== "Seleccione una Provincia"
                               ? AddressesErrors.STATE_INVALID
                               : ""}
                           </FormHelperText>
@@ -458,17 +461,11 @@ const Billing = ({
                     <Controller
                       name="city"
                       control={control}
-                      defaultValue={
-                        formType === "billing" ||
-                        (formType === "profile" && !editAddress)
-                          ? 1
-                          : cityName
-                      }
                       rules={{ required: true }}
-                      render={({ field }) => (
+                      render={({ field: { name, value, onChange } }) => (
                         <>
                           <CitySelect
-                            {...field}
+                            name={name}
                             fullWidth
                             disabled={
                               (formType === "billing" && !editCheckoutMode) ||
@@ -477,9 +474,15 @@ const Billing = ({
                               (formType === "shipping-confirmation" &&
                                 !editConfirmationData)
                             }
+                            defaultValue={
+                              formType === "billing" ||
+                              (formType === "profile" && !editAddress)
+                                ? 1
+                                : cityName
+                            }
                             required
                             onChange={(e) => {
-                              field.onChange(e.target.value);
+                              onChange(e.target.value);
                             }}
                             error={!!errors.city}
                           >
@@ -493,8 +496,7 @@ const Billing = ({
                             ))}
                           </CitySelect>
                           <FormHelperText error={!!errors.city}>
-                            {errors.city &&
-                            field.value !== "Seleccione una Localidad"
+                            {errors.city && value !== "Seleccione una Localidad"
                               ? AddressesErrors.CITY_INVALID
                               : ""}
                           </FormHelperText>
