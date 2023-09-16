@@ -23,21 +23,6 @@ const createAndUpdateAddress = async (req, res, next, type) => {
     const { address, addressTypeId, cityId, stateId, countryId, userId } =
       req.body;
 
-    // Check if address type already exists (case-insensitive) for the same user
-    if (type === "address-create") {
-      const duplicateAddressType = await AddressesTypes.findOne({
-        where: {
-          userId,
-          addressTypeId,
-        },
-      });
-      if (duplicateAddressType) {
-        return res.status(409).json({
-          message: AddressesTypesErrors.ADDRESS_TYPE_ALREADY_EXISTS,
-        });
-      }
-    }
-
     //Check if addressTypeId exists in address type table
     const existingAddressType = await AddressesTypes.findByPk(addressTypeId);
     if (!existingAddressType) {

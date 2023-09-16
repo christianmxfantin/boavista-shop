@@ -65,13 +65,15 @@ const addressTypeByName = async (req, res, next) => {
       },
     });
 
-    if (!existingAddressType) {
-      return res.status(200).json({
-        message: AddressesTypesErrors.ADDRESS_TYPE_IS_AVAILABLE,
+    if (existingAddressType) {
+      return res.status(409).json({
+        message: AddressesTypesErrors.ADDRESS_TYPE_ALREADY_EXISTS,
       });
     }
 
-    return res.status(200).json(existingAddressType);
+    return res
+      .status(200)
+      .json({ message: AddressesTypesErrors.ADDRESS_TYPE_IS_AVAILABLE });
   } catch (err) {
     const error = new ErrorHandler(err.message, err.statusCode);
     logger.error(err);
