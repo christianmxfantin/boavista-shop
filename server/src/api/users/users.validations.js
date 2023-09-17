@@ -73,10 +73,15 @@ const createAndUpdateUser = async (req, res, next, type) => {
       }
     }
 
+    //Provisional Image for new users
+    const provisionalImage =
+      "https://res.cloudinary.com/christianmxfantin/image/upload/v1694915142/boavista-shop/avatar/sxdnfsf6kajii72ws3e5.jpg";
+
     //Hash the password and create the user
     const hashedPassword = await hashPassword(password);
     return type !== "login"
       ? {
+          avatarURL: provisionalImage,
           names,
           surnames,
           email,
@@ -85,6 +90,7 @@ const createAndUpdateUser = async (req, res, next, type) => {
         }
       : {
           id: existingEmail.id,
+          avatarURL: existingEmail.avatarURL,
           names: existingEmail.names,
           surnames: existingEmail.surnames,
           email: existingEmail.email,

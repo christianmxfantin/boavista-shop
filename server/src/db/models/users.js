@@ -10,15 +10,18 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         allowNull: false,
       },
-      // imageURL: {
-      //   type: DataTypes.STRING,
-      //   allowNull: false,
-      //   validate: {
-      //     notEmpty: {
-      //       msg: emptyField("imágen URL"),
-      //     },
-      //   },
-      // },
+      avatarURL: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+        // validate: {
+        //   notEmpty: {
+        //     msg: UsersErrors.URL_EMPTY,
+        //   },
+        //   isURL: {
+        //     msg: UsersErrors.URL_INVALID,
+        //   },
+        // },
+      },
       names: {
         type: DataTypes.STRING(100),
         allowNull: false,

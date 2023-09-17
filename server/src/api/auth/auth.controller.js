@@ -19,7 +19,6 @@ const TOKEN_SECRET = crypto.randomBytes(128).toString("hex");
 const register = async (req, res, next) => {
   try {
     const userData = await createAndUpdateUser(req, res, next, "register");
-    console.log(userData);
     if (userData) {
       const savedUser = await Users.create(userData);
 
@@ -33,6 +32,7 @@ const register = async (req, res, next) => {
 
       return res.status(201).json({
         id: savedUser.id,
+        avatarURL: savedUser.avatarURL,
         names: savedUser.names,
         surnames: savedUser.surnames,
         email: savedUser.email,
@@ -72,6 +72,7 @@ const login = async (req, res, next) => {
 
       return res.status(200).json({
         id: userData.id,
+        avatarURL: userData.avatarURL,
         names: userData.names,
         surnames: userData.surnames,
         email: userData.email,

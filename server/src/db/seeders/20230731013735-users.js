@@ -20,7 +20,8 @@ module.exports = {
     return queryInterface.bulkInsert("users", [
       {
         id: uuidv4(),
-        // imageURL: "",
+        avatarURL:
+          "https://res.cloudinary.com/christianmxfantin/image/upload/v1694913966/boavista-shop/avatar/fz5zv3gqu5ceiuvu5geu.jpg",
         names: "Romina",
         surnames: "Echegazi",
         email: "rechegazi@boavista.com",
@@ -31,7 +32,8 @@ module.exports = {
       },
       {
         id: uuidv4(),
-        // imageURL: "",
+        avatarURL:
+          "https://res.cloudinary.com/christianmxfantin/image/upload/v1694913965/boavista-shop/avatar/kgrq1hg1dfrffmog1vja.jpg",
         names: "Juan Ernesto",
         surnames: "García",
         email: "jgarcia@boavista.com",
@@ -42,7 +44,8 @@ module.exports = {
       },
       {
         id: uuidv4(),
-        // imageURL: "",
+        avatarURL:
+          "https://res.cloudinary.com/christianmxfantin/image/upload/v1694913964/boavista-shop/avatar/h8wvgteieouq7bhnnm7z.jpg",
         names: "Federico",
         surnames: "Del Solar",
         email: "fededelsolar@gmail.com",
