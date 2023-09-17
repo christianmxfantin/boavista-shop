@@ -12,4 +12,7 @@ export const createUserResponse = async (user) => axios.post("/users", user);
 export const updateUserResponse = async (id, user) =>
   axios.put(`/users/${id}`, user);
 
+export const uploadAvatar = async (id, user) =>
+  axios.put(`/users/upload-avatar/${id}`, user);
+
 export const deleteUserResponse = async (id) => axios.delete(`/users/${id}`);

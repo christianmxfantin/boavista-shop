@@ -26,9 +26,7 @@ import {
   NavbarMenuContainer,
   SearchContainer,
 } from "./Navbar.styles";
-import TestImage from "../../../images/product2.jpg";
 import { unsetUser } from "../../../reducers/auth";
-import { toastColor } from "../../../utils/toastOptions";
 
 const Navbar = ({ isLoginForm }) => {
   const theme = useTheme();
@@ -36,6 +34,7 @@ const Navbar = ({ isLoginForm }) => {
   const dispatch = useDispatch();
 
   const { isAuth, isLoading, logout } = useAuth();
+  const { user } = useSelector((state) => state.auth);
   const { total } = useSelector((state) => state.cart);
 
   const [isHover, setIsHover] = useState(false);
@@ -222,7 +221,7 @@ const Navbar = ({ isLoginForm }) => {
                 ) : (
                   <Tooltip title="Abrir Menú">
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                      <Avatar alt="Avatar del Usuario" src={TestImage} />
+                      <Avatar alt="Avatar del Usuario" src={user.avatarURL} />
                     </IconButton>
                   </Tooltip>
                 )}

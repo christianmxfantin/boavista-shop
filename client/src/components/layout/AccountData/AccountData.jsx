@@ -28,6 +28,7 @@ import { PatternValidations } from "../../../helpers/validations";
 import { UsersErrors } from "../../../errors/users.errors";
 import { EmptyFieldError } from "../../../errors/emptyField.errors";
 import { changePasswordResponse } from "../../../api/auth";
+import UploadImage from "../UploadImage/UploadImage";
 // import CameraAltIcon from "@mui/icons-material/CameraAlt";
 
 const AccountData = ({ formType, newPassword, userId }) => {
@@ -36,6 +37,7 @@ const AccountData = ({ formType, newPassword, userId }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
 
+  const [openDialog, setOpenDialog] = useState(false);
   const [changeEmail, setChangeEmail] = useState(false);
   const [changePassword, setChangePassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -58,6 +60,10 @@ const AccountData = ({ formType, newPassword, userId }) => {
       toast.error(ErrorsMessages.SERVER_STATUS, toastColor("error"));
       return;
     }
+  };
+
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
   };
 
   const handleCopyPaste = (e) => {
@@ -178,10 +184,10 @@ const AccountData = ({ formType, newPassword, userId }) => {
       >
         {!changePassword && !newPassword ? (
           <AccountInfoContainer>
-            <AvatarContainer>
+            <AvatarContainer onClick={handleOpenDialog}>
               <Avatar
                 alt="Avatar del Usuario"
-                src={TestImage}
+                src={user.avatarURL}
                 sx={{
                   width: "200px",
                   height: "200px",
@@ -201,6 +207,10 @@ const AccountData = ({ formType, newPassword, userId }) => {
                 }}
               /> */}
             </AvatarContainer>
+            <UploadImage
+              openDialog={openDialog}
+              setOpenDialog={setOpenDialog}
+            />
             <ChangeNamesInput
               defaultValue={user.names}
               name="newNames"
