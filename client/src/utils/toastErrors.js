@@ -28,3 +28,8 @@ export const responseError = (error) => {
     return;
   }
 };
+
+export const fileError = () => {
+  toast.error(ErrorsMessages.FILE_ERROR, toastColor("error"));
+  // return;
+};

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import { useForm } from "react-hook-form";
-import { Button } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
 import {
   TableActionsModal,
   TableActionsContainer,
@@ -28,6 +28,7 @@ import useAddresses from "../../../hooks/api/useAddresses";
 import usePayments from "../../../hooks/api/usePayments";
 import useAuth from "../../../hooks/useAuth";
 import { unsetUser } from "../../../reducers/auth";
+import UploadImage from "../UploadImage/UploadImage";
 
 const TableActions = ({ showModal, setShowModal, selectedData }) => {
   const theme = useTheme();
@@ -48,6 +49,8 @@ const TableActions = ({ showModal, setShowModal, selectedData }) => {
 
   const [addressType, setAddressType] = useState("");
   const [cardCompany, setCardCompany] = useState("");
+  const [openDialog, setOpenDialog] = useState(false);
+  const [productImage, setProductImage] = useState("");
   const { register, handleSubmit, reset } = useForm({ mode: "onBlur" });
 
   useEffect(() => {
@@ -74,6 +77,10 @@ const TableActions = ({ showModal, setShowModal, selectedData }) => {
     };
     getData();
   }, [actionType, data, selectedData]);
+
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
 
   const handleCancelButton = () => {
     reset();
@@ -160,7 +167,27 @@ const TableActions = ({ showModal, setShowModal, selectedData }) => {
         </TableActionsTitle>
         {actionType === "edit-product" ? (
           <TableEditContainer>
-            <TableImage>Imágen del Producto</TableImage>
+            <Tooltip
+              title={
+                productImage && "Haz clic nuevamente para añadir más imágenes"
+              }
+            >
+              <TableImage onClick={handleOpenDialog}>
+                {productImage ? (
+                  <>
+                    <img src={productImage} alt="imágen" />
+                  </>
+                ) : (
+                  <p>Haz clic aquí para añadir una imágen</p>
+                )}
+              </TableImage>
+            </Tooltip>
+            <UploadImage
+              openDialog={openDialog}
+              setOpenDialog={setOpenDialog}
+              formType="product"
+              setProductImage={setProductImage}
+            />
             <TableInputContainer>
               {actionType === "edit-user" && (
                 <>

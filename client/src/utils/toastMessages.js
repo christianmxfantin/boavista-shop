@@ -3,6 +3,7 @@ export const ErrorsMessages = {
   SERVER_STATUS: "El servidor no está disponible",
   RESPONSE_ERROR:
     "Ocurrió un error al procesar la solicitud. Por favor intenta más tarde.",
+  FILE_ERROR: "Por favor, selecciona un archivo de imagen válido.",
 };
 
 export const SuccessMessages = {

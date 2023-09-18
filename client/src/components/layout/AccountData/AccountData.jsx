@@ -4,7 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Avatar, Button, IconButton, InputAdornment } from "@mui/material";
+import {
+  Avatar,
+  Button,
+  IconButton,
+  InputAdornment,
+  Tooltip,
+} from "@mui/material";
 import {
   AccountDataContainer,
   ChangeNamesInput,
@@ -19,7 +25,6 @@ import {
 import { useForm } from "react-hook-form";
 import { Icon } from "../../ui/Icon";
 import ButtonsContainer from "../ButtonsContainer/ButtonsContainer";
-import TestImage from "../../../images/product2.jpg";
 import { getUserByIdResponse, updateUserResponse } from "../../../api/users";
 import { setUser } from "../../../reducers/auth";
 import { toastColor } from "../../../utils/toastOptions";
@@ -29,7 +34,6 @@ import { UsersErrors } from "../../../errors/users.errors";
 import { EmptyFieldError } from "../../../errors/emptyField.errors";
 import { changePasswordResponse } from "../../../api/auth";
 import UploadImage from "../UploadImage/UploadImage";
-// import CameraAltIcon from "@mui/icons-material/CameraAlt";
 
 const AccountData = ({ formType, newPassword, userId }) => {
   const theme = useTheme();
@@ -110,7 +114,7 @@ const AccountData = ({ formType, newPassword, userId }) => {
 
         const userData = {
           id: userFound.data.id,
-          // imageURL: "imageURL",
+          avatarURL: userFound.avatarURL,
           names: formValues.newNames.trim(),
           surnames: formValues.newSurnames ? formValues.newSurnames.trim() : "",
           email: formValues.newEmail.toLowerCase().trim(),
@@ -185,27 +189,21 @@ const AccountData = ({ formType, newPassword, userId }) => {
         {!changePassword && !newPassword ? (
           <AccountInfoContainer>
             <AvatarContainer onClick={handleOpenDialog}>
-              <Avatar
-                alt="Avatar del Usuario"
-                src={user.avatarURL}
-                sx={{
-                  width: "200px",
-                  height: "200px",
-                  "&:hover": {
-                    cursor: "pointer",
-                    filter: "brightness(50%)",
-                  },
-                }}
-              />
-              {/* <CameraAltIcon
-                sx={{
-                  width: "50px",
-                  height: "50px",
-                  color: theme.palette.secondary.A100,
-                  position: "absolute",
-                  top: "48%",
-                }}
-              /> */}
+              <Tooltip title="Haz clic para cambiar la imágen">
+                <Avatar
+                  alt="Avatar del Usuario"
+                  src={user.avatarURL}
+                  sx={{
+                    width: "200px",
+                    height: "200px",
+                    position: "relative",
+                    "&:hover": {
+                      cursor: "pointer",
+                      filter: "brightness(50%)",
+                    },
+                  }}
+                />
+              </Tooltip>
             </AvatarContainer>
             <UploadImage
               openDialog={openDialog}

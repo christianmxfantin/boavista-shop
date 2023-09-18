@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme, css } from "@emotion/react";
@@ -27,6 +27,7 @@ import {
   SearchContainer,
 } from "./Navbar.styles";
 import { unsetUser } from "../../../reducers/auth";
+import { getRoleById } from "../../../api/roles";
 
 const Navbar = ({ isLoginForm }) => {
   const theme = useTheme();
@@ -36,10 +37,28 @@ const Navbar = ({ isLoginForm }) => {
   const { isAuth, isLoading, logout } = useAuth();
   const { user } = useSelector((state) => state.auth);
   const { total } = useSelector((state) => state.cart);
+  const roleId = user.roleId;
 
+  const [roleName, setRoleName] = useState("");
   const [isHover, setIsHover] = useState(false);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+
+  useEffect(() => {
+    const getRoleName = async () => {
+      try {
+        if (user.roleId) {
+          const roles = await getRoleById(roleId);
+          const name = roles.data.name.toLowerCase().trim();
+          setRoleName(name);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getRoleName();
+  }, [roleId]);
 
   //CSS para Links de React Router
   const NavbarMenu = css({
@@ -100,6 +119,11 @@ const Navbar = ({ isLoginForm }) => {
   const handleProfileLink = () => {
     setAnchorElUser(null);
     navigate("/profile");
+  };
+
+  const handleDashboardLink = () => {
+    setAnchorElUser(null);
+    navigate("/dashboard");
   };
 
   const handleLogoutLink = () => {
@@ -244,6 +268,11 @@ const Navbar = ({ isLoginForm }) => {
                   <MenuItem onClick={handleProfileLink}>
                     <Typography textAlign="center">Perfil</Typography>
                   </MenuItem>
+                  {roleName !== "web" && (
+                    <MenuItem onClick={handleDashboardLink}>
+                      <Typography textAlign="center">Dashboard</Typography>
+                    </MenuItem>
+                  )}
                   <MenuItem onClick={handleLogoutLink}>
                     <Typography textAlign="center">Salir</Typography>
                   </MenuItem>

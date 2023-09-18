@@ -1,4 +1,4 @@
-import { Box, Modal, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Modal, TextField, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export const TableActionsModal = styled(Modal)(({ theme }) => ({
@@ -33,7 +33,7 @@ export const TableEditContainer = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(8),
 }));
 
-export const TableImage = styled(Box)(({ theme }) => ({
+export const TableImage = styled(Avatar)(({ theme }) => ({
   width: "150px",
   height: "150px",
   backgroundColor: theme.palette.primary[300],
