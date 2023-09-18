@@ -1,3 +1,4 @@
+const { ApiErrors } = require("../../api/api/api.errors");
 const { UsersErrors } = require("../../api/users/users.errors");
 
 module.exports = (sequelize, DataTypes) => {
@@ -13,14 +14,12 @@ module.exports = (sequelize, DataTypes) => {
       avatarURL: {
         type: DataTypes.TEXT,
         allowNull: false,
-        // validate: {
-        //   notEmpty: {
-        //     msg: UsersErrors.URL_EMPTY,
-        //   },
-        //   isURL: {
-        //     msg: UsersErrors.URL_INVALID,
-        //   },
-        // },
+        validate: {
+          is: {
+            args: /^(https?:\/\/)?(www\.)?[\w-]+\.[a-z]{2,4}(\/\S*)?$/,
+            msg: ApiErrors.URL_IMAGE_INVALID,
+          },
+        },
       },
       names: {
         type: DataTypes.STRING(100),

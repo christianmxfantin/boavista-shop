@@ -10,16 +10,6 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         allowNull: false,
       },
-      // imageURL: {
-      //   type: DataTypes.STRING,
-      //   allowNull: false,
-      //   validate: {
-      //     notEmpty: {
-      //       msg: emptyField("imágen URL"),
-      //     },
-      //   },
-      // },
-      // },
       name: {
         type: DataTypes.STRING(100),
         allowNull: false,

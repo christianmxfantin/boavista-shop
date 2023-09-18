@@ -5,6 +5,7 @@ const logger = require("../../utils/logger.js");
 const { createAndUpdateUser } = require("./users.validations.js");
 const { ApiErrors } = require("../api/api.errors.js");
 const cloudinary = require("../../utils/cloudinary.js");
+const { getImageURL } = require("../../utils/getImageURL.js");
 
 const Users = db.users;
 
@@ -113,7 +114,7 @@ const updateUser = async (req, res, next) => {
   }
 };
 
-const uploadAvatar = async (req, res, next) => {
+const updateAvatar = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { image } = req.body;
@@ -126,10 +127,27 @@ const uploadAvatar = async (req, res, next) => {
       });
     }
 
+    if (!image) {
+      return res.status(404).json({
+        message: ApiErrors.URL_IMAGE_EMPTY,
+      });
+    }
+
     const avatarURL = await cloudinary.v2.uploader.upload(image, {
-      // upload_preset: "boavista-shop",
       folder: "boavista-shop/avatar",
     });
+
+    //borrar la imagen anterior si es distinta a la que está en base
+    if (
+      existingUser.avatarURL !==
+      "https://res.cloudinary.com/christianmxfantin/image/upload/v1694915142/boavista-shop/avatar/sxdnfsf6kajii72ws3e5.jpg"
+    ) {
+      const fileName = getImageURL(existingUser.avatarURL);
+      console.log(existingUser.avatarURL, fileName);
+      cloudinary.api.delete_resources_by_prefix(fileName, {
+        type: "authenticated",
+      });
+    }
 
     const userData = {
       avatarURL: avatarURL.url,
@@ -142,7 +160,6 @@ const uploadAvatar = async (req, res, next) => {
 
     const updatedUser = await existingUser.update(userData);
     return res.status(200).json({
-      id: updatedUser.id,
       avatarURL: updatedUser.avatarURL,
     });
   } catch (err) {
@@ -183,6 +200,6 @@ module.exports = {
   getUserByEmail,
   createUser,
   updateUser,
-  uploadAvatar,
+  updateAvatar,
   deleteUser,
 };

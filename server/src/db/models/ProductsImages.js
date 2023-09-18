@@ -1,8 +1,11 @@
-const { StatesErrors } = require("../../api/states/states.errors");
+const { ApiErrors } = require("../../api/api/api.errors");
+const {
+  ProductsImagesErrors,
+} = require("../../api/productsImages/productsImages.errors");
 
 module.exports = (sequelize, DataTypes) => {
   const States = sequelize.define(
-    "states",
+    "products-images",
     {
       id: {
         type: DataTypes.UUID,
@@ -10,14 +13,13 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         allowNull: false,
       },
-      name: {
-        type: DataTypes.STRING(50),
+      url: {
+        type: DataTypes.TEXT,
         allowNull: false,
-        unique: true,
         validate: {
           is: {
-            args: /^[\p{L} -]{1,50}$/u,
-            msg: StatesErrors.NAME_INVALID,
+            args: /^(https?:\/\/)?(www\.)?[\w-]+\.[a-z]{2,4}(\/\S*)?$/,
+            msg: ApiErrors.URL_IMAGE_INVALID,
           },
         },
       },

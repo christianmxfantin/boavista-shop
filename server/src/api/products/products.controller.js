@@ -77,7 +77,7 @@ const updateProduct = async (req, res, next) => {
 
 const deleteProduct = async (req, res, next) => {
   try {
-    const { id, userId } = req.params;
+    const { id } = req.params;
 
     const existingProduct = await Products.findByPk(id);
     if (!existingProduct) {

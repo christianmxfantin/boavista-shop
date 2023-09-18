@@ -175,6 +175,7 @@ const changePassword = async (req, res, next) => {
 
     const hashedPassword = await hashPassword(newPassword);
     const user = {
+      avatarURL: existingUser.avatarURL,
       names: existingUser.names,
       surnames: existingUser.surnames,
       email: existingUser.email,

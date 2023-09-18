@@ -26,6 +26,7 @@ db.cardCompanies = require("./CardCompanies.js")(sequelize, DataTypes);
 db.paymentsTypes = require("./PaymentsTypes.js")(sequelize, DataTypes);
 db.orders = require("./Orders.js")(sequelize, DataTypes);
 db.products = require("./Products.js")(sequelize, DataTypes);
+db.productsImages = require("./ProductsImages.js")(sequelize, DataTypes);
 db.discounts = require("./Discounts.js")(sequelize, DataTypes);
 db.categories = require("./Categories.js")(sequelize, DataTypes);
 
@@ -68,6 +69,16 @@ db.users.hasMany(db.products, {
 });
 db.products.belongsTo(db.users, {
   foreignKey: "userId",
+  targetId: "id",
+});
+
+//ProductsImages with Products
+db.products.hasMany(db.productsImages, {
+  foreignKey: "productId",
+  sourceKey: "id",
+});
+db.productsImages.belongsTo(db.products, {
+  foreignKey: "productId",
   targetId: "id",
 });
 

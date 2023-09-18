@@ -14,6 +14,7 @@ const paymentsRouter = require("../api/payments/payments.router");
 const categoriesRouter = require("../api/categories/categories.router");
 const discountsRouter = require("../api/discounts/discounts.router");
 const productsRouter = require("../api/products/products.router");
+const productsImagesRouter = require("../api/productsImages/productsImages.router");
 const ordersRouter = require("../api/orders/orders.router");
 const apiRouter = require("../api/api/api.router");
 
@@ -34,6 +35,7 @@ const routerAPI = (app) => {
   router.use("/categories", categoriesRouter);
   router.use("/discounts", discountsRouter);
   router.use("/products", productsRouter);
+  router.use("/products-images", productsImagesRouter);
   router.use("/orders", ordersRouter);
   app.all("*", apiRouter);
 };
