@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import { useForm } from "react-hook-form";
-import { Button, Tooltip } from "@mui/material";
+import { Avatar, Button, Tooltip } from "@mui/material";
 import {
   TableActionsModal,
   TableActionsContainer,
@@ -19,6 +19,10 @@ import {
   TableDeleteLine1,
   TableDeleteLine2,
   TableDeleteLine3,
+  TableStockInput,
+  TableNamesInput,
+  TableSurnamesInput,
+  TableEmailInput,
 } from "./TableActions.styles";
 import useProducts from "../../../hooks/api/useProducts";
 import { deleteUserResponse } from "../../../api/users";
@@ -30,7 +34,7 @@ import useAuth from "../../../hooks/useAuth";
 import { unsetUser } from "../../../reducers/auth";
 import UploadImage from "../UploadImage/UploadImage";
 
-const TableActions = ({ showModal, setShowModal, selectedData }) => {
+const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -157,25 +161,66 @@ const TableActions = ({ showModal, setShowModal, selectedData }) => {
         <TableActionsTitle
           variant="h4"
           sx={{
+            color:
+              (typeData === "users" || typeData === "products") &&
+              theme.palette.secondary[50],
             backgroundColor:
-              actionType === "edit-product"
+              typeData === "users" || typeData === "products"
+                ? theme.palette.secondary[900]
+                : actionType === "edit-user" || actionType === "edit-product"
                 ? theme.palette.primary[300]
                 : theme.palette.error[500],
           }}
         >
-          {actionType === "edit-product" ? "Editar Producto" : "Advertencia"}
+          {typeData === "users"
+            ? "Agregar Usuario"
+            : typeData === "products"
+            ? "Agregar Producto"
+            : actionType === "edit-user"
+            ? "Editar Usuario"
+            : actionType === "edit-product"
+            ? "Editar Producto"
+            : "Advertencia"}
         </TableActionsTitle>
-        {actionType === "edit-product" ? (
+        {typeData === "users" ||
+        actionType === "edit-user" ||
+        typeData === "products" ||
+        actionType === "edit-product" ? (
           <TableEditContainer>
             <Tooltip
               title={
                 productImage && "Haz clic nuevamente para añadir más imágenes"
               }
             >
-              <TableImage onClick={handleOpenDialog}>
+              <TableImage
+                sx={{
+                  backgroundColor:
+                    typeData === "users" || typeData === "products"
+                      ? theme.palette.secondary[900]
+                      : theme.palette.primary[300],
+                  color: theme.palette.secondary.A100,
+                }}
+                onClick={handleOpenDialog}
+              >
+                {actionType === "edit-user" && (
+                  // <Avatar
+                  //   alt="Avatar del Usuario"
+                  //   src={data.avatarURL}
+                  //   sx={{
+                  //     width: "150px",
+                  //     height: "150px",
+                  //   }}
+                  // />
+                  <img src={data.avatarURL} alt="Imágen del Usuario" />
+                )}
                 {productImage ? (
                   <>
-                    <img src={productImage} alt="imágen" />
+                    <img
+                      src={productImage}
+                      alt={`Imágen del ${
+                        actionType === "edit-user" ? "Usuario" : "Producto"
+                      }`}
+                    />
                   </>
                 ) : (
                   <p>Haz clic aquí para añadir una imágen</p>
@@ -189,19 +234,28 @@ const TableActions = ({ showModal, setShowModal, selectedData }) => {
               setProductImage={setProductImage}
             />
             <TableInputContainer>
-              {actionType === "edit-user" && (
+              {(typeData === "users" || actionType === "edit-user") && (
                 <>
-                  <TableNameInput
-                    placeholder="Nombre de Usuario"
-                    value={data.name}
-                  ></TableNameInput>
-                  <TableNameInput />
+                  <TableNamesInput
+                    placeholder="Nombres del Usuario"
+                    defaultValue={data.names}
+                  />
+                  <TableSurnamesInput
+                    placeholder="Apellidos del Usuario"
+                    defaultValue={data.surnames}
+                  />
+                  <TableEmailInput
+                    placeholder="Email del Usuario"
+                    defaultValue={data.email}
+                  />
                 </>
               )}
-              {actionType === "edit-product" && (
+              {(typeData === "products" || actionType === "edit-product") && (
                 <>
                   <TableNameInput
-                    defaultValue={data.name}
+                    defaultValue={
+                      actionType === "edit-user" ? data.names : data.name
+                    }
                     name="name"
                     type="text"
                     variant="outlined"
@@ -221,7 +275,11 @@ const TableActions = ({ showModal, setShowModal, selectedData }) => {
                   />
                   <TablePriceInput
                     placeholder="Precio Unitario"
-                    defaultValue={data.price}
+                    defaultValue={actionType && data.price}
+                  />
+                  <TableStockInput
+                    placeholder="Stock"
+                    defaultValue={actionType && data.stock}
                   />
                 </>
               )}
@@ -249,7 +307,7 @@ const TableActions = ({ showModal, setShowModal, selectedData }) => {
                   : actionType === "delete-product"
                   ? data.name
                   : actionType === "delete-user"
-                  ? data.name
+                  ? `${data.names} ${data.surnames}`
                   : data}
               </TableDeleteLine2>
               <TableDeleteLine3>
@@ -264,7 +322,9 @@ const TableActions = ({ showModal, setShowModal, selectedData }) => {
             sx={{
               width: "376px",
               color:
-                actionType === "edit"
+                typeData === "users" || typeData === "products"
+                  ? theme.palette.secondary[900]
+                  : actionType === "edit-user" || actionType === "edit-product"
                   ? theme.palette.primary[500]
                   : theme.palette.error[500],
               marginRight: theme.spacing(2),
@@ -279,22 +339,35 @@ const TableActions = ({ showModal, setShowModal, selectedData }) => {
             sx={{
               width: "376px",
               backgroundColor:
-                actionType === "edit"
-                  ? theme.palette.success[500]
+                typeData === "users" || typeData === "products"
+                  ? theme.palette.secondary[900]
+                  : actionType === "edit-user" || actionType === "edit-product"
+                  ? theme.palette.primary[500]
                   : theme.palette.error[500],
               "&:hover": {
                 backgroundColor:
-                  actionType === "edit"
-                    ? theme.palette.success[300]
+                  typeData === "users" || typeData === "products"
+                    ? theme.palette.secondary[100]
+                    : actionType === "edit-user" ||
+                      actionType === "edit-product"
+                    ? theme.palette.primary[300]
                     : theme.palette.error[300],
                 color:
-                  actionType === "edit"
-                    ? theme.palette.success[700]
+                  typeData === "users" || typeData === "products"
+                    ? theme.palette.secondary[700]
+                    : actionType === "edit-user" ||
+                      actionType === "edit-product"
+                    ? theme.palette.primary[700]
                     : theme.palette.error[700],
               },
             }}
           >
-            {actionType === "edit-product" ? "Guardar" : "Borrar"}
+            {typeData === "users" ||
+            typeData === "products" ||
+            actionType === "edit-user" ||
+            actionType === "edit-product"
+              ? "Guardar"
+              : "Borrar"}
           </Button>
         </TableButtonsContainer>
       </TableActionsContainer>

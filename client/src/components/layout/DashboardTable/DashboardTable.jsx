@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useTheme } from "@emotion/react";
 import {
   DashboardTableContainer,
@@ -8,78 +9,84 @@ import {
   TableNameContainer,
 } from "./DashboardTable.styles";
 import { Avatar, TableBody, TableHead, TableRow } from "@mui/material";
-import AvatarImage from "../../../images/product.jpg";
 import ActionButtons from "../ActionButtons/ActionButtons";
 import useProducts from "../../../hooks/api/useProducts";
-import { useEffect } from "react";
+import useUsers from "../../../hooks/api/useUsers";
+import EmptyData from "../EmptyData/EmptyData";
 
 const DashboardTable = ({ typeData }) => {
   const theme = useTheme();
-  const { getProducts, products, errors } = useProducts();
-  // const users = getUsers();
+  const { products, getProducts } = useProducts();
+  const { users, getUsers } = useUsers();
 
   useEffect(() => {
-    getProducts();
-  }, [getProducts]);
+    if (typeData === "users") {
+      getUsers();
+    } else {
+      getProducts();
+    }
+  }, [typeData, getUsers, getProducts]);
 
   let database;
   if (typeData === "users") {
-    // database = users;
+    database = users;
   } else {
     database = products;
   }
 
   return (
     <>
-      {/* {users.length === 0 || products.length === 0 && (
-        <ListEmpty msg="Aun no hay productos o usuarios ingresados"/>
-      )} */}
-      {!errors ? (
-        <DashboardTableContainer>
-          <TableList>
-            <TableHead>
-              <TableRow>
-                <StyledTableCell>Nombre</StyledTableCell>
-                {typeData === "products" && (
-                  <StyledTableCell align="right">Precio</StyledTableCell>
-                )}
-                <StyledTableCell>Acciones</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {database.map((data) => (
-                <StyledTableRow key={data.id}>
-                  <StyledTableCell component="th" scope="row">
-                    <TableNameContainer>
-                      <Avatar
-                        alt={`Imágen del Producto ID ${data.id}`}
-                        src={AvatarImage}
-                        sx={{ marginRight: theme.spacing(2) }}
-                      />
-                      <TableName>{data.name}</TableName>
-                    </TableNameContainer>
-                  </StyledTableCell>
-                  {typeData === "products" && (
-                    <StyledTableCell align="right">
-                      $ {data.price}
-                    </StyledTableCell>
-                  )}
-                  <StyledTableCell align="right">
-                    <ActionButtons
-                      database={{
-                        typeData,
-                        data,
-                      }}
-                    />
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </TableList>
-        </DashboardTableContainer>
-      ) : (
-        console.log(errors)
+      {database.length === 0 && (
+        <EmptyData title={typeData === "users" ? "usuarios" : "productos"} />
       )}
+      <DashboardTableContainer>
+        <TableList>
+          <TableHead>
+            <TableRow>
+              <StyledTableCell>Nombre</StyledTableCell>
+              {typeData === "products" && (
+                <StyledTableCell align="right">Precio</StyledTableCell>
+              )}
+              <StyledTableCell>Acciones</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {database.map((data) => (
+              <StyledTableRow key={data.id}>
+                <StyledTableCell component="th" scope="row">
+                  <TableNameContainer>
+                    <Avatar
+                      alt={`Imágen del ${
+                        typeData === "users" ? "Usuario" : "Producto"
+                      }`}
+                      src={typeData === "users" ? data.avatarURL : "ver"}
+                      sx={{ marginRight: theme.spacing(2) }}
+                    />
+                    <TableName>
+                      {typeData === "users"
+                        ? `${data.names} ${data.surnames}`
+                        : data.name}
+                    </TableName>
+                  </TableNameContainer>
+                </StyledTableCell>
+                {typeData === "products" && (
+                  <StyledTableCell align="right">
+                    $ {data.price}
+                  </StyledTableCell>
+                )}
+                <StyledTableCell align="right">
+                  <ActionButtons
+                    database={{
+                      typeData,
+                      data,
+                    }}
+                  />
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </TableList>
+      </DashboardTableContainer>
     </>
   );
 };

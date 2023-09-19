@@ -25,6 +25,10 @@ const ActionButtons = ({
         setEditBilling(true);
         setShowAddNew(true);
         break;
+      case "users":
+        setSelectedData({ actionType: "edit-user", data });
+        setShowModal(true);
+        break;
       case "products":
         setSelectedData({ actionType: "edit-product", data });
         setShowModal(true);

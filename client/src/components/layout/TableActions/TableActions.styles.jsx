@@ -25,7 +25,6 @@ export const TableActionsTitle = styled(Typography)(({ theme }) => ({
   display: "flex",
   justifyContent: "center",
   color: theme.palette.secondary.A100,
-  // fontWeight: 500,
 }));
 
 export const TableEditContainer = styled(Box)(({ theme }) => ({
@@ -36,8 +35,6 @@ export const TableEditContainer = styled(Box)(({ theme }) => ({
 export const TableImage = styled(Avatar)(({ theme }) => ({
   width: "150px",
   height: "150px",
-  backgroundColor: theme.palette.primary[300],
-  color: theme.palette.secondary.A100,
   borderRadius: theme.spacing(1),
   marginRight: theme.spacing(3),
 }));
@@ -47,11 +44,27 @@ export const TableInputContainer = styled(Box)(({ theme }) => ({
   flexDirection: "column",
 }));
 
+export const TableNamesInput = styled(TextField)(({ theme }) => ({
+  padding: "8px",
+}));
+
+export const TableSurnamesInput = styled(TextField)(({ theme }) => ({
+  padding: "8px",
+}));
+
+export const TableEmailInput = styled(TextField)(({ theme }) => ({
+  padding: "8px",
+}));
+
 export const TableNameInput = styled(TextField)(({ theme }) => ({
   padding: "8px",
 }));
 
 export const TablePriceInput = styled(TextField)(({ theme }) => ({
+  padding: "8px",
+}));
+
+export const TableStockInput = styled(TextField)(({ theme }) => ({
   padding: "8px",
 }));
 

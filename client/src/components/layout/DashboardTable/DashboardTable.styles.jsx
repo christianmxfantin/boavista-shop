@@ -24,6 +24,7 @@ export const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
+    color: theme.palette.primary[500],
   },
 }));
 
@@ -42,5 +43,5 @@ export const TableNameContainer = styled(Box)(({ theme }) => ({
 }));
 
 export const TableName = styled(Typography)(({ theme }) => ({
-  //styles
+  color: theme.palette.primary[500],
 }));
