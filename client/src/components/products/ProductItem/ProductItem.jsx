@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useTheme } from "@emotion/react";
@@ -11,16 +12,33 @@ import {
   ProductPrice,
 } from "./ProductItem.styles";
 import { Icon as CartIcon } from "../../ui/Icon";
-import ProductImage from "../../../images/product.jpg";
 import { addProductToCart } from "../../../reducers/cart";
+import { getProductsImagesResponse } from "../../../api/productsImages";
 
 const ProductItem = ({ data }) => {
   let { id, name, price } = data;
 
   const theme = useTheme();
   const dispatch = useDispatch();
+  const [productsImages, setProductsImages] = useState([{ url: "imagen.jpg" }]);
 
-  const handleClic = () => {
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const images = await getProductsImagesResponse();
+        const productImage = images.data.filter(
+          (image) => image.productId === data.id
+        );
+
+        setProductsImages(productImage);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getData();
+  }, [data.id]);
+
+  const handleAddToCart = () => {
     dispatch(addProductToCart(data));
   };
 
@@ -31,7 +49,7 @@ const ProductItem = ({ data }) => {
           component="img"
           alt="prueba"
           height="180"
-          image={ProductImage}
+          image={productsImages[0].url}
         />
       </Link>
       <ProductCardContent>
@@ -43,7 +61,7 @@ const ProductItem = ({ data }) => {
           <ProductAddToCart
             size="small"
             data={data}
-            onClick={handleClic}
+            onClick={handleAddToCart}
             sx={{ marginRight: 0 }}
           >
             <CartIcon

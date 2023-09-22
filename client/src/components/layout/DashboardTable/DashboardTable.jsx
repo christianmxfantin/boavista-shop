@@ -8,7 +8,7 @@ import {
   TableName,
   TableNameContainer,
 } from "./DashboardTable.styles";
-import { Avatar, TableBody, TableHead, TableRow } from "@mui/material";
+import { Avatar, Box, TableBody, TableHead, TableRow } from "@mui/material";
 import ActionButtons from "../ActionButtons/ActionButtons";
 import useProducts from "../../../hooks/api/useProducts";
 import useUsers from "../../../hooks/api/useUsers";
@@ -37,17 +37,27 @@ const DashboardTable = ({ typeData }) => {
   return (
     <>
       {database.length === 0 && (
-        <EmptyData title={typeData === "users" ? "usuarios" : "productos"} />
+        <Box>
+          <EmptyData
+            iconName={typeData === "users" ? "users" : "products"}
+            size={100}
+            title={typeData === "users" ? "usuarios" : "productos"}
+          />
+        </Box>
       )}
       <DashboardTableContainer>
         <TableList>
           <TableHead>
             <TableRow>
-              <StyledTableCell>Nombre</StyledTableCell>
-              {typeData === "products" && (
-                <StyledTableCell align="right">Precio</StyledTableCell>
+              {database.length !== 0 && (
+                <>
+                  <StyledTableCell>Nombre</StyledTableCell>
+                  {typeData === "products" && (
+                    <StyledTableCell align="right">Precio</StyledTableCell>
+                  )}
+                  <StyledTableCell>Acciones</StyledTableCell>
+                </>
               )}
-              <StyledTableCell>Acciones</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>

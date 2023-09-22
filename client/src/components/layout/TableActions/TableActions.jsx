@@ -87,6 +87,9 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
   };
 
   const handleCancelButton = () => {
+    if (productImage) {
+      setProductImage("");
+    }
     reset();
     setShowModal(false);
   };
@@ -189,43 +192,37 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
           <TableEditContainer>
             <Tooltip
               title={
-                productImage && "Haz clic nuevamente para añadir más imágenes"
+                actionType === "edit-user"
+                  ? "Haz clic nuevamente para cambiar la imágen"
+                  : productImage
+                  ? "Haz clic nuevamente para añadir más imágenes"
+                  : null
               }
             >
-              <TableImage
+              <Avatar
+                alt={`Imágen del ${
+                  actionType === "edit-user" ? "Usuario" : "Producto"
+                }`}
+                src={
+                  actionType === "edit-user" && !productImage
+                    ? data.avatarURL
+                    : actionType === "edit-product" && !productImage
+                    ? "ver"
+                    : productImage
+                }
                 sx={{
+                  width: "150px",
+                  height: "150px",
                   backgroundColor:
-                    typeData === "users" || typeData === "products"
+                    actionType === "edit-user"
+                      ? theme.palette.secondary.A100
+                      : typeData === "users" || typeData === "products"
                       ? theme.palette.secondary[900]
                       : theme.palette.primary[300],
                   color: theme.palette.secondary.A100,
                 }}
                 onClick={handleOpenDialog}
-              >
-                {actionType === "edit-user" && (
-                  // <Avatar
-                  //   alt="Avatar del Usuario"
-                  //   src={data.avatarURL}
-                  //   sx={{
-                  //     width: "150px",
-                  //     height: "150px",
-                  //   }}
-                  // />
-                  <img src={data.avatarURL} alt="Imágen del Usuario" />
-                )}
-                {productImage ? (
-                  <>
-                    <img
-                      src={productImage}
-                      alt={`Imágen del ${
-                        actionType === "edit-user" ? "Usuario" : "Producto"
-                      }`}
-                    />
-                  </>
-                ) : (
-                  <p>Haz clic aquí para añadir una imágen</p>
-                )}
-              </TableImage>
+              />
             </Tooltip>
             <UploadImage
               openDialog={openDialog}

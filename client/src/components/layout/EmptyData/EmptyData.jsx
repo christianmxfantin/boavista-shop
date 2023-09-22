@@ -10,7 +10,10 @@ const EmptyData = ({ iconName, size, title }) => {
   return (
     <EmptyDataContainer
       sx={{
-        height: (iconName === "checkout" || iconName === "products") && "85vh",
+        height:
+          (iconName === "checkout" ||
+            (iconName === "products" && title !== "productos")) &&
+          "85vh",
       }}
     >
       <Icon name={iconName} size={size} color={theme.palette.primary[500]} />

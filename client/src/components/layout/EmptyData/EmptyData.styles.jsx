@@ -9,6 +9,5 @@ export const EmptyDataContainer = styled(Box)(({ theme }) => ({
 }));
 
 export const EmptyDataTitle = styled(Typography)(({ theme }) => ({
-  //   marginTop: theme.spacing(4), //32px,
   color: theme.palette.primary[500],
 }));
