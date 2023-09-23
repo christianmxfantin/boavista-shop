@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   ItemCard,
   ItemTitle,
@@ -14,13 +14,16 @@ import {
 import NumericInput from "../../../components/layout/NumericInput/NumericInput";
 import ImageSlider from "../../../components/layout/ImageSlider/ImageSlider";
 import useProducts from "../../../hooks/api/useProducts";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addProductToCart } from "../../../reducers/cart";
 
 const ProductDetails = () => {
   const { products, getProductById } = useProducts();
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { productsData } = useSelector((state) => state.products);
+  console.log(productsData);
 
   let { id } = useParams();
   useEffect(() => {
@@ -41,7 +44,7 @@ const ProductDetails = () => {
         <ItemTitleBack onClick={handleBack}>Volver al listado</ItemTitleBack>
       </ItemTitle>
       <ItemData component={"article"}>
-        <ImageSlider />
+        <ImageSlider productsImages={productsData} />
         <ItemInfoContainer>
           <ItemInfoTitle variant="h4">{products.name}</ItemInfoTitle>
           <ItemInfoPrice variant="h4">$ {products.price}</ItemInfoPrice>

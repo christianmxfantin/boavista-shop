@@ -7,14 +7,11 @@ import {
   ButtonNext,
 } from "../ImageSlider/ImageSlider.styles";
 import { Icon } from "../../ui/Icon";
-import ProductImage1 from "../../../images/product.jpg";
-import ProductImage2 from "../../../images/product2.jpg";
-import ProductImage3 from "../../../images/home/about.jpg";
 
-const images = [ProductImage1, ProductImage2, ProductImage3];
-
-const ImageSlider = () => {
+const ImageSlider = ({ productsImages }) => {
   const theme = useTheme();
+
+  const images = productsImages.map((product) => product.url);
 
   const [currentImage, setCurrentImage] = useState(images[0]);
   const [currentIndex, setCurrentIndex] = useState(0);

@@ -14,6 +14,7 @@ import {
 import { Icon as CartIcon } from "../../ui/Icon";
 import { addProductToCart } from "../../../reducers/cart";
 import { getProductsImagesResponse } from "../../../api/productsImages";
+import { addOneProduct } from "../../../reducers/products";
 
 const ProductItem = ({ data }) => {
   let { id, name, price } = data;
@@ -38,13 +39,17 @@ const ProductItem = ({ data }) => {
     getData();
   }, [data.id]);
 
+  const handleLinkClick = () => {
+    dispatch(addOneProduct(productsImages));
+  };
+
   const handleAddToCart = () => {
     dispatch(addProductToCart(data));
   };
 
   return (
     <ProductCard>
-      <Link to={`/products/${id}`}>
+      <Link to={`/products/${id}`} onClick={handleLinkClick}>
         <ProductCardImage
           component="img"
           alt="prueba"

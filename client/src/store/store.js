@@ -5,8 +5,9 @@ import thunk from "redux-thunk";
 import { CookieStorage } from "redux-persist-cookie-storage";
 import Cookies from "js-cookie";
 
-import cartReducer from "../reducers/cart";
 import authReducer from "../reducers/auth";
+import cartReducer from "../reducers/cart";
+import productsReducer from "../reducers/products";
 
 const cookieStorage = {
   get: (key) => Cookies.get(key),
@@ -22,6 +23,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   auth: authReducer,
   cart: cartReducer,
+  products: productsReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
