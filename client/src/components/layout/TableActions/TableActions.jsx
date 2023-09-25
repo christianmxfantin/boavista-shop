@@ -33,6 +33,7 @@ import usePayments from "../../../hooks/api/usePayments";
 import useAuth from "../../../hooks/useAuth";
 import { unsetUser } from "../../../reducers/auth";
 import UploadImage from "../UploadImage/UploadImage";
+import ImageSlider from "../ImageSlider/ImageSlider";
 
 const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
   const theme = useTheme();
@@ -190,44 +191,45 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
         typeData === "products" ||
         actionType === "edit-product" ? (
           <TableEditContainer>
-            <Tooltip
-              title={
-                actionType === "edit-user"
-                  ? "Haz clic nuevamente para cambiar la imágen"
-                  : productImage
-                  ? "Haz clic nuevamente para añadir más imágenes"
-                  : null
-              }
-            >
-              <Avatar
-                alt={`Imágen del ${
-                  actionType === "edit-user" ? "Usuario" : "Producto"
-                }`}
-                src={
-                  actionType === "edit-user" && !productImage
-                    ? data.avatarURL
-                    : actionType === "edit-product" && !productImage
-                    ? "ver"
-                    : productImage
+            {(typeData === "users" || actionType === "edit-user") && (
+              <Tooltip
+                title={
+                  (actionType === "edit-user" || productImage) &&
+                  "Haz clic nuevamente para cambiar la imágen"
                 }
-                sx={{
-                  width: "150px",
-                  height: "150px",
-                  backgroundColor:
-                    actionType === "edit-user"
-                      ? theme.palette.secondary.A100
-                      : typeData === "users" || typeData === "products"
-                      ? theme.palette.secondary[900]
-                      : theme.palette.primary[300],
-                  color: theme.palette.secondary.A100,
-                }}
-                onClick={handleOpenDialog}
+              >
+                <Avatar
+                  alt={"Imágen del Usuario"}
+                  src={
+                    actionType === "edit-user" && !productImage
+                      ? data.avatarURL
+                      : productImage
+                  }
+                  sx={{
+                    width: "150px",
+                    height: "150px",
+                    backgroundColor:
+                      actionType === "edit-user"
+                        ? theme.palette.secondary.A100
+                        : typeData === "users"
+                        ? theme.palette.secondary[900]
+                        : null,
+                    color: theme.palette.secondary.A100,
+                  }}
+                  onClick={handleOpenDialog}
+                />
+              </Tooltip>
+            )}
+            {(typeData === "products" || actionType === "edit-product") && (
+              <ImageSlider
+                formType={typeData ? typeData : actionType}
+                productsImages={data.images}
               />
-            </Tooltip>
+            )}
             <UploadImage
               openDialog={openDialog}
               setOpenDialog={setOpenDialog}
-              formType="product"
+              formType="dashboard-users"
               setProductImage={setProductImage}
             />
             <TableInputContainer>
@@ -275,8 +277,8 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
                     defaultValue={actionType && data.price}
                   />
                   <TableStockInput
-                    placeholder="Stock"
-                    defaultValue={actionType && data.stock}
+                    placeholder={data.stock ? "Stock" : "Aún no hay datos"}
+                    defaultValue={data.stock ? data.stock : null}
                   />
                 </>
               )}

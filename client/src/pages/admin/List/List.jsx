@@ -1,14 +1,25 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
-import { ListContainer, ListTitle, ListData } from "./List.styles";
+import {
+  ListContainer,
+  ListTitle,
+  ListData,
+  ButtonsContainer,
+} from "./List.styles";
 import DashboardTable from "../../../components/layout/DashboardTable/DashboardTable";
-import { Box, Button } from "@mui/material";
+import { Button } from "@mui/material";
 import TableActions from "../../../components/layout/TableActions/TableActions";
 
 const List = ({ typeData }) => {
   const theme = useTheme();
+  const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
+
+  const handleBack = () => {
+    navigate("/dashboard");
+  };
 
   const handleAddItems = () => {
     setShowModal(true);
@@ -24,12 +35,23 @@ const List = ({ typeData }) => {
           <DashboardTable typeData={typeData} />
         </ListData>
       </ListContainer>
-      <Box sx={{ display: "flex", paddingRight: theme.spacing(2) }}>
+      <ButtonsContainer>
+        <Button
+          variant="contained"
+          onClick={handleBack}
+          sx={{
+            backgroundColor: theme.palette.primary[500],
+            "&:hover": {
+              backgroundColor: theme.palette.primary[300],
+            },
+          }}
+        >
+          Atrás
+        </Button>
         <Button
           variant="contained"
           onClick={handleAddItems}
           sx={{
-            marginLeft: "auto",
             backgroundColor: theme.palette.secondary[900],
             "&:hover": {
               color: theme.palette.secondary[700],
@@ -39,7 +61,7 @@ const List = ({ typeData }) => {
         >
           Agregar
         </Button>
-      </Box>
+      </ButtonsContainer>
       <TableActions
         showModal={showModal}
         setShowModal={setShowModal}

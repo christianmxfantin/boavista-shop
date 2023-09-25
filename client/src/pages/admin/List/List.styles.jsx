@@ -21,3 +21,10 @@ export const ListTitle = styled(Typography)(({ theme }) => ({
 export const ListData = styled(Box)(({ theme }) => ({
   width: "100%",
 }));
+
+export const ButtonsContainer = styled(Box)(({ theme }) => ({
+  width: "100%",
+  display: "flex",
+  justifyContent: "space-between",
+  padding: `0 ${theme.spacing(2)} 0 ${theme.spacing(2)}`,
+}));

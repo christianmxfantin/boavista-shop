@@ -21,7 +21,7 @@ const ProductItem = ({ data }) => {
 
   const theme = useTheme();
   const dispatch = useDispatch();
-  const [productsImages, setProductsImages] = useState([{ url: "imagen.jpg" }]);
+  const [productsImages, setProductsImages] = useState([{ url: "" }]);
 
   useEffect(() => {
     const getData = async () => {

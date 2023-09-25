@@ -23,7 +23,7 @@ const ProductDetails = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { productsData } = useSelector((state) => state.products);
-  console.log(productsData);
+  products.stock = 0;
 
   let { id } = useParams();
   useEffect(() => {
@@ -31,7 +31,7 @@ const ProductDetails = () => {
   }, []);
 
   const handleBack = () => {
-    navigate(-1);
+    navigate("/products");
   };
 
   const handleAddToCart = () => {
@@ -55,7 +55,7 @@ const ProductDetails = () => {
                   products.stock === 1 ? "unidad" : "unidades"
                 }`}
           </ItemInfoStock>
-          <NumericInput total={products.stock} />
+          <NumericInput total={products.stock ? products.stock : 1200} />
           <ItemInfoAddToCart onClick={handleAddToCart}>
             Agregar al Carrito
           </ItemInfoAddToCart>

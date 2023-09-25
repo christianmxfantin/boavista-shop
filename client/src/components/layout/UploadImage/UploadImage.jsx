@@ -59,9 +59,14 @@ const UploadImage = ({
   };
 
   const handleSubmit = async () => {
-    if (formType === "product") {
+    if (formType === "dashboard-users") {
+      setProductImage(image);
+    }
+
+    if (formType === "dashboard-products") {
       setProductImage(image);
     } else {
+      //Profile
       try {
         const updatedAvatar = {
           image: image,

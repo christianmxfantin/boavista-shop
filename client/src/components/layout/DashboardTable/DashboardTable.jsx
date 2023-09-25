@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTheme } from "@emotion/react";
 import {
   DashboardTableContainer,
@@ -13,11 +13,15 @@ import ActionButtons from "../ActionButtons/ActionButtons";
 import useProducts from "../../../hooks/api/useProducts";
 import useUsers from "../../../hooks/api/useUsers";
 import EmptyData from "../EmptyData/EmptyData";
+import { getProductsImagesResponse } from "../../../api/productsImages";
 
 const DashboardTable = ({ typeData }) => {
   const theme = useTheme();
   const { products, getProducts } = useProducts();
   const { users, getUsers } = useUsers();
+
+  const [productsImages, setProductsImages] = useState([]);
+  // const [filteredImages, setFilteredImages] = useState([]);
 
   useEffect(() => {
     if (typeData === "users") {
@@ -27,11 +31,39 @@ const DashboardTable = ({ typeData }) => {
     }
   }, [typeData, getUsers, getProducts]);
 
+  useEffect(() => {
+    if (typeData === "products") {
+      const getData = async () => {
+        try {
+          const images = await getProductsImagesResponse();
+          setProductsImages(images.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      getData();
+    }
+  }, []);
+
   let database;
   if (typeData === "users") {
     database = users;
   } else {
-    database = products;
+    const productsWithURL = products.map((product) => {
+      const images = productsImages.filter(
+        (img) => img.productId === product.id
+      );
+
+      if (images) {
+        return {
+          ...product,
+          images,
+        };
+      } else {
+        return product;
+      }
+    });
+    database = productsWithURL;
   }
 
   return (
@@ -69,7 +101,13 @@ const DashboardTable = ({ typeData }) => {
                       alt={`Imágen del ${
                         typeData === "users" ? "Usuario" : "Producto"
                       }`}
-                      src={typeData === "users" ? data.avatarURL : "ver"}
+                      src={
+                        typeData === "users"
+                          ? data.avatarURL
+                          : productsImages
+                          ? data.images[0].url
+                          : null
+                      }
                       sx={{ marginRight: theme.spacing(2) }}
                     />
                     <TableName>

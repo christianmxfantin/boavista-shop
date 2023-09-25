@@ -28,7 +28,7 @@ const NumericInput = ({
   const theme = useTheme();
   const dispatch = useDispatch();
 
-  const [count, setCount] = useState(totalProduct);
+  const [count, setCount] = useState(formType ? totalProduct : 1);
 
   const handleIncrement = () => {
     if (count < total) {
