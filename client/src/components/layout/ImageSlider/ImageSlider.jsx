@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTheme } from "@emotion/react";
 import {
   SliderContainer,
@@ -13,30 +13,34 @@ import UploadImage from "../UploadImage/UploadImage";
 
 const ImageSlider = ({ formType, productsImages }) => {
   const theme = useTheme();
-
   const [productImage, setProductImage] = useState("");
-
-  let images = useMemo(() => [], []);
-  if (productsImages) {
-    images = productsImages.map((product) => product.url);
-  }
-  if (productImage) {
-    if (images.length !== 0) {
-      images.push(productImage);
-    } else {
-      images[0] = productImage;
-    }
-  }
-
-  const [currentImage, setCurrentImage] = useState(images[0]);
-
-  useEffect(() => {
-    setCurrentImage(images[0]);
-  }, [images]);
-
+  const [images, setImages] = useState([]);
+  const [currentImage, setCurrentImage] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [openDialog, setOpenDialog] = useState(false);
-  // console.log(images);
+
+  useEffect(() => {
+    if (productsImages) {
+      setImages(productsImages.map((product) => product.url));
+    }
+  }, [productsImages]);
+
+  useEffect(() => {
+    // if (!images[0]) {
+    //   const newImages = [...images.slice(1)];
+    //   setImages(newImages);
+    // }
+
+    if (productImage) {
+      setImages([...images, productImage]);
+    }
+  }, [productImage]);
+
+  useEffect(() => {
+    if (images.length > 0 && currentImage === "") {
+      setCurrentImage(images[0]);
+    }
+  }, [images]);
 
   const handlePrevious = () => {
     const newIndex = currentIndex === 0 ? images.length - 1 : currentIndex - 1;
@@ -59,7 +63,7 @@ const ImageSlider = ({ formType, productsImages }) => {
   return (
     <>
       <SliderContainer>
-        {images.length === 0 ? (
+        {images.length === 0 || !images[0] ? (
           <>
             <Tooltip title="Haz clic para añadir imágenes">
               <EmptyImage
@@ -70,6 +74,9 @@ const ImageSlider = ({ formType, productsImages }) => {
                       : formType === "edit-product"
                       ? theme.palette.primary[300]
                       : null,
+                  cursor:
+                    (formType === "products" || formType === "edit-product") &&
+                    "pointer",
                 }}
                 onClick={handleOpenDialog}
               >
@@ -96,6 +103,10 @@ const ImageSlider = ({ formType, productsImages }) => {
                       height: "100%",
                       borderRadius: theme.spacing(1.5), //12px
                       objectFit: "cover",
+                      cursor:
+                        (formType === "products" ||
+                          formType === "edit-product") &&
+                        "pointer",
                     }}
                     onClick={handleOpenDialog}
                   />

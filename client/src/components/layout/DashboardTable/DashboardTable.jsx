@@ -54,14 +54,14 @@ const DashboardTable = ({ typeData }) => {
         (img) => img.productId === product.id
       );
 
-      if (images) {
-        return {
-          ...product,
-          images,
-        };
-      } else {
-        return product;
+      if (images.length === 0) {
+        images.push({ url: null });
       }
+
+      return {
+        ...product,
+        images,
+      };
     });
     database = productsWithURL;
   }
