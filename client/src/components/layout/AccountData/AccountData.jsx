@@ -206,6 +206,7 @@ const AccountData = ({ formType, newPassword, userId }) => {
               </Tooltip>
             </AvatarContainer>
             <UploadImage
+              formType={formType}
               openDialog={openDialog}
               setOpenDialog={setOpenDialog}
             />

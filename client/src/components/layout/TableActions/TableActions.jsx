@@ -208,12 +208,13 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
                   sx={{
                     width: "150px",
                     height: "150px",
-                    backgroundColor:
-                      actionType === "edit-user"
-                        ? theme.palette.secondary.A100
-                        : typeData === "users"
-                        ? theme.palette.secondary[900]
-                        : null,
+                    backgroundColor: !data.avatarURL
+                      ? theme.palette.primary[300]
+                      : actionType === "edit-user"
+                      ? theme.palette.secondary.A100
+                      : typeData === "users"
+                      ? theme.palette.secondary[900]
+                      : null,
                     color: theme.palette.secondary.A100,
                   }}
                   onClick={handleOpenDialog}

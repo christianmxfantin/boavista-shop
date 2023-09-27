@@ -21,18 +21,17 @@ const ImageSlider = ({ formType, productsImages }) => {
 
   useEffect(() => {
     if (productsImages) {
-      setImages(productsImages.map((product) => product.url));
+      const newImages = productsImages.map((product) => product.url);
+      const filteredImages = newImages.filter((item) => item !== "S/D");
+      setImages(filteredImages);
     }
   }, [productsImages]);
 
   useEffect(() => {
-    // if (!images[0]) {
-    //   const newImages = [...images.slice(1)];
-    //   setImages(newImages);
-    // }
-
-    if (productImage) {
-      setImages([...images, productImage]);
+    if (productImage && !images.includes(productImage)) {
+      const newImages = [...images, productImage];
+      const filteredImages = newImages.filter((item) => item !== "S/D");
+      setImages(filteredImages);
     }
   }, [productImage]);
 
@@ -63,7 +62,7 @@ const ImageSlider = ({ formType, productsImages }) => {
   return (
     <>
       <SliderContainer>
-        {images.length === 0 || !images[0] ? (
+        {images.length === 0 || images[0] === "S/D" ? (
           <>
             <Tooltip title="Haz clic para añadir imágenes">
               <EmptyImage

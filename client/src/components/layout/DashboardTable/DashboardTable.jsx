@@ -14,6 +14,7 @@ import useProducts from "../../../hooks/api/useProducts";
 import useUsers from "../../../hooks/api/useUsers";
 import EmptyData from "../EmptyData/EmptyData";
 import { getProductsImagesResponse } from "../../../api/productsImages";
+import { Icon } from "../../ui/Icon";
 
 const DashboardTable = ({ typeData }) => {
   const theme = useTheme();
@@ -21,7 +22,6 @@ const DashboardTable = ({ typeData }) => {
   const { users, getUsers } = useUsers();
 
   const [productsImages, setProductsImages] = useState([]);
-  // const [filteredImages, setFilteredImages] = useState([]);
 
   useEffect(() => {
     if (typeData === "users") {
@@ -47,15 +47,21 @@ const DashboardTable = ({ typeData }) => {
 
   let database;
   if (typeData === "users") {
+    // const modusers = users.map((user) => ({
+    //   ...user,
+    //   avatarURL: null,
+    // }));
+    // database = modusers;
     database = users;
   } else {
+    // let pr = [];
     const productsWithURL = products.map((product) => {
       const images = productsImages.filter(
         (img) => img.productId === product.id
       );
 
       if (images.length === 0) {
-        images.push({ url: null });
+        images.push({ url: "S/D" });
       }
 
       return {
@@ -97,19 +103,33 @@ const DashboardTable = ({ typeData }) => {
               <StyledTableRow key={data.id}>
                 <StyledTableCell component="th" scope="row">
                   <TableNameContainer>
-                    <Avatar
-                      alt={`Imágen del ${
-                        typeData === "users" ? "Usuario" : "Producto"
-                      }`}
-                      src={
-                        typeData === "users"
-                          ? data.avatarURL
-                          : productsImages
-                          ? data.images[0].url
-                          : null
-                      }
-                      sx={{ marginRight: theme.spacing(2) }}
-                    />
+                    {typeData === "products" && data.images[0].url === "S/D" ? (
+                      <Avatar
+                        sx={{
+                          marginRight: theme.spacing(2),
+                          backgroundColor: theme.palette.primary[500],
+                        }}
+                      >
+                        <Icon name="products" />
+                      </Avatar>
+                    ) : (
+                      <Avatar
+                        alt={`Imágen del ${
+                          typeData === "users" ? "Usuario" : "Producto"
+                        }`}
+                        src={
+                          typeData === "users"
+                            ? data.avatarURL
+                            : productsImages
+                            ? data.images[0].url
+                            : null
+                        }
+                        sx={{
+                          marginRight: theme.spacing(2),
+                          backgroundColor: theme.palette.primary[500],
+                        }}
+                      />
+                    )}
                     <TableName>
                       {typeData === "users"
                         ? `${data.names} ${data.surnames}`

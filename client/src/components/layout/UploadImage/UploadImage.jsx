@@ -65,8 +65,9 @@ const UploadImage = ({
 
     if (formType === "dashboard-products") {
       setProductImage(image);
-    } else {
-      //Profile
+    }
+
+    if (formType === "profile") {
       try {
         const updatedAvatar = {
           image: image,

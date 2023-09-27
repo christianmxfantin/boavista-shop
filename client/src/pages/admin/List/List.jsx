@@ -10,12 +10,14 @@ import {
 import DashboardTable from "../../../components/layout/DashboardTable/DashboardTable";
 import { Button } from "@mui/material";
 import TableActions from "../../../components/layout/TableActions/TableActions";
+import ChangePrices from "../../../components/layout/ChangePrices/ChangePrices";
 
 const List = ({ typeData }) => {
   const theme = useTheme();
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
   const handleBack = () => {
     navigate("/dashboard");
@@ -23,6 +25,10 @@ const List = ({ typeData }) => {
 
   const handleAddItems = () => {
     setShowModal(true);
+  };
+
+  const handleChangePrices = () => {
+    setOpenDialog(true);
   };
 
   return (
@@ -49,6 +55,15 @@ const List = ({ typeData }) => {
           Atrás
         </Button>
         <Button
+          variant="outlained"
+          onClick={handleChangePrices}
+          sx={{
+            color: theme.palette.error[500],
+          }}
+        >
+          Cambio Masivo de Precios
+        </Button>
+        <Button
           variant="contained"
           onClick={handleAddItems}
           sx={{
@@ -67,6 +82,7 @@ const List = ({ typeData }) => {
         setShowModal={setShowModal}
         typeData={typeData}
       />
+      <ChangePrices openDialog={openDialog} setOpenDialog={setOpenDialog} />
     </main>
   );
 };
