@@ -174,11 +174,6 @@ const Billing = ({
   }, [formType, confirmationData, editAddress, editData]);
 
   useEffect(() => {
-    // let api = true;
-    // if (!api) {
-    //   setEditCheckoutMode(true);
-    // }
-
     if (formType === "shipping") {
       setEditCheckoutMode(true);
     }

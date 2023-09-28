@@ -9,6 +9,8 @@ export const PatternValidations = {
   COMMENTS: /^[a-zA-Z0-9\s.,!?"'()-]{0,200}$/,
   CARD_EXPIRATION_DATE: /^[0-9]{4}$/,
   CVC: /^[0-9]{3,4}$/,
+  NUMBERS: /^[0-9]+$/,
+  DECIMALS: /^[0-9]+(\.[0-9]{1,2})?$/,
 };
 
 export const validateCardNumber = (cardNumber) => {
