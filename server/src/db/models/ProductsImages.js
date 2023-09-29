@@ -1,7 +1,4 @@
 const { ApiErrors } = require("../../api/api/api.errors");
-const {
-  ProductsImagesErrors,
-} = require("../../api/productsImages/productsImages.errors");
 
 module.exports = (sequelize, DataTypes) => {
   const States = sequelize.define(
@@ -15,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       url: {
         type: DataTypes.TEXT,
-        allowNull: false,
+        allowNull: true,
         validate: {
           is: {
             args: /^(https?:\/\/)?(www\.)?[\w-]+\.[a-z]{2,4}(\/\S*)?$/,
