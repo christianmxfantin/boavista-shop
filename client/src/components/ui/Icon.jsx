@@ -26,6 +26,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import ImageIcon from "@mui/icons-material/Image";
 
 export const Icon = ({ name, color, size, onClick }) => {
   const icons = [
@@ -365,6 +366,19 @@ export const Icon = ({ name, color, size, onClick }) => {
         <SvgIcon
           aria-label="Icono de Usuarios"
           component={AccountCircleIcon}
+          sx={{
+            color: color,
+            fontSize: size,
+          }}
+        />
+      ),
+    },
+    {
+      name: "images",
+      img: (
+        <SvgIcon
+          aria-label="Icono de Imágenes"
+          component={ImageIcon}
           sx={{
             color: color,
             fontSize: size,

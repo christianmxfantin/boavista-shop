@@ -47,14 +47,20 @@ const ProductItem = ({ data }) => {
     dispatch(addProductToCart(data));
   };
 
+  // productsImages[0].url = null;
   return (
     <ProductCard>
       <Link to={`/products/${id}`} onClick={handleLinkClick}>
         <ProductCardImage
-          component="img"
-          alt="prueba"
+          component={productsImages[0].url ? "img" : "div"}
+          alt="Imágen del Producto"
           height="180"
-          image={productsImages[0].url}
+          image={productsImages[0].url && productsImages[0].url}
+          sx={{
+            // height: !productsImages[0].url && "180",
+            backgroundColor:
+              !productsImages[0].url && theme.palette.primary[200],
+          }}
         />
       </Link>
       <ProductCardContent>
