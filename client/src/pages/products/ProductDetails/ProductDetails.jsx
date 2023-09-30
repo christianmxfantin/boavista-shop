@@ -25,6 +25,7 @@ const ProductDetails = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { productsData } = useSelector((state) => state.products);
+  // const productsData = [{ url: null }];
 
   let { id } = useParams();
   useEffect(() => {
@@ -45,7 +46,7 @@ const ProductDetails = () => {
         <ItemTitleBack onClick={handleBack}>Volver al listado</ItemTitleBack>
       </ItemTitle>
       <ItemData component={"article"}>
-        {!productsData.url ? (
+        {!productsData[0].url ? (
           <ItemImagesContainer>
             <EmptyData iconName="images" title="imágenes" size={50} />
           </ItemImagesContainer>

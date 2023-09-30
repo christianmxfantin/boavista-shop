@@ -23,6 +23,7 @@ import {
   TableNamesInput,
   TableSurnamesInput,
   TableEmailInput,
+  TableImageContainer,
 } from "./TableActions.styles";
 import useProducts from "../../../hooks/api/useProducts";
 import { deleteUserResponse } from "../../../api/users";
@@ -191,48 +192,50 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
         typeData === "products" ||
         actionType === "edit-product" ? (
           <TableEditContainer>
-            {(typeData === "users" || actionType === "edit-user") && (
-              <Tooltip
-                title={
-                  (actionType === "edit-user" || productImage) &&
-                  "Haz clic nuevamente para cambiar la imágen"
-                }
-              >
-                <Avatar
-                  alt={"Imágen del Usuario"}
-                  src={
-                    actionType === "edit-user" && !productImage
-                      ? data.avatarURL
-                      : productImage
+            <TableImageContainer>
+              {(typeData === "users" || actionType === "edit-user") && (
+                <Tooltip
+                  title={
+                    (actionType === "edit-user" || productImage) &&
+                    "Haz clic nuevamente para cambiar la imágen"
                   }
-                  sx={{
-                    width: "150px",
-                    height: "150px",
-                    backgroundColor: !data.avatarURL
-                      ? theme.palette.primary[300]
-                      : actionType === "edit-user"
-                      ? theme.palette.secondary.A100
-                      : typeData === "users"
-                      ? theme.palette.secondary[900]
-                      : null,
-                    color: theme.palette.secondary.A100,
-                  }}
-                  onClick={handleOpenDialog}
+                >
+                  <Avatar
+                    alt={"Imágen del Usuario"}
+                    src={
+                      actionType === "edit-user" && !productImage
+                        ? data.avatarURL
+                        : productImage
+                    }
+                    sx={{
+                      width: "150px",
+                      height: "150px",
+                      backgroundColor: !data.avatarURL
+                        ? theme.palette.primary[300]
+                        : actionType === "edit-user"
+                        ? theme.palette.secondary.A100
+                        : typeData === "users"
+                        ? theme.palette.secondary[900]
+                        : null,
+                      color: theme.palette.secondary.A100,
+                    }}
+                    onClick={handleOpenDialog}
+                  />
+                </Tooltip>
+              )}
+              {(typeData === "products" || actionType === "edit-product") && (
+                <ImageSlider
+                  formType={typeData ? typeData : actionType}
+                  productsImages={data.images}
                 />
-              </Tooltip>
-            )}
-            {(typeData === "products" || actionType === "edit-product") && (
-              <ImageSlider
-                formType={typeData ? typeData : actionType}
-                productsImages={data.images}
+              )}
+              <UploadImage
+                openDialog={openDialog}
+                setOpenDialog={setOpenDialog}
+                formType="dashboard-users"
+                setProductImage={setProductImage}
               />
-            )}
-            <UploadImage
-              openDialog={openDialog}
-              setOpenDialog={setOpenDialog}
-              formType="dashboard-users"
-              setProductImage={setProductImage}
-            />
+            </TableImageContainer>
             <TableInputContainer>
               {(typeData === "users" || actionType === "edit-user") && (
                 <>

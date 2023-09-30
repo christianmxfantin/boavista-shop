@@ -32,6 +32,10 @@ export const TableEditContainer = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(8),
 }));
 
+export const TableImageContainer = styled(Box)(({ theme }) => ({
+  width: "50%",
+}));
+
 export const TableImage = styled(Avatar)(({ theme }) => ({
   width: "150px",
   height: "150px",
@@ -40,6 +44,7 @@ export const TableImage = styled(Avatar)(({ theme }) => ({
 }));
 
 export const TableInputContainer = styled(Box)(({ theme }) => ({
+  width: "50%",
   display: "flex",
   flexDirection: "column",
 }));

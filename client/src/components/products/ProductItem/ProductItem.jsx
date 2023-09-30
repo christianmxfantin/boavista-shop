@@ -15,6 +15,7 @@ import { Icon as CartIcon } from "../../ui/Icon";
 import { addProductToCart } from "../../../reducers/cart";
 import { getProductsImagesResponse } from "../../../api/productsImages";
 import { addOneProduct } from "../../../reducers/products";
+import ImageNotFound from "../../../images/image-not-found.jpg";
 
 const ProductItem = ({ data }) => {
   let { id, name, price } = data;
@@ -44,7 +45,7 @@ const ProductItem = ({ data }) => {
   };
 
   const handleAddToCart = () => {
-    dispatch(addProductToCart(data));
+    dispatch(addProductToCart({ ...data, url: productsImages[0].url }));
   };
 
   // productsImages[0].url = null;
@@ -52,15 +53,10 @@ const ProductItem = ({ data }) => {
     <ProductCard>
       <Link to={`/products/${id}`} onClick={handleLinkClick}>
         <ProductCardImage
-          component={productsImages[0].url ? "img" : "div"}
+          component="img"
           alt="Imágen del Producto"
           height="180"
-          image={productsImages[0].url && productsImages[0].url}
-          sx={{
-            // height: !productsImages[0].url && "180",
-            backgroundColor:
-              !productsImages[0].url && theme.palette.primary[200],
-          }}
+          image={productsImages[0].url ? productsImages[0].url : ImageNotFound}
         />
       </Link>
       <ProductCardContent>

@@ -6,9 +6,12 @@ import {
   ImagesContainer,
   ButtonNext,
   EmptyImage,
+  ImageCounter,
+  SliderData,
+  ImagesData,
 } from "../ImageSlider/ImageSlider.styles";
 import { Icon } from "../../ui/Icon";
-import { Tooltip } from "@mui/material";
+import { Button, Tooltip, Typography } from "@mui/material";
 import UploadImage from "../UploadImage/UploadImage";
 
 const ImageSlider = ({ formType, productsImages }) => {
@@ -62,38 +65,67 @@ const ImageSlider = ({ formType, productsImages }) => {
   return (
     <>
       <SliderContainer>
-        {images.length === 0 || images[0] === "S/D" ? (
-          <>
-            <Tooltip title="Haz clic para añadir imágenes">
-              <EmptyImage
-                sx={{
-                  backgroundColor:
-                    formType === "products"
-                      ? theme.palette.secondary[900]
-                      : formType === "edit-product"
-                      ? theme.palette.primary[300]
-                      : null,
-                  cursor:
-                    (formType === "products" || formType === "edit-product") &&
-                    "pointer",
-                }}
-                onClick={handleOpenDialog}
+        <SliderData>
+          {images.length === 0 || images[0] === "S/D" ? (
+            <>
+              <Tooltip title="Haz clic para añadir imágenes">
+                <EmptyImage
+                  sx={{
+                    backgroundColor:
+                      formType === "products"
+                        ? theme.palette.secondary[900]
+                        : formType === "edit-product"
+                        ? theme.palette.primary[300]
+                        : null,
+                    cursor:
+                      (formType === "products" ||
+                        formType === "edit-product") &&
+                      "pointer",
+                  }}
+                  onClick={handleOpenDialog}
+                >
+                  Sin datos
+                </EmptyImage>
+              </Tooltip>
+            </>
+          ) : (
+            <>
+              <ButtonPrevious
+                disabled={currentIndex === 0 ? true : false}
+                onClick={handlePrevious}
               >
-                Sin datos
-              </EmptyImage>
-            </Tooltip>
-          </>
-        ) : (
-          <>
-            <ButtonPrevious
-              disabled={currentIndex === 0 ? true : false}
-              onClick={handlePrevious}
-            >
-              <Icon name="Arrow-Previous" size={30} />
-            </ButtonPrevious>
-            <ImagesContainer>
-              {formType === "products" || formType === "edit-product" ? (
-                <Tooltip title="Haz clic aquí para añadir más imágenes">
+                <Icon name="Arrow-Previous" size={30} />
+              </ButtonPrevious>
+              <ImagesContainer>
+                {formType === "products" || formType === "edit-product" ? (
+                  <ImagesData>
+                    <Tooltip title="Haz clic aquí para añadir más imágenes">
+                      <img
+                        src={currentImage}
+                        alt="Imágen del Producto"
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          borderRadius: theme.spacing(1.5), //12px
+                          objectFit: "cover",
+                          cursor:
+                            (formType === "products" ||
+                              formType === "edit-product") &&
+                            "pointer",
+                        }}
+                        onClick={handleOpenDialog}
+                      />
+                    </Tooltip>
+                    <Button
+                      sx={{
+                        color: theme.palette.secondary.A100,
+                        backgroundColor: theme.palette.error[500],
+                      }}
+                    >
+                      Borrar imágen
+                    </Button>
+                  </ImagesData>
+                ) : (
                   <img
                     src={currentImage}
                     alt="Imágen del Producto"
@@ -102,34 +134,25 @@ const ImageSlider = ({ formType, productsImages }) => {
                       height: "100%",
                       borderRadius: theme.spacing(1.5), //12px
                       objectFit: "cover",
-                      cursor:
-                        (formType === "products" ||
-                          formType === "edit-product") &&
-                        "pointer",
                     }}
-                    onClick={handleOpenDialog}
                   />
-                </Tooltip>
-              ) : (
-                <img
-                  src={currentImage}
-                  alt="Imágen del Producto"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    borderRadius: theme.spacing(1.5), //12px
-                    objectFit: "cover",
-                  }}
-                />
-              )}
-            </ImagesContainer>
-            <ButtonNext
-              disabled={currentIndex === images.length - 1 ? true : false}
-              onClick={handleNext}
-            >
-              <Icon name="Arrow-Next" size={30} />
-            </ButtonNext>
-          </>
+                )}
+              </ImagesContainer>
+              <ButtonNext
+                disabled={currentIndex === images.length - 1 ? true : false}
+                onClick={handleNext}
+              >
+                <Icon name="Arrow-Next" size={30} />
+              </ButtonNext>
+            </>
+          )}
+        </SliderData>
+        {(formType === "edit-product" || images.length > 0) && (
+          <ImageCounter>
+            <Typography>{`Foto ${currentIndex + 1} de ${
+              images.length
+            }`}</Typography>
+          </ImageCounter>
         )}
       </SliderContainer>
       <UploadImage

@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useTheme } from "@emotion/react";
 import {
   CartItemContainer,
@@ -12,13 +12,12 @@ import {
 } from "./CartItem.styles";
 import { Image } from "../../ui/Image";
 import { Icon } from "../../ui/Icon";
-import ImagenPrueba from "../../../images/product.jpg";
 import NumericInput from "../../layout/NumericInput/NumericInput";
 
 import { removeAllFromCart } from "../../../reducers/cart";
 
 const CartItem = ({ data, color }) => {
-  const { id, name, price, totalProduct } = data;
+  const { id, name, price, url, totalProduct } = data;
   const theme = useTheme();
   const dispatch = useDispatch();
   const [quantityPrice, setQuantityPrice] = useState(1);
@@ -37,7 +36,7 @@ const CartItem = ({ data, color }) => {
       <CartItemImage>
         <Image
           name="Products"
-          src={ImagenPrueba}
+          src={url}
           alt="Imágen de Prueba"
           style={{
             width: "100%",
