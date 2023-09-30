@@ -2,7 +2,6 @@ const db = require("../../db/models/index.js");
 const ErrorHandler = require("../../utils/errorHandler.js");
 const logger = require("../../utils/logger.js");
 const { ApiErrors } = require("../api/api.errors.js");
-const { ProductsImagesErrors } = require("./productsImages.errors.js");
 const cloudinary = require("../../utils/cloudinary.js");
 
 const Products = db.products;
