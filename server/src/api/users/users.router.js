@@ -7,6 +7,7 @@ router
   .get("/:id", usersController.getUserById)
   .get("/email/:email", usersController.getUserByEmail)
   .post("/", usersController.createUser)
+  .post("/", usersController.createAvatar)
   .put("/:id", usersController.updateUser)
   .put("/update-avatar/:id", usersController.updateAvatar)
   .delete("/:id", usersController.deleteUser);

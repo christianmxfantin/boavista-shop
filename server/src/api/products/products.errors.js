@@ -8,6 +8,8 @@ const ProductsErrors = {
     "El precio solo admite hasta 2 dígitos después del punto decimal.",
   STOCK_INVALID: "El stock solo permite ingresar hasta 4 dígitos.",
   PRODUCT_NAME_ALREADY_EXISTS: "El nombre del producto ingresado ya existe.",
+  TYPE_CHANGE_PRICES: "El tipo de cambio de precio ingresado no es válido.",
+  PERCENTAGE_INVALID: "El porcentaje ingresado no es válido.",
 };
 
 module.exports = { ProductsErrors };

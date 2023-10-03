@@ -10,10 +10,10 @@ const Roles = db.roles;
 
 const createAndUpdateUser = async (req, res, next, type) => {
   try {
-    let names, surnames, email, password, roleId;
+    let avatarURL, names, surnames, email, password, roleId;
 
     if (type !== "login") {
-      ({ names, surnames, email, password, roleId } = req.body);
+      ({ avatarURL, names, surnames, email, password, roleId } = req.body);
     } else {
       ({ email, password } = req.body);
     }
@@ -77,11 +77,18 @@ const createAndUpdateUser = async (req, res, next, type) => {
     const provisionalImage =
       "https://res.cloudinary.com/christianmxfantin/image/upload/v1694915142/boavista-shop/avatar/sxdnfsf6kajii72ws3e5.jpg";
 
+    //Upload image and obtain the URL
+    let imageURL;
+    if (avatarURL) {
+      //upload the image
+    }
+
     //Hash the password and create the user
     const hashedPassword = await hashPassword(password);
+
     return type !== "login"
       ? {
-          avatarURL: provisionalImage,
+          avatarURL: !avatarURL ? provisionalImage : imageURL,
           names,
           surnames,
           email,
