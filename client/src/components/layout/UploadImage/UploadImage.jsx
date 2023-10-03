@@ -1,5 +1,8 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useTheme } from "@emotion/react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   Button,
   Dialog,
@@ -8,9 +11,8 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { UploadImageContainer } from "./UploadImageContainer.styles";
-import { useDispatch, useSelector } from "react-redux";
+
 import { updateAvatarResponse } from "../../../api/users";
-import { ToastContainer, toast } from "react-toastify";
 import { SuccessMessages } from "../../../utils/toastMessages";
 import { toastColor } from "../../../utils/toastOptions";
 import { setUser } from "../../../reducers/auth";

@@ -11,5 +11,8 @@ export const createProductResponse = async (product) =>
 export const updateProductResponse = async (id, product) =>
   axios.put(`/products/${id}`, product);
 
+export const updatePricesResponse = async (product) =>
+  axios.put("/products/update-prices", product);
+
 export const deleteProductResponse = async (id) =>
   axios.delete(`/products/${id}`);

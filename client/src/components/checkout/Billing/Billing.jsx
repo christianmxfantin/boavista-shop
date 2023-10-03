@@ -97,21 +97,25 @@ const Billing = ({
         let myBilling = {};
         if (formType === "billing") {
           const myBillingData = await getAddressByUser(user.id);
-          const addressType = await getAddressTypeName(
-            myBillingData.addressTypeId
-          );
 
-          const state = await getStateName(myBillingData.stateId);
-          const city = await getCityName(myBillingData.cityId);
+          if (myBillingData) {
+            const addressType = await getAddressTypeName(
+              myBillingData.addressTypeId
+            );
 
-          myBilling = {
-            id: myBillingData.id,
-            addressType,
-            address: myBillingData.address,
-            state,
-            city,
-            phone: myBillingData.phone,
-          };
+            const state = await getStateName(myBillingData.stateId);
+            const city = await getCityName(myBillingData.cityId);
+
+            myBilling = {
+              id: myBillingData.id,
+              addressType,
+              address: myBillingData.address,
+              state,
+              city,
+              phone: myBillingData.phone,
+            };
+          }
+          // console.log(myBillingData);
         }
 
         if (confirmationData) {
@@ -171,7 +175,7 @@ const Billing = ({
       }
     };
     getData();
-  }, [formType, confirmationData, editAddress, editData]);
+  }, [formType, confirmationData, editAddress, editData, user.id]);
 
   useEffect(() => {
     if (formType === "shipping") {

@@ -54,9 +54,12 @@ export const getStateName = async (id) => {
 
 export const getAddressByUser = async (userID) => {
   try {
+    console.log(userID);
     const res = await getAddressesResponse();
-    const address = res.data.filter((address) => address.userId === userID);
-    return address[0];
+    console.log(res.data);
+    const address = res.data.find((address) => address.userId === userID);
+    console.log(address);
+    return address;
   } catch (error) {
     console.log(error);
   }

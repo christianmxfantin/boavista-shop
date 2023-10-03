@@ -5,6 +5,7 @@ import {
   createProductResponse,
   updateProductResponse,
   deleteProductResponse,
+  updatePricesResponse,
 } from "../../api/products";
 import { responseError, statusErrors } from "../../utils/toastErrors";
 
@@ -56,6 +57,17 @@ const useProducts = () => {
     }
   };
 
+  const updatePrices = async (product) => {
+    try {
+      const res = await updatePricesResponse(product);
+      setProducts(res.data);
+    } catch (error) {
+      console.log(error);
+      statusErrors(error);
+      responseError(error);
+    }
+  };
+
   const deleteProduct = async (id) => {
     try {
       const res = await deleteProductResponse(id);
@@ -74,6 +86,7 @@ const useProducts = () => {
     getProductById,
     createProduct,
     updateProduct,
+    updatePrices,
     deleteProduct,
   };
 };

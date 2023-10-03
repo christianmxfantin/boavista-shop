@@ -35,7 +35,14 @@ const ProductsOrders = () => {
       ) : (
         <OrdersContainer>
           {orders.map((order) => {
-            return <OrderItem key={order.id} order={order} />;
+            return (
+              <OrderItem
+                key={order.id}
+                order={order}
+                orders={orders}
+                setOrders={setOrders}
+              />
+            );
           })}
         </OrdersContainer>
       )}

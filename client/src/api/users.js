@@ -9,6 +9,9 @@ export const getUserByEmailResponse = async (email) =>
 
 export const createUserResponse = async (user) => axios.post("/users", user);
 
+export const createAvatarResponse = async (user) =>
+  axios.post("/users/create-avatar", user);
+
 export const updateUserResponse = async (id, user) =>
   axios.put(`/users/${id}`, user);
 
