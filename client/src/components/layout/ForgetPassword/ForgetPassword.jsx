@@ -17,10 +17,16 @@ import { EmptyFieldError } from "../../../errors/emptyField.errors";
 import { getUserByEmailResponse } from "../../../api/users";
 import { ErrorsMessages } from "../../../utils/toastMessages";
 import { toastColor } from "../../../utils/toastOptions";
+import { useLocation } from "react-router-dom";
 
 const ForgetPassword = () => {
   const theme = useTheme();
-  const [showEmail, setShowEmail] = useState(true);
+  const location = useLocation();
+  const changePassword = location.state.changePassword;
+  console.log(location.state);
+  console.log(changePassword);
+
+  const [showEmail, setShowEmail] = useState(changePassword ? false : true);
   const [userId, setUserId] = useState("");
 
   const {
@@ -71,9 +77,13 @@ const ForgetPassword = () => {
           onSubmit={handleSubmit(onSubmit)}
         >
           <FormAuthTitle variant="h5">
-            {showEmail ? "Ingresa tu Email" : "Ingresa tu Nueva Contraseña"}
+            {changePassword
+              ? "Modifica tu contraseña"
+              : showEmail
+              ? "Ingresa tu Email"
+              : "Ingresa tu Nueva Contraseña"}
           </FormAuthTitle>
-          {showEmail && (
+          {(showEmail || !changePassword) && (
             <>
               <EmailInput
                 name="email"
@@ -109,7 +119,9 @@ const ForgetPassword = () => {
             </>
           )}
         </ForgetPasswordForm>
-        {!showEmail && <AccountData newPassword={true} userId={userId} />}
+        {(!showEmail || changePassword) && (
+          <AccountData newPassword={true} userId={userId} />
+        )}
       </ForgetPasswordContainer>
       <ToastContainer />
     </main>

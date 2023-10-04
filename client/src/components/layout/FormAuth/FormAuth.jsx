@@ -137,7 +137,17 @@ const FormAuth = ({ formType, role }) => {
           const roles = await getRoleById(loginUser.data.roleId);
           const roleName = roles.data.name;
 
-          if (roleName !== "web") {
+          const date = new Date();
+          const userPassword = `User${date.getFullYear()}`;
+
+          if (
+            roleName.toLowerCase().trim() === "user" &&
+            formValues.password === userPassword
+          ) {
+            navigate("/auth/change-password", {
+              state: { changePassword: true },
+            });
+          } else if (roleName.toLowerCase().trim() !== "web") {
             navigate("/dashboard");
           } else {
             navigate("/");
@@ -161,6 +171,7 @@ const FormAuth = ({ formType, role }) => {
 
           //Register the user and sing in
           const newUser = {
+            avatarURL: "",
             names: capitalizeWords(formValues.names.trim()),
             surnames: capitalizeWords(formValues.surnames.trim()),
             email: formValues.email.toLowerCase().trim(),

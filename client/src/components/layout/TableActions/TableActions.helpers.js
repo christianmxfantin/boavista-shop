@@ -9,15 +9,20 @@ export const createUsers = async (avatarURL, formValues) => {
       (role) => role.name.toLowerCase().trim() === "user"
     );
 
+    const date = new Date();
+    const newPassword = `User${date.getFullYear()}`;
+
     const newUser = {
-      avatarURL,
+      avatarURL: !avatarURL
+        ? "https://res.cloudinary.com/image.jpg"
+        : avatarURL,
       names: capitalizeWords(formValues.names.trim()),
       surnames: capitalizeWords(formValues.surnames.trim()),
       email: formValues.email.toLowerCase().trim(),
-      password: "user",
+      password: newPassword,
       roleId: roleName.id,
     };
-
+    console.log(newUser);
     const registerUser = await createUserResponse(newUser);
     return registerUser.data;
   } catch (error) {
