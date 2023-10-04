@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           is: {
-            args: /^(https?:\/\/)?(www\.)?[\w-]+\.[a-z]{2,4}(\/\S*)?$/,
+            args: /^(https?:\/\/)?(.*)\.[a-z]{2,4}(\/\S*)?$/,
             msg: ApiErrors.URL_IMAGE_INVALID,
           },
         },

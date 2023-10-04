@@ -1,4 +1,5 @@
 const db = require("../../db/models/index.js");
+const cloudinary = require("../../utils/cloudinary.js");
 const ErrorHandler = require("../../utils/errorHandler.js");
 const { hashPassword } = require("../../utils/hashPassword.js");
 const logger = require("../../utils/logger.js");
@@ -79,8 +80,12 @@ const createAndUpdateUser = async (req, res, next, type) => {
 
     //Upload image and obtain the URL
     let imageURL;
-    if (avatarURL) {
-      //upload the image
+    if (type !== "login") {
+      if (avatarURL !== "https://res.cloudinary.com/image.jpg") {
+        imageURL = await cloudinary.v2.uploader.upload(avatarURL, {
+          folder: "boavista-shop/avatar",
+        });
+      }
     }
 
     //Hash the password and create the user
@@ -88,7 +93,10 @@ const createAndUpdateUser = async (req, res, next, type) => {
 
     return type !== "login"
       ? {
-          avatarURL: !avatarURL ? provisionalImage : imageURL,
+          avatarURL:
+            avatarURL === "https://res.cloudinary.com/image.jpg"
+              ? provisionalImage
+              : imageURL.url,
           names,
           surnames,
           email,

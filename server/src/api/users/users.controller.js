@@ -164,7 +164,6 @@ const updateAvatar = async (req, res, next) => {
       "https://res.cloudinary.com/christianmxfantin/image/upload/v1694915142/boavista-shop/avatar/sxdnfsf6kajii72ws3e5.jpg"
     ) {
       const fileName = getImageURL(existingUser.avatarURL);
-      console.log(existingUser.avatarURL, fileName);
       cloudinary.api.delete_resources_by_prefix(fileName, {
         type: "authenticated",
       });
