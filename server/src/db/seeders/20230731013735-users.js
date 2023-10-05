@@ -21,7 +21,7 @@ module.exports = {
       {
         id: uuidv4(),
         avatarURL:
-          "https://res.cloudinary.com/christianmxfantin/image/upload/v1694913966/boavista-shop/avatar/fz5zv3gqu5ceiuvu5geu.jpg",
+          "https://res.cloudinary.com/christianmxfantin/image/upload/v1696462719/boavista-shop/avatar/s6jqtkrkr157phca7ttz.jpg",
         names: "Romina",
         surnames: "Echegazi",
         email: "rechegazi@boavista.com",

@@ -66,7 +66,6 @@ const createUser = async (req, res, next) => {
     const userData = await createAndUpdateUser(req, res, next, "users-create");
     if (userData) {
       const savedUser = await Users.create(userData);
-
       return res.status(201).json({
         id: savedUser.id,
         avatarURL: savedUser.avatarURL,
@@ -76,27 +75,6 @@ const createUser = async (req, res, next) => {
         roleId: savedUser.roleId,
       });
     }
-  } catch (err) {
-    const error = new ErrorHandler(err.message, err.statusCode);
-    logger.error(err);
-    next(error);
-  }
-};
-
-const createAvatar = async (req, res, next) => {
-  try {
-    // const userData = await createAndUpdateUser(req, res, next, "users-create");
-    // if (userData) {
-    //   const savedUser = await Users.create(userData);
-    //   return res.status(201).json({
-    //     id: savedUser.id,
-    //     avatarURL: savedUser.avatarURL,
-    //     names: savedUser.names,
-    //     surnames: savedUser.surnames,
-    //     email: savedUser.email,
-    //     roleId: savedUser.roleId,
-    //   });
-    // }
   } catch (err) {
     const error = new ErrorHandler(err.message, err.statusCode);
     logger.error(err);
@@ -219,7 +197,6 @@ module.exports = {
   getUserById,
   getUserByEmail,
   createUser,
-  createAvatar,
   updateUser,
   updateAvatar,
   deleteUser,
