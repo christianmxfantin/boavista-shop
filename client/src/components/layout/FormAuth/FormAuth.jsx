@@ -129,9 +129,7 @@ const FormAuth = ({ formType, role }) => {
             email: formValues.email.toLowerCase().trim(),
             password: formValues.password,
           };
-
           const loginUser = await loginResponse(userData);
-          dispatch(setUser(loginUser.data));
 
           //Search the role id in database
           const roles = await getRoleById(loginUser.data.roleId);
@@ -145,11 +143,16 @@ const FormAuth = ({ formType, role }) => {
             formValues.password === userPassword
           ) {
             navigate("/auth/change-password", {
-              state: { changePassword: true },
+              state: {
+                changePassword: true,
+                formAuthUserID: loginUser.data.id,
+              },
             });
           } else if (roleName.toLowerCase().trim() !== "web") {
+            dispatch(setUser(loginUser.data));
             navigate("/dashboard");
           } else {
+            dispatch(setUser(loginUser.data));
             navigate("/");
           }
         } catch (error) {

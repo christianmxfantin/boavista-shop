@@ -34,7 +34,7 @@ import {
   TableImageContainer,
 } from "./TableActions.styles";
 import useProducts from "../../../hooks/api/useProducts";
-import { createAvatarResponse, deleteUserResponse } from "../../../api/users";
+import { deleteUserResponse } from "../../../api/users";
 import { getAddressTypeByIdResponse } from "../../../api/addressesTypes";
 import { getCardCompanyByIdResponse } from "../../../api/cardCompanies";
 import useAddresses from "../../../hooks/api/useAddresses";
@@ -121,7 +121,6 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
   const onSubmit = async (formValues) => {
     switch (typeData) {
       case "users":
-        // console.log("crear usuario", formValues);
         try {
           const user = await createUsers(productImage, formValues);
           if (user) {
@@ -221,8 +220,9 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
       default:
     }
 
-    setShowModal(false);
+    setProductImage("");
     reset();
+    setShowModal(false);
   };
 
   return (

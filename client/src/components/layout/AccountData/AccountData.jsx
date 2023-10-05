@@ -93,7 +93,7 @@ const AccountData = ({ formType, newPassword, userId }) => {
   const handleClickCancel = () => {
     reset();
 
-    //si estas en FormAuth vuelve a login
+    //si estas en FormAuth vuelve a Login
     if (newPassword) {
       navigate("/login");
     }
@@ -142,7 +142,6 @@ const AccountData = ({ formType, newPassword, userId }) => {
     if (changePassword || newPassword) {
       //Change Password
       try {
-        // console.log(userId);
         const data = userId ? userId : user.id;
         const userFound = await getUserByIdResponse(data);
 

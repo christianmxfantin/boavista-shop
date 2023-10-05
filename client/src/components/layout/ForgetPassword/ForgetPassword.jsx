@@ -22,9 +22,8 @@ import { useLocation } from "react-router-dom";
 const ForgetPassword = () => {
   const theme = useTheme();
   const location = useLocation();
-  const changePassword = location.state.changePassword;
+  const { changePassword, formAuthUserID } = location.state;
   console.log(location.state);
-  console.log(changePassword);
 
   const [showEmail, setShowEmail] = useState(changePassword ? false : true);
   const [userId, setUserId] = useState("");
@@ -120,7 +119,10 @@ const ForgetPassword = () => {
           )}
         </ForgetPasswordForm>
         {(!showEmail || changePassword) && (
-          <AccountData newPassword={true} userId={userId} />
+          <AccountData
+            newPassword={true}
+            userId={userId ? userId : formAuthUserID}
+          />
         )}
       </ForgetPasswordContainer>
       <ToastContainer />

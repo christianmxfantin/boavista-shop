@@ -22,7 +22,7 @@ export const createUsers = async (avatarURL, formValues) => {
       password: newPassword,
       roleId: roleName.id,
     };
-    console.log(newUser);
+
     const registerUser = await createUserResponse(newUser);
     return registerUser.data;
   } catch (error) {
