@@ -26,6 +26,8 @@ export const FormAuthSocial = styled(Box)(() => ({
 
 export const FormAuthSocialButtons = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(3), //24px
+  display: "flex",
+  justifyContent: "center",
 }));
 
 export const GoogleButton = styled(Button)(({ theme }) => ({

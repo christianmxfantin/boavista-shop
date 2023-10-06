@@ -121,6 +121,11 @@ const FormAuth = ({ formType, role }) => {
     navigate("/auth/change-password");
   };
 
+  const handleResetDatabase = () => {
+    //reset database
+    //1ro advertencia de que se va a resetear la base y esta accion no se puede deshacer
+  };
+
   const onSubmit = async (formValues) => {
     switch (formType) {
       case "login":
@@ -471,6 +476,18 @@ const FormAuth = ({ formType, role }) => {
               >
                 Productos
               </Button>
+              {role === "admin" && (
+                <Link
+                  style={{
+                    textAlign: "center",
+                    marginTop: theme.spacing(5),
+                    cursor: "pointer",
+                  }}
+                  onClick={handleResetDatabase}
+                >
+                  Volver Base de Datos al Estado Inicial
+                </Link>
+              )}
             </>
           ) : null}
         </ButtonsContainer>

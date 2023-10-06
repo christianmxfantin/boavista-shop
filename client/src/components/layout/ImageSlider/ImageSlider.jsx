@@ -14,7 +14,7 @@ import { Icon } from "../../ui/Icon";
 import { Button, Tooltip, Typography } from "@mui/material";
 import UploadImage from "../UploadImage/UploadImage";
 
-const ImageSlider = ({ formType, productsImages }) => {
+const ImageSlider = ({ formType, productsImages, setArrayImages }) => {
   const theme = useTheme();
   const [productImage, setProductImage] = useState("");
   const [images, setImages] = useState([]);
@@ -35,6 +35,7 @@ const ImageSlider = ({ formType, productsImages }) => {
       const newImages = [...images, productImage];
       const filteredImages = newImages.filter((item) => item !== "S/D");
       setImages(filteredImages);
+      setArrayImages(filteredImages);
     }
   }, [productImage]);
 
@@ -60,6 +61,10 @@ const ImageSlider = ({ formType, productsImages }) => {
     if (formType === "products" || formType === "edit-product") {
       setOpenDialog(true);
     }
+  };
+
+  const handleDeleteImage = () => {
+    //delete image
   };
 
   return (
@@ -121,6 +126,7 @@ const ImageSlider = ({ formType, productsImages }) => {
                         color: theme.palette.secondary.A100,
                         backgroundColor: theme.palette.error[500],
                       }}
+                      onClick={handleDeleteImage}
                     >
                       Borrar imágen
                     </Button>

@@ -17,7 +17,6 @@ import {
   TableActionsContainer,
   TableActionsTitle,
   TableEditContainer,
-  TableImage,
   TableInputContainer,
   TableNameInput,
   TablePriceInput,
@@ -48,9 +47,15 @@ import { UsersErrors } from "../../../errors/users.errors";
 import { EmptyFieldError } from "../../../errors/emptyField.errors";
 import { Icon } from "../../ui/Icon";
 import { ProductsErrors } from "../../../errors/products.errors";
-import { createUsers } from "./TableActions.helpers";
+import {
+  createProduct,
+  createUser,
+  updateProduct,
+  updateUser,
+} from "./TableActions.helpers";
 import { SuccessMessages } from "../../../utils/toastMessages";
 import { toastColor } from "../../../utils/toastOptions";
+import useUsers from "../../../hooks/api/useUsers";
 
 const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
   const theme = useTheme();
@@ -58,7 +63,8 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
 
-  const { updateProduct } = useProducts();
+  const { deleteProduct } = useProducts();
+  const { deleteUser } = useUsers();
   const { setAddresses, deleteAddress } = useAddresses();
   const { setPayments, deletePayment } = usePayments();
   const { logout } = useAuth();
@@ -69,6 +75,7 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
     ({ actionType, data } = selectedData);
   }
 
+  const [arrayImages, setArrayImages] = useState([]);
   const [addressType, setAddressType] = useState("");
   const [cardCompany, setCardCompany] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
@@ -119,20 +126,23 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
   };
 
   const onSubmit = async (formValues) => {
+    let response;
+
     switch (typeData) {
       case "users":
         try {
-          const user = await createUsers(productImage, formValues);
-          if (user) {
-            toast.success(SuccessMessages.CHANGES_DONE, toastColor("success"));
-          }
+          response = await createUser(productImage, formValues);
         } catch (error) {
           console.log(error);
         }
         break;
 
       case "products":
-        console.log("crear producto", formValues);
+        try {
+          response = await createProduct(user.id, arrayImages, formValues);
+        } catch (error) {
+          console.log(error);
+        }
         break;
 
       default:
@@ -140,43 +150,32 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
 
     switch (actionType) {
       case "edit-user":
-        console.log("editar usuario", formValues);
         try {
-          // const updatedProduct = {
-          //   id: data.id,
-          //   name: formValues.name.trim(),
-          //   price: 500.0,
-          //   stock: 1200,
-          // };
-          // await updateProduct(data.id, updatedProduct);
-          //falta setear el update
+          response = await updateUser(data, productImage, formValues);
         } catch (error) {
           console.log(error);
         }
         break;
 
       case "edit-product":
-        console.log("editar producto", formValues);
         try {
-          // const updatedProduct = {
-          //   id: data.id,
-          //   name: formValues.name.trim(),
-          //   price: 500.0,
-          //   stock: 1200,
-          // };
-          // await updateProduct(data.id, updatedProduct);
-          //falta setear el update
+          response = await updateProduct(data, user.id, formValues);
         } catch (error) {
           console.log(error);
         }
         break;
 
+      case "delete-user":
+        try {
+          response = await deleteUser(data.id);
+        } catch (error) {
+          console.error(error);
+        }
+        break;
+
       case "delete-product":
         try {
-          // await deleteAddress(data.id, user.id);
-          // setAddresses((prevAddresses) =>
-          //   prevAddresses.filter((address) => address.id !== data.id)
-          // );
+          response = await deleteProduct(data.id);
         } catch (error) {
           console.error(error);
         }
@@ -218,6 +217,10 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
         break;
 
       default:
+    }
+
+    if (response) {
+      toast.success(SuccessMessages.CHANGES_DONE, toastColor("success"));
     }
 
     setProductImage("");
@@ -298,6 +301,7 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
                   <ImageSlider
                     formType={typeData ? typeData : actionType}
                     productsImages={data.images}
+                    setArrayImages={setArrayImages}
                   />
                 )}
                 <UploadImage

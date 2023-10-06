@@ -1,8 +1,16 @@
+import {
+  createProductResponse,
+  updateProductResponse,
+} from "../../../api/products";
 import { getRoles } from "../../../api/roles";
-import { createUserResponse } from "../../../api/users";
+import {
+  createUserResponse,
+  getUserByIdResponse,
+  updateUserResponse,
+} from "../../../api/users";
 import { capitalizeWords } from "../../../utils/capitalizeWords";
 
-export const createUsers = async (avatarURL, formValues) => {
+export const createUser = async (avatarURL, formValues) => {
   try {
     const roles = await getRoles();
     const roleName = roles.data.find(
@@ -28,4 +36,50 @@ export const createUsers = async (avatarURL, formValues) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const updateUser = async (data, avatarURL, formValues) => {
+  const userFound = await getUserByIdResponse(data.id);
+
+  const user = {
+    id: userFound.data.id,
+    avatarURL: !avatarURL ? "https://res.cloudinary.com/image.jpg" : avatarURL,
+    names: capitalizeWords(formValues.names.trim()),
+    surnames: capitalizeWords(formValues.surnames.trim()),
+    email: formValues.email.toLowerCase().trim(),
+    password: userFound.data.password,
+    roleId: userFound.data.roleId,
+  };
+
+  const updatedUser = await updateUserResponse(data.id, user);
+  return updatedUser.data;
+};
+
+export const createProduct = async (userId, images, formValues) => {
+  const newProduct = {
+    name: capitalizeWords(formValues.name.trim()),
+    price: parseFloat(formValues.price.trim()),
+    stock: Number(formValues.stock.trim()),
+    discountId: "702a923b-486c-4aa2-91d5-7a885db78e47",
+    categoryId: "53d8f2ba-5eba-4aed-8b71-122ee0948f17",
+    userId,
+  };
+
+  const registerProduct = await createProductResponse(newProduct);
+  return registerProduct.data;
+};
+
+export const updateProduct = async (data, userId, formValues) => {
+  const product = {
+    id: data.id,
+    name: capitalizeWords(formValues.name.trim()),
+    price: parseFloat(formValues.price.trim()),
+    stock: Number(formValues.stock.trim()),
+    discountId: "702a923b-486c-4aa2-91d5-7a885db78e47",
+    categoryId: "53d8f2ba-5eba-4aed-8b71-122ee0948f17",
+    userId,
+  };
+
+  const updatedProduct = await updateProductResponse(data.id, product);
+  return updatedProduct.data;
 };

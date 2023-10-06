@@ -58,6 +58,10 @@ const useUsers = () => {
   const deleteUser = async (id) => {
     try {
       const res = await deleteUserResponse(id);
+      if (res.status === 204) {
+        const usersFilter = users.filter((user) => user.id !== id);
+        setUsers(usersFilter);
+      }
       setUsers(res.data);
     } catch (error) {
       console.log(error);
@@ -68,6 +72,7 @@ const useUsers = () => {
 
   return {
     users,
+    setUsers,
     getUsers,
     getUserById,
     createUser,

@@ -59,11 +59,9 @@ const useAddresses = () => {
   const deleteAddress = async (id, userID) => {
     try {
       const address = await getAddresses(userID);
-      // console.log(address);
       const res = await deleteAddressResponse(id);
       if (res.status === 204) {
         const addressData = address.filter((address) => address.id !== id);
-        console.log(addressData);
         setAddresses(addressData);
       }
     } catch (error) {

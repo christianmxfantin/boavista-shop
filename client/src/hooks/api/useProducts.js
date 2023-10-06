@@ -71,7 +71,10 @@ const useProducts = () => {
   const deleteProduct = async (id) => {
     try {
       const res = await deleteProductResponse(id);
-      setProducts(res.data);
+      if (res.status === 204) {
+        const productsFilter = products.filter((product) => product.id !== id);
+        setProducts(productsFilter);
+      }
     } catch (error) {
       console.log(error);
       statusErrors(error);
