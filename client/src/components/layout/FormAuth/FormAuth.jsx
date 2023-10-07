@@ -30,7 +30,11 @@ import {
   FormAuthEmail,
 } from "./FormAuth.styles";
 import { Controller, useForm } from "react-hook-form";
-import { loginResponse, registerResponse } from "../../../api/auth";
+import {
+  googleAuthResponse,
+  loginResponse,
+  registerResponse,
+} from "../../../api/auth";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../reducers/auth";
 import { getRoleById, getRoles } from "../../../api/roles";
@@ -41,6 +45,8 @@ import { PatternValidations } from "../../../helpers/validations";
 import { toastColor } from "../../../utils/toastOptions";
 import { ErrorsMessages } from "../../../utils/toastMessages";
 import { capitalizeWords } from "../../../utils/capitalizeWords";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 
 const FormAuth = ({ formType, role }) => {
   const namesInputValue = useRef("");
@@ -94,9 +100,41 @@ const FormAuth = ({ formType, role }) => {
     e.preventDefault();
   };
 
-  const handleGoogleAuth = () => {
-    console.log("Inicio con Google");
-  };
+  const handleGoogleAuth = useGoogleLogin({
+    onSuccess: async (response) => {
+      try {
+        const res = await axios.get(
+          "https://www.googleapis.com/oauth2/v3/userinfo",
+          {
+            headers: {
+              Authorization: `Bearer ${response.access_token}`,
+            },
+          }
+        );
+
+        //Check if exists the Web role in database
+        const roles = await getRoles();
+        const roleName = roles.data.find(
+          (role) => role.name.toLowerCase().trim() === "web"
+        );
+
+        const googleUser = {
+          avatarURL: res.data.picture,
+          names: res.data.given_name,
+          surnames: res.data.family_name,
+          email: res.data.email,
+          password: "Google2k",
+          roleId: roleName.id,
+        };
+        const registerUser = await registerResponse(googleUser);
+
+        dispatch(setUser(registerUser.data));
+        navigate("/");
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
 
   const handleTopButton = () => {
     navigate("/dashboard/users");
@@ -237,7 +275,7 @@ const FormAuth = ({ formType, role }) => {
               <GoogleButton
                 variant="outlined"
                 startIcon={<Icon name="Google" />}
-                onClick={handleGoogleAuth}
+                onClick={() => handleGoogleAuth()}
               >
                 Google
               </GoogleButton>
