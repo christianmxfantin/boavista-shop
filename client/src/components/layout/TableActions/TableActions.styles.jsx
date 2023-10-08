@@ -1,4 +1,4 @@
-import { Box, Modal, TextField, Typography } from "@mui/material";
+import { Box, Modal, Select, TextField, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export const TableActionsModal = styled(Modal)(({ theme }) => ({
@@ -64,6 +64,34 @@ export const TablePriceInput = styled(TextField)(({ theme }) => ({
 
 export const TableStockInput = styled(TextField)(({ theme }) => ({
   padding: "8px",
+}));
+
+export const SelectCategoryContainer = styled(Box)(({ theme }) => ({
+  padding: "8px",
+  display: "flex",
+}));
+
+export const CategoryContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+}));
+
+export const SelectCategory = styled(Select)(({ theme }) => ({
+  marginRight: theme.spacing(2),
+}));
+
+export const SelectDiscountContainer = styled(Box)(({ theme }) => ({
+  padding: "8px",
+  display: "flex",
+}));
+
+export const DiscountContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+}));
+
+export const SelectDiscount = styled(Select)(({ theme }) => ({
+  marginRight: theme.spacing(2),
 }));
 
 export const TableButtonsContainer = styled(Box)(({ theme }) => ({

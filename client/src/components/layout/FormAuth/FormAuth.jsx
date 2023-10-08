@@ -118,15 +118,18 @@ const FormAuth = ({ formType, role }) => {
           (role) => role.name.toLowerCase().trim() === "web"
         );
 
+        const date = new Date();
+        const newPassword = `Google${date.getFullYear()}`;
+
         const googleUser = {
           avatarURL: res.data.picture,
           names: res.data.given_name,
           surnames: res.data.family_name,
           email: res.data.email,
-          password: "Google2k",
+          password: newPassword,
           roleId: roleName.id,
         };
-        const registerUser = await registerResponse(googleUser);
+        const registerUser = await googleAuthResponse(googleUser);
 
         dispatch(setUser(registerUser.data));
         navigate("/");

@@ -2,14 +2,16 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   Avatar,
   Button,
+  FormHelperText,
   IconButton,
   InputAdornment,
+  MenuItem,
   Tooltip,
 } from "@mui/material";
 import {
@@ -31,6 +33,12 @@ import {
   TableSurnamesInput,
   TableEmailInput,
   TableImageContainer,
+  SelectCategoryContainer,
+  SelectDiscountContainer,
+  SelectCategory,
+  SelectDiscount,
+  CategoryContainer,
+  DiscountContainer,
 } from "./TableActions.styles";
 import useProducts from "../../../hooks/api/useProducts";
 import { deleteUserResponse } from "../../../api/users";
@@ -56,6 +64,8 @@ import {
 import { SuccessMessages } from "../../../utils/toastMessages";
 import { toastColor } from "../../../utils/toastOptions";
 import useUsers from "../../../hooks/api/useUsers";
+import { getCategoriesResponse } from "../../../api/categories";
+import { getDiscountsResponse } from "../../../api/discounts";
 
 const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
   const theme = useTheme();
@@ -80,7 +90,13 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
   const [cardCompany, setCardCompany] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
   const [productImage, setProductImage] = useState("");
+
+  const [categories, setCategories] = useState([]);
+  const [discounts, setDiscounts] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState();
+  const [selectedDiscount, setSelectedDiscount] = useState();
   const {
+    control,
     register,
     handleSubmit,
     watch,
@@ -90,6 +106,18 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
 
   useEffect(() => {
     const getData = async () => {
+      try {
+        if (typeData === "products" || actionType === "edit-product") {
+          const allCategories = await getCategoriesResponse();
+          setCategories(allCategories.data);
+
+          const allDiscounts = await getDiscountsResponse();
+          setDiscounts(allDiscounts.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+
       if (data) {
         try {
           if (actionType === "delete-billing") {
@@ -111,7 +139,26 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
       }
     };
     getData();
-  }, [actionType, data, selectedData]);
+  }, [actionType, data, selectedData, typeData]);
+
+  useEffect(() => {
+    if (actionType === "edit-product" && categories.length > 0) {
+      const defaultCategory = categories.find(
+        (category) => category.id === data.categoryId
+      );
+      setSelectedCategory(defaultCategory.name);
+
+      const defaultDiscount = discounts.find(
+        (discount) => discount.id === data.discountId
+      );
+
+      if (defaultDiscount.percentage === 0) {
+        setSelectedDiscount("Sin Descuento");
+      } else {
+        setSelectedDiscount(`${defaultDiscount.percentage}% OFF`);
+      }
+    }
+  }, [actionType, data, categories, discounts]);
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
@@ -123,6 +170,14 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
     }
     reset();
     setShowModal(false);
+  };
+
+  const handleAddCategory = () => {
+    //show modal de add
+  };
+
+  const handleAddDiscount = () => {
+    //show modal de add
   };
 
   const onSubmit = async (formValues) => {
@@ -435,6 +490,121 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
                       error={!!errors.stock}
                       helperText={errors.stock && ProductsErrors.STOCK_INVALID}
                     />
+                    <SelectCategoryContainer>
+                      <Controller
+                        name="category"
+                        control={control}
+                        rules={{
+                          required: true,
+                          // validate: (value) =>
+                          //   value !== "Selecciona una Categoría" ||
+                          //   ProductsErrors.CATEGORY_INVALID,
+                        }}
+                        render={({ field: { name, value } }) => (
+                          <CategoryContainer>
+                            <SelectCategory
+                              name={name}
+                              // value={value}
+                              // fullWidth
+                              defaultValue={
+                                typeData === "products"
+                                  ? 1
+                                  : actionType === "edit-product"
+                                  ? selectedCategory
+                                  : null
+                              }
+                              error={!!errors.category}
+                            >
+                              <MenuItem disabled value={1}>
+                                Selecciona una Categoría
+                              </MenuItem>
+                              {categories.map((category, index) => (
+                                <MenuItem value={category.name} key={index}>
+                                  {category.name}
+                                </MenuItem>
+                              ))}
+                            </SelectCategory>
+                            <FormHelperText error={!!errors.category}>
+                              {errors.category &&
+                              value !== "Selecciona una Categoría"
+                                ? ProductsErrors.CATEGORY_INVALID
+                                : ""}
+                            </FormHelperText>
+                          </CategoryContainer>
+                        )}
+                      />
+                      <Button
+                        onClick={handleAddCategory}
+                        sx={{
+                          color: theme.palette.secondary.A100,
+                          backgroundColor: theme.palette.error[500],
+                          "&:hover": {
+                            backgroundColor: theme.palette.error[300],
+                          },
+                        }}
+                      >
+                        +
+                      </Button>
+                    </SelectCategoryContainer>
+                    <SelectDiscountContainer>
+                      <Controller
+                        name="discount"
+                        control={control}
+                        rules={{
+                          required: ProductsErrors.DISCOUNT_INVALID,
+                        }}
+                        render={({ field: { name, value } }) => (
+                          <DiscountContainer>
+                            <SelectDiscount
+                              name={name}
+                              // fullWidth
+                              defaultValue={
+                                typeData === "products"
+                                  ? 1
+                                  : actionType === "edit-product"
+                                  ? selectedDiscount
+                                  : null
+                              }
+                              error={!!errors.discount}
+                            >
+                              <MenuItem disabled value={1}>
+                                Selecciona un Descuento
+                              </MenuItem>
+                              {discounts.map((discount, index) => (
+                                <MenuItem
+                                  value={
+                                    discount.percentage === 0
+                                      ? "Sin Descuento"
+                                      : `${discount.percentage}% OFF`
+                                  }
+                                  key={index}
+                                >
+                                  {discount.percentage === 0
+                                    ? "Sin Descuento"
+                                    : `${discount.percentage}% OFF`}
+                                </MenuItem>
+                              ))}
+                            </SelectDiscount>
+                            <FormHelperText error={!!errors.discount}>
+                              {errors.discount &&
+                                ProductsErrors.DISCOUNT_INVALID}
+                            </FormHelperText>
+                          </DiscountContainer>
+                        )}
+                      />
+                      <Button
+                        onClick={handleAddDiscount}
+                        sx={{
+                          color: theme.palette.secondary.A100,
+                          backgroundColor: theme.palette.error[500],
+                          "&:hover": {
+                            backgroundColor: theme.palette.error[300],
+                          },
+                        }}
+                      >
+                        +
+                      </Button>
+                    </SelectDiscountContainer>
                   </>
                 )}
               </TableInputContainer>
