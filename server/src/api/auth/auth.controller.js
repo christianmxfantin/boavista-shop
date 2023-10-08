@@ -88,8 +88,36 @@ const login = async (req, res, next) => {
 
 const googleAuth = async (req, res, next) => {
   try {
-    //data
-    // return res.status(200).send("Google is authenticated");
+    const { email } = req.body;
+    let savedUser;
+
+    const existingUser = await Users.findOne({ where: { email } });
+    if (existingUser) {
+      savedUser = existingUser;
+    } else {
+      const userData = await createAndUpdateUser(req, res, next, "register");
+
+      if (userData) {
+        savedUser = await Users.create(userData);
+      }
+    }
+
+    // Create a Token
+    const token = jwt.sign({ id: savedUser.id }, TOKEN_SECRET, {
+      expiresIn: 3600, // 1 hour
+    });
+
+    //Send cookie with data
+    res.cookie("token", token);
+
+    return res.status(200).json({
+      id: savedUser.id,
+      avatarURL: savedUser.avatarURL,
+      names: savedUser.names,
+      surnames: savedUser.surnames,
+      email: savedUser.email,
+      roleId: savedUser.roleId,
+    });
   } catch (err) {
     const error = new ErrorHandler(err.message, err.statusCode);
     logger.error(err);

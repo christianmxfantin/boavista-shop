@@ -6,7 +6,7 @@ router
   .get("/token", authController.token)
   .post("/register", authController.register)
   .post("/login", authController.login)
-  .post("/google", authController.googleAuth)
+  .post("/google/", authController.googleAuth)
   .put("/change-password/:id", authController.changePassword);
 
 module.exports = router;
