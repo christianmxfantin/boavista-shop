@@ -12,3 +12,11 @@ export const SelectContainer = styled(Box)(({ theme }) => ({
 export const PercentageInput = styled(TextField)(({ theme }) => ({
   //styles
 }));
+
+export const CategoryInput = styled(TextField)(({ theme }) => ({
+  //styles
+}));
+
+export const DiscountInput = styled(TextField)(({ theme }) => ({
+  //styles
+}));

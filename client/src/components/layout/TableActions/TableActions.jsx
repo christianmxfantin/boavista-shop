@@ -66,6 +66,7 @@ import { toastColor } from "../../../utils/toastOptions";
 import useUsers from "../../../hooks/api/useUsers";
 import { getCategoriesResponse } from "../../../api/categories";
 import { getDiscountsResponse } from "../../../api/discounts";
+import DashboardModal from "../DashboardModal/DashboardModal";
 
 const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
   const theme = useTheme();
@@ -89,6 +90,8 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
   const [addressType, setAddressType] = useState("");
   const [cardCompany, setCardCompany] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
+  const [openAddDialog, setOpenAddDialog] = useState(false);
+  const [categoryDiscount, setCategoryDiscount] = useState("");
   const [productImage, setProductImage] = useState("");
 
   const [categories, setCategories] = useState([]);
@@ -142,20 +145,25 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
   }, [actionType, data, selectedData, typeData]);
 
   useEffect(() => {
-    if (actionType === "edit-product" && categories.length > 0) {
-      const defaultCategory = categories.find(
-        (category) => category.id === data.categoryId
-      );
-      setSelectedCategory(defaultCategory.name);
+    if (actionType === "edit-product") {
+      if (categories.length > 0) {
+        const defaultCategory = categories.find(
+          (category) => category.id === data.categoryId
+        );
+        setSelectedCategory(defaultCategory.name);
+        console.log(defaultCategory.name);
+      }
 
-      const defaultDiscount = discounts.find(
-        (discount) => discount.id === data.discountId
-      );
+      if (discounts.length > 0) {
+        const defaultDiscount = discounts.find(
+          (discount) => discount.id === data.discountId
+        );
 
-      if (defaultDiscount.percentage === 0) {
-        setSelectedDiscount("Sin Descuento");
-      } else {
-        setSelectedDiscount(`${defaultDiscount.percentage}% OFF`);
+        if (defaultDiscount.percentage === 0) {
+          setSelectedDiscount("Sin Descuento");
+        } else {
+          setSelectedDiscount(`${defaultDiscount.percentage}% OFF`);
+        }
       }
     }
   }, [actionType, data, categories, discounts]);
@@ -173,11 +181,13 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
   };
 
   const handleAddCategory = () => {
-    //show modal de add
+    setCategoryDiscount("category");
+    setOpenAddDialog(true);
   };
 
   const handleAddDiscount = () => {
-    //show modal de add
+    setCategoryDiscount("discount");
+    setOpenAddDialog(true);
   };
 
   const onSubmit = async (formValues) => {
@@ -698,6 +708,11 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
           </TableButtonsContainer>
         </TableActionsContainer>
       </TableActionsModal>
+      <DashboardModal
+        formType={categoryDiscount}
+        openDialog={openAddDialog}
+        setOpenDialog={setOpenAddDialog}
+      />
       <ToastContainer />
     </>
   );

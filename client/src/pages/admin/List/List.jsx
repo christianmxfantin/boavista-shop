@@ -10,7 +10,7 @@ import {
 import DashboardTable from "../../../components/layout/DashboardTable/DashboardTable";
 import { Button } from "@mui/material";
 import TableActions from "../../../components/layout/TableActions/TableActions";
-import ChangePrices from "../../../components/layout/ChangePrices/ChangePrices";
+import DashboardModal from "../../../components/layout/DashboardModal/DashboardModal";
 
 const List = ({ typeData }) => {
   const theme = useTheme();
@@ -82,7 +82,11 @@ const List = ({ typeData }) => {
         setShowModal={setShowModal}
         typeData={typeData}
       />
-      <ChangePrices openDialog={openDialog} setOpenDialog={setOpenDialog} />
+      <DashboardModal
+        formType="changePrices"
+        openDialog={openDialog}
+        setOpenDialog={setOpenDialog}
+      />
     </main>
   );
 };
