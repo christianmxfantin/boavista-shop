@@ -48,7 +48,6 @@ const ProductItem = ({ data }) => {
     dispatch(addProductToCart({ ...data, url: productsImages[0].url }));
   };
 
-  // productsImages[0].url = null;
   return (
     <ProductCard>
       <Link to={`/products/${id}`} onClick={handleLinkClick}>
@@ -56,7 +55,11 @@ const ProductItem = ({ data }) => {
           component="img"
           alt="Imágen del Producto"
           height="180"
-          image={productsImages[0].url ? productsImages[0].url : ImageNotFound}
+          image={
+            productsImages[0] !== undefined
+              ? productsImages[0].url
+              : ImageNotFound
+          }
         />
       </Link>
       <ProductCardContent>

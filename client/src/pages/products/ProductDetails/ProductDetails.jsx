@@ -46,7 +46,7 @@ const ProductDetails = () => {
         <ItemTitleBack onClick={handleBack}>Volver al listado</ItemTitleBack>
       </ItemTitle>
       <ItemData component={"article"}>
-        {!productsData[0].url ? (
+        {productsData[0] === undefined ? (
           <ItemImagesContainer>
             <EmptyData iconName="images" title="imágenes" size={50} />
           </ItemImagesContainer>
