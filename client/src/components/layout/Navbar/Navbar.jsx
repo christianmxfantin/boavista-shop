@@ -19,7 +19,7 @@ import {
 import { Icon } from "../../ui/Icon";
 import Search from "../Search/Search";
 import { Image } from "../../ui/Image";
-import useAuth from "../../../hooks/useAuth";
+import useAuth from "../../../hooks/api/useAuth";
 import {
   LogoContainer,
   NavbarContainer,

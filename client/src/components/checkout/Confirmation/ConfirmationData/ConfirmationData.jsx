@@ -1,19 +1,15 @@
-import { useEffect, useState } from "react";
-import { useTheme } from "@emotion/react";
+import { useState } from "react";
 import {
   ConfirmationDataContainer,
   DataTitleContainer,
   DataTitle,
-  DataEdit,
   DataInfoContainer,
 } from "./ConfirmationData.styles";
-import { Icon as EditIcon } from "../../../ui/Icon";
 import Billing from "../../Billing/Billing";
 import CardAddress from "../../../layout/CardAddress/CardAddress";
 import { Typography } from "@mui/material";
 
 const ConfirmationData = ({ type, data, setStepperData }) => {
-  const theme = useTheme();
   const [isEditVisible, setIsEditVisible] = useState(true);
   const [editConfirmationData, setEditConfirmationData] = useState(false);
 
@@ -27,17 +23,6 @@ const ConfirmationData = ({ type, data, setStepperData }) => {
       <DataTitleContainer>
         {type !== "Misma dirección" && (
           <DataTitle variant="h6">{type}</DataTitle>
-        )}
-        {(data.hasOwnProperty("addressType") ||
-          data.hasOwnProperty("shippingData")) && (
-          <DataEdit sx={{ visibility: isEditVisible ? "visible" : "hidden" }}>
-            <EditIcon
-              name="Edit-Data"
-              size={30}
-              color={theme.palette.primary[500]}
-              onClick={handleEdit}
-            />
-          </DataEdit>
         )}
       </DataTitleContainer>
       <DataInfoContainer>

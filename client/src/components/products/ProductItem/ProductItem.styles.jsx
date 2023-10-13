@@ -20,8 +20,9 @@ export const ProductCardContent = styled(CardContent)(({ theme }) => ({
 export const ProductName = styled(Typography)(({ theme }) => ({
   color: `${theme.palette.primary[500]}`,
   fontWeight: 500,
-  // whiteSpace: "nowrap",
+  maxWidth: "150px",
   overflow: "hidden",
+  whiteSpace: "nowrap",
   textOverflow: "ellipsis",
   "&:hover": {
     color: `${theme.palette.secondary[500]}`,

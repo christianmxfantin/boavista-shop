@@ -51,6 +51,7 @@ import axios from "axios";
 const FormAuth = ({ formType, role }) => {
   const namesInputValue = useRef("");
   const surnamesInputValue = useRef("");
+  const emailInputValue = useRef("");
 
   const theme = useTheme();
   const navigate = useNavigate();
@@ -88,6 +89,9 @@ const FormAuth = ({ formType, role }) => {
     surnamesInputValue.current.value = capitalizeWords(
       surnamesInputValue.current.value
     );
+  };
+  const handleEmailBlur = () => {
+    emailInputValue.current.value = emailInputValue.current.value.toLowerCase();
   };
 
   const handleCopyPaste = (e) => {
@@ -353,9 +357,11 @@ const FormAuth = ({ formType, role }) => {
               size="small"
               placeholder="Ingresa tu Email"
               required
+              inputRef={emailInputValue}
               {...register("email", {
                 required: true,
                 pattern: PatternValidations.EMAIL,
+                onBlur: handleEmailBlur,
               })}
               error={!!errors.email}
               helperText={

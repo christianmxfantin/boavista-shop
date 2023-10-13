@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 
-const useLocalidades = ({ provincia }) => {
-  const [localidades, setLocalidades] = useState([]);
+const useCities = ({ stateData }) => {
+  const [cities, setCities] = useState([]);
   const maxResults = 5000;
 
   useEffect(() => {
-    if (provincia) {
+    if (stateData) {
       fetch(
-        `https://apis.datos.gob.ar/georef/api/localidades?provincia=${provincia}&max=${maxResults}`
+        `https://apis.datos.gob.ar/georef/api/localidades?provincia=${stateData}&max=${maxResults}`
       )
         .then((response) => response.json())
         .then((data) => {
@@ -24,21 +24,21 @@ const useLocalidades = ({ provincia }) => {
               .join(" ");
             return capitalized;
           });
-          const cityNamesFiltered = cityNames.filter((nombre) => {
-            return nombre.toUpperCase() !== "CIUDAD DE BUENOS AIRES";
+          const cityNamesFiltered = cityNames.filter((name) => {
+            return name.toUpperCase() !== "CIUDAD DE BUENOS AIRES";
           });
           const cityNamesOrdered = cityNamesFiltered.sort((a, b) =>
             a.localeCompare(b)
           );
-          setLocalidades(cityNamesOrdered);
+          setCities(cityNamesOrdered);
         })
         .catch((error) => {
           console.error("Error al obtener los datos de la API:", error);
         });
     }
-  }, [provincia]);
+  }, [stateData]);
 
-  return localidades;
+  return cities;
 };
 
-export default useLocalidades;
+export default useCities;

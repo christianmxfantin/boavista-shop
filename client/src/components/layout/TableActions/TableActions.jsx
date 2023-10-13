@@ -8,6 +8,11 @@ import "react-toastify/dist/ReactToastify.css";
 import {
   Avatar,
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   FormHelperText,
   IconButton,
   InputAdornment,
@@ -46,7 +51,7 @@ import { getAddressTypeByIdResponse } from "../../../api/addressesTypes";
 import { getCardCompanyByIdResponse } from "../../../api/cardCompanies";
 import useAddresses from "../../../hooks/api/useAddresses";
 import usePayments from "../../../hooks/api/usePayments";
-import useAuth from "../../../hooks/useAuth";
+import useAuth from "../../../hooks/api/useAuth";
 import { unsetUser } from "../../../reducers/auth";
 import UploadImage from "../UploadImage/UploadImage";
 import ImageSlider from "../ImageSlider/ImageSlider";
@@ -98,6 +103,7 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
   const [discounts, setDiscounts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState();
   const [selectedDiscount, setSelectedDiscount] = useState();
+  const [openDialogUser, setOpenDialogUser] = useState(false);
   const {
     control,
     register,
@@ -190,6 +196,10 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
     setOpenAddDialog(true);
   };
 
+  const handleCloseDialogUser = () => {
+    setOpenDialogUser(false);
+  };
+
   const onSubmit = async (formValues) => {
     let response;
 
@@ -197,6 +207,7 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
       case "users":
         try {
           response = await createUser(productImage, formValues);
+          setOpenDialogUser(true);
         } catch (error) {
           console.log(error);
         }
@@ -506,16 +517,11 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
                         control={control}
                         rules={{
                           required: true,
-                          // validate: (value) =>
-                          //   value !== "Selecciona una Categoría" ||
-                          //   ProductsErrors.CATEGORY_INVALID,
                         }}
-                        render={({ field: { name, value } }) => (
+                        render={({ field: { name, value, onChange } }) => (
                           <CategoryContainer>
                             <SelectCategory
                               name={name}
-                              // value={value}
-                              // fullWidth
                               defaultValue={
                                 typeData === "products"
                                   ? 1
@@ -523,6 +529,9 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
                                   ? selectedCategory
                                   : null
                               }
+                              onChange={(e) => {
+                                onChange(e.target.value);
+                              }}
                               error={!!errors.category}
                             >
                               <MenuItem disabled value={1}>
@@ -563,11 +572,10 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
                         rules={{
                           required: ProductsErrors.DISCOUNT_INVALID,
                         }}
-                        render={({ field: { name, value } }) => (
+                        render={({ field: { name, value, onChange } }) => (
                           <DiscountContainer>
                             <SelectDiscount
                               name={name}
-                              // fullWidth
                               defaultValue={
                                 typeData === "products"
                                   ? 1
@@ -575,6 +583,9 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
                                   ? selectedDiscount
                                   : null
                               }
+                              onChange={(e) => {
+                                onChange(e.target.value);
+                              }}
                               error={!!errors.discount}
                             >
                               <MenuItem disabled value={1}>
@@ -597,7 +608,9 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
                             </SelectDiscount>
                             <FormHelperText error={!!errors.discount}>
                               {errors.discount &&
-                                ProductsErrors.DISCOUNT_INVALID}
+                              value !== "Selecciona un Descuento"
+                                ? ProductsErrors.DISCOUNT_INVALID
+                                : ""}
                             </FormHelperText>
                           </DiscountContainer>
                         )}
@@ -713,6 +726,20 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
         openDialog={openAddDialog}
         setOpenDialog={setOpenAddDialog}
       />
+      <Dialog open={openDialogUser}>
+        <DialogTitle>Importante</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            El usuario que se ha creado recientemente debe ingresar por primera
+            vez con la contraseña User seguida del año actual. Ejemplo: si el
+            año actual es el 2023, deberá ingresar con la contraseña "User2023".
+            Tenga en cuenta, que la primer letra de la contraseña es mayúscula.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialogUser}>Aceptar</Button>
+        </DialogActions>
+      </Dialog>
       <ToastContainer />
     </>
   );

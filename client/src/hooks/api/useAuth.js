@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { authResponse } from "../api/auth";
+import { authResponse } from "../../api/auth";
 import Cookies from "js-cookie";
 
 const useAuth = () => {

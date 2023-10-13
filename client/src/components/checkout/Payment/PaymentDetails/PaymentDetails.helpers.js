@@ -7,13 +7,14 @@ import {
   createPaymentTypeResponse,
   paymentTypeByNameResponse,
 } from "../../../../api/paymentsType";
+import { capitalizeWords } from "../../../../utils/capitalizeWords";
 import { responseError, statusErrors } from "../../../../utils/toastErrors";
 
 export const saveNewPayment = async (formValues, cardType, user) => {
   try {
     const finalNumber = formValues.cardNumber.slice(-4);
 
-    const cardCompany = { name: cardType.toLowerCase().trim() };
+    const cardCompany = { name: capitalizeWords(cardType.trim()) };
     const cardResponse = await cardCompanyByNameResponse(cardCompany);
 
     //traer el id de CardCompany

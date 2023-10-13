@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -25,7 +25,8 @@ const ProductDetails = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { productsData } = useSelector((state) => state.products);
-  // const productsData = [{ url: null }];
+
+  const [quantity, setQuantity] = useState(0);
 
   let { id } = useParams();
   useEffect(() => {
@@ -37,9 +38,18 @@ const ProductDetails = () => {
   };
 
   const handleAddToCart = () => {
-    dispatch(addProductToCart(products));
+    // dispatch(addProductToCart(products));
+    console.log(quantity);
+    dispatch(
+      addProductToCart({
+        ...products,
+        total: quantity,
+        url: productsData[0].url,
+      })
+    );
   };
 
+  // console.log(products);
   return (
     <ItemCard component={"main"}>
       <ItemTitle component={"article"}>
@@ -63,7 +73,11 @@ const ProductDetails = () => {
                   products.stock === 1 ? "unidad" : "unidades"
                 }`}
           </ItemInfoStock>
-          <NumericInput total={products.stock ? products.stock : 1200} />
+          <NumericInput
+            productQuantity={true}
+            total={products.stock ? products.stock : 1200}
+            setQuantity={setQuantity}
+          />
           <ItemInfoAddToCart onClick={handleAddToCart}>
             Agregar al Carrito
           </ItemInfoAddToCart>

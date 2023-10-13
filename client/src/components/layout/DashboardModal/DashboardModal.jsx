@@ -28,7 +28,7 @@ import useProducts from "../../../hooks/api/useProducts";
 import { toastColor } from "../../../utils/toastOptions";
 import { ProductsErrors } from "../../../errors/products.errors";
 
-const ChangePrices = ({ formType, openDialog, setOpenDialog }) => {
+const DashboardModal = ({ formType, openDialog, setOpenDialog }) => {
   const { updatePrices } = useProducts();
 
   const theme = useTheme();
@@ -242,4 +242,4 @@ const ChangePrices = ({ formType, openDialog, setOpenDialog }) => {
   );
 };
 
-export default ChangePrices;
+export default DashboardModal;

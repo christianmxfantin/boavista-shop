@@ -9,6 +9,7 @@ const ProfileTitle = () => {
   const theme = useTheme();
   const { user } = useSelector((state) => state.auth);
   const roleId = user.roleId;
+
   const [roleName, setRoleName] = useState("");
 
   useEffect(() => {
@@ -25,11 +26,24 @@ const ProfileTitle = () => {
     getRoleName();
   }, [roleId]);
 
+  const resizeFont = () => {
+    if (user) {
+      const textLength = user.names.length + user.surnames.length;
+      const letterSize = 100 / textLength;
+      return `${letterSize}vh`;
+    }
+  };
+
   return (
     <ProfileTitleContainer>
       <Typography
         variant="h3"
-        sx={{ marginBottom: theme.spacing(1), fontWeight: "500" }}
+        sx={{
+          maxWidth: "100%",
+          marginBottom: theme.spacing(1),
+          fontSize: user ? resizeFont() : "inherit",
+          fontWeight: "500",
+        }}
       >
         {`${user.names} ${user.surnames}`}
       </Typography>

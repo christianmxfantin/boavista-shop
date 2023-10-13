@@ -19,8 +19,8 @@ import {
   CitySelectContainer,
   CitySelect,
 } from "./Billing.styles";
-import useProvincias from "../../../hooks/useProvincias";
-import useLocalidades from "../../../hooks/useLocalidades";
+import useStates from "../../../hooks/useStates";
+import useCities from "../../../hooks/useCities";
 import { Controller, useForm } from "react-hook-form";
 import ButtonsContainer from "../../layout/ButtonsContainer/ButtonsContainer";
 import { PatternValidations } from "../../../helpers/validations";
@@ -73,12 +73,12 @@ const Billing = ({
   const [billingData, setBillingData] = useState({});
   const [showMyAddress, setShowMyAddress] = useState(false);
   const [editCheckoutMode, setEditCheckoutMode] = useState(false);
-  const [provincia, setProvincia] = useState("");
+  const [stateData, setStateData] = useState("");
   const [stateName, setStateName] = useState("");
   const [cityName, setCityName] = useState("");
 
-  const provincias = useProvincias();
-  const localidades = useLocalidades({ provincia });
+  const states = useStates();
+  const cities = useCities({ stateData });
 
   const {
     register,
@@ -433,16 +433,16 @@ const Billing = ({
                             }
                             onChange={(e) => {
                               onChange(e.target.value);
-                              setProvincia(e.target.value);
+                              setStateData(e.target.value);
                             }}
                             error={!!errors.state}
                           >
                             <MenuItem disabled value={1}>
                               Selecciona tu Provincia
                             </MenuItem>
-                            {provincias.map((provincia, index) => (
-                              <MenuItem value={provincia} key={index}>
-                                {provincia}
+                            {states.map((state, index) => (
+                              <MenuItem value={state} key={index}>
+                                {state}
                               </MenuItem>
                             ))}
                           </StateSelect>
@@ -488,9 +488,9 @@ const Billing = ({
                             <MenuItem disabled value={1}>
                               Selecciona tu Localidad
                             </MenuItem>
-                            {localidades.map((departamento, index) => (
-                              <MenuItem value={departamento} key={index}>
-                                {departamento}
+                            {cities.map((city, index) => (
+                              <MenuItem value={city} key={index}>
+                                {city}
                               </MenuItem>
                             ))}
                           </CitySelect>

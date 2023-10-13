@@ -21,10 +21,6 @@ export const DataTitle = styled(Typography)(({ theme }) => ({
   //styles
 }));
 
-export const DataEdit = styled(Box)(({ theme }) => ({
-  //styles
-}));
-
 export const DataInfoContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",

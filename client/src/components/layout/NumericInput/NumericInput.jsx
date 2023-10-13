@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useTheme } from "@emotion/react";
 import { ToggleButton } from "@mui/material";
@@ -18,6 +18,8 @@ const NumericInput = ({
   totalProduct,
   setQuantityPrice,
   data,
+  productQuantity,
+  setQuantity,
 }) => {
   let formType;
   let id;
@@ -29,6 +31,12 @@ const NumericInput = ({
   const dispatch = useDispatch();
 
   const [count, setCount] = useState(formType ? totalProduct : 1);
+
+  useEffect(() => {
+    if (productQuantity) {
+      setQuantity(count);
+    }
+  }, [productQuantity, setQuantity, count]);
 
   const handleIncrement = () => {
     if (count < total) {
