@@ -12,3 +12,6 @@ export const authResponse = async () => axios.get("/auth/token");
 
 export const changePasswordResponse = async (id, data) =>
   axios.put(`/auth/change-password/${id}`, data);
+
+export const resetDatabaseResponse = async () =>
+  axios.post("/auth/reset-database/");

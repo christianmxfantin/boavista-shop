@@ -28,7 +28,12 @@ import useProducts from "../../../hooks/api/useProducts";
 import { toastColor } from "../../../utils/toastOptions";
 import { ProductsErrors } from "../../../errors/products.errors";
 
-const DashboardModal = ({ formType, openDialog, setOpenDialog }) => {
+const DashboardModal = ({
+  formType,
+  openDialog,
+  setOpenDialog,
+  setSelectedCategory,
+}) => {
   const { updatePrices } = useProducts();
 
   const theme = useTheme();
@@ -72,18 +77,31 @@ const DashboardModal = ({ formType, openDialog, setOpenDialog }) => {
   };
 
   const onSubmit = async (formValues) => {
-    try {
-      const changePrices = {
-        type: formValues.changeType,
-        percentage: Number(formValues.changePercentage),
-      };
+    switch (formType) {
+      case "changePrices":
+        try {
+          const changePrices = {
+            type: formValues.changeType,
+            percentage: Number(formValues.changePercentage),
+          };
 
-      const updatedProducts = await updatePrices(changePrices);
-      if (updatedProducts) {
-        toast.success("Los cambios se han guardado", toastColor("success"));
-      }
-    } catch (error) {
-      console.log(error);
+          const updatedProducts = await updatePrices(changePrices);
+          console.log(updatedProducts);
+          if (updatedProducts) {
+            toast.success("Los cambios se han guardado", toastColor("success"));
+          }
+        } catch (error) {
+          console.log(error);
+        }
+        break;
+
+      case "category":
+        setSelectedCategory(formValues.category);
+        break;
+
+      case "discount":
+        break;
+      default:
     }
 
     reset();

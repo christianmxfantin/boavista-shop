@@ -5,6 +5,9 @@ export const getDiscountsResponse = async () => axios.get("/discounts");
 export const getDiscountByIdResponse = async (id) =>
   axios.get(`/discounts/${id}`);
 
+export const discountByNameResponse = async (discount) =>
+  axios.post("/discounts/name", discount);
+
 export const createDiscountResponse = async (discount) =>
   axios.post("/discounts", discount);
 

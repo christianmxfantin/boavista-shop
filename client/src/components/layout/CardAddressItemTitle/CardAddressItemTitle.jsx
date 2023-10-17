@@ -20,6 +20,7 @@ const CardAddressItemTitle = ({
   setShowAddNew,
   setEditID,
   setEditBilling,
+  setAddresses,
 }) => {
   const theme = useTheme();
   const [addressType, setAddressType] = useState([]);
@@ -76,6 +77,7 @@ const CardAddressItemTitle = ({
           setShowAddNew={setShowAddNew}
           setEditID={setEditID}
           setEditBilling={setEditBilling}
+          setAddresses={setAddresses}
         />
       </ItemComponentContainer>
       <ToastContainer />

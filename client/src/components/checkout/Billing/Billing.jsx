@@ -115,7 +115,6 @@ const Billing = ({
               phone: myBillingData.phone,
             };
           }
-          // console.log(myBillingData);
         }
 
         if (confirmationData) {
@@ -165,6 +164,7 @@ const Billing = ({
             city,
             phone: myBillingData.phone,
           };
+          console.log(myBilling.state);
         }
 
         setBillingData(myBilling);
@@ -187,7 +187,7 @@ const Billing = ({
     reset({
       addressType: billingData.addressType,
       address: billingData.address,
-      state: billingData.state,
+      // state: billingData.state,
       city: billingData.city,
       phone: billingData.phone,
     });
@@ -429,7 +429,7 @@ const Billing = ({
                               formType === "billing" ||
                               (formType === "profile" && !editAddress)
                                 ? 1
-                                : stateName
+                                : billingData.state
                             }
                             onChange={(e) => {
                               onChange(e.target.value);

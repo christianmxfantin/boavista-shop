@@ -34,6 +34,7 @@ import {
   googleAuthResponse,
   loginResponse,
   registerResponse,
+  resetDatabaseResponse,
 } from "../../../api/auth";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../reducers/auth";
@@ -166,9 +167,17 @@ const FormAuth = ({ formType, role }) => {
     navigate("/auth/change-password");
   };
 
-  const handleResetDatabase = () => {
+  const handleResetDatabase = async () => {
     //reset database
     //1ro advertencia de que se va a resetear la base y esta accion no se puede deshacer
+    //con un Dialog y agregar aquí
+
+    try {
+      const resetResponse = await resetDatabaseResponse();
+      console.log(resetResponse);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onSubmit = async (formValues) => {
@@ -523,7 +532,7 @@ const FormAuth = ({ formType, role }) => {
               >
                 Productos
               </Button>
-              {role === "admin" && (
+              {/* {role === "admin" && (
                 <Link
                   style={{
                     textAlign: "center",
@@ -534,7 +543,7 @@ const FormAuth = ({ formType, role }) => {
                 >
                   Volver Base de Datos al Estado Inicial
                 </Link>
-              )}
+              )} */}
             </>
           ) : null}
         </ButtonsContainer>

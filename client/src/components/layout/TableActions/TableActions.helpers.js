@@ -1,7 +1,10 @@
+import { categoryByNameResponse } from "../../../api/categories";
+import { discountByNameResponse } from "../../../api/discounts";
 import {
   createProductResponse,
   updateProductResponse,
 } from "../../../api/products";
+import { createProductImageResponse } from "../../../api/productsImages";
 import { getRoles } from "../../../api/roles";
 import {
   createUserResponse,
@@ -55,17 +58,46 @@ export const updateUser = async (data, avatarURL, formValues) => {
   return updatedUser.data;
 };
 
-export const createProduct = async (userId, images, formValues) => {
+export const createProduct = async (userId, formValues, images) => {
+  const saveImages = async (image, productId) => {
+    const imageData = {
+      image,
+      productId,
+    };
+
+    await createProductImageResponse(imageData);
+  };
+  // console.log(formValues);
+  const categoryResponse = await categoryByNameResponse({
+    name: formValues.category.trim(),
+  });
+
+  let percentageNumber;
+  if (formValues.discount === "Sin Descuento") {
+    percentageNumber = Number(0);
+  } else {
+    percentageNumber = Number(formValues.discount.trim().replace("% OFF", ""));
+  }
+  const discountResponse = await discountByNameResponse({
+    percentage: percentageNumber,
+  });
+
   const newProduct = {
     name: capitalizeWords(formValues.name.trim()),
     price: parseFloat(formValues.price.trim()),
     stock: Number(formValues.stock.trim()),
-    discountId: "702a923b-486c-4aa2-91d5-7a885db78e47",
-    categoryId: "53d8f2ba-5eba-4aed-8b71-122ee0948f17",
+    discountId: discountResponse.data.id,
+    categoryId: categoryResponse.data.id,
     userId,
   };
 
   const registerProduct = await createProductResponse(newProduct);
+  if (images) {
+    for (let i = 0; i < images.length; i++) {
+      await saveImages(images[i], registerProduct.data.id);
+    }
+  }
+
   return registerProduct.data;
 };
 

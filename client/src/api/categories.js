@@ -5,6 +5,9 @@ export const getCategoriesResponse = async () => axios.get("/categories");
 export const getCategoryByIdResponse = async (id) =>
   axios.get(`/categories/${id}`);
 
+export const categoryByNameResponse = async (category) =>
+  axios.post("/categories/name", category);
+
 export const createCategoryResponse = async (category) =>
   axios.post("/categories", category);
 

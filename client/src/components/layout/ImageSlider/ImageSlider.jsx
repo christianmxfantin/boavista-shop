@@ -63,10 +63,6 @@ const ImageSlider = ({ formType, productsImages, setArrayImages }) => {
     }
   };
 
-  const handleDeleteImage = () => {
-    //delete image
-  };
-
   return (
     <>
       <SliderContainer>
@@ -121,18 +117,6 @@ const ImageSlider = ({ formType, productsImages, setArrayImages }) => {
                         onClick={handleOpenDialog}
                       />
                     </Tooltip>
-                    <Button
-                      sx={{
-                        color: theme.palette.secondary.A100,
-                        backgroundColor: theme.palette.error[500],
-                        "&:hover": {
-                          backgroundColor: theme.palette.error[300],
-                        },
-                      }}
-                      onClick={handleDeleteImage}
-                    >
-                      Borrar imágen
-                    </Button>
                   </ImagesData>
                 ) : (
                   <img
@@ -156,7 +140,7 @@ const ImageSlider = ({ formType, productsImages, setArrayImages }) => {
             </>
           )}
         </SliderData>
-        {formType === "edit-product" && (
+        {(formType === "edit-product" || images.length > 0) && (
           <ImageCounter>
             <Typography>{`Foto ${currentIndex + 1} de ${
               images.length

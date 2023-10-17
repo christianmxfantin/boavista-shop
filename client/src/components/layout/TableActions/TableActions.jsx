@@ -73,7 +73,13 @@ import { getCategoriesResponse } from "../../../api/categories";
 import { getDiscountsResponse } from "../../../api/discounts";
 import DashboardModal from "../DashboardModal/DashboardModal";
 
-const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
+const TableActions = ({
+  showModal,
+  setShowModal,
+  selectedData,
+  typeData,
+  setAddresses,
+}) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -81,7 +87,7 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
 
   const { deleteProduct } = useProducts();
   const { deleteUser } = useUsers();
-  const { setAddresses, deleteAddress } = useAddresses();
+  const { deleteAddress } = useAddresses();
   const { setPayments, deletePayment } = usePayments();
   const { logout } = useAuth();
 
@@ -186,15 +192,15 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
     setShowModal(false);
   };
 
-  const handleAddCategory = () => {
-    setCategoryDiscount("category");
-    setOpenAddDialog(true);
-  };
+  // const handleAddCategory = () => {
+  //   setCategoryDiscount("category");
+  //   setOpenAddDialog(true);
+  // };
 
-  const handleAddDiscount = () => {
-    setCategoryDiscount("discount");
-    setOpenAddDialog(true);
-  };
+  // const handleAddDiscount = () => {
+  //   setCategoryDiscount("discount");
+  //   setOpenAddDialog(true);
+  // };
 
   const handleCloseDialogUser = () => {
     setOpenDialogUser(false);
@@ -215,7 +221,7 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
 
       case "products":
         try {
-          response = await createProduct(user.id, arrayImages, formValues);
+          response = await createProduct(user.id, formValues, arrayImages);
         } catch (error) {
           console.log(error);
         }
@@ -552,7 +558,7 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
                           </CategoryContainer>
                         )}
                       />
-                      <Button
+                      {/* <Button
                         onClick={handleAddCategory}
                         sx={{
                           color: theme.palette.secondary.A100,
@@ -563,7 +569,7 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
                         }}
                       >
                         +
-                      </Button>
+                      </Button> */}
                     </SelectCategoryContainer>
                     <SelectDiscountContainer>
                       <Controller
@@ -615,7 +621,7 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
                           </DiscountContainer>
                         )}
                       />
-                      <Button
+                      {/* <Button
                         onClick={handleAddDiscount}
                         sx={{
                           color: theme.palette.secondary.A100,
@@ -626,7 +632,7 @@ const TableActions = ({ showModal, setShowModal, selectedData, typeData }) => {
                         }}
                       >
                         +
-                      </Button>
+                      </Button> */}
                     </SelectDiscountContainer>
                   </>
                 )}

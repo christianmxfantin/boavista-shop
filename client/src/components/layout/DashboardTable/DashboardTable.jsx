@@ -29,7 +29,7 @@ const DashboardTable = ({ typeData }) => {
     } else {
       getProducts();
     }
-  }, [typeData, getUsers, getProducts]);
+  }, [typeData]);
 
   useEffect(() => {
     if (typeData === "products") {

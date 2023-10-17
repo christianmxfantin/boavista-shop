@@ -59,7 +59,9 @@ const useProducts = () => {
 
   const updatePrices = async (product) => {
     try {
+      console.log(product);
       const res = await updatePricesResponse(product);
+      console.log(res);
       setProducts(res.data);
     } catch (error) {
       console.log(error);

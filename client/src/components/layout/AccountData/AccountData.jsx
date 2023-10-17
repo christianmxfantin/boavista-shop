@@ -122,11 +122,13 @@ const AccountData = ({ formType, newPassword, userId }) => {
           roleId: userFound.data.roleId,
         };
 
-        const res = await updateUserResponse(userFound.data.id, userData);
-        const updatedUser = res.data;
+        const updatedUser = await updateUserResponse(
+          userFound.data.id,
+          userData
+        );
 
-        dispatch(setUser(updatedUser));
-        // toast.success("Los cambios se han guardado", toastColor("success"));
+        dispatch(setUser(updatedUser.data));
+        toast.success("Los cambios se han guardado", toastColor("success"));
         window.location.reload();
       } catch (error) {
         // console.error("Error en la solicitud:", error);

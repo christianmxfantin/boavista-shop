@@ -27,9 +27,9 @@ const List = ({ typeData }) => {
     setShowModal(true);
   };
 
-  const handleChangePrices = () => {
-    setOpenDialog(true);
-  };
+  // const handleChangePrices = () => {
+  //   setOpenDialog(true);
+  // };
 
   return (
     <main>
@@ -54,15 +54,17 @@ const List = ({ typeData }) => {
         >
           Atrás
         </Button>
-        <Button
-          variant="outlained"
-          onClick={handleChangePrices}
-          sx={{
-            color: theme.palette.error[500],
-          }}
-        >
-          Cambio Masivo de Precios
-        </Button>
+        {/* {typeData === "products" && (
+          <Button
+            variant="outlained"
+            onClick={handleChangePrices}
+            sx={{
+              color: theme.palette.error[500],
+            }}
+          >
+            Cambio Masivo de Precios
+          </Button>
+        )} */}
         <Button
           variant="contained"
           onClick={handleAddItems}

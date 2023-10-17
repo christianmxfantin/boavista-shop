@@ -179,6 +179,7 @@ const CardAddress = ({
                         formType={formType}
                         itemType={itemType}
                         setShowAddNew={setShowAddNew}
+                        setAddresses={setAddresses}
                       />
                     }
                   />
