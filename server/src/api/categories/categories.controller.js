@@ -37,6 +37,31 @@ const getCategoryById = async (req, res, next) => {
     next(error);
   }
 };
+
+const categoryByName = async (req, res, next) => {
+  try {
+    const name = req.body.name.trim();
+
+    const existingCategory = await Categories.findOne({
+      where: Sequelize.where(
+        Sequelize.fn("LOWER", Sequelize.col("name")),
+        Sequelize.fn("LOWER", name)
+      ),
+    });
+    if (!existingCategory) {
+      return res.status(200).json({
+        message: CategoriesErrors.CATEGORY_IS_AVAILABLE,
+      });
+    }
+
+    return res.status(200).json(existingCategory);
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
+  }
+};
+
 const createCategory = async (req, res, next) => {
   try {
     const name = req.body.name.trim();
@@ -126,6 +151,7 @@ const deleteCategory = async (req, res, next) => {
 module.exports = {
   getCategories,
   getCategoryById,
+  categoryByName,
   createCategory,
   updateCategory,
   deleteCategory,

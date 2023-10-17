@@ -10,7 +10,6 @@ const { createAndUpdateUser } = require("../users/users.validations.js");
 const { hashPassword } = require("../../utils/hashPassword.js");
 const { ApiErrors } = require("../api/api.errors.js");
 
-const Roles = db.roles;
 const Users = db.users;
 
 //Create a Secret for JWT
@@ -220,10 +219,21 @@ const changePassword = async (req, res, next) => {
   }
 };
 
+const resetDatabase = async (req, res, next) => {
+  try {
+    // await db.drop();
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
+  }
+};
+
 module.exports = {
   register,
   login,
   googleAuth,
   token,
   changePassword,
+  resetDatabase,
 };

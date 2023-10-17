@@ -1,4 +1,3 @@
-const { Sequelize } = require("sequelize");
 const db = require("../../db/models/index.js");
 const ErrorHandler = require("../../utils/errorHandler.js");
 const logger = require("../../utils/logger.js");
@@ -92,18 +91,12 @@ const updatePrices = async (req, res, next) => {
     }
 
     const updateFactor = 1 + parseFloat(percentage) / 100;
-    // const updatedProducts = await Products.update({
-    //   price: Sequelize.literal(`price * ${updateFactor}`),
-    // });
 
-    const updatedOptions = {
-      price: {
-        $set: product.price * updateFactor,
-      },
-    };
-    const updatedProducts = await Products.updateAll(updatedOptions);
+    const productsId = await Products.findAll();
 
-    return res.status(200).json(updatedProducts);
+    console.log(productsId);
+
+    return res.status(200).json(metadata);
   } catch (err) {
     const error = new ErrorHandler(err.message, err.statusCode);
     logger.error(err);

@@ -37,6 +37,32 @@ const getDiscountById = async (req, res, next) => {
     next(error);
   }
 };
+
+const discountByName = async (req, res, next) => {
+  try {
+    const percentage = req.body.percentage;
+
+    const existingDiscount = await Discounts.findOne({
+      where: {
+        percentage: {
+          [Sequelize.Op.eq]: percentage,
+        },
+      },
+    });
+    if (!existingDiscount) {
+      return res.status(200).json({
+        message: DiscountsErrors.DISCOUNT_IS_AVAILABLE,
+      });
+    }
+
+    return res.status(200).json(existingDiscount);
+  } catch (err) {
+    const error = new ErrorHandler(err.message, err.statusCode);
+    logger.error(err);
+    next(error);
+  }
+};
+
 const createDiscount = async (req, res, next) => {
   try {
     const percentage = req.body.percentage.trim();
@@ -120,6 +146,7 @@ const deleteDiscount = async (req, res, next) => {
 module.exports = {
   getDiscounts,
   getDiscountById,
+  discountByName,
   createDiscount,
   updateDiscount,
   deleteDiscount,
