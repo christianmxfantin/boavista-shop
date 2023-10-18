@@ -225,20 +225,22 @@ const CardAddress = ({
             </>
           )}
         </CardAddressItemContainer>
-        <Button
-          variant={formType === "profile" ? "text" : "contained"}
-          disabled={formType !== "profile" && !isButtonDisabled}
-          onClick={handleAddNewButton}
-          sx={{
-            width: "100%",
-            marginTop: formType === "profile" && "16px",
-            display: formType === "payment-confirmation" && "none",
-          }}
-        >
-          {itemType === "address"
-            ? "Agregar Nueva Dirección"
-            : "Agregar Método de Pago"}
-        </Button>
+        {formType === "profile" && (
+          <Button
+            variant={formType === "profile" ? "text" : "contained"}
+            disabled={formType !== "profile" && !isButtonDisabled}
+            onClick={handleAddNewButton}
+            sx={{
+              width: "100%",
+              marginTop: formType === "profile" && "16px",
+              display: formType === "payment-confirmation" && "none",
+            }}
+          >
+            {itemType === "address"
+              ? "Agregar Nueva Dirección"
+              : "Agregar Método de Pago"}
+          </Button>
+        )}
       </CardAddressContainer>
       <ToastContainer />
     </>

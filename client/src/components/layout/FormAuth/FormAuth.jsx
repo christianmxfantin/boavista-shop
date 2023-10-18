@@ -233,7 +233,7 @@ const FormAuth = ({ formType, role }) => {
 
           //Register the user and sing in
           const newUser = {
-            avatarURL: "",
+            avatarURL: "https://res.cloudinary.com/image.jpg",
             names: capitalizeWords(formValues.names.trim()),
             surnames: capitalizeWords(formValues.surnames.trim()),
             email: formValues.email.toLowerCase().trim(),
@@ -245,6 +245,7 @@ const FormAuth = ({ formType, role }) => {
           dispatch(setUser(registerUser.data));
           navigate("/");
         } catch (error) {
+          console.log(error);
           if (error.response.statusText === "Conflict") {
             toast.error(error.response.data.message, toastColor("error"));
             return;

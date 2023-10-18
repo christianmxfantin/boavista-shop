@@ -38,8 +38,6 @@ const ProductDetails = () => {
   };
 
   const handleAddToCart = () => {
-    // dispatch(addProductToCart(products));
-    console.log(quantity);
     dispatch(
       addProductToCart({
         ...products,

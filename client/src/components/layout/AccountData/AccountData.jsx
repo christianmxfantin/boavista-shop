@@ -28,7 +28,7 @@ import ButtonsContainer from "../ButtonsContainer/ButtonsContainer";
 import { getUserByIdResponse, updateUserResponse } from "../../../api/users";
 import { setUser } from "../../../reducers/auth";
 import { toastColor } from "../../../utils/toastOptions";
-import { ErrorsMessages } from "../../../utils/toastMessages";
+import { ErrorsMessages, SuccessMessages } from "../../../utils/toastMessages";
 import { PatternValidations } from "../../../helpers/validations";
 import { UsersErrors } from "../../../errors/users.errors";
 import { EmptyFieldError } from "../../../errors/emptyField.errors";
@@ -128,11 +128,9 @@ const AccountData = ({ formType, newPassword, userId }) => {
         );
 
         dispatch(setUser(updatedUser.data));
-        toast.success("Los cambios se han guardado", toastColor("success"));
+        toast.success(SuccessMessages.CHANGES_DONE, toastColor("success"));
         window.location.reload();
       } catch (error) {
-        // console.error("Error en la solicitud:", error);
-
         if (!error.response) {
           toast.error(ErrorsMessages.RESPONSE_ERROR, toastColor("error"));
           return;
@@ -155,14 +153,9 @@ const AccountData = ({ formType, newPassword, userId }) => {
         const res = await changePasswordResponse(userFound.data.id, userData);
 
         if (res.status === 200) {
-          toast.success(
-            "Los cambios se han guardado correctamente",
-            toastColor("success")
-          );
+          toast.success(SuccessMessages.CHANGES_DONE, toastColor("success"));
         }
       } catch (error) {
-        // console.error("Error en la solicitud:", error);
-
         if (error.response.statusText === "Conflict") {
           toast.error(error.response.data.message, toastColor("error"));
           return;

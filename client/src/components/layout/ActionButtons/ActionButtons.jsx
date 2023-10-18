@@ -62,15 +62,17 @@ const ActionButtons = ({
   return (
     <>
       <ActionButtonsContainer>
-        {typeData !== "cards" && formType !== "shipping" && (
-          <EditIcon
-            name="Edit-Data"
-            size={30}
-            color={theme.palette.primary[500]}
-            sx={{ marginRight: theme.spacing(1) }}
-            onClick={() => handleEdit(data)}
-          />
-        )}
+        {typeData !== "cards" &&
+          typeData !== "products" &&
+          formType !== "shipping" && (
+            <EditIcon
+              name="Edit-Data"
+              size={30}
+              color={theme.palette.primary[500]}
+              sx={{ marginRight: theme.spacing(1) }}
+              onClick={() => handleEdit(data)}
+            />
+          )}
         {formType !== "shipping" &&
           formType !== "payment" &&
           formType !== "payment-confirmation" && (

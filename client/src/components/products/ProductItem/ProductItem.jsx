@@ -45,7 +45,9 @@ const ProductItem = ({ data }) => {
   };
 
   const handleAddToCart = () => {
-    dispatch(addProductToCart({ ...data, url: productsImages[0].url }));
+    dispatch(
+      addProductToCart({ ...data, total: 1, url: productsImages[0].url })
+    );
   };
 
   return (
@@ -70,7 +72,6 @@ const ProductItem = ({ data }) => {
           <ProductPrice variant="body1">$ {price}</ProductPrice>
           <ProductAddToCart
             size="small"
-            data={data}
             onClick={handleAddToCart}
             sx={{ marginRight: 0 }}
           >

@@ -30,7 +30,7 @@ const NumericInput = ({
   const theme = useTheme();
   const dispatch = useDispatch();
 
-  const [count, setCount] = useState(formType ? totalProduct : 1);
+  const [count, setCount] = useState(formType ? Number(totalProduct) : 1);
 
   useEffect(() => {
     if (productQuantity) {

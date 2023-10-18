@@ -12,8 +12,10 @@ export const cartSlice = createSlice({
       if (state.productList.hasOwnProperty(product.id)) {
         if (product.total !== 0) {
           state.productList[product.id].totalProduct += product.total;
+          state.total += product.total;
         } else {
           state.productList[product.id].totalProduct += 1;
+          state.total += 1;
         }
       } else {
         state.productList = {
@@ -23,8 +25,8 @@ export const cartSlice = createSlice({
             totalProduct: product.total !== 0 ? product.total : 1,
           },
         };
+        state.total += product.total !== 0 ? product.total : 1;
       }
-      state.total += 1;
     },
     addOneToCart: (state, action) => {
       const productId = action.payload;

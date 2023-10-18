@@ -47,11 +47,6 @@ const DashboardTable = ({ typeData }) => {
 
   let database;
   if (typeData === "users") {
-    // const modusers = users.map((user) => ({
-    //   ...user,
-    //   avatarURL: null,
-    // }));
-    // database = modusers;
     database = users;
   } else {
     // let pr = [];

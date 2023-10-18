@@ -22,6 +22,11 @@ const CartItem = ({ data, color }) => {
   const dispatch = useDispatch();
   const [quantityPrice, setQuantityPrice] = useState(1);
 
+  const roundNumber = (number) => {
+    const roundedNumber = number.toFixed(2);
+    return parseFloat(roundedNumber);
+  };
+
   const handleDeleteProduct = (id) => {
     dispatch(removeAllFromCart(id));
   };
@@ -37,7 +42,7 @@ const CartItem = ({ data, color }) => {
         <Image
           name="Products"
           src={url}
-          alt="Imágen de Prueba"
+          alt="Imágen del Producto"
           style={{
             width: "100%",
             height: "100%",
@@ -48,7 +53,9 @@ const CartItem = ({ data, color }) => {
       <CartItemData>
         <CartItemTitle variant="h6">{name}</CartItemTitle>
         <CartItemPriceContainer>
-          <CartItemPrice variant="h6">$ {quantityPrice * price}</CartItemPrice>
+          <CartItemPrice variant="h6">
+            $ {roundNumber(quantityPrice * price)}
+          </CartItemPrice>
         </CartItemPriceContainer>
       </CartItemData>
       <CartItemButtons>

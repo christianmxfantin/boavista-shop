@@ -505,40 +505,6 @@ const Billing = ({
                   </CitySelectContainer>
                 </>
               )}
-              {(formType === "shipping" ||
-                formType === "shipping-confirmation") && (
-                <>
-                  <CommentsInput
-                    name="comments"
-                    multiline
-                    rows={4}
-                    placeholder="Observaciones"
-                    disabled={
-                      formType === "shipping-confirmation" &&
-                      !editConfirmationData
-                    }
-                    InputProps={{
-                      style: {
-                        padding: 0,
-                      },
-                      inputProps: {
-                        maxLength: 200,
-                      },
-                    }}
-                    {...register("comments", {
-                      pattern: PatternValidations.COMMENTS,
-                    })}
-                    error={!!errors.email}
-                    helperText={
-                      watch("email")
-                        ? errors.email && AddressesErrors.COMMENTS_INVALID
-                        : errors.email && EmptyFieldError.EMPTY_ERROR
-                    }
-                  >
-                    Observaciones
-                  </CommentsInput>
-                </>
-              )}
               {(formType === "billing" ||
                 formType === "shipping" ||
                 formType === "profile" ||

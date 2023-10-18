@@ -29,6 +29,11 @@ const Cart = ({ formType, handleRight, setStepperData }) => {
     setTotalPrice(calculatedTotalPrice);
   }, [productList]);
 
+  const roundNumber = (number) => {
+    const roundedNumber = number.toFixed(2);
+    return parseFloat(roundedNumber);
+  };
+
   const handleCleanCart = () => {
     dispatch(cleanCart());
   };
@@ -49,7 +54,7 @@ const Cart = ({ formType, handleRight, setStepperData }) => {
       <Underline heigth={1} color={theme.palette.primary[500]} />
       <TotalContainer>
         <TotalTitle variant="h5">Total:</TotalTitle>
-        <TotalPrice variant="h5">$ {totalPrice}</TotalPrice>
+        <TotalPrice variant="h5">$ {roundNumber(totalPrice)}</TotalPrice>
       </TotalContainer>
       <ButtonsContainer
         formType={formType}
