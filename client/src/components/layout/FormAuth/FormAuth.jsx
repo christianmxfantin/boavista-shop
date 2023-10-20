@@ -164,7 +164,12 @@ const FormAuth = ({ formType, role }) => {
   };
 
   const handleChangePassword = () => {
-    navigate("/auth/change-password");
+    navigate("/auth/change-password", {
+      state: {
+        changePassword: false,
+        formAuthUserID: "",
+      },
+    });
   };
 
   const handleResetDatabase = async () => {

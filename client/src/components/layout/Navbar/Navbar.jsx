@@ -26,15 +26,13 @@ import {
   NavbarMenuContainer,
   SearchContainer,
 } from "./Navbar.styles";
-import { unsetUser } from "../../../reducers/auth";
 import { getRoleById } from "../../../api/roles";
 
 const Navbar = ({ isLoginForm }) => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
-  const { isAuth, isLoading, logout } = useAuth();
+  const { isAuth, isLoading } = useAuth();
   const { user } = useSelector((state) => state.auth);
   const { total } = useSelector((state) => state.cart);
   const roleId = user.roleId;
@@ -126,20 +124,13 @@ const Navbar = ({ isLoginForm }) => {
     navigate("/dashboard");
   };
 
-  const handleLogoutLink = () => {
-    setAnchorElUser(null);
-    dispatch(unsetUser());
-    logout();
-    window.location.reload();
-  };
-
   return (
     <>
       <NavbarContainer position="sticky">
         <Toolbar component={"nav"} sx={{ display: "flex" }}>
           <Link to="/">
             <LogoContainer
-              sx={{ flexGrow: 1, display: { xs: "flex", md: "flex" } }}
+              sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}
             >
               <Image
                 name="Logo"
@@ -273,9 +264,9 @@ const Navbar = ({ isLoginForm }) => {
                       <Typography textAlign="center">Dashboard</Typography>
                     </MenuItem>
                   )}
-                  <MenuItem onClick={handleLogoutLink}>
+                  {/* <MenuItem onClick={handleLogoutLink}>
                     <Typography textAlign="center">Salir</Typography>
-                  </MenuItem>
+                  </MenuItem> */}
                 </Menu>
               </Box>
             </>

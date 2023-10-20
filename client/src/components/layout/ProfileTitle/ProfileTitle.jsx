@@ -1,12 +1,19 @@
 import { useEffect, useState } from "react";
 import { useTheme } from "@emotion/react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getRoleById } from "../../../api/roles";
 import { ProfileTitleContainer } from "./ProfileTitle.styles";
-import { Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
+import useAuth from "../../../hooks/api/useAuth";
+import { unsetUser } from "../../../reducers/auth";
+import { cleanCart } from "../../../reducers/cart";
+import { cleanProducts } from "../../../reducers/products";
 
 const ProfileTitle = () => {
   const theme = useTheme();
+  const dispatch = useDispatch();
+
+  const { logout } = useAuth();
   const { user } = useSelector((state) => state.auth);
   const roleId = user.roleId;
 
@@ -32,6 +39,14 @@ const ProfileTitle = () => {
       const letterSize = 100 / textLength;
       return `${letterSize}vh`;
     }
+  };
+
+  const handleLogout = () => {
+    dispatch(cleanProducts());
+    dispatch(cleanCart());
+    dispatch(unsetUser());
+    logout();
+    window.location.reload();
   };
 
   return (
@@ -66,6 +81,12 @@ const ProfileTitle = () => {
           ? "Usuario"
           : "Usuario Web"}
       </Typography>
+      <Button
+        onClick={handleLogout}
+        sx={{ marginTop: theme.spacing(2), color: theme.palette.error[500] }}
+      >
+        Cerrar Sesión
+      </Button>
     </ProfileTitleContainer>
   );
 };

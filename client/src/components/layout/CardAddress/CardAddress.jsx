@@ -143,7 +143,7 @@ const CardAddress = ({
           {addresses.length === 0 && payments.length === 0 && (
             <EmptyData
               iconName={itemType}
-              size={100}
+              size={50}
               title={itemType === "address" ? "direcciones" : "tarjetas"}
             />
           )}
@@ -225,22 +225,20 @@ const CardAddress = ({
             </>
           )}
         </CardAddressItemContainer>
-        {formType === "profile" && (
-          <Button
-            variant={formType === "profile" ? "text" : "contained"}
-            disabled={formType !== "profile" && !isButtonDisabled}
-            onClick={handleAddNewButton}
-            sx={{
-              width: "100%",
-              marginTop: formType === "profile" && "16px",
-              display: formType === "payment-confirmation" && "none",
-            }}
-          >
-            {itemType === "address"
-              ? "Agregar Nueva Dirección"
-              : "Agregar Método de Pago"}
-          </Button>
-        )}
+        <Button
+          variant={formType === "profile" ? "text" : "contained"}
+          disabled={formType !== "profile" && !isButtonDisabled}
+          onClick={handleAddNewButton}
+          sx={{
+            width: "100%",
+            marginTop: formType === "profile" && "16px",
+            display: formType === "payment-confirmation" && "none",
+          }}
+        >
+          {itemType === "address"
+            ? "Agregar Nueva Dirección"
+            : "Agregar Método de Pago"}
+        </Button>
       </CardAddressContainer>
       <ToastContainer />
     </>

@@ -13,6 +13,7 @@ import Underline from "../../ui/Underline";
 import ButtonsContainer from "../../layout/ButtonsContainer/ButtonsContainer";
 
 import { cleanCart } from "../../../reducers/cart";
+import { cleanProducts } from "../../../reducers/products";
 
 const Cart = ({ formType, handleRight, setStepperData }) => {
   const theme = useTheme();
@@ -21,6 +22,7 @@ const Cart = ({ formType, handleRight, setStepperData }) => {
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
+    dispatch(cleanProducts());
     let calculatedTotalPrice = 0;
     Object.values(productList).forEach((item) => {
       calculatedTotalPrice =

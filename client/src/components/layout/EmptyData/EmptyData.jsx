@@ -11,9 +11,10 @@ const EmptyData = ({ iconName, size, title }) => {
     <EmptyDataContainer
       sx={{
         height:
-          (iconName === "checkout" ||
-            (iconName === "products" && title !== "productos")) &&
-          "85vh",
+          iconName === "checkout" ||
+          (iconName === "products" && title !== "productos")
+            ? "85vh"
+            : "inherit",
       }}
     >
       <Icon name={iconName} size={size} color={theme.palette.primary[500]} />

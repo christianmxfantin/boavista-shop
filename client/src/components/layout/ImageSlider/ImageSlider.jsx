@@ -11,7 +11,7 @@ import {
   ImagesData,
 } from "../ImageSlider/ImageSlider.styles";
 import { Icon } from "../../ui/Icon";
-import { Button, Tooltip, Typography } from "@mui/material";
+import { Tooltip, Typography } from "@mui/material";
 import UploadImage from "../UploadImage/UploadImage";
 
 const ImageSlider = ({ formType, productsImages, setArrayImages }) => {

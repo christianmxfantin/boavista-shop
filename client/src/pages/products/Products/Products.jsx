@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { useTheme } from "@emotion/react";
+import { Box } from "@mui/material";
 import {
   ProductContainer,
   ProductFilters,
@@ -17,6 +19,8 @@ import ProductTitle from "../../../components/products/ProductTitle/ProductTitle
 import EmptyData from "../../../components/layout/EmptyData/EmptyData";
 
 const Products = () => {
+  const theme = useTheme();
+
   const { products, getProducts } = useProducts();
   const { categories, getCategories } = useCategories();
   const { discounts, getDiscounts } = useDiscounts();
@@ -170,7 +174,9 @@ const Products = () => {
       </ProductFilters>
       <ProductData component={"section"}>
         {!resultsFound ? (
-          <EmptyData iconName="products" size={180} title="productos" />
+          <Box sx={{ marginTop: theme.spacing(3) }}>
+            <EmptyData iconName="products" size={100} title="productos" />
+          </Box>
         ) : (
           <>
             <ProductTitle

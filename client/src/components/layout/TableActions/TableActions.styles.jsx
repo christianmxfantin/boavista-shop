@@ -10,7 +10,7 @@ export const TableActionsContainer = styled(Box)(({ theme }) => ({
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: 500,
   padding: theme.spacing(2),
   borderRadius: theme.spacing(1),
   backgroundColor: theme.palette.secondary.A100,
@@ -34,6 +34,7 @@ export const TableEditContainer = styled(Box)(({ theme }) => ({
 
 export const TableImageContainer = styled(Box)(({ theme }) => ({
   width: "50%",
+  paddingTop: theme.spacing(1),
 }));
 
 export const TableInputContainer = styled(Box)(({ theme }) => ({
