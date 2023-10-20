@@ -164,13 +164,10 @@ const changePassword = async (req, res, next) => {
 
     //Check the password with RegExp before hash
     const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,18}$/;
-    if (!regexPassword.test(newPassword)) {
-      //probar con "new || confirm"
-      return res.status(400).json({
-        message: UsersErrors.PASSWORD_INVALID,
-      });
-    }
-    if (!regexPassword.test(confirmPassword)) {
+    if (
+      !regexPassword.test(newPassword) ||
+      !regexPassword.test(confirmPassword)
+    ) {
       return res.status(400).json({
         message: UsersErrors.PASSWORD_INVALID,
       });
