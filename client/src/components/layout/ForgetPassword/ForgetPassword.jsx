@@ -8,6 +8,7 @@ import {
   EmailInput,
   ForgetPasswordContainer,
   ForgetPasswordForm,
+  FormAuthContent,
   FormAuthTitle,
 } from "./ForgetPassword.styles";
 import { useForm } from "react-hook-form";
@@ -50,21 +51,21 @@ const ForgetPassword = () => {
   return (
     <main>
       <ForgetPasswordContainer>
-        <ForgetPasswordForm
-          component={"form"}
-          autoComplete="off"
-          noValidate
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <FormAuthTitle variant="h5">
-            {changePassword
-              ? "Modifica tu contraseña"
-              : showEmail
-              ? "Ingresa tu Email"
-              : "Ingresa tu Nueva Contraseña"}
-          </FormAuthTitle>
-          {(showEmail || !changePassword) && (
-            <>
+        <FormAuthTitle variant="h5">
+          {changePassword
+            ? "Modifica tu contraseña"
+            : showEmail
+            ? "Ingresa tu Email"
+            : "Ingresa tu Nueva Contraseña"}
+        </FormAuthTitle>
+        <FormAuthContent>
+          {showEmail && !changePassword ? (
+            <ForgetPasswordForm
+              component={"form"}
+              autoComplete="off"
+              noValidate
+              onSubmit={handleSubmit(onSubmit)}
+            >
               <EmailInput
                 name="email"
                 type="email"
@@ -96,15 +97,15 @@ const ForgetPassword = () => {
               >
                 Continuar
               </Button>
-            </>
+            </ForgetPasswordForm>
+          ) : (
+            <AccountData
+              formType="change-password"
+              newPassword={true}
+              userId={userId ? userId : formAuthUserID}
+            />
           )}
-        </ForgetPasswordForm>
-        {(!showEmail || changePassword) && (
-          <AccountData
-            newPassword={true}
-            userId={userId ? userId : formAuthUserID}
-          />
-        )}
+        </FormAuthContent>
       </ForgetPasswordContainer>
       <ToastContainer />
     </main>

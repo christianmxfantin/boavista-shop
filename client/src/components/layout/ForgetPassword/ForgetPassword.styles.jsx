@@ -23,6 +23,10 @@ export const FormAuthTitle = styled(Typography)(({ theme }) => ({
   fontWeight: 500,
 }));
 
+export const FormAuthContent = styled(Box)(({ theme }) => ({
+  //styles
+}));
+
 export const EmailInput = styled(TextField)(({ theme }) => ({
   width: "96%",
   marginBottom: theme.spacing(3), //8px

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useTheme } from "@emotion/react";
-import { Box } from "@mui/material";
+import { Box, Skeleton } from "@mui/material";
 import {
   ProductContainer,
   ProductFilters,
@@ -17,11 +17,12 @@ import ProductFilter from "../../../components/products/ProductFilter";
 import ProductItem from "../../../components/products/ProductItem/ProductItem";
 import ProductTitle from "../../../components/products/ProductTitle/ProductTitle";
 import EmptyData from "../../../components/layout/EmptyData/EmptyData";
+import ProductItemSkeleton from "../../../components/skeleton/ProductItemSkeleton/ProductItemSkeleton";
 
 const Products = () => {
   const theme = useTheme();
 
-  const { products, getProducts } = useProducts();
+  const { loading, products, getProducts } = useProducts();
   const { categories, getCategories } = useCategories();
   const { discounts, getDiscounts } = useDiscounts();
 
@@ -173,24 +174,35 @@ const Products = () => {
         />
       </ProductFilters>
       <ProductData component={"section"}>
-        {!resultsFound ? (
+        {!resultsFound && !loading ? (
           <Box sx={{ marginTop: theme.spacing(3) }}>
             <EmptyData iconName="products" size={100} title="productos" />
           </Box>
         ) : (
           <>
-            <ProductTitle
-              search={search && search}
-              category={selectedCategory}
-              totResults={list.length}
-              setSelectedOrder={setSelectedOrder}
-            />
+            {loading ? (
+              <Box sx={{ marginTop: "32px", width: "98%" }}>
+                <Skeleton variant="text" sx={{ fontSize: "24px" }} />
+                <Skeleton variant="text" sx={{ fontSize: "24px" }} />
+              </Box>
+            ) : (
+              <ProductTitle
+                search={search && search}
+                category={selectedCategory}
+                totResults={list.length}
+                setSelectedOrder={setSelectedOrder}
+              />
+            )}
             <ProductListContainer container spacing={3}>
-              {list.map((product) => (
-                <ProductListItem item key={product.id}>
-                  <ProductItem data={product} />
-                </ProductListItem>
-              ))}
+              {loading
+                ? Array.from(new Array(6)).map((_, index) => (
+                    <ProductItemSkeleton key={index} />
+                  ))
+                : list.map((product) => (
+                    <ProductListItem item key={product.id}>
+                      <ProductItem data={product} />
+                    </ProductListItem>
+                  ))}
             </ProductListContainer>
           </>
         )}

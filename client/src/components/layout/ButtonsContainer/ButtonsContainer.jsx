@@ -29,6 +29,7 @@ const ButtonsContainer = ({
         width: "100%",
         display: "flex",
         justifyContent:
+          formType === "change-password" ||
           formType === "cart" ||
           formType === "billing" ||
           formType === "shipping" ||

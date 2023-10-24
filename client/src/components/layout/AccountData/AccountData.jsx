@@ -45,6 +45,7 @@ const AccountData = ({ formType, newPassword, userId }) => {
   const [changeEmail, setChangeEmail] = useState(false);
   const [changePassword, setChangePassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
   const {
     register,
     handleSubmit,
