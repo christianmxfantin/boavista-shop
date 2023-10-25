@@ -22,7 +22,7 @@ import ProductItemSkeleton from "../../../components/skeleton/ProductItemSkeleto
 const Products = () => {
   const theme = useTheme();
 
-  const { loading, products, getProducts } = useProducts();
+  const { loadingProducts, products, getProducts } = useProducts();
   const { categories, getCategories } = useCategories();
   const { discounts, getDiscounts } = useDiscounts();
 
@@ -174,13 +174,13 @@ const Products = () => {
         />
       </ProductFilters>
       <ProductData component={"section"}>
-        {!resultsFound && !loading ? (
+        {!resultsFound && !loadingProducts ? (
           <Box sx={{ marginTop: theme.spacing(3) }}>
             <EmptyData iconName="products" size={100} title="productos" />
           </Box>
         ) : (
           <>
-            {loading ? (
+            {loadingProducts ? (
               <Box sx={{ marginTop: "32px", width: "98%" }}>
                 <Skeleton variant="text" sx={{ fontSize: "24px" }} />
                 <Skeleton variant="text" sx={{ fontSize: "24px" }} />
@@ -194,7 +194,7 @@ const Products = () => {
               />
             )}
             <ProductListContainer container spacing={3}>
-              {loading
+              {loadingProducts
                 ? Array.from(new Array(6)).map((_, index) => (
                     <ProductItemSkeleton key={index} />
                   ))

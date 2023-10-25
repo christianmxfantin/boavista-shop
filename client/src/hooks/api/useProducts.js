@@ -11,7 +11,7 @@ import { responseError, statusErrors } from "../../utils/toastErrors";
 
 const useProducts = () => {
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loadingProducts, setLoadingProducts] = useState(true);
 
   const fakePromise = () => new Promise((resolve) => setTimeout(resolve, 5000));
 
@@ -25,7 +25,7 @@ const useProducts = () => {
       statusErrors(error);
       responseError(error);
     } finally {
-      setLoading(false);
+      setLoadingProducts(false);
     }
   };
 
@@ -92,7 +92,7 @@ const useProducts = () => {
 
   return {
     products,
-    loading,
+    loadingProducts,
     setProducts,
     getProducts,
     getProductById,

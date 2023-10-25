@@ -4,6 +4,7 @@ import { useTheme } from "@emotion/react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
+  Box,
   Button,
   FormControl,
   FormControlLabel,
@@ -24,6 +25,7 @@ import EmptyData from "../EmptyData/EmptyData";
 import { responseError, statusErrors } from "../../../utils/toastErrors";
 import useAddresses from "../../../hooks/api/useAddresses";
 import usePayments from "../../../hooks/api/usePayments";
+import CardAddressSkeleton from "../../skeleton/CardAddressSkeleton/CardAddressSkeleton";
 
 const CardAddress = ({
   formType,
@@ -41,8 +43,15 @@ const CardAddress = ({
   const { user } = useSelector((state) => state.auth);
   const userID = user.id;
 
-  const { addresses, setAddresses, getAddresses } = useAddresses();
-  const { payments, setPayments, getPayments, getPaymentById } = usePayments();
+  const { loadingAddresses, addresses, setAddresses, getAddresses } =
+    useAddresses();
+  const {
+    loadingPayments,
+    payments,
+    setPayments,
+    getPayments,
+    getPaymentById,
+  } = usePayments();
 
   const [showAddNew, setShowAddNew] = useState(false);
   const [editBilling, setEditBilling] = useState(false);
@@ -140,14 +149,18 @@ const CardAddress = ({
         }}
       >
         <CardAddressItemContainer>
-          {addresses.length === 0 && payments.length === 0 && (
-            <EmptyData
-              iconName={itemType}
-              size={50}
-              title={itemType === "address" ? "direcciones" : "tarjetas"}
-            />
-          )}
-          {formType !== "profile" && formType !== "payment-confirmation" ? (
+          {addresses.length === 0 &&
+            payments.length === 0 &&
+            (!loadingAddresses || !loadingPayments) && (
+              <EmptyData
+                iconName={itemType}
+                size={50}
+                title={itemType === "address" ? "direcciones" : "tarjetas"}
+              />
+            )}
+          {loadingAddresses && loadingPayments ? (
+            <CardAddressSkeleton />
+          ) : formType !== "profile" && formType !== "payment-confirmation" ? (
             <FormControl defaultValue="">
               <RadioGroup>
                 {data.map((data) => (

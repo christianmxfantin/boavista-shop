@@ -10,15 +10,21 @@ import {
 
 const useUsers = () => {
   const [users, setUsers] = useState([]);
+  const [loadingUsers, setLoadingUsers] = useState(true);
+
+  const fakePromise = () => new Promise((resolve) => setTimeout(resolve, 5000));
 
   const getUsers = async () => {
     try {
+      await fakePromise();
       const res = await getUsersResponse();
       setUsers(res.data);
     } catch (error) {
       console.log(error);
       statusErrors(error);
       responseError(error);
+    } finally {
+      setLoadingUsers(false);
     }
   };
 
@@ -72,6 +78,7 @@ const useUsers = () => {
 
   return {
     users,
+    loadingUsers,
     setUsers,
     getUsers,
     getUserById,
