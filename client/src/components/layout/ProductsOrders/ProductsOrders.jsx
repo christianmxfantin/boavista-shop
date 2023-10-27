@@ -42,7 +42,7 @@ const ProductsOrders = () => {
       ) : loadingOrders ? (
         <CardAddressSkeleton />
       ) : (
-        <OrdersContainer>
+        <OrdersContainer sx={{ maxHeight: "160px", overflowY: "auto" }}>
           {orders.map((order) => {
             return (
               <OrderItem

@@ -67,7 +67,7 @@ export const createProduct = async (userId, formValues, images) => {
 
     await createProductImageResponse(imageData);
   };
-  // console.log(formValues);
+
   const categoryResponse = await categoryByNameResponse({
     name: formValues.category.trim(),
   });

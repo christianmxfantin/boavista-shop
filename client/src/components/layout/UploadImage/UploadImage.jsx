@@ -4,11 +4,14 @@ import { useTheme } from "@emotion/react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
+  Box,
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  Typography,
 } from "@mui/material";
 import { UploadImageContainer } from "./UploadImageContainer.styles";
 
@@ -30,6 +33,7 @@ const UploadImage = ({
 
   const [image, setImage] = useState();
   const [disabledSave, setDisabledSave] = useState(true);
+  const [loadingImage, setLoadingImage] = useState(false);
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
@@ -71,6 +75,7 @@ const UploadImage = ({
 
     if (formType === "profile") {
       try {
+        setLoadingImage(true);
         const updatedAvatar = {
           image: image,
         };
@@ -92,6 +97,8 @@ const UploadImage = ({
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoadingImage(false);
       }
     }
 
@@ -101,26 +108,51 @@ const UploadImage = ({
   return (
     <>
       <UploadImageContainer>
-        <Dialog open={openDialog} onClose={handleCloseDialog}>
-          <DialogTitle
-            sx={{ textAlign: "center", color: theme.palette.primary[500] }}
-          >
-            Cargar Archivos
-          </DialogTitle>
-          <DialogContent>
-            <input
-              type="file"
-              accept=".jpg, .jpeg, .png"
-              multiple={false}
-              onChange={handleFileUpload}
-            />
-          </DialogContent>
-          <DialogActions sx={{ display: "flex", justifyContent: "center" }}>
-            <Button onClick={handleCloseDialog}>Cancelar</Button>
-            <Button disabled={disabledSave} onClick={handleSubmit}>
-              Guardar
-            </Button>
-          </DialogActions>
+        <Dialog open={openDialog}>
+          {loadingImage ? (
+            <Box
+              sx={{
+                width: "300px",
+                height: "150px",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <CircularProgress />
+              <Typography
+                sx={{
+                  marginTop: theme.spacing(2),
+                  color: theme.palette.primary[500],
+                }}
+              >
+                Cargando...
+              </Typography>
+            </Box>
+          ) : (
+            <>
+              <DialogTitle
+                sx={{ textAlign: "center", color: theme.palette.primary[500] }}
+              >
+                Cargar Archivos
+              </DialogTitle>
+              <DialogContent>
+                <input
+                  type="file"
+                  accept=".jpg, .jpeg, .png"
+                  multiple={false}
+                  onChange={handleFileUpload}
+                />
+              </DialogContent>
+              <DialogActions sx={{ display: "flex", justifyContent: "center" }}>
+                <Button onClick={handleCloseDialog}>Cancelar</Button>
+                <Button disabled={disabledSave} onClick={handleSubmit}>
+                  Guardar
+                </Button>
+              </DialogActions>
+            </>
+          )}
         </Dialog>
       </UploadImageContainer>
       <ToastContainer />

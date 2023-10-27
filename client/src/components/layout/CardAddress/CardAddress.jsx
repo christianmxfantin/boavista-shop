@@ -148,7 +148,12 @@ const CardAddress = ({
           marginTop: formType === "payment" && theme.spacing(2),
         }}
       >
-        <CardAddressItemContainer>
+        <CardAddressItemContainer
+          sx={{
+            maxHeight: "160px",
+            overflowY: "auto",
+          }}
+        >
           {addresses.length === 0 &&
             payments.length === 0 &&
             (!loadingAddresses || !loadingPayments) && (

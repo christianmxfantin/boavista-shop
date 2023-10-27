@@ -7,7 +7,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   Avatar,
+  Box,
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -18,6 +20,7 @@ import {
   InputAdornment,
   MenuItem,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import {
   TableActionsModal,
@@ -97,6 +100,7 @@ const TableActions = ({
     ({ actionType, data } = selectedData);
   }
 
+  const [loading, setLoading] = useState(false);
   const [arrayImages, setArrayImages] = useState([]);
   const [addressType, setAddressType] = useState("");
   const [cardCompany, setCardCompany] = useState("");
@@ -212,18 +216,24 @@ const TableActions = ({
     switch (typeData) {
       case "users":
         try {
+          setLoading(true);
           response = await createUser(productImage, formValues);
           setOpenDialogUser(true);
         } catch (error) {
           console.log(error);
+        } finally {
+          setLoading(false);
         }
         break;
 
       case "products":
         try {
+          setLoading(true);
           response = await createProduct(user.id, formValues, arrayImages);
         } catch (error) {
           console.log(error);
+        } finally {
+          setLoading(false);
         }
         break;
 
@@ -319,246 +329,273 @@ const TableActions = ({
           noValidate
           onSubmit={handleSubmit(onSubmit)}
         >
-          <TableActionsTitle
-            variant="h4"
-            sx={{
-              color:
-                (typeData === "users" || typeData === "products") &&
-                theme.palette.secondary[50],
-              backgroundColor:
-                typeData === "users" || typeData === "products"
-                  ? theme.palette.secondary[900]
-                  : actionType === "edit-user" || actionType === "edit-product"
-                  ? theme.palette.primary[300]
-                  : theme.palette.error[500],
-            }}
-          >
-            {typeData === "users"
-              ? "Agregar Usuario"
-              : typeData === "products"
-              ? "Agregar Producto"
-              : actionType === "edit-user"
-              ? "Editar Usuario"
-              : actionType === "edit-product"
-              ? "Editar Producto"
-              : "Advertencia"}
-          </TableActionsTitle>
-          {typeData === "users" ||
-          actionType === "edit-user" ||
-          typeData === "products" ||
-          actionType === "edit-product" ? (
-            <TableEditContainer>
-              <TableImageContainer>
-                {(typeData === "users" || actionType === "edit-user") && (
-                  <Tooltip
-                    title={
-                      (actionType === "edit-user" || productImage) &&
-                      "Haz clic nuevamente para cambiar la imágen"
-                    }
-                  >
-                    <Avatar
-                      alt={"Imágen del Usuario"}
-                      src={
-                        actionType === "edit-user" && !productImage
-                          ? data.avatarURL
-                          : productImage
-                      }
-                      sx={{
-                        width: "150px",
-                        height: "150px",
-                        backgroundColor: !data.avatarURL
-                          ? theme.palette.primary[300]
-                          : actionType === "edit-user"
-                          ? theme.palette.secondary.A100
-                          : typeData === "users"
-                          ? theme.palette.secondary[900]
-                          : null,
-                        color: theme.palette.secondary.A100,
-                      }}
-                      onClick={handleOpenDialog}
-                    />
-                  </Tooltip>
-                )}
-                {(typeData === "products" || actionType === "edit-product") && (
-                  <ImageSlider
-                    formType={typeData ? typeData : actionType}
-                    productsImages={data.images}
-                    setArrayImages={setArrayImages}
-                  />
-                )}
-                <UploadImage
-                  openDialog={openDialog}
-                  setOpenDialog={setOpenDialog}
-                  formType="dashboard-users"
-                  setProductImage={setProductImage}
-                />
-              </TableImageContainer>
-              <TableInputContainer>
-                {(typeData === "users" || actionType === "edit-user") && (
-                  <>
-                    <TableNamesInput
-                      defaultValue={data.names}
-                      name="names"
-                      type="text"
-                      variant="outlined"
-                      size="small"
-                      placeholder="Nombres del Usuario"
-                      required
-                      {...register("names", {
-                        required: true,
-                        pattern: PatternValidations.NAMES_AND_SURNAMES,
-                      })}
-                      error={!!errors.names}
-                      helperText={
-                        watch("names")
-                          ? errors.names && UsersErrors.NAMES_INVALID
-                          : errors.names && EmptyFieldError.EMPTY_ERROR
-                      }
-                    />
-                    <TableSurnamesInput
-                      defaultValue={data.surnames}
-                      name="surnames"
-                      type="text"
-                      variant="outlined"
-                      size="small"
-                      placeholder="Apellidos del Usuario"
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <Tooltip title="En el mundo hay varias personas sin apellidos, por ese motivo no es un campo requerido. De igual modo, te sugerimos que completes este campo si lo tienes.">
-                              <IconButton edge="end">
-                                <Icon
-                                  name="Info"
-                                  color={theme.palette.primary[300]}
-                                />
-                              </IconButton>
-                            </Tooltip>
-                          </InputAdornment>
-                        ),
-                      }}
-                      {...register("surnames", {
-                        pattern: PatternValidations.NAMES_AND_SURNAMES,
-                      })}
-                      error={!!errors.surnames}
-                      helperText={
-                        errors.surnames && UsersErrors.SURNAMES_INVALID
-                      }
-                    />
-                    <TableEmailInput
-                      defaultValue={data.email}
-                      name="email"
-                      type="email"
-                      variant="outlined"
-                      size="small"
-                      placeholder="Email del Usuario"
-                      {...register("email", {
-                        required: true,
-                        pattern: PatternValidations.EMAIL,
-                      })}
-                      error={!!errors.email}
-                      helperText={
-                        watch("email")
-                          ? errors.email && UsersErrors.EMAIL_INVALID
-                          : errors.email && EmptyFieldError.EMPTY_ERROR
-                      }
-                    />
-                  </>
-                )}
-                {(typeData === "products" || actionType === "edit-product") && (
-                  <>
-                    <TableNameInput
-                      defaultValue={data.name}
-                      name="name"
-                      type="text"
-                      variant="outlined"
-                      size="small"
-                      placeholder="Nombre del Producto"
-                      required
-                      {...register("name", {
-                        required: true,
-                        pattern: PatternValidations.NAMES_AND_SURNAMES,
-                      })}
-                      error={!!errors.name}
-                      helperText={
-                        watch("name")
-                          ? errors.name && ProductsErrors.NAME_INVALID
-                          : errors.name && EmptyFieldError.EMPTY_ERROR
-                      }
-                    />
-                    <TablePriceInput
-                      defaultValue={data.price}
-                      name="price"
-                      type="text"
-                      variant="outlined"
-                      size="small"
-                      placeholder="Precio Unitario"
-                      required
-                      {...register("price", {
-                        required: true,
-                        pattern: PatternValidations.DECIMALS,
-                      })}
-                      error={!!errors.price}
-                      helperText={
-                        watch("price")
-                          ? errors.price && ProductsErrors.PRICE_INVALID
-                          : errors.price && EmptyFieldError.EMPTY_ERROR
-                      }
-                    />
-                    <TableStockInput
-                      defaultValue={data.stock ? data.stock : null}
-                      name="stock"
-                      type="text"
-                      variant="outlined"
-                      size="small"
-                      placeholder="Stock"
-                      {...register("stock", {
-                        pattern: PatternValidations.NUMBERS,
-                      })}
-                      error={!!errors.stock}
-                      helperText={errors.stock && ProductsErrors.STOCK_INVALID}
-                    />
-                    <SelectCategoryContainer>
-                      <Controller
-                        name="category"
-                        control={control}
-                        rules={{
-                          required: true,
-                        }}
-                        render={({ field: { name, value, onChange } }) => (
-                          <CategoryContainer>
-                            <SelectCategory
-                              name={name}
-                              defaultValue={
-                                typeData === "products"
-                                  ? 1
-                                  : actionType === "edit-product"
-                                  ? selectedCategory
-                                  : null
-                              }
-                              onChange={(e) => {
-                                onChange(e.target.value);
-                              }}
-                              error={!!errors.category}
-                            >
-                              <MenuItem disabled value={1}>
-                                Selecciona una Categoría
-                              </MenuItem>
-                              {categories.map((category, index) => (
-                                <MenuItem value={category.name} key={index}>
-                                  {category.name}
-                                </MenuItem>
-                              ))}
-                            </SelectCategory>
-                            <FormHelperText error={!!errors.category}>
-                              {errors.category &&
-                              value !== "Selecciona una Categoría"
-                                ? ProductsErrors.CATEGORY_INVALID
-                                : ""}
-                            </FormHelperText>
-                          </CategoryContainer>
-                        )}
+          {loading ? (
+            <Box
+              sx={{
+                height: "150px",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <CircularProgress />
+              <Typography
+                sx={{
+                  marginTop: theme.spacing(2),
+                  color: theme.palette.primary[500],
+                }}
+              >
+                Cargando...
+              </Typography>
+            </Box>
+          ) : (
+            <>
+              <TableActionsTitle
+                variant="h4"
+                sx={{
+                  color:
+                    (typeData === "users" || typeData === "products") &&
+                    theme.palette.secondary[50],
+                  backgroundColor:
+                    typeData === "users" || typeData === "products"
+                      ? theme.palette.secondary[900]
+                      : actionType === "edit-user" ||
+                        actionType === "edit-product"
+                      ? theme.palette.primary[300]
+                      : theme.palette.error[500],
+                }}
+              >
+                {typeData === "users"
+                  ? "Agregar Usuario"
+                  : typeData === "products"
+                  ? "Agregar Producto"
+                  : actionType === "edit-user"
+                  ? "Editar Usuario"
+                  : actionType === "edit-product"
+                  ? "Editar Producto"
+                  : "Advertencia"}
+              </TableActionsTitle>
+              {typeData === "users" ||
+              actionType === "edit-user" ||
+              typeData === "products" ||
+              actionType === "edit-product" ? (
+                <TableEditContainer>
+                  <TableImageContainer>
+                    {(typeData === "users" || actionType === "edit-user") && (
+                      <Tooltip
+                        title={
+                          (actionType === "edit-user" || productImage) &&
+                          "Haz clic nuevamente para cambiar la imágen"
+                        }
+                      >
+                        <Avatar
+                          alt={"Imágen del Usuario"}
+                          src={
+                            actionType === "edit-user" && !productImage
+                              ? data.avatarURL
+                              : productImage
+                          }
+                          sx={{
+                            width: "150px",
+                            height: "150px",
+                            backgroundColor: !data.avatarURL
+                              ? theme.palette.primary[300]
+                              : actionType === "edit-user"
+                              ? theme.palette.secondary.A100
+                              : typeData === "users"
+                              ? theme.palette.secondary[900]
+                              : null,
+                            color: theme.palette.secondary.A100,
+                          }}
+                          onClick={handleOpenDialog}
+                        />
+                      </Tooltip>
+                    )}
+                    {(typeData === "products" ||
+                      actionType === "edit-product") && (
+                      <ImageSlider
+                        formType={typeData ? typeData : actionType}
+                        productsImages={data.images}
+                        setArrayImages={setArrayImages}
                       />
-                      {/* <Button
+                    )}
+                    <UploadImage
+                      openDialog={openDialog}
+                      setOpenDialog={setOpenDialog}
+                      formType="dashboard-users"
+                      setProductImage={setProductImage}
+                    />
+                  </TableImageContainer>
+                  <TableInputContainer>
+                    {(typeData === "users" || actionType === "edit-user") && (
+                      <>
+                        <TableNamesInput
+                          defaultValue={data.names}
+                          name="names"
+                          type="text"
+                          variant="outlined"
+                          size="small"
+                          placeholder="Nombres del Usuario"
+                          required
+                          {...register("names", {
+                            required: true,
+                            pattern: PatternValidations.NAMES_AND_SURNAMES,
+                          })}
+                          error={!!errors.names}
+                          helperText={
+                            watch("names")
+                              ? errors.names && UsersErrors.NAMES_INVALID
+                              : errors.names && EmptyFieldError.EMPTY_ERROR
+                          }
+                        />
+                        <TableSurnamesInput
+                          defaultValue={data.surnames}
+                          name="surnames"
+                          type="text"
+                          variant="outlined"
+                          size="small"
+                          placeholder="Apellidos del Usuario"
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <Tooltip title="En el mundo hay varias personas sin apellidos, por ese motivo no es un campo requerido. De igual modo, te sugerimos que completes este campo si lo tienes.">
+                                  <IconButton edge="end">
+                                    <Icon
+                                      name="Info"
+                                      color={theme.palette.primary[300]}
+                                    />
+                                  </IconButton>
+                                </Tooltip>
+                              </InputAdornment>
+                            ),
+                          }}
+                          {...register("surnames", {
+                            pattern: PatternValidations.NAMES_AND_SURNAMES,
+                          })}
+                          error={!!errors.surnames}
+                          helperText={
+                            errors.surnames && UsersErrors.SURNAMES_INVALID
+                          }
+                        />
+                        <TableEmailInput
+                          defaultValue={data.email}
+                          name="email"
+                          type="email"
+                          variant="outlined"
+                          size="small"
+                          placeholder="Email del Usuario"
+                          {...register("email", {
+                            required: true,
+                            pattern: PatternValidations.EMAIL,
+                          })}
+                          error={!!errors.email}
+                          helperText={
+                            watch("email")
+                              ? errors.email && UsersErrors.EMAIL_INVALID
+                              : errors.email && EmptyFieldError.EMPTY_ERROR
+                          }
+                        />
+                      </>
+                    )}
+                    {(typeData === "products" ||
+                      actionType === "edit-product") && (
+                      <>
+                        <TableNameInput
+                          defaultValue={data.name}
+                          name="name"
+                          type="text"
+                          variant="outlined"
+                          size="small"
+                          placeholder="Nombre del Producto"
+                          required
+                          {...register("name", {
+                            required: true,
+                            pattern: PatternValidations.NAMES_AND_SURNAMES,
+                          })}
+                          error={!!errors.name}
+                          helperText={
+                            watch("name")
+                              ? errors.name && ProductsErrors.NAME_INVALID
+                              : errors.name && EmptyFieldError.EMPTY_ERROR
+                          }
+                        />
+                        <TablePriceInput
+                          defaultValue={data.price}
+                          name="price"
+                          type="text"
+                          variant="outlined"
+                          size="small"
+                          placeholder="Precio Unitario"
+                          required
+                          {...register("price", {
+                            required: true,
+                            pattern: PatternValidations.DECIMALS,
+                          })}
+                          error={!!errors.price}
+                          helperText={
+                            watch("price")
+                              ? errors.price && ProductsErrors.PRICE_INVALID
+                              : errors.price && EmptyFieldError.EMPTY_ERROR
+                          }
+                        />
+                        <TableStockInput
+                          defaultValue={data.stock ? data.stock : null}
+                          name="stock"
+                          type="text"
+                          variant="outlined"
+                          size="small"
+                          placeholder="Stock"
+                          {...register("stock", {
+                            pattern: PatternValidations.NUMBERS,
+                          })}
+                          error={!!errors.stock}
+                          helperText={
+                            errors.stock && ProductsErrors.STOCK_INVALID
+                          }
+                        />
+                        <SelectCategoryContainer>
+                          <Controller
+                            name="category"
+                            control={control}
+                            rules={{
+                              required: true,
+                            }}
+                            render={({ field: { name, value, onChange } }) => (
+                              <CategoryContainer>
+                                <SelectCategory
+                                  name={name}
+                                  defaultValue={
+                                    typeData === "products"
+                                      ? 1
+                                      : actionType === "edit-product"
+                                      ? selectedCategory
+                                      : null
+                                  }
+                                  onChange={(e) => {
+                                    onChange(e.target.value);
+                                  }}
+                                  error={!!errors.category}
+                                >
+                                  <MenuItem disabled value={1}>
+                                    Selecciona una Categoría
+                                  </MenuItem>
+                                  {categories.map((category, index) => (
+                                    <MenuItem value={category.name} key={index}>
+                                      {category.name}
+                                    </MenuItem>
+                                  ))}
+                                </SelectCategory>
+                                <FormHelperText error={!!errors.category}>
+                                  {errors.category &&
+                                  value !== "Selecciona una Categoría"
+                                    ? ProductsErrors.CATEGORY_INVALID
+                                    : ""}
+                                </FormHelperText>
+                              </CategoryContainer>
+                            )}
+                          />
+                          {/* <Button
                         onClick={handleAddCategory}
                         sx={{
                           color: theme.palette.secondary.A100,
@@ -570,58 +607,58 @@ const TableActions = ({
                       >
                         +
                       </Button> */}
-                    </SelectCategoryContainer>
-                    <SelectDiscountContainer>
-                      <Controller
-                        name="discount"
-                        control={control}
-                        rules={{
-                          required: ProductsErrors.DISCOUNT_INVALID,
-                        }}
-                        render={({ field: { name, value, onChange } }) => (
-                          <DiscountContainer>
-                            <SelectDiscount
-                              name={name}
-                              defaultValue={
-                                typeData === "products"
-                                  ? 1
-                                  : actionType === "edit-product"
-                                  ? selectedDiscount
-                                  : null
-                              }
-                              onChange={(e) => {
-                                onChange(e.target.value);
-                              }}
-                              error={!!errors.discount}
-                            >
-                              <MenuItem disabled value={1}>
-                                Selecciona un Descuento
-                              </MenuItem>
-                              {discounts.map((discount, index) => (
-                                <MenuItem
-                                  value={
-                                    discount.percentage === 0
-                                      ? "Sin Descuento"
-                                      : `${discount.percentage}% OFF`
+                        </SelectCategoryContainer>
+                        <SelectDiscountContainer>
+                          <Controller
+                            name="discount"
+                            control={control}
+                            rules={{
+                              required: ProductsErrors.DISCOUNT_INVALID,
+                            }}
+                            render={({ field: { name, value, onChange } }) => (
+                              <DiscountContainer>
+                                <SelectDiscount
+                                  name={name}
+                                  defaultValue={
+                                    typeData === "products"
+                                      ? 1
+                                      : actionType === "edit-product"
+                                      ? selectedDiscount
+                                      : null
                                   }
-                                  key={index}
+                                  onChange={(e) => {
+                                    onChange(e.target.value);
+                                  }}
+                                  error={!!errors.discount}
                                 >
-                                  {discount.percentage === 0
-                                    ? "Sin Descuento"
-                                    : `${discount.percentage}% OFF`}
-                                </MenuItem>
-                              ))}
-                            </SelectDiscount>
-                            <FormHelperText error={!!errors.discount}>
-                              {errors.discount &&
-                              value !== "Selecciona un Descuento"
-                                ? ProductsErrors.DISCOUNT_INVALID
-                                : ""}
-                            </FormHelperText>
-                          </DiscountContainer>
-                        )}
-                      />
-                      {/* <Button
+                                  <MenuItem disabled value={1}>
+                                    Selecciona un Descuento
+                                  </MenuItem>
+                                  {discounts.map((discount, index) => (
+                                    <MenuItem
+                                      value={
+                                        discount.percentage === 0
+                                          ? "Sin Descuento"
+                                          : `${discount.percentage}% OFF`
+                                      }
+                                      key={index}
+                                    >
+                                      {discount.percentage === 0
+                                        ? "Sin Descuento"
+                                        : `${discount.percentage}% OFF`}
+                                    </MenuItem>
+                                  ))}
+                                </SelectDiscount>
+                                <FormHelperText error={!!errors.discount}>
+                                  {errors.discount &&
+                                  value !== "Selecciona un Descuento"
+                                    ? ProductsErrors.DISCOUNT_INVALID
+                                    : ""}
+                                </FormHelperText>
+                              </DiscountContainer>
+                            )}
+                          />
+                          {/* <Button
                         onClick={handleAddDiscount}
                         sx={{
                           color: theme.palette.secondary.A100,
@@ -633,98 +670,100 @@ const TableActions = ({
                       >
                         +
                       </Button> */}
-                    </SelectDiscountContainer>
-                  </>
-                )}
-              </TableInputContainer>
-            </TableEditContainer>
-          ) : (
-            <TableDeleteContainer>
-              <TableDeleteParagraph>
-                <TableDeleteLine1>{`Está por borrar ${
-                  actionType === "delete-billing"
-                    ? "la siguiente dirección:"
-                    : actionType === "delete-payment"
-                    ? "la siguiente tarjeta:"
-                    : actionType === "delete-product"
-                    ? "el siguiente producto:"
-                    : actionType === "delete-user"
-                    ? "el siguiente usuario:"
-                    : "su cuenta de usuario."
-                }`}</TableDeleteLine1>
-                <TableDeleteLine2>
-                  {actionType === "delete-billing"
-                    ? addressType
-                    : actionType === "delete-payment"
-                    ? `${cardCompany} terminada en ${data.finalNumber}`
-                    : actionType === "delete-product"
-                    ? data.name
-                    : actionType === "delete-user"
-                    ? `${data.names} ${data.surnames}`
-                    : data}
-                </TableDeleteLine2>
-                <TableDeleteLine3>
-                  Esta acción no se puede deshacer.
-                </TableDeleteLine3>
-              </TableDeleteParagraph>
-            </TableDeleteContainer>
+                        </SelectDiscountContainer>
+                      </>
+                    )}
+                  </TableInputContainer>
+                </TableEditContainer>
+              ) : (
+                <TableDeleteContainer>
+                  <TableDeleteParagraph>
+                    <TableDeleteLine1>{`Está por borrar ${
+                      actionType === "delete-billing"
+                        ? "la siguiente dirección:"
+                        : actionType === "delete-payment"
+                        ? "la siguiente tarjeta:"
+                        : actionType === "delete-product"
+                        ? "el siguiente producto:"
+                        : actionType === "delete-user"
+                        ? "el siguiente usuario:"
+                        : "su cuenta de usuario."
+                    }`}</TableDeleteLine1>
+                    <TableDeleteLine2>
+                      {actionType === "delete-billing"
+                        ? addressType
+                        : actionType === "delete-payment"
+                        ? `${cardCompany} terminada en ${data.finalNumber}`
+                        : actionType === "delete-product"
+                        ? data.name
+                        : actionType === "delete-user"
+                        ? `${data.names} ${data.surnames}`
+                        : data}
+                    </TableDeleteLine2>
+                    <TableDeleteLine3>
+                      Esta acción no se puede deshacer.
+                    </TableDeleteLine3>
+                  </TableDeleteParagraph>
+                </TableDeleteContainer>
+              )}
+              <TableButtonsContainer component={"section"}>
+                <Button
+                  variant="text"
+                  sx={{
+                    width: "376px",
+                    color:
+                      typeData === "users" || typeData === "products"
+                        ? theme.palette.secondary[900]
+                        : actionType === "edit-user" ||
+                          actionType === "edit-product"
+                        ? theme.palette.primary[500]
+                        : theme.palette.error[500],
+                    marginRight: theme.spacing(2),
+                  }}
+                  onClick={handleCancelButton}
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  sx={{
+                    width: "376px",
+                    backgroundColor:
+                      typeData === "users" || typeData === "products"
+                        ? theme.palette.secondary[900]
+                        : actionType === "edit-user" ||
+                          actionType === "edit-product"
+                        ? theme.palette.primary[500]
+                        : theme.palette.error[500],
+                    "&:hover": {
+                      backgroundColor:
+                        typeData === "users" || typeData === "products"
+                          ? theme.palette.secondary[100]
+                          : actionType === "edit-user" ||
+                            actionType === "edit-product"
+                          ? theme.palette.primary[300]
+                          : theme.palette.error[300],
+                      color:
+                        typeData === "users" || typeData === "products"
+                          ? theme.palette.secondary[700]
+                          : actionType === "edit-user" ||
+                            actionType === "edit-product"
+                          ? theme.palette.primary[700]
+                          : theme.palette.error[700],
+                    },
+                  }}
+                >
+                  {typeData === "users" ||
+                  typeData === "products" ||
+                  actionType === "edit-user" ||
+                  actionType === "edit-product"
+                    ? "Guardar"
+                    : "Borrar"}
+                </Button>
+              </TableButtonsContainer>
+            </>
           )}
-          <TableButtonsContainer component={"section"}>
-            <Button
-              variant="text"
-              sx={{
-                width: "376px",
-                color:
-                  typeData === "users" || typeData === "products"
-                    ? theme.palette.secondary[900]
-                    : actionType === "edit-user" ||
-                      actionType === "edit-product"
-                    ? theme.palette.primary[500]
-                    : theme.palette.error[500],
-                marginRight: theme.spacing(2),
-              }}
-              onClick={handleCancelButton}
-            >
-              Cancelar
-            </Button>
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{
-                width: "376px",
-                backgroundColor:
-                  typeData === "users" || typeData === "products"
-                    ? theme.palette.secondary[900]
-                    : actionType === "edit-user" ||
-                      actionType === "edit-product"
-                    ? theme.palette.primary[500]
-                    : theme.palette.error[500],
-                "&:hover": {
-                  backgroundColor:
-                    typeData === "users" || typeData === "products"
-                      ? theme.palette.secondary[100]
-                      : actionType === "edit-user" ||
-                        actionType === "edit-product"
-                      ? theme.palette.primary[300]
-                      : theme.palette.error[300],
-                  color:
-                    typeData === "users" || typeData === "products"
-                      ? theme.palette.secondary[700]
-                      : actionType === "edit-user" ||
-                        actionType === "edit-product"
-                      ? theme.palette.primary[700]
-                      : theme.palette.error[700],
-                },
-              }}
-            >
-              {typeData === "users" ||
-              typeData === "products" ||
-              actionType === "edit-user" ||
-              actionType === "edit-product"
-                ? "Guardar"
-                : "Borrar"}
-            </Button>
-          </TableButtonsContainer>
         </TableActionsContainer>
       </TableActionsModal>
       <DashboardModal
