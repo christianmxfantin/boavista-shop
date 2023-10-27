@@ -60,7 +60,7 @@ const createProductImage = async (req, res, next) => {
     });
 
     const newProductImage = {
-      url: imageURL,
+      url: imageURL.url,
       productId,
     };
 
