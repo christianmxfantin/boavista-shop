@@ -15,12 +15,9 @@ const ProductsOrders = () => {
   const [orders, setOrders] = useState([]);
   const [loadingOrders, setLoadingOrders] = useState(true);
 
-  const fakePromise = () => new Promise((resolve) => setTimeout(resolve, 5000));
-
   useEffect(() => {
     const getData = async () => {
       try {
-        await fakePromise();
         const allOrders = await getOrdersResponse();
         const orders = allOrders.data.filter(
           (order) => order.userId === user.id

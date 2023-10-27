@@ -12,11 +12,8 @@ const useUsers = () => {
   const [users, setUsers] = useState([]);
   const [loadingUsers, setLoadingUsers] = useState(true);
 
-  const fakePromise = () => new Promise((resolve) => setTimeout(resolve, 5000));
-
   const getUsers = async () => {
     try {
-      await fakePromise();
       const res = await getUsersResponse();
       setUsers(res.data);
     } catch (error) {

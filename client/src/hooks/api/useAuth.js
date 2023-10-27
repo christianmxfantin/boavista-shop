@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { authResponse } from "../../api/auth";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const useAuth = () => {
+  const navigate = useNavigate();
+
   const [isLoading, setIsLoading] = useState(true);
   const [isAuth, setIsAuth] = useState(false);
 
@@ -38,6 +41,12 @@ const useAuth = () => {
     Cookies.remove("token");
     setIsAuth(false);
     setIsLoading(false);
+    navigate("/", {
+      replace: true,
+      state: {
+        isLogout: true,
+      },
+    });
   };
 
   return { isLoading, isAuth, logout };

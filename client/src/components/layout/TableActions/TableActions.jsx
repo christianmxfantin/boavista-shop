@@ -301,7 +301,6 @@ const TableActions = ({
           if (res.status === 204) {
             dispatch(unsetUser());
             logout();
-            navigate("/", { replace: true });
           }
         } catch (error) {
           console.log(error);

@@ -12,11 +12,8 @@ const usePayments = () => {
   const [payments, setPayments] = useState([]);
   const [loadingPayments, setLoadingPayments] = useState(true);
 
-  const fakePromise = () => new Promise((resolve) => setTimeout(resolve, 5000));
-
   const getPayments = useCallback(async (userID) => {
     try {
-      await fakePromise();
       const res = await getPaymentsResponse();
       const payment = res.data.filter((payment) => payment.userId === userID);
       return payment;

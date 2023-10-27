@@ -13,11 +13,8 @@ const useProducts = () => {
   const [products, setProducts] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
 
-  const fakePromise = () => new Promise((resolve) => setTimeout(resolve, 5000));
-
   const getProducts = async () => {
     try {
-      await fakePromise();
       const res = await getProductsResponse();
       setProducts(res.data);
     } catch (error) {

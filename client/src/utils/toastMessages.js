@@ -8,4 +8,5 @@ export const ErrorsMessages = {
 
 export const SuccessMessages = {
   CHANGES_DONE: "Los cambios se han guardado.",
+  LOGOUT: "La sesión se cerró correctamente",
 };

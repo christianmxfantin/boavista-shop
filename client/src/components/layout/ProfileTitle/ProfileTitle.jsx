@@ -34,7 +34,7 @@ const ProfileTitle = () => {
   }, [roleId]);
 
   const resizeFont = () => {
-    if (user) {
+    if (Object.keys(user).length !== 0) {
       const textLength = user.names.length + user.surnames.length;
       const letterSize = 100 / textLength;
       return `${letterSize}vh`;
@@ -46,7 +46,6 @@ const ProfileTitle = () => {
     dispatch(cleanCart());
     dispatch(unsetUser());
     logout();
-    window.location.reload();
   };
 
   return (
@@ -60,7 +59,7 @@ const ProfileTitle = () => {
           fontWeight: "500",
         }}
       >
-        {`${user.names} ${user.surnames}`}
+        {Object.keys(user).length !== 0 && `${user.names} ${user.surnames}`}
       </Typography>
       <Typography
         sx={{

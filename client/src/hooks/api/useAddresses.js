@@ -12,11 +12,8 @@ const useAddresses = () => {
   const [addresses, setAddresses] = useState([]);
   const [loadingAddresses, setLoadingAddresses] = useState(true);
 
-  const fakePromise = () => new Promise((resolve) => setTimeout(resolve, 5000));
-
   const getAddresses = useCallback(async (userID) => {
     try {
-      await fakePromise();
       const res = await getAddressesResponse();
       const address = res.data.filter((address) => address.userId === userID);
       return address;
