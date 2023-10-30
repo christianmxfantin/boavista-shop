@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import {
   createAddressResponse,
   deleteAddressResponse,
@@ -12,11 +12,11 @@ const useAddresses = () => {
   const [addresses, setAddresses] = useState([]);
   const [loadingAddresses, setLoadingAddresses] = useState(true);
 
-  const getAddresses = useCallback(async (userID) => {
+  const getAddresses = async (userID) => {
     try {
       const res = await getAddressesResponse();
       const address = res.data.filter((address) => address.userId === userID);
-      return address;
+      setAddresses(address);
     } catch (error) {
       console.log(error);
       statusErrors(error);
@@ -24,7 +24,7 @@ const useAddresses = () => {
     } finally {
       setLoadingAddresses(false);
     }
-  }, []);
+  };
 
   const getAddressById = async (id) => {
     try {
@@ -61,7 +61,11 @@ const useAddresses = () => {
 
   const deleteAddress = async (id, userID) => {
     try {
-      const address = await getAddresses(userID);
+      const allAddresses = await getAddressesResponse(userID);
+      const address = allAddresses.data.filter(
+        (address) => address.userId === userID
+      );
+
       const res = await deleteAddressResponse(id);
       if (res.status === 204) {
         const addressData = address.filter((address) => address.id !== id);

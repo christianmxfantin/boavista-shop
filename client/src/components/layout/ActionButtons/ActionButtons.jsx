@@ -11,6 +11,7 @@ const ActionButtons = ({
   setEditID,
   setEditBilling,
   setAddresses,
+  updateData,
 }) => {
   const { typeData, data } = database;
 
@@ -89,6 +90,7 @@ const ActionButtons = ({
         setShowModal={setShowModal}
         selectedData={selectedData}
         setAddresses={setAddresses}
+        updateData={updateData}
       />
     </>
   );

@@ -62,13 +62,11 @@ const CardAddress = ({
     const getData = async () => {
       try {
         if (itemType === "address") {
-          const addressesData = await getAddresses(userID);
-          setAddresses(addressesData);
+          getAddresses(userID);
         }
 
         if (itemType === "card") {
-          const paymentsData = await getPayments(userID);
-          setPayments(paymentsData);
+          getPayments(userID);
         }
 
         if (formType === "payment-confirmation") {
@@ -86,15 +84,11 @@ const CardAddress = ({
     if (formType !== "profile" && formType !== "payment-confirmation") {
       setIsButtonDisabled(true);
     }
-  }, [itemType, userID, getAddresses, setAddresses, getPayments, setPayments]);
+  }, [itemType, userID]);
 
-  let data = [];
   let getAddressID;
   if (itemType === "address") {
-    data = addresses;
-    getAddressID = data.filter((address) => address.id === editID);
-  } else if (itemType === "card") {
-    data = payments;
+    getAddressID = addresses.filter((address) => address.id === editID);
   }
 
   const handleChangeRadio = (id) => {
@@ -168,7 +162,41 @@ const CardAddress = ({
           ) : formType !== "profile" && formType !== "payment-confirmation" ? (
             <FormControl defaultValue="">
               <RadioGroup>
-                {data.map((data) => (
+                {addresses.map((data) => (
+                  <FormControlLabel
+                    key={data.id}
+                    sx={{
+                      margin: 0,
+                      marginBottom: theme.spacing(1),
+                      padding: theme.spacing(1),
+                      borderRadius: theme.spacing(1),
+                      "&:hover": {
+                        backgroundColor: theme.palette.primary[300],
+                        color: theme.palette.secondary.A100,
+                      },
+                    }}
+                    value={data.id}
+                    control={
+                      <Radio
+                        name={`id${data.id}`}
+                        checked={selectedValue === data.id}
+                        onChange={() => handleChangeRadio(data.id)}
+                        value={data.id}
+                        inputProps={{ "aria-label": `id${data.id}` }}
+                      />
+                    }
+                    label={
+                      <CardAddressItemTitle
+                        data={data}
+                        formType={formType}
+                        itemType={itemType}
+                        setShowAddNew={setShowAddNew}
+                        setAddresses={setAddresses}
+                      />
+                    }
+                  />
+                ))}
+                {payments.map((data) => (
                   <FormControlLabel
                     key={data.id}
                     sx={{
@@ -206,7 +234,41 @@ const CardAddress = ({
             </FormControl>
           ) : (
             <>
-              {data.map((data) => (
+              {addresses.map((data) => (
+                <CardAddressItem
+                  disabled={formType === "payment-confirmation" && true}
+                  key={data.id}
+                  sx={{
+                    "&:hover": {
+                      backgroundColor:
+                        formType !== "payment-confirmation" &&
+                        theme.palette.primary[300],
+                      color:
+                        formType !== "payment-confirmation" &&
+                        theme.palette.secondary.A100,
+                    },
+                  }}
+                >
+                  <IconContainer
+                    sx={{ alignItems: itemType === "address" && "center" }}
+                  >
+                    <Icon
+                      name={
+                        itemType === "address" ? "address-card" : "credit-card"
+                      }
+                    />
+                  </IconContainer>
+                  <CardAddressItemTitle
+                    data={data}
+                    formType={formType}
+                    itemType={itemType}
+                    setShowAddNew={setShowAddNew}
+                    setEditID={setEditID}
+                    setEditBilling={setEditBilling}
+                  />
+                </CardAddressItem>
+              ))}
+              {payments.map((data) => (
                 <CardAddressItem
                   disabled={formType === "payment-confirmation" && true}
                   key={data.id}

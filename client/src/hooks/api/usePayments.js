@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import {
   createPaymentResponse,
   deletePaymentResponse,
@@ -12,11 +12,11 @@ const usePayments = () => {
   const [payments, setPayments] = useState([]);
   const [loadingPayments, setLoadingPayments] = useState(true);
 
-  const getPayments = useCallback(async (userID) => {
+  const getPayments = async (userID) => {
     try {
       const res = await getPaymentsResponse();
       const payment = res.data.filter((payment) => payment.userId === userID);
-      return payment;
+      setPayments(payment);
     } catch (error) {
       console.log(error);
       statusErrors(error);
@@ -24,7 +24,7 @@ const usePayments = () => {
     } finally {
       setLoadingPayments(false);
     }
-  }, []);
+  };
 
   const getPaymentById = async (id) => {
     try {
@@ -61,7 +61,11 @@ const usePayments = () => {
 
   const deletePayment = async (id, userID) => {
     try {
-      const payment = await getPayments(userID);
+      const allPayments = await getPaymentsResponse(userID);
+      const payment = allPayments.data.filter(
+        (payment) => payment.userId === userID
+      );
+
       const res = await deletePaymentResponse(id);
       if (res.status === 204) {
         const paymentData = payment.filter((payment) => payment.id !== id);

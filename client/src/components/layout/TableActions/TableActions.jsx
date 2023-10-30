@@ -49,7 +49,7 @@ import {
   DiscountContainer,
 } from "./TableActions.styles";
 import useProducts from "../../../hooks/api/useProducts";
-import { deleteUserResponse } from "../../../api/users";
+import { deleteUserResponse, getUsersResponse } from "../../../api/users";
 import { getAddressTypeByIdResponse } from "../../../api/addressesTypes";
 import { getCardCompanyByIdResponse } from "../../../api/cardCompanies";
 import useAddresses from "../../../hooks/api/useAddresses";
@@ -81,16 +81,16 @@ const TableActions = ({
   setShowModal,
   selectedData,
   typeData,
-  setAddresses,
+  updateData,
 }) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
 
-  const { deleteProduct } = useProducts();
   const { deleteUser } = useUsers();
-  const { deleteAddress } = useAddresses();
+  const { deleteProduct } = useProducts();
+  const { setAddresses, deleteAddress } = useAddresses();
   const { setPayments, deletePayment } = usePayments();
   const { logout } = useAuth();
 
@@ -210,7 +210,7 @@ const TableActions = ({
     setOpenDialogUser(false);
   };
 
-  const onSubmit = async (formValues) => {
+  const onSubmit = async (formValues, updateData) => {
     let response;
 
     switch (typeData) {

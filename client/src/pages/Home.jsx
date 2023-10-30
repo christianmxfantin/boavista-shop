@@ -12,7 +12,11 @@ import Footer from "../components/home/Footer/Footer";
 
 const Home = () => {
   const location = useLocation();
-  const { isLogout } = location.state;
+
+  let isLogout;
+  if (location.state && location.state.isLogout === true) {
+    isLogout = location.state.isLogout;
+  }
 
   useEffect(() => {
     if (isLogout) {
