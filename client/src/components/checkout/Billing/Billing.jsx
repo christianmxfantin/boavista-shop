@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useTheme } from "@emotion/react";
 import { toast, ToastContainer } from "react-toastify";
@@ -168,6 +168,7 @@ const Billing = ({
         }
 
         setBillingData(myBilling);
+        console.log(myBilling);
       } catch (error) {
         console.log(error);
         statusErrors(error);
@@ -183,14 +184,20 @@ const Billing = ({
     }
   }, [formType]);
 
+  const stateRef = useRef();
+  // const cityRef = useRef();
+
   useEffect(() => {
     reset({
       addressType: billingData.addressType,
       address: billingData.address,
-      // state: billingData.state,
-      city: billingData.city,
+      state: billingData.state,
+      // city: billingData.city,
       phone: billingData.phone,
     });
+
+    // stateRef.current.node.value = billingData.state;
+    // console.log(stateRef.current.node.value);
   }, [billingData, reset]);
 
   const handleCheckoutEdit = () => {
@@ -417,6 +424,7 @@ const Billing = ({
                         <>
                           <StateSelect
                             name={name}
+                            inputRef={stateRef}
                             fullWidth
                             disabled={
                               (formType === "billing" && !editCheckoutMode) ||

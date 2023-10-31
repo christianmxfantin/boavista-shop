@@ -219,12 +219,5 @@ export const theme = createTheme({
         }),
       },
     },
-    MuiSvgIcon: {
-      styleOverrides: {
-        root: ({ theme }) => ({
-          //styles
-        }),
-      },
-    },
   },
 });
