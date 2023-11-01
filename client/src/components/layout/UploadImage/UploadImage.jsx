@@ -19,7 +19,11 @@ import { updateAvatarResponse } from "../../../api/users";
 import { SuccessMessages } from "../../../utils/toastMessages";
 import { toastColor } from "../../../utils/toastOptions";
 import { setUser } from "../../../reducers/auth";
-import { fileError } from "../../../utils/toastErrors";
+import {
+  fileError,
+  responseError,
+  statusErrors,
+} from "../../../utils/toastErrors";
 
 const UploadImage = ({
   openDialog,
@@ -96,7 +100,8 @@ const UploadImage = ({
           toast.success(SuccessMessages.CHANGES_DONE, toastColor("success"));
         }
       } catch (error) {
-        console.log(error);
+        statusErrors(error);
+        responseError(error);
       } finally {
         setLoadingImage(false);
       }

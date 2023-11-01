@@ -8,6 +8,7 @@ import {
 import { useSelector } from "react-redux";
 import { getOrdersResponse } from "../../../api/orders";
 import CardAddressSkeleton from "../../skeleton/CardAddressSkeleton/CardAddressSkeleton";
+import { responseError, statusErrors } from "../../../utils/toastErrors";
 
 const ProductsOrders = () => {
   const { user } = useSelector((state) => state.auth);
@@ -24,7 +25,8 @@ const ProductsOrders = () => {
         );
         setOrders(orders);
       } catch (error) {
-        console.log(error);
+        statusErrors(error);
+        responseError(error);
       } finally {
         setLoadingOrders(false);
       }

@@ -55,7 +55,6 @@ export const saveNewPayment = async (formValues, cardType, user) => {
 
     await createPaymentResponse(newPayment);
   } catch (error) {
-    console.log(error);
     statusErrors(error);
     responseError(error);
   }

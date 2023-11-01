@@ -3,6 +3,7 @@ import FormAuth from "../../../components/layout/FormAuth/FormAuth";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getRoleById } from "../../../api/roles";
+import { responseError, statusErrors } from "../../../utils/toastErrors";
 
 const Dashboard = () => {
   const { user } = useSelector((state) => state.auth);
@@ -16,7 +17,8 @@ const Dashboard = () => {
         const name = roles.data.name.toLowerCase().trim();
         setRoleName(name);
       } catch (error) {
-        console.log(error);
+        statusErrors(error);
+        responseError(error);
       }
     };
 

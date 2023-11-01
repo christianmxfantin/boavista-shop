@@ -16,6 +16,7 @@ import EmptyData from "../EmptyData/EmptyData";
 import { getProductsImagesResponse } from "../../../api/productsImages";
 import { Icon } from "../../ui/Icon";
 import DashboardTableSkeleton from "../../skeleton/DashboardTableSkeleton/DashboardTableSkeleton";
+import { responseError, statusErrors } from "../../../utils/toastErrors";
 
 const DashboardTable = ({ typeData }) => {
   const theme = useTheme();
@@ -39,7 +40,8 @@ const DashboardTable = ({ typeData }) => {
           const images = await getProductsImagesResponse();
           setProductsImages(images.data);
         } catch (error) {
-          console.log(error);
+          statusErrors(error);
+          responseError(error);
         }
       };
       getData();

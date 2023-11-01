@@ -18,7 +18,6 @@ const usePayments = () => {
       const payment = res.data.filter((payment) => payment.userId === userID);
       setPayments(payment);
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     } finally {
@@ -31,7 +30,6 @@ const usePayments = () => {
       const res = await getPaymentByIdResponse(id);
       return res.data;
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     }
@@ -42,7 +40,6 @@ const usePayments = () => {
       const res = await createPaymentResponse(payment);
       setPayments(res.data);
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     }
@@ -53,7 +50,6 @@ const usePayments = () => {
       const res = await updatePaymentResponse(id, payment);
       setPayments(res.data);
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     }
@@ -72,7 +68,6 @@ const usePayments = () => {
         setPayments(paymentData);
       }
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     }

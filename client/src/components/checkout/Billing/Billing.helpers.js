@@ -23,14 +23,19 @@ import {
   stateByNameResponse,
 } from "../../../api/states";
 import { capitalizeWords } from "../../../utils/capitalizeWords";
-import { conflictError } from "../../../utils/toastErrors";
+import {
+  conflictError,
+  responseError,
+  statusErrors,
+} from "../../../utils/toastErrors";
 
 export const getAddressTypeName = async (id) => {
   try {
     const res = await getAddressTypeByIdResponse(id);
     return res.data.name;
   } catch (error) {
-    console.log(error);
+    statusErrors(error);
+    responseError(error);
   }
 };
 
@@ -39,7 +44,8 @@ export const getCityName = async (id) => {
     const res = await getCityByIdResponse(id);
     return res.data.name;
   } catch (error) {
-    console.log(error);
+    statusErrors(error);
+    responseError(error);
   }
 };
 
@@ -48,20 +54,19 @@ export const getStateName = async (id) => {
     const res = await getStateByIdResponse(id);
     return res.data.name;
   } catch (error) {
-    console.log(error);
+    statusErrors(error);
+    responseError(error);
   }
 };
 
 export const getAddressByUser = async (userID) => {
   try {
-    console.log(userID);
     const res = await getAddressesResponse();
-    console.log(res.data);
     const address = res.data.find((address) => address.userId === userID);
-    console.log(address);
     return address;
   } catch (error) {
-    console.log(error);
+    statusErrors(error);
+    responseError(error);
   }
 };
 
@@ -70,7 +75,8 @@ export const getAddressById = async (id) => {
     const res = await getAddressByIdResponse(id);
     return res.data;
   } catch (error) {
-    console.log(error);
+    statusErrors(error);
+    responseError(error);
   }
 };
 
@@ -168,7 +174,8 @@ export const createAddressData = async (formValues, user, addTypeName) => {
 
     return newAddress;
   } catch (error) {
-    console.log(error);
     conflictError(error);
+    statusErrors(error);
+    responseError(error);
   }
 };

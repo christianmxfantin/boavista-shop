@@ -16,7 +16,6 @@ const useDiscounts = () => {
       const res = await getDiscountsResponse();
       setDiscounts(res.data);
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     }
@@ -27,7 +26,6 @@ const useDiscounts = () => {
       const res = await getDiscountByIdResponse(id);
       setDiscounts(res.data);
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     }
@@ -38,7 +36,6 @@ const useDiscounts = () => {
       const res = await createDiscountResponse(discount);
       setDiscounts(res.data);
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     }
@@ -49,7 +46,6 @@ const useDiscounts = () => {
       const res = await updateDiscountResponse(id, discount);
       setDiscounts(res.data);
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     }
@@ -60,7 +56,6 @@ const useDiscounts = () => {
       const res = await deleteDiscountResponse(id);
       setDiscounts(res.data);
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     }

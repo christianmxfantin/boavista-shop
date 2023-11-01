@@ -23,7 +23,6 @@ const ForgetPassword = () => {
   const theme = useTheme();
   const location = useLocation();
   const { changePassword, formAuthUserID } = location.state;
-  // console.log(location.state);
 
   const [showEmail, setShowEmail] = useState(changePassword ? false : true);
   const [userId, setUserId] = useState("");

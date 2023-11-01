@@ -18,6 +18,7 @@ import Payment from "../../checkout/Payment/Payment/Payment";
 
 import { cleanCart } from "../../../reducers/cart";
 import { createOrderResponse } from "../../../api/orders";
+import { responseError, statusErrors } from "../../../utils/toastErrors";
 
 const StepperCheckout = () => {
   let stepperComponent;
@@ -58,7 +59,8 @@ const StepperCheckout = () => {
         });
       }
     } catch (error) {
-      console.log(error);
+      statusErrors(error);
+      responseError(error);
     }
 
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -118,8 +120,6 @@ const StepperCheckout = () => {
         />
       );
   }
-
-  // console.log(JSON.stringify(stepperData));
 
   return (
     <>

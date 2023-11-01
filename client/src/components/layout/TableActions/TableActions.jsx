@@ -75,6 +75,7 @@ import useUsers from "../../../hooks/api/useUsers";
 import { getCategoriesResponse } from "../../../api/categories";
 import { getDiscountsResponse } from "../../../api/discounts";
 import DashboardModal from "../DashboardModal/DashboardModal";
+import { responseError, statusErrors } from "../../../utils/toastErrors";
 
 const TableActions = ({
   showModal,
@@ -134,7 +135,8 @@ const TableActions = ({
           setDiscounts(allDiscounts.data);
         }
       } catch (error) {
-        console.log(error);
+        statusErrors(error);
+        responseError(error);
       }
 
       if (data) {
@@ -153,7 +155,8 @@ const TableActions = ({
             setCardCompany(cardCompanyResponse.data.name);
           }
         } catch (error) {
-          console.log(error);
+          statusErrors(error);
+          responseError(error);
         }
       }
     };
@@ -167,7 +170,6 @@ const TableActions = ({
           (category) => category.id === data.categoryId
         );
         setSelectedCategory(defaultCategory.name);
-        console.log(defaultCategory.name);
       }
 
       if (discounts.length > 0) {
@@ -220,7 +222,8 @@ const TableActions = ({
           response = await createUser(productImage, formValues);
           setOpenDialogUser(true);
         } catch (error) {
-          console.log(error);
+          statusErrors(error);
+          responseError(error);
         } finally {
           setLoading(false);
         }
@@ -231,7 +234,8 @@ const TableActions = ({
           setLoading(true);
           response = await createProduct(user.id, formValues, arrayImages);
         } catch (error) {
-          console.log(error);
+          statusErrors(error);
+          responseError(error);
         } finally {
           setLoading(false);
         }
@@ -245,7 +249,8 @@ const TableActions = ({
         try {
           response = await updateUser(data, productImage, formValues);
         } catch (error) {
-          console.log(error);
+          statusErrors(error);
+          responseError(error);
         }
         break;
 
@@ -253,7 +258,8 @@ const TableActions = ({
         try {
           response = await updateProduct(data, user.id, formValues);
         } catch (error) {
-          console.log(error);
+          statusErrors(error);
+          responseError(error);
         }
         break;
 
@@ -303,7 +309,8 @@ const TableActions = ({
             logout();
           }
         } catch (error) {
-          console.log(error);
+          statusErrors(error);
+          responseError(error);
         }
         break;
 

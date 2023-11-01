@@ -34,6 +34,7 @@ import { UsersErrors } from "../../../errors/users.errors";
 import { EmptyFieldError } from "../../../errors/emptyField.errors";
 import { changePasswordResponse } from "../../../api/auth";
 import UploadImage from "../UploadImage/UploadImage";
+import { statusErrors } from "../../../utils/toastErrors";
 
 const AccountData = ({ formType, newPassword, userId }) => {
   const theme = useTheme();
@@ -53,19 +54,6 @@ const AccountData = ({ formType, newPassword, userId }) => {
     reset,
     formState: { errors },
   } = useForm({ mode: "onBlur" });
-
-  const statusErrors = (error) => {
-    //client error
-    if (error.response.status > 399 || error.response.status < 500) {
-      toast.error(ErrorsMessages.CLIENT_STATUS, toastColor("error"));
-      return;
-    }
-    //server error
-    if (error.response.status > 499) {
-      toast.error(ErrorsMessages.SERVER_STATUS, toastColor("error"));
-      return;
-    }
-  };
 
   const handleOpenDialog = () => {
     setOpenDialog(true);

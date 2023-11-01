@@ -17,7 +17,6 @@ const useUsers = () => {
       const res = await getUsersResponse();
       setUsers(res.data);
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     } finally {
@@ -30,7 +29,6 @@ const useUsers = () => {
       const res = await getUserByIdResponse(id);
       setUsers(res.data);
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     }
@@ -41,7 +39,6 @@ const useUsers = () => {
       const res = await createUserResponse(user);
       setUsers(res.data);
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     }
@@ -52,7 +49,6 @@ const useUsers = () => {
       const res = await updateUserResponse(id, user);
       setUsers(res.data);
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     }
@@ -67,7 +63,6 @@ const useUsers = () => {
       }
       setUsers(res.data);
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     }

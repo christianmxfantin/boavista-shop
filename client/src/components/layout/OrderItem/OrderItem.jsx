@@ -17,6 +17,7 @@ import {
 import { Icon } from "../../ui/Icon";
 import { useState } from "react";
 import { deleteOrderResponse } from "../../../api/orders";
+import { responseError, statusErrors } from "../../../utils/toastErrors";
 
 const OrderItem = ({ order, orders, setOrders }) => {
   const { id, createdAt } = order;
@@ -44,7 +45,8 @@ const OrderItem = ({ order, orders, setOrders }) => {
         setOrders(updatedOrders);
       }
     } catch (error) {
-      console.log(error);
+      statusErrors(error);
+      responseError(error);
     }
     setOpenDialog(false);
   };

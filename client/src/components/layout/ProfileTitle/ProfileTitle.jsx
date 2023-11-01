@@ -8,6 +8,7 @@ import useAuth from "../../../hooks/api/useAuth";
 import { unsetUser } from "../../../reducers/auth";
 import { cleanCart } from "../../../reducers/cart";
 import { cleanProducts } from "../../../reducers/products";
+import { responseError, statusErrors } from "../../../utils/toastErrors";
 
 const ProfileTitle = () => {
   const theme = useTheme();
@@ -26,7 +27,8 @@ const ProfileTitle = () => {
         const name = roles.data.name.toLowerCase().trim();
         setRoleName(name);
       } catch (error) {
-        console.log(error);
+        statusErrors(error);
+        responseError(error);
       }
     };
 

@@ -101,7 +101,6 @@ const PaymentDetails = ({
       toast.success(SuccessMessages.CHANGES_DONE, toastColor("success"));
       handleClickCancel();
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
       reset();

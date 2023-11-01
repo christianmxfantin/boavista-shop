@@ -28,6 +28,7 @@ import useProducts from "../../../hooks/api/useProducts";
 import { toastColor } from "../../../utils/toastOptions";
 import { ProductsErrors } from "../../../errors/products.errors";
 import { SuccessMessages } from "../../../utils/toastMessages";
+import { responseError, statusErrors } from "../../../utils/toastErrors";
 
 const DashboardModal = ({
   formType,
@@ -87,12 +88,12 @@ const DashboardModal = ({
           };
 
           const updatedProducts = await updatePrices(changePrices);
-          console.log(updatedProducts);
           if (updatedProducts) {
             toast.success(SuccessMessages.CHANGES_DONE, toastColor("success"));
           }
         } catch (error) {
-          console.log(error);
+          statusErrors(error);
+          responseError(error);
         }
         break;
 

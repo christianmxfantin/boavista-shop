@@ -16,7 +16,6 @@ const useCategories = () => {
       const res = await getCategoriesResponse();
       setCategories(res.data);
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     }
@@ -27,7 +26,6 @@ const useCategories = () => {
       const res = await getCategoryByIdResponse(id);
       setCategories(res.data);
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     }
@@ -38,7 +36,6 @@ const useCategories = () => {
       const res = await createCategoryResponse(category);
       setCategories(res.data);
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     }
@@ -49,7 +46,6 @@ const useCategories = () => {
       const res = await updateCategoryResponse(id, category);
       setCategories(res.data);
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     }
@@ -60,7 +56,6 @@ const useCategories = () => {
       const res = await deleteCategoryResponse(id);
       setCategories(res.data);
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     }

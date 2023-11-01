@@ -16,6 +16,7 @@ import { addProductToCart } from "../../../reducers/cart";
 import { getProductsImagesResponse } from "../../../api/productsImages";
 import { addOneProduct } from "../../../reducers/products";
 import ImageNotFound from "../../../images/image-not-found.jpg";
+import { responseError, statusErrors } from "../../../utils/toastErrors";
 
 const ProductItem = ({ data }) => {
   let { id, name, price } = data;
@@ -34,7 +35,8 @@ const ProductItem = ({ data }) => {
 
         setProductsImages(productImage);
       } catch (error) {
-        console.log(error);
+        statusErrors(error);
+        responseError(error);
       }
     };
     getData();

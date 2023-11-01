@@ -10,12 +10,10 @@ import {
 const ProductPrice = ({ selectedPrice, setSelectedPrice }) => {
   const handleMinPriceChange = (value) => {
     setSelectedPrice([value === "" ? 0 : value, selectedPrice[1]]);
-    console.log(selectedPrice);
   };
 
   const handleMaxPriceChange = (value) => {
     setSelectedPrice([selectedPrice[0], value === "" ? 0 : value]);
-    console.log(selectedPrice);
   };
 
   return (

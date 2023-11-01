@@ -47,7 +47,6 @@ const ProductDetails = () => {
     );
   };
 
-  // console.log(products);
   return (
     <ItemCard component={"main"}>
       <ItemTitle component={"article"}>

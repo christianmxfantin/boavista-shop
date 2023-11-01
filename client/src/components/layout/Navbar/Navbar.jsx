@@ -27,6 +27,7 @@ import {
   SearchContainer,
 } from "./Navbar.styles";
 import { getRoleById } from "../../../api/roles";
+import { responseError, statusErrors } from "../../../utils/toastErrors";
 
 const Navbar = ({ isLoginForm }) => {
   const theme = useTheme();
@@ -51,7 +52,8 @@ const Navbar = ({ isLoginForm }) => {
           setRoleName(name);
         }
       } catch (error) {
-        console.log(error);
+        statusErrors(error);
+        responseError(error);
       }
     };
 

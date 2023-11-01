@@ -12,6 +12,7 @@ import {
   updateUserResponse,
 } from "../../../api/users";
 import { capitalizeWords } from "../../../utils/capitalizeWords";
+import { responseError, statusErrors } from "../../../utils/toastErrors";
 
 export const createUser = async (avatarURL, formValues) => {
   try {
@@ -37,7 +38,8 @@ export const createUser = async (avatarURL, formValues) => {
     const registerUser = await createUserResponse(newUser);
     return registerUser.data;
   } catch (error) {
-    console.log(error);
+    statusErrors(error);
+    responseError(error);
   }
 };
 

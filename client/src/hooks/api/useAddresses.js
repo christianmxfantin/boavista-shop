@@ -18,7 +18,6 @@ const useAddresses = () => {
       const address = res.data.filter((address) => address.userId === userID);
       setAddresses(address);
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     } finally {
@@ -31,7 +30,6 @@ const useAddresses = () => {
       const res = await getAddressByIdResponse(id);
       setAddresses(res.data);
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     }
@@ -42,7 +40,6 @@ const useAddresses = () => {
       const res = await createAddressResponse(address);
       setAddresses(res.data);
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     }
@@ -53,7 +50,6 @@ const useAddresses = () => {
       const res = await updateAddressResponse(id, address);
       setAddresses(res.data);
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     }
@@ -72,7 +68,6 @@ const useAddresses = () => {
         setAddresses(addressData);
       }
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     }

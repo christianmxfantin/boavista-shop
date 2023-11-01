@@ -18,7 +18,6 @@ const useProducts = () => {
       const res = await getProductsResponse();
       setProducts(res.data);
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     } finally {
@@ -31,7 +30,6 @@ const useProducts = () => {
       const res = await getProductByIdResponse(id);
       setProducts(res.data);
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     }
@@ -42,7 +40,6 @@ const useProducts = () => {
       const res = await createProductResponse(product);
       setProducts(res.data);
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     }
@@ -50,11 +47,9 @@ const useProducts = () => {
 
   const updateProduct = async (id, product) => {
     try {
-      console.log(product);
       const res = await updateProductResponse(id, product);
       setProducts(res.data);
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     }
@@ -62,12 +57,9 @@ const useProducts = () => {
 
   const updatePrices = async (product) => {
     try {
-      console.log(product);
       const res = await updatePricesResponse(product);
-      console.log(res);
       setProducts(res.data);
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     }
@@ -81,7 +73,6 @@ const useProducts = () => {
         setProducts(productsFilter);
       }
     } catch (error) {
-      console.log(error);
       statusErrors(error);
       responseError(error);
     }

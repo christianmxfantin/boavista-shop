@@ -74,7 +74,6 @@ const CardAddress = ({
           setPayments([paymentConfirmation]);
         }
       } catch (error) {
-        console.log(error);
         statusErrors(error);
         responseError(error);
       }

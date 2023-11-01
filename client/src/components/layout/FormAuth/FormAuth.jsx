@@ -48,6 +48,7 @@ import { ErrorsMessages } from "../../../utils/toastMessages";
 import { capitalizeWords } from "../../../utils/capitalizeWords";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
+import { responseError, statusErrors } from "../../../utils/toastErrors";
 
 const FormAuth = ({ formType, role }) => {
   const namesInputValue = useRef("");
@@ -67,19 +68,6 @@ const FormAuth = ({ formType, role }) => {
     reset,
     formState: { errors },
   } = useForm({ mode: "onBlur" });
-
-  const statusErrors = (error) => {
-    //client error
-    if (error.response.status > 399 || error.response.status < 500) {
-      toast.error(ErrorsMessages.CLIENT_STATUS, toastColor("error"));
-      return;
-    }
-    //server error
-    if (error.response.status > 499) {
-      toast.error(ErrorsMessages.SERVER_STATUS, toastColor("error"));
-      return;
-    }
-  };
 
   const handleNamesBlur = () => {
     namesInputValue.current.value = capitalizeWords(
@@ -139,7 +127,8 @@ const FormAuth = ({ formType, role }) => {
         dispatch(setUser(registerUser.data));
         navigate("/");
       } catch (error) {
-        console.log(error);
+        statusErrors(error);
+        responseError(error);
       }
     },
   });
@@ -174,14 +163,15 @@ const FormAuth = ({ formType, role }) => {
 
   const handleResetDatabase = async () => {
     //reset database
-    //1ro advertencia de que se va a resetear la base y esta accion no se puede deshacer
+    //1ro advertencia de que se va a resetear la base
+    //y esta accion no se puede deshacer
     //con un Dialog y agregar aquí
 
     try {
       const resetResponse = await resetDatabaseResponse();
-      console.log(resetResponse);
     } catch (error) {
-      console.log(error);
+      statusErrors(error);
+      responseError(error);
     }
   };
 
@@ -250,7 +240,6 @@ const FormAuth = ({ formType, role }) => {
           dispatch(setUser(registerUser.data));
           navigate("/");
         } catch (error) {
-          console.log(error);
           if (error.response.statusText === "Conflict") {
             toast.error(error.response.data.message, toastColor("error"));
             return;

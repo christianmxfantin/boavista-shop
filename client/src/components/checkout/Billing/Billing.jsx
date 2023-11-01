@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useTheme } from "@emotion/react";
 import { toast, ToastContainer } from "react-toastify";
@@ -12,7 +12,6 @@ import {
   CheckoutContainer,
   AddressTypeInput,
   AddressInput,
-  CommentsInput,
   PhoneInput,
   StateSelectContainer,
   StateSelect,
@@ -171,7 +170,6 @@ const Billing = ({
 
         setBillingData(myBilling);
       } catch (error) {
-        console.log(error);
         statusErrors(error);
         responseError(error);
       }
@@ -227,7 +225,6 @@ const Billing = ({
           toast.success(SuccessMessages.CHANGES_DONE, toastColor("success"));
         }
       } catch (error) {
-        console.log(error);
         conflictError(error);
         statusErrors(error);
         responseError(error);
@@ -246,7 +243,6 @@ const Billing = ({
           toast.success(SuccessMessages.CHANGES_DONE, toastColor("success"));
         }
       } catch (error) {
-        console.log(error);
         conflictError(error);
         statusErrors(error);
         responseError(error);
