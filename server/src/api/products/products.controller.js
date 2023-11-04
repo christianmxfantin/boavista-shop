@@ -94,8 +94,6 @@ const updatePrices = async (req, res, next) => {
 
     const productsId = await Products.findAll();
 
-    console.log(productsId);
-
     return res.status(200).json(metadata);
   } catch (err) {
     const error = new ErrorHandler(err.message, err.statusCode);

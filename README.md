@@ -1,17 +1,27 @@
-<div style="background: linear-gradient(to bottom, hsl(207,90%,36%),hsl(358,72%,45%),hsl(207,90%,36%))">
+<div style="background: cream">
 <p align="center">
-  <img src="logo.png" alt="Logotipo del Proyecto">
+  <img src="assets/images/logo.png" alt="Logotipo del Ecommerce">
 </p>
 
-<h1 align="center" style="font-family: 'Material Icons', sans-serif; 'text-align: center;">Boa Vista Stationery</h1>
+![GitHub Gist last commit](https://img.shields.io/github/gist/last-commit/:gistId)
 
-<!-- ![GitHub Gist last commit](https://img.shields.io/github/gist/last-commit/:gistId) -->
+<p style="text-align: justify;">Aplicación web ecommerce con login y registro de usuarios, ingreso a través de una cuenta de Google, catálogo y búsqueda de productos, checkout de compra, gestión de perfil y backlog administrativo.</p>
 
-<h2>🎯About</h2>
-<p style="text-align: justify;">Este es el repositorio oficial del sitio web de la Librería Mayorista Boa Vista. Acá descubrirá la tecnología que nos ha inspirado a crear nuestra tienda en línea.</p>
+<h2 >🚀Tecnologías</h2>
+<p style="text-align: justify;">El Frontend ha sido diseñado con: </p>
 
-<h2 >🚀Technologies</h2>
-<p style="text-align: justify;">Nuestro Frontend y Backend ha sido diseñado con las siguientes tecnologias: </p>
+<p align="center">
+  <a href="https://es.react.dev/">
+    <img src="assets/images/react.svg" alt="Logotipo de React" style="width: 50px">
+  </a>
+  <a href="https://mui.com/">
+    <img src="assets/images/mui.png" alt="Logotipo de Material UI" style="width: 50px">
+  </a>
+  <img src="assets/images/react-hook-form.png" alt="Logotipo de React Hook Form" style="width: 50px">
+  <img src="assets/images/redux-toolkit.png" alt="Logotipo de Redux Toolkit" style="width: 50px">
+  <img src="assets/images/axios.png" alt="Logotipo de Axios" style="width: 100px">
+  <img src="assets/images/react-router.png" alt="Logotipo de React Router" style="width: 80px">
+</p>
 
 <h2>✅Requirements</h2>
 

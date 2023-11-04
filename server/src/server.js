@@ -38,7 +38,7 @@ logger.info("Backend started succesfully");
 const main = async () => {
   try {
     app.listen(port, () => {
-      console.log(`Server running on: http://localhost:${port}`);
+      logger.info(`Server running on: http://localhost:${port}`);
     });
   } catch (err) {
     logger.error("Error running Server: ", err);
