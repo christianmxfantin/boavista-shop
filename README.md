@@ -11,10 +11,10 @@
 <p style="text-align: justify;">El Frontend ha sido diseñado con: </p>
 
 <p align="center">
-  <a href="https://es.react.dev/">
+  <a href="https://es.react.dev/" style="text-decoration: none">
     <img src="assets/images/react.svg" alt="Logotipo de React" style="width: 50px">
   </a>
-  <a href="https://mui.com/">
+  <a href="https://mui.com/" style="text-decoration: none">
     <img src="assets/images/mui.png" alt="Logotipo de Material UI" style="width: 50px">
   </a>
   <img src="assets/images/react-hook-form.png" alt="Logotipo de React Hook Form" style="width: 50px">
