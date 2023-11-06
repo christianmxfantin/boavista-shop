@@ -7,11 +7,11 @@
 
 <p style="text-align: justify;">Ecommerce web application with user login and registration, login with a Google account, product catalog and search, purchase checkout, profile management and administrative back office.</p>
 
-<h2 >🌐Online Demo</h2>
+<h2 >🌐 Online Demo</h2>
 
-<p style="text-align: justify;">You can take the test <a>here</a>.</p>
+<p style="text-align: justify;">You can access the online demo <a>here</a>.</p>
 
-<h2 >🚀Technologies</h2>
+<h2 >🚀 Technologies</h2>
 <p style="text-align: justify;">The Frontend <span style="font-size: 20px">🖥️</span> was made with: </p>
 
 <p align="center">
@@ -55,20 +55,23 @@
 <p style="text-align: justify;">The project contains a RESTful API <span style="font-size: 18px">☎️</span> for the connection between Backend and Frontend, and <a href="https://www.postgresql.org/">Postgres</a> was used for the <span style="font-size: 18px">💾</span>Database.</p>
 <p style="text-align: justify;">User avatars and product images are saved in <a href="https://cloudinary.com">Cloudinary</a>.</p>
 
-<h2>✅Requirements</h2>
+<h2>✅ Requirements</h2>
 
 <p style="text-align: justify;">Install the latest version of Postgres SQL by clicking <a href="https://www.postgresql.org/">here</a>.</p>
 
 <p style="text-align: justify;">Install the latest version of <a href="https://nodejs.org/">Node</a> to run the development server.</p>
 
-<h2>🏁Starting</h2>
+<h2>🏁 Getting Started</h2>
 
 ```
 # Clone this project
 $ git clone https://github.com/christianmxfantin/boavista-shop
 ```
 
-Go to the Server folder and rename the file ".env.example" to ".env" and add your postgres database information.
+- Go to the Server folder
+- Duplicate the file ".env.example"
+- Rename the copy of ".env.example" to ".env"
+- Add your postgres database information
 
 ```
 # Install dependencies on client and server folder
@@ -93,7 +96,7 @@ $ npm run dev
 # The server will initialize in the <http://localhost:4000>
 ```
 
-<h2>📝License</h2>
+<h2>📝 License</h2>
 Made with ❤️ by <a href="https://github.com/christianmxfantin">christianmxfantin</a>
 
 <p></p>
