@@ -93,7 +93,7 @@ $ npm run db:seed
 # Run the developmet server again
 $ npm run dev
 
-# The server will initialize in the <http://localhost:4000>
+# The server will initialize at <http://localhost:4000>
 ```
 
 <h2>📝 License</h2>
