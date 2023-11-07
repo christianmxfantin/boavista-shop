@@ -53,13 +53,19 @@ const About = () => {
           </Grid>
         </AboutData>
         <Grid item xs={12} md={6}>
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <Box
+            sx={{
+              width: "100%",
+              height: "50%",
+              display: { md: "flex" },
+              justifyContent: { md: "center" },
+            }}
+          >
             <Image
               name="About"
               style={{
-                // margin: theme.spacing(6), //48px,
-                width: "50%",
-                height: "50%",
+                // width: "50%",
+                // height: "50%",
                 borderRadius: theme.spacing(4), //32px
                 objectFit: "cover",
               }}

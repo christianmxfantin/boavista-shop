@@ -10,7 +10,7 @@ export const AboutData = styled(Box)(({ theme }) => ({
   // display: "flex",
   // flexDirection: "column",
   // justifyContent: "center",
-  // marginLeft: theme.spacing(4), //32px
+  margin: theme.spacing(2), //16px
 }));
 
 export const AboutTitle = styled(Typography)(({ theme }) => ({

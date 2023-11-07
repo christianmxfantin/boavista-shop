@@ -1,8 +1,8 @@
 //Spacing(1) is equals to 8px
 
-import { createTheme } from "@mui/material/styles";
+import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 
-export const theme = createTheme({
+const theme = createTheme({
   palette: {
     primary: {
       50: "hsl(207,50%,92%)",
@@ -221,3 +221,5 @@ export const theme = createTheme({
     },
   },
 });
+
+export default responsiveFontSizes(theme);

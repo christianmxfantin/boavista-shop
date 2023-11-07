@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
-import { theme } from "./styles/theme";
+import theme from "./styles/theme";
 import App from "./App";
 
 import { PersistGate } from "redux-persist/integration/react";
