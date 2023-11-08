@@ -30,11 +30,6 @@ export const Image = ({ name, style, src, alt }) => {
       src: Contact,
       alt: "Imágen de la sección Contacto",
     },
-    {
-      name: "Products",
-      src,
-      alt,
-    },
   ];
 
   let image = images.find((image) => image.name === name);

@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme, css } from "@emotion/react";
 import { ToastContainer } from "react-toastify";
@@ -174,11 +174,26 @@ const Navbar = ({ isLoginForm }) => {
                     display: { xs: "block", md: "none" },
                   }}
                 >
-                  <Link css={NavbarMenu} to="/products">
+                  <Link
+                    onClick={handleCloseNavMenu}
+                    css={NavbarMenu}
+                    to="/products"
+                  >
                     <MenuItem>Productos</MenuItem>
                   </Link>
-                  <Link css={NavbarMenu} to="/checkout">
+                  <Link
+                    onClick={handleCloseNavMenu}
+                    css={NavbarMenu}
+                    to="/checkout"
+                  >
                     <MenuItem>Carrito</MenuItem>
+                  </Link>
+                  <Link
+                    onClick={handleCloseNavMenu}
+                    css={NavbarMenu}
+                    to="/login"
+                  >
+                    <MenuItem>Ingresa</MenuItem>
                   </Link>
                 </Menu>
               </NavbarMenuContainer>
@@ -223,18 +238,20 @@ const Navbar = ({ isLoginForm }) => {
               </SearchContainer>
               <Box sx={{ flexGrow: 0 }}>
                 {!isAuth && !isLoading ? (
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      cursor: "pointer",
-                      "&:hover": {
-                        color: theme.palette.secondary[500],
-                      },
-                    }}
-                    onClick={handleLoginLink}
-                  >
-                    INGRESA
-                  </Typography>
+                  <Box sx={{ display: { xs: "none", md: "flex" } }}>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        cursor: "pointer",
+                        "&:hover": {
+                          color: theme.palette.secondary[500],
+                        },
+                      }}
+                      onClick={handleLoginLink}
+                    >
+                      INGRESA
+                    </Typography>
+                  </Box>
                 ) : (
                   <Tooltip title="Abrir Menú">
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -266,9 +283,6 @@ const Navbar = ({ isLoginForm }) => {
                       <Typography textAlign="center">Dashboard</Typography>
                     </MenuItem>
                   )}
-                  {/* <MenuItem onClick={handleLogoutLink}>
-                    <Typography textAlign="center">Salir</Typography>
-                  </MenuItem> */}
                 </Menu>
               </Box>
             </>

@@ -1,8 +1,8 @@
 import { useTheme } from "@emotion/react";
+import { Grid } from "@mui/material";
 import {
   ContactContainer,
   ContactTitle,
-  DataContainer,
   SocialContainer,
 } from "../Contact/Contact.styles";
 import {
@@ -18,37 +18,47 @@ const Contact = () => {
 
   return (
     <ContactContainer component={"section"}>
-      <ContactTitle variant="h3">Contactanos</ContactTitle>
-      <Underline width={230} height={5} color={theme.palette.secondary.A100} />
-      <DataContainer component={"article"}>
-        <Image
-          name="Contact"
-          style={{
-            margin: theme.spacing(1.5), //12px
-            width: "40%",
-            height: "40%",
-            borderRadius: theme.spacing(4), //32px
-            objectFit: "cover",
-          }}
-        />
-        <SocialContainer component={"article"}>
-          <AddressLink
-            href="https://www.google.com.ar/maps/place/Av.+Leandro+N.+Alem+916,+C1001AAR+CABA"
-            icon="Address"
-            data="Leandro N. Alem 916, CABA"
+      <Grid container>
+        <Grid item xs={12} sx={{ marginBottom: theme.spacing(2) }}>
+          <ContactTitle variant="h3">Contactanos</ContactTitle>
+          <Underline
+            width={230}
+            height={5}
+            color={theme.palette.secondary.A100}
           />
-          <EmailLink
-            href="mailto:info@libreriaboavista.com.ar"
-            icon="Email"
-            data="info@libreriaboavista.com.ar"
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Image
+            name="Contact"
+            style={{
+              width: "100%",
+              height: "100%",
+              padding: theme.spacing(2),
+              borderRadius: theme.spacing(4), //32px
+              objectFit: "cover",
+            }}
           />
-          <WhatsappLink
-            href="https://api.whatsapp.com/send?phone=541138323832"
-            icon="Whatsapp"
-            data="(+54 11) 3832-3832"
-          />
-        </SocialContainer>
-      </DataContainer>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <SocialContainer sx={{ marginTop: { lg: theme.spacing(8) } }}>
+            <AddressLink
+              href="https://www.google.com.ar/maps/place/Av.+Leandro+N.+Alem+916,+C1001AAR+CABA"
+              icon="Address"
+              data="Leandro N. Alem 916, CABA"
+            />
+            <EmailLink
+              href="mailto:info@libreriaboavista.com.ar"
+              icon="Email"
+              data="info@libreriaboavista.com.ar"
+            />
+            <WhatsappLink
+              href="https://api.whatsapp.com/send?phone=541138323832"
+              icon="Whatsapp"
+              data="(+54 11) 3832-3832"
+            />
+          </SocialContainer>
+        </Grid>
+      </Grid>
     </ContactContainer>
   );
 };

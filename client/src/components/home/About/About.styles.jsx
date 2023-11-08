@@ -2,15 +2,8 @@ import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export const AboutContainer = styled(Box)(({ theme }) => ({
-  // display: "flex",
-  // margin: theme.spacing(1, 0, 2, 0), //8px y 16px;
-}));
-
-export const AboutData = styled(Box)(({ theme }) => ({
-  // display: "flex",
-  // flexDirection: "column",
-  // justifyContent: "center",
-  margin: theme.spacing(2), //16px
+  marginTop: theme.spacing(2.5),
+  marginBottom: theme.spacing(2.5),
 }));
 
 export const AboutTitle = styled(Typography)(({ theme }) => ({
@@ -20,6 +13,7 @@ export const AboutTitle = styled(Typography)(({ theme }) => ({
 }));
 
 export const AboutInfoContainer = styled(Box)(({ theme }) => ({
+  margin: theme.spacing(2), //16px
   marginTop: theme.spacing(2.5), //20px
   textAlign: "justify",
   color: theme.palette.primary[500],
