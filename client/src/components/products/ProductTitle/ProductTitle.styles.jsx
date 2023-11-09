@@ -27,11 +27,6 @@ export const ProductOrderByContainer = styled(Box)(({ theme }) => ({
   alignItems: "center",
 }));
 
-export const ProductOrderByTitle = styled(Typography)(({ theme }) => ({
-  paddingRight: theme.spacing(1), //8px,
-  fontWeight: 500,
-}));
-
 export const ProductOrderBySelect = styled(Select)(({ theme }) => ({
   width: "150px",
   padding: theme.spacing(0.5), //4px,

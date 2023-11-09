@@ -163,7 +163,10 @@ const Products = () => {
 
   return (
     <ProductContainer component={"main"}>
-      <ProductFilters component={"aside"}>
+      <ProductFilters
+        component={"aside"}
+        sx={{ display: { xs: "none", md: "flex" } }}
+      >
         <ProductFilter
           categories={categoriesData}
           discounts={discountsData}
@@ -191,6 +194,12 @@ const Products = () => {
                 category={selectedCategory}
                 totResults={list.length}
                 setSelectedOrder={setSelectedOrder}
+                categories={categoriesData}
+                discounts={discountsData}
+                setSelectedCategory={setSelectedCategory}
+                selectedPrice={selectedPrice}
+                setSelectedPrice={setSelectedPrice}
+                setSelectedDiscount={setSelectedDiscount}
               />
             )}
             <ProductListContainer container spacing={3}>

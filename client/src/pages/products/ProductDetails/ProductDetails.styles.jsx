@@ -25,7 +25,6 @@ export const ItemTitleBack = styled(Typography)(({ theme }) => ({
 }));
 
 export const ItemData = styled(Box)(({ theme }) => ({
-  height: "450px",
   width: "100%",
   display: "flex",
   justifyContent: "space-between",
@@ -33,7 +32,6 @@ export const ItemData = styled(Box)(({ theme }) => ({
 }));
 
 export const ItemImagesContainer = styled(Box)(({ theme }) => ({
-  width: "50%",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
@@ -43,7 +41,6 @@ export const ItemImagesContainer = styled(Box)(({ theme }) => ({
 }));
 
 export const ItemInfoContainer = styled(Box)(({ theme }) => ({
-  width: "50%",
   display: "flex",
   flexDirection: "column",
   padding: theme.spacing(2), //16px
