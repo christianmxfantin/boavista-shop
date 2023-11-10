@@ -114,7 +114,14 @@ const CardAddress = ({
         setIsButtonDisabled={setIsButtonDisabled}
         editProfileAddress={{
           editAddress: editBilling,
-          editData: getAddressID[0],
+          // editData: getAddressID[0],
+          editData: {
+            addressType: "Casa",
+            address: "La Plata 2023",
+            state: "Buenos Aires",
+            city: "La Plata",
+            phone: "11 2233-4455",
+          },
         }}
       />
     ) : (

@@ -78,7 +78,7 @@ const Billing = ({
 
   const states = useStates();
   const cities = useCities({ stateData });
-  const canShowLocationForm = Object.keys(billingData).length > 0;
+  const canShowData = Object.keys(editData).length > 0;
 
   const {
     register,
@@ -89,97 +89,98 @@ const Billing = ({
     formState: { errors },
   } = useForm({
     mode: "onBlur",
+    defaultValues: {
+      addressType: editData ? editData.addressType : "",
+      address: editData ? editData.address : "",
+      // state: editData ? editData.state : "",
+      // city: "",
+      phone: editData ? editData.phone : "",
+    },
   });
+  console.log(editData);
 
   useEffect(() => {
-    const getData = async () => {
-      try {
-        let myBilling = {};
-        if (formType === "billing") {
-          const myBillingData = await getAddressByUser(user.id);
-
-          if (myBillingData) {
-            const addressType = await getAddressTypeName(
-              myBillingData.addressTypeId
-            );
-
-            const state = await getStateName(myBillingData.stateId);
-            const city = await getCityName(myBillingData.cityId);
-
-            myBilling = {
-              id: myBillingData.id,
-              addressType,
-              address: myBillingData.address,
-              state,
-              city,
-              phone: myBillingData.phone,
-            };
-          }
-        }
-
-        if (confirmationData) {
-          myBilling = {
-            addressType: confirmationData.addressType,
-            address: confirmationData.address,
-            state: confirmationData.state,
-            city: confirmationData.city,
-            email: confirmationData.email,
-            phone: confirmationData.phone,
-          };
-        }
-
-        if (formType === "shipping-confirmation") {
-          const myBillingData = await getAddressById(
-            confirmationData.addressId
-          );
-          const addressType = await getAddressTypeName(
-            myBillingData.addressTypeId
-          );
-
-          const state = await getStateName(myBillingData.stateId);
-          const city = await getCityName(myBillingData.cityId);
-
-          myBilling = {
-            addressType,
-            address: myBillingData.address,
-            state,
-            city,
-            phone: myBillingData.phone,
-          };
-        }
-
-        if (editAddress) {
-          const myBillingData = editData;
-          const addressType = await getAddressTypeName(
-            myBillingData.addressTypeId
-          );
-
-          const state = await getStateName(myBillingData.stateId);
-          const city = await getCityName(myBillingData.cityId);
-
-          myBilling = {
-            addressType,
-            address: myBillingData.address,
-            state,
-            city,
-            phone: myBillingData.phone,
-          };
-
-          setStateData(myBilling.state);
-        }
-
-        setBillingData(myBilling);
-      } catch (error) {
-        statusErrors(error);
-        responseError(error);
-      }
-    };
-    getData();
+    // const getData = async () => {
+    //   try {
+    //     let myBilling = {};
+    //     if (formType === "billing") {
+    //       const myBillingData = await getAddressByUser(user.id);
+    //       if (myBillingData) {
+    //         const addressType = await getAddressTypeName(
+    //           myBillingData.addressTypeId
+    //         );
+    //         const state = await getStateName(myBillingData.stateId);
+    //         const city = await getCityName(myBillingData.cityId);
+    //         myBilling = {
+    //           id: myBillingData.id,
+    //           addressType,
+    //           address: myBillingData.address,
+    //           state,
+    //           city,
+    //           phone: myBillingData.phone,
+    //         };
+    //       }
+    //     }
+    //     if (confirmationData) {
+    //       myBilling = {
+    //         addressType: confirmationData.addressType,
+    //         address: confirmationData.address,
+    //         state: confirmationData.state,
+    //         city: confirmationData.city,
+    //         email: confirmationData.email,
+    //         phone: confirmationData.phone,
+    //       };
+    //     }
+    //     if (formType === "shipping-confirmation") {
+    //       const myBillingData = await getAddressById(
+    //         confirmationData.addressId
+    //       );
+    //       const addressType = await getAddressTypeName(
+    //         myBillingData.addressTypeId
+    //       );
+    //       const state = await getStateName(myBillingData.stateId);
+    //       const city = await getCityName(myBillingData.cityId);
+    //       myBilling = {
+    //         addressType,
+    //         address: myBillingData.address,
+    //         state,
+    //         city,
+    //         phone: myBillingData.phone,
+    //       };
+    //     }
+    //     if (editAddress) {
+    //       const myBillingData = editData;
+    //       const addressType = await getAddressTypeName(
+    //         myBillingData.addressTypeId
+    //       );
+    //       const state = await getStateName(myBillingData.stateId);
+    //       const city = await getCityName(myBillingData.cityId);
+    //       myBilling = {
+    //         addressType,
+    //         address: myBillingData.address,
+    //         state,
+    //         city,
+    //         phone: myBillingData.phone,
+    //       };
+    //       setStateData(myBilling.state);
+    //     }
+    //     setBillingData(myBilling);
+    //     setValue("state", myBilling.state);
+    //   } catch (error) {
+    //     statusErrors(error);
+    //     responseError(error);
+    //   }
+    // };
+    // getData();
   }, [formType, confirmationData, editAddress, editData, user.id]);
 
   useEffect(() => {
     if (formType === "shipping") {
       setEditCheckoutMode(true);
+    }
+
+    if (canShowData) {
+      setStateData(editData.state);
     }
   }, [formType]);
 
@@ -300,209 +301,52 @@ const Billing = ({
           setIsButtonDisabled={setIsButtonDisabled}
         />
       ) : (
-        canShowLocationForm && (
-          <BillingContainer sx={{ height: formType === "billing" && "70vh" }}>
-            {formType === "billing" && (
-              <BillingTitleContainer
-                onClick={handleCheckoutEdit}
-                sx={{
-                  visibility: editCheckoutMode ? "hidden" : "visible",
-                }}
-              >
-                <BillingTitle>Cambiar datos</BillingTitle>
-                <EditIcon
-                  name="Edit-Data"
-                  size={30}
-                  color={theme.palette.primary[500]}
-                />
-              </BillingTitleContainer>
-            )}
-
-            <DataContainer
-              component={"form"}
-              autoComplete="off"
-              noValidate
-              onSubmit={handleSubmit(onSubmit)}
+        // canShowLocationForm && (
+        <BillingContainer sx={{ height: formType === "billing" && "70vh" }}>
+          {formType === "billing" && (
+            <BillingTitleContainer
+              onClick={handleCheckoutEdit}
               sx={{
-                width: "100%",
-                height: formType === "billing" && "70vh",
-                alignItems: "center",
+                visibility: editCheckoutMode ? "hidden" : "visible",
               }}
             >
-              <CheckoutContainer
-                sx={{
-                  width: formType === "billing" ? "40%" : "100%",
-                }}
-              >
-                {(formType === "billing" ||
-                  formType === "shipping" ||
-                  formType === "profile" ||
-                  formType === "billing-confirmation" ||
-                  formType === "shipping-confirmation") && (
-                  <>
-                    <AddressTypeInput
-                      name="addressType"
-                      type="text"
-                      variant="outlined"
-                      size="small"
-                      placeholder="Ingresa un Tipo de Dirección. Ej: Casa, Trabajo, etc."
-                      disabled={
-                        (formType === "billing" && !editCheckoutMode) ||
-                        (formType === "billing-confirmation" &&
-                          !editConfirmationData) ||
-                        (formType === "shipping-confirmation" &&
-                          !editConfirmationData)
-                      }
-                      defaultValue={billingData.addressType}
-                      required
-                      {...register("addressType", {
-                        required: true,
-                        pattern: PatternValidations.NAMES_AND_SURNAMES,
-                      })}
-                      error={!!errors.addressType}
-                      helperText={
-                        watch("addressType")
-                          ? errors.addressType && UsersErrors.NAMES_INVALID
-                          : errors.addressType && EmptyFieldError.EMPTY_ERROR
-                      }
-                    />
-                    <AddressInput
-                      name="address"
-                      type="text"
-                      variant="outlined"
-                      size="small"
-                      placeholder="Ingresa tu Dirección"
-                      disabled={
-                        (formType === "billing" && !editCheckoutMode) ||
-                        (formType === "billing-confirmation" &&
-                          !editConfirmationData) ||
-                        (formType === "shipping-confirmation" &&
-                          !editConfirmationData)
-                      }
-                      defaultValue={billingData.address}
-                      required
-                      {...register("address", {
-                        required: true,
-                        pattern: PatternValidations.ADDRESS,
-                      })}
-                      error={!!errors.address}
-                      helperText={
-                        watch("address")
-                          ? errors.address && AddressesErrors.ADDRESS_INVALID
-                          : errors.address && EmptyFieldError.EMPTY_ERROR
-                      }
-                    />{" "}
-                    <StateSelectContainer>
-                      <Controller
-                        name="state"
-                        control={control}
-                        rules={{
-                          required: true,
-                        }}
-                        render={({ field: { name, value, onChange } }) => (
-                          <>
-                            <StateSelect
-                              name={name}
-                              fullWidth
-                              disabled={
-                                (formType === "billing" && !editCheckoutMode) ||
-                                (formType === "billing-confirmation" &&
-                                  !editConfirmationData) ||
-                                (formType === "shipping-confirmation" &&
-                                  !editConfirmationData)
-                              }
-                              defaultValue={
-                                formType === "billing" ||
-                                (formType === "profile" && !editAddress)
-                                  ? 1
-                                  : billingData.state
-                              }
-                              onChange={(e) => {
-                                onChange(e.target.value);
-                                setStateData(e.target.value);
-                              }}
-                              error={!!errors.state}
-                            >
-                              <MenuItem disabled value={1}>
-                                Selecciona tu Provincia
-                              </MenuItem>
-                              {states.map((state, index) => (
-                                <MenuItem value={state} key={index}>
-                                  {state}
-                                </MenuItem>
-                              ))}
-                            </StateSelect>
-                            <FormHelperText error={!!errors.state}>
-                              {errors.state &&
-                              value !== "Seleccione una Provincia"
-                                ? AddressesErrors.STATE_INVALID
-                                : ""}
-                            </FormHelperText>
-                          </>
-                        )}
-                      />
-                    </StateSelectContainer>
-                    <CitySelectContainer>
-                      <Controller
-                        name="city"
-                        control={control}
-                        rules={{ required: true }}
-                        render={({ field: { name, value, onChange } }) => (
-                          <>
-                            <CitySelect
-                              name={name}
-                              fullWidth
-                              disabled={
-                                (formType === "billing" && !editCheckoutMode) ||
-                                (formType === "billing-confirmation" &&
-                                  !editConfirmationData) ||
-                                (formType === "shipping-confirmation" &&
-                                  !editConfirmationData)
-                              }
-                              defaultValue={
-                                formType === "billing" ||
-                                (formType === "profile" && !editAddress)
-                                  ? 1
-                                  : billingData.city
-                              }
-                              required
-                              onChange={(e) => {
-                                onChange(e.target.value);
-                              }}
-                              error={!!errors.city}
-                            >
-                              <MenuItem disabled value={1}>
-                                Selecciona tu Localidad
-                              </MenuItem>
-                              {cities.map((city, index) => (
-                                <MenuItem value={city} key={index}>
-                                  {city}
-                                </MenuItem>
-                              ))}
-                            </CitySelect>
-                            <FormHelperText error={!!errors.city}>
-                              {errors.city &&
-                              value !== "Seleccione una Localidad"
-                                ? AddressesErrors.CITY_INVALID
-                                : ""}
-                            </FormHelperText>
-                          </>
-                        )}
-                      />
-                    </CitySelectContainer>
-                  </>
-                )}
-                {(formType === "billing" ||
-                  formType === "shipping" ||
-                  formType === "profile" ||
-                  formType === "billing-confirmation" ||
-                  formType === "shipping-confirmation") && (
-                  <PhoneInput
-                    name="phone"
-                    type="tel"
+              <BillingTitle>Cambiar datos</BillingTitle>
+              <EditIcon
+                name="Edit-Data"
+                size={30}
+                color={theme.palette.primary[500]}
+              />
+            </BillingTitleContainer>
+          )}
+
+          <DataContainer
+            component={"form"}
+            autoComplete="off"
+            noValidate
+            onSubmit={handleSubmit(onSubmit)}
+            sx={{
+              width: "100%",
+              height: formType === "billing" && "70vh",
+              alignItems: "center",
+            }}
+          >
+            <CheckoutContainer
+              sx={{
+                width: formType === "billing" ? "40%" : "100%",
+              }}
+            >
+              {(formType === "billing" ||
+                formType === "shipping" ||
+                formType === "profile" ||
+                formType === "billing-confirmation" ||
+                formType === "shipping-confirmation") && (
+                <>
+                  <AddressTypeInput
+                    name="addressType"
+                    type="text"
                     variant="outlined"
                     size="small"
-                    placeholder="Ingrese su Teléfono"
+                    placeholder="Ingresa un Tipo de Dirección. Ej: Casa, Trabajo, etc."
                     disabled={
                       (formType === "billing" && !editCheckoutMode) ||
                       (formType === "billing-confirmation" &&
@@ -510,54 +354,210 @@ const Billing = ({
                       (formType === "shipping-confirmation" &&
                         !editConfirmationData)
                     }
-                    defaultValue={billingData.phone}
+                    // defaultValue={billingData.addressType}
                     required
-                    {...register("phone", {
+                    {...register("addressType", {
                       required: true,
-                      pattern: PatternValidations.PHONE,
+                      pattern: PatternValidations.NAMES_AND_SURNAMES,
                     })}
-                    error={!!errors.phone}
+                    error={!!errors.addressType}
                     helperText={
-                      watch("phone")
-                        ? errors.phone && AddressesErrors.PHONE_INVALID
-                        : errors.phone && EmptyFieldError.EMPTY_ERROR
+                      watch("addressType")
+                        ? errors.addressType && UsersErrors.NAMES_INVALID
+                        : errors.addressType && EmptyFieldError.EMPTY_ERROR
                     }
                   />
-                )}
-              </CheckoutContainer>
-              <ButtonsContainer
-                formType={
-                  formType === "shipping" ? "billing-shipping" : formType
-                }
-                leftName={
-                  formType === "profile" ||
-                  formType === "shipping" ||
-                  formType === "billing-confirmation" ||
-                  formType === "shipping-confirmation"
-                    ? "Cancelar"
-                    : "Atrás"
-                }
-                rightName={
-                  formType === "profile" ||
-                  formType === "shipping" ||
-                  formType === "billing-confirmation" ||
-                  formType === "shipping-confirmation"
-                    ? "Guardar"
-                    : "Continuar"
-                }
-                edit={editConfirmationData}
-                onClickLeft={
-                  formType === "billing-confirmation" ||
-                  formType === "shipping-confirmation"
-                    ? handleCancelConfirmation
-                    : formType === "profile" || formType === "shipping"
-                    ? handleCancel
-                    : handleLeft
-                }
-              />
-            </DataContainer>
-          </BillingContainer>
-        )
+                  <AddressInput
+                    name="address"
+                    type="text"
+                    variant="outlined"
+                    size="small"
+                    placeholder="Ingresa tu Dirección"
+                    disabled={
+                      (formType === "billing" && !editCheckoutMode) ||
+                      (formType === "billing-confirmation" &&
+                        !editConfirmationData) ||
+                      (formType === "shipping-confirmation" &&
+                        !editConfirmationData)
+                    }
+                    // defaultValue={billingData.address}
+                    required
+                    {...register("address", {
+                      required: true,
+                      pattern: PatternValidations.ADDRESS,
+                    })}
+                    error={!!errors.address}
+                    helperText={
+                      watch("address")
+                        ? errors.address && AddressesErrors.ADDRESS_INVALID
+                        : errors.address && EmptyFieldError.EMPTY_ERROR
+                    }
+                  />{" "}
+                  <StateSelectContainer>
+                    <Controller
+                      name="state"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field: { name, value, onChange } }) => (
+                        <>
+                          <StateSelect
+                            name={name}
+                            fullWidth
+                            disabled={
+                              (formType === "billing" && !editCheckoutMode) ||
+                              (formType === "billing-confirmation" &&
+                                !editConfirmationData) ||
+                              (formType === "shipping-confirmation" &&
+                                !editConfirmationData)
+                            }
+                            // defaultValue={
+                            //   formType === "billing" ||
+                            //   (formType === "profile" && !editAddress)
+                            //     ? 1
+                            //     : billingData.state
+                            // }
+                            defaultValue={editData.state}
+                            onChange={(e) => {
+                              onChange(e.target.value);
+                              setStateData(e.target.value);
+                            }}
+                            error={!!errors.state}
+                          >
+                            <MenuItem disabled value={1}>
+                              Selecciona tu Provincia
+                            </MenuItem>
+                            {states.map((state, index) => (
+                              <MenuItem value={state} key={index}>
+                                {state}
+                              </MenuItem>
+                            ))}
+                          </StateSelect>
+                          <FormHelperText error={!!errors.state}>
+                            {errors.state &&
+                            value !== "Seleccione una Provincia"
+                              ? AddressesErrors.STATE_INVALID
+                              : ""}
+                          </FormHelperText>
+                        </>
+                      )}
+                    />
+                  </StateSelectContainer>
+                  <CitySelectContainer>
+                    <Controller
+                      name="city"
+                      control={control}
+                      rules={{ required: true }}
+                      render={({ field: { name, value, onChange } }) => (
+                        <>
+                          <CitySelect
+                            name={name}
+                            fullWidth
+                            disabled={
+                              (formType === "billing" && !editCheckoutMode) ||
+                              (formType === "billing-confirmation" &&
+                                !editConfirmationData) ||
+                              (formType === "shipping-confirmation" &&
+                                !editConfirmationData)
+                            }
+                            // defaultValue={
+                            //   formType === "billing" ||
+                            //   (formType === "profile" && !editAddress)
+                            //     ? 1
+                            //     : billingData.city
+                            // }
+                            defaultValue={editData.city}
+                            required
+                            onChange={(e) => {
+                              onChange(e.target.value);
+                            }}
+                            error={!!errors.city}
+                          >
+                            <MenuItem disabled value={1}>
+                              Selecciona tu Localidad
+                            </MenuItem>
+                            {cities.map((city, index) => (
+                              <MenuItem value={city} key={index}>
+                                {city}
+                              </MenuItem>
+                            ))}
+                          </CitySelect>
+                          <FormHelperText error={!!errors.city}>
+                            {errors.city && value !== "Seleccione una Localidad"
+                              ? AddressesErrors.CITY_INVALID
+                              : ""}
+                          </FormHelperText>
+                        </>
+                      )}
+                    />
+                  </CitySelectContainer>
+                </>
+              )}
+              {(formType === "billing" ||
+                formType === "shipping" ||
+                formType === "profile" ||
+                formType === "billing-confirmation" ||
+                formType === "shipping-confirmation") && (
+                <PhoneInput
+                  name="phone"
+                  type="tel"
+                  variant="outlined"
+                  size="small"
+                  placeholder="Ingrese su Teléfono"
+                  disabled={
+                    (formType === "billing" && !editCheckoutMode) ||
+                    (formType === "billing-confirmation" &&
+                      !editConfirmationData) ||
+                    (formType === "shipping-confirmation" &&
+                      !editConfirmationData)
+                  }
+                  // defaultValue={billingData.phone}
+                  required
+                  {...register("phone", {
+                    required: true,
+                    pattern: PatternValidations.PHONE,
+                  })}
+                  error={!!errors.phone}
+                  helperText={
+                    watch("phone")
+                      ? errors.phone && AddressesErrors.PHONE_INVALID
+                      : errors.phone && EmptyFieldError.EMPTY_ERROR
+                  }
+                />
+              )}
+            </CheckoutContainer>
+            <ButtonsContainer
+              formType={formType === "shipping" ? "billing-shipping" : formType}
+              leftName={
+                formType === "profile" ||
+                formType === "shipping" ||
+                formType === "billing-confirmation" ||
+                formType === "shipping-confirmation"
+                  ? "Cancelar"
+                  : "Atrás"
+              }
+              rightName={
+                formType === "profile" ||
+                formType === "shipping" ||
+                formType === "billing-confirmation" ||
+                formType === "shipping-confirmation"
+                  ? "Guardar"
+                  : "Continuar"
+              }
+              edit={editConfirmationData}
+              onClickLeft={
+                formType === "billing-confirmation" ||
+                formType === "shipping-confirmation"
+                  ? handleCancelConfirmation
+                  : formType === "profile" || formType === "shipping"
+                  ? handleCancel
+                  : handleLeft
+              }
+            />
+          </DataContainer>
+        </BillingContainer>
+        // )
       )}
       <ToastContainer />
     </section>
