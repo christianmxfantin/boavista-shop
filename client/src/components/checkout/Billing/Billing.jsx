@@ -57,14 +57,9 @@ const Billing = ({
   editConfirmationData,
   setEditConfirmationData,
   setIsEditVisible,
-  editProfileAddress,
+  editAddress,
+  addressData,
 }) => {
-  let editAddress;
-  let editData;
-  if (formType === "profile") {
-    ({ editAddress, editData } = editProfileAddress);
-  }
-
   const theme = useTheme();
   const { createAddress, updateAddress } = useAddresses();
   const { user } = useSelector((state) => state.auth);
@@ -78,7 +73,7 @@ const Billing = ({
 
   const states = useStates();
   const cities = useCities({ stateData });
-  const canShowData = Object.keys(editData).length > 0;
+  const canShowData = Object.keys(addressData).length > 0;
 
   const {
     register,
@@ -90,89 +85,89 @@ const Billing = ({
   } = useForm({
     mode: "onBlur",
     defaultValues: {
-      addressType: editData ? editData.addressType : "",
-      address: editData ? editData.address : "",
-      // state: editData ? editData.state : "",
-      // city: "",
-      phone: editData ? editData.phone : "",
+      addressType: canShowData ? addressData.addressType : "",
+      address: canShowData ? addressData.address : "",
+      state: canShowData ? addressData.state : "",
+      city: canShowData ? addressData.city : "",
+      phone: canShowData ? addressData.phone : "",
     },
   });
-  console.log(editData);
+  console.log(addressData);
 
-  useEffect(() => {
-    // const getData = async () => {
-    //   try {
-    //     let myBilling = {};
-    //     if (formType === "billing") {
-    //       const myBillingData = await getAddressByUser(user.id);
-    //       if (myBillingData) {
-    //         const addressType = await getAddressTypeName(
-    //           myBillingData.addressTypeId
-    //         );
-    //         const state = await getStateName(myBillingData.stateId);
-    //         const city = await getCityName(myBillingData.cityId);
-    //         myBilling = {
-    //           id: myBillingData.id,
-    //           addressType,
-    //           address: myBillingData.address,
-    //           state,
-    //           city,
-    //           phone: myBillingData.phone,
-    //         };
-    //       }
-    //     }
-    //     if (confirmationData) {
-    //       myBilling = {
-    //         addressType: confirmationData.addressType,
-    //         address: confirmationData.address,
-    //         state: confirmationData.state,
-    //         city: confirmationData.city,
-    //         email: confirmationData.email,
-    //         phone: confirmationData.phone,
-    //       };
-    //     }
-    //     if (formType === "shipping-confirmation") {
-    //       const myBillingData = await getAddressById(
-    //         confirmationData.addressId
-    //       );
-    //       const addressType = await getAddressTypeName(
-    //         myBillingData.addressTypeId
-    //       );
-    //       const state = await getStateName(myBillingData.stateId);
-    //       const city = await getCityName(myBillingData.cityId);
-    //       myBilling = {
-    //         addressType,
-    //         address: myBillingData.address,
-    //         state,
-    //         city,
-    //         phone: myBillingData.phone,
-    //       };
-    //     }
-    //     if (editAddress) {
-    //       const myBillingData = editData;
-    //       const addressType = await getAddressTypeName(
-    //         myBillingData.addressTypeId
-    //       );
-    //       const state = await getStateName(myBillingData.stateId);
-    //       const city = await getCityName(myBillingData.cityId);
-    //       myBilling = {
-    //         addressType,
-    //         address: myBillingData.address,
-    //         state,
-    //         city,
-    //         phone: myBillingData.phone,
-    //       };
-    //       setStateData(myBilling.state);
-    //     }
-    //     setBillingData(myBilling);
-    //     setValue("state", myBilling.state);
-    //   } catch (error) {
-    //     statusErrors(error);
-    //     responseError(error);
-    //   }
-    // };
-    // getData();
-  }, [formType, confirmationData, editAddress, editData, user.id]);
+  // useEffect(() => {
+  // const getData = async () => {
+  //   try {
+  //     let myBilling = {};
+  //     if (formType === "billing") {
+  //       const myBillingData = await getAddressByUser(user.id);
+  //       if (myBillingData) {
+  //         const addressType = await getAddressTypeName(
+  //           myBillingData.addressTypeId
+  //         );
+  //         const state = await getStateName(myBillingData.stateId);
+  //         const city = await getCityName(myBillingData.cityId);
+  //         myBilling = {
+  //           id: myBillingData.id,
+  //           addressType,
+  //           address: myBillingData.address,
+  //           state,
+  //           city,
+  //           phone: myBillingData.phone,
+  //         };
+  //       }
+  //     }
+  //     if (confirmationData) {
+  //       myBilling = {
+  //         addressType: confirmationData.addressType,
+  //         address: confirmationData.address,
+  //         state: confirmationData.state,
+  //         city: confirmationData.city,
+  //         email: confirmationData.email,
+  //         phone: confirmationData.phone,
+  //       };
+  //     }
+  //     if (formType === "shipping-confirmation") {
+  //       const myBillingData = await getAddressById(
+  //         confirmationData.addressId
+  //       );
+  //       const addressType = await getAddressTypeName(
+  //         myBillingData.addressTypeId
+  //       );
+  //       const state = await getStateName(myBillingData.stateId);
+  //       const city = await getCityName(myBillingData.cityId);
+  //       myBilling = {
+  //         addressType,
+  //         address: myBillingData.address,
+  //         state,
+  //         city,
+  //         phone: myBillingData.phone,
+  //       };
+  //     }
+  //     if (editAddress) {
+  //       const myBillingData = editData;
+  //       const addressType = await getAddressTypeName(
+  //         myBillingData.addressTypeId
+  //       );
+  //       const state = await getStateName(myBillingData.stateId);
+  //       const city = await getCityName(myBillingData.cityId);
+  //       myBilling = {
+  //         addressType,
+  //         address: myBillingData.address,
+  //         state,
+  //         city,
+  //         phone: myBillingData.phone,
+  //       };
+  //       setStateData(myBilling.state);
+  //     }
+  //     setBillingData(myBilling);
+  //     setValue("state", myBilling.state);
+  //   } catch (error) {
+  //     statusErrors(error);
+  //     responseError(error);
+  //   }
+  // };
+  // getData();
+  // }, [formType, confirmationData, editAddress, editData, user.id]);
 
   useEffect(() => {
     if (formType === "shipping") {
@@ -180,7 +175,7 @@ const Billing = ({
     }
 
     if (canShowData) {
-      setStateData(editData.state);
+      setStateData(addressData.state);
     }
   }, [formType]);
 
@@ -235,11 +230,11 @@ const Billing = ({
 
     if (formType === "profile" && editAddress) {
       try {
-        const addressData = await createAddressData(formValues, user, {
-          id: editData.addressTypeId,
-          name: billingData.addressType,
+        const createData = await createAddressData(formValues, user, {
+          id: addressData.addressTypeId,
+          name: addressData.addressType,
         });
-        const response = await updateAddress(editData.id, addressData);
+        const response = await updateAddress(addressData.id, createData);
         if (response) {
           toast.success(SuccessMessages.CHANGES_DONE, toastColor("success"));
         }
@@ -418,7 +413,7 @@ const Billing = ({
                             //     ? 1
                             //     : billingData.state
                             // }
-                            defaultValue={editData.state}
+                            defaultValue={addressData.state}
                             onChange={(e) => {
                               onChange(e.target.value);
                               setStateData(e.target.value);
@@ -467,7 +462,7 @@ const Billing = ({
                             //     ? 1
                             //     : billingData.city
                             // }
-                            defaultValue={editData.city}
+                            defaultValue={addressData.city}
                             required
                             onChange={(e) => {
                               onChange(e.target.value);
