@@ -129,10 +129,13 @@ const Navbar = ({ isLoginForm }) => {
   return (
     <>
       <NavbarContainer position="sticky">
-        <Toolbar component={"nav"} sx={{ display: "flex" }}>
+        <Toolbar component={"nav"} sx={{ display: { xs: "flex" } }}>
           <Link to="/">
             <LogoContainer
-              sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}
+              sx={{
+                flexGrow: 1,
+                display: { xs: !isLoginForm ? "none" : "flex", md: "flex" },
+              }}
             >
               <Image
                 name="Logo"

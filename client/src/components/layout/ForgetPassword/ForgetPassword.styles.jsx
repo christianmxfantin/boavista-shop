@@ -6,10 +6,7 @@ export const ForgetPasswordContainer = styled(Box)(({ theme }) => ({
   flexDirection: "column",
   justifyContent: "space-between",
   alignItems: "center",
-  width: "450px",
-  margin: `${theme.spacing(6.5)} auto`, //52px
   padding: theme.spacing(4), //32px
-  borderRadius: theme.spacing(1.5), //12px,
   color: theme.palette.primary[500],
   backgroundColor: theme.palette.primary[50],
 }));

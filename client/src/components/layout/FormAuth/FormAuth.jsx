@@ -4,10 +4,12 @@ import { useTheme } from "@emotion/react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
+  Box,
   Button,
   Checkbox,
   FormControlLabel,
   FormHelperText,
+  Grid,
   IconButton,
   InputAdornment,
   Link,
@@ -262,272 +264,285 @@ const FormAuth = ({ formType, role }) => {
 
   return (
     <main>
-      <FormAuthContainer
-        component={"form"}
-        autoComplete="off"
-        noValidate
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <FormAuthTitle
-          variant={formType !== "dashboard" ? "h5" : "h4"}
+      <Grid container>
+        <FormAuthContainer
           sx={{
-            marginBottom: formType !== "dashboard" && theme.spacing(3),
+            width: { xs: "100%", sm: "450px" },
+            height: { xs: "90vh", sm: "100%" },
+            margin: { sm: `${theme.spacing(6.5)} auto` },
+            borderRadius: { sm: theme.spacing(1.5) },
           }}
         >
-          {formType === "login"
-            ? "Ingresa a tu cuenta a través de"
-            : formType === "register"
-            ? "Completa tus datos"
-            : "Panel de Administración"}
-        </FormAuthTitle>
-        {formType === "login" && (
-          <FormAuthSocial component={"section"}>
-            <FormAuthSocialButtons>
-              <GoogleButton
-                variant="outlined"
-                startIcon={<Icon name="Google" />}
-                onClick={() => handleGoogleAuth()}
-              >
-                Google
-              </GoogleButton>
-            </FormAuthSocialButtons>
-            <Underline
-              width={376}
-              height={1}
-              color={theme.palette.primary[500]}
-            />
-          </FormAuthSocial>
-        )}
-        {formType === "register" && (
-          <FormAuthName>
-            <NameInput
-              name="names"
-              type="text"
-              variant="outlined"
-              size="small"
-              placeholder="Ingresa tus Nombres"
-              required
-              inputRef={namesInputValue}
-              {...register("names", {
-                required: true,
-                pattern: PatternValidations.NAMES_AND_SURNAMES,
-                onBlur: handleNamesBlur,
-              })}
-              error={!!errors.names}
-              helperText={
-                watch("names")
-                  ? errors.names && UsersErrors.NAMES_INVALID
-                  : errors.names && EmptyFieldError.EMPTY_ERROR
-              }
-            />
-            <SurnameInput
-              name="surnames"
-              type="text"
-              variant="outlined"
-              size="small"
-              placeholder="Ingresa tus Apellidos"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <Tooltip title="En el mundo hay varias personas sin apellidos, por ese motivo no es un campo requerido. De igual modo, te sugerimos que completes este campo si lo tienes.">
-                      <IconButton edge="end">
-                        <Icon name="Info" color={theme.palette.primary[300]} />
-                      </IconButton>
-                    </Tooltip>
-                  </InputAdornment>
-                ),
-              }}
-              inputRef={surnamesInputValue}
-              {...register("surnames", {
-                pattern: PatternValidations.NAMES_AND_SURNAMES,
-                onBlur: handleSurnamesBlur,
-              })}
-              error={!!errors.surnames}
-              helperText={errors.surnames && UsersErrors.SURNAMES_INVALID}
-            />
-          </FormAuthName>
-        )}
-        {formType !== "dashboard" && (
-          <FormAuthEmail
-            sx={{
-              marginTop: formType === "login" && theme.spacing(4),
-              marginBottom: formType === "login" && theme.spacing(2),
-            }}
+          <Box
+            component={"form"}
+            autoComplete="off"
+            noValidate
+            onSubmit={handleSubmit(onSubmit)}
           >
-            <EmailInput
-              name="email"
-              type="email"
-              variant="outlined"
-              size="small"
-              placeholder="Ingresa tu Email"
-              required
-              inputRef={emailInputValue}
-              {...register("email", {
-                required: true,
-                pattern: PatternValidations.EMAIL,
-                onBlur: handleEmailBlur,
-              })}
-              error={!!errors.email}
-              helperText={
-                watch("email")
-                  ? errors.email && UsersErrors.EMAIL_INVALID
-                  : errors.email && EmptyFieldError.EMPTY_ERROR
-              }
-            />
-            <PasswordInput
-              name="password"
-              type={showPassword ? "text" : "password"}
-              variant="outlined"
-              size="small"
-              placeholder="Ingresa tu Contraseña"
-              required
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {showPassword ? (
-                        <Icon
-                          name="Visibility-off"
-                          color={theme.palette.primary[300]}
-                        />
-                      ) : (
-                        <Icon
-                          name="Visibility"
-                          color={theme.palette.primary[300]}
-                        />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                ),
+            <FormAuthTitle
+              variant={formType !== "dashboard" ? "h5" : "h4"}
+              sx={{
+                marginBottom: formType !== "dashboard" && theme.spacing(3),
               }}
-              onCopy={handleCopyPaste}
-              onCut={handleCopyPaste}
-              onPaste={handleCopyPaste}
-              {...register("password", {
-                required: true,
-                pattern: PatternValidations.PASSWORD,
-              })}
-              error={!!errors.password}
-              helperText={
-                watch("password")
-                  ? errors.password && UsersErrors.PASSWORD_INVALID
-                  : errors.password && EmptyFieldError.EMPTY_ERROR
-              }
-            />
-          </FormAuthEmail>
-        )}
-        {formType === "login" && (
-          <Link
-            style={{
-              marginBottom: theme.spacing(2),
-              cursor: "pointer",
-            }}
-            onClick={handleChangePassword}
-          >
-            ¿Olvidaste tu contraseña?
-          </Link>
-        )}
-        {formType === "register" && (
-          <>
-            <Controller
-              name="terms"
-              control={control}
-              rules={{ required: true }}
-              render={({ field: props }) => (
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      {...props}
-                      onChange={(e) => props.onChange(e.target.checked)}
-                    />
-                  }
-                  label="Acepto los Términos y Condiciones"
+            >
+              {formType === "login"
+                ? "Ingresa a tu cuenta a través de"
+                : formType === "register"
+                ? "Completa tus datos"
+                : "Panel de Administración"}
+            </FormAuthTitle>
+            {formType === "login" && (
+              <FormAuthSocial component={"section"}>
+                <FormAuthSocialButtons>
+                  <GoogleButton
+                    variant="outlined"
+                    startIcon={<Icon name="Google" />}
+                    onClick={() => handleGoogleAuth()}
+                  >
+                    Google
+                  </GoogleButton>
+                </FormAuthSocialButtons>
+                <Underline
+                  width={376}
+                  height={1}
+                  color={theme.palette.primary[500]}
                 />
-              )}
-            />
-            <FormHelperText error={!!errors.terms}>
-              {!!errors.terms && UsersErrors.TERMS_ERROR}
-            </FormHelperText>
-          </>
-        )}
-        <ButtonsContainer
-          component={"section"}
-          sx={{
-            height: formType === "dashboard" ? "350px" : "auto",
-            justifyContent: formType === "dashboard" ? "center" : "initial",
-          }}
-        >
-          {formType === "login" || formType === "register" ? (
-            <>
-              <Button
-                type="submit"
-                variant="contained"
-                sx={{
-                  width: "376px",
-                  marginTop: formType === "register" && theme.spacing(2),
-                  marginBottom: theme.spacing(1.5),
-                  "&:hover": {
-                    backgroundColor: theme.palette.secondary[500],
-                    color: theme.palette.primary[500],
-                  },
-                }}
-              >
-                Continuar
-              </Button>
-              <Button
-                variant="text"
-                sx={{
-                  width: "376px",
-                  "&:hover": {
-                    backgroundColor: theme.palette.secondary[500],
-                    color: theme.palette.primary[500],
-                  },
-                }}
-                onClick={handleBottomButton}
-              >
-                {formType === "login"
-                  ? "Crear Cuenta"
-                  : "Ingresa con tus datos"}
-              </Button>
-            </>
-          ) : formType === "dashboard" ? (
-            <>
-              {role === "admin" && (
-                <Button
-                  variant="contained"
-                  sx={{
-                    width: "376px",
-                    marginBottom: theme.spacing(4),
-                    fontSize: theme.spacing(3), //24px
-                    "&:hover": {
-                      backgroundColor: theme.palette.secondary[500],
-                      color: theme.palette.primary[500],
-                    },
+              </FormAuthSocial>
+            )}
+            {formType === "register" && (
+              <FormAuthName>
+                <NameInput
+                  name="names"
+                  type="text"
+                  variant="outlined"
+                  size="small"
+                  placeholder="Ingresa tus Nombres"
+                  required
+                  inputRef={namesInputValue}
+                  {...register("names", {
+                    required: true,
+                    pattern: PatternValidations.NAMES_AND_SURNAMES,
+                    onBlur: handleNamesBlur,
+                  })}
+                  error={!!errors.names}
+                  helperText={
+                    watch("names")
+                      ? errors.names && UsersErrors.NAMES_INVALID
+                      : errors.names && EmptyFieldError.EMPTY_ERROR
+                  }
+                />
+                <SurnameInput
+                  name="surnames"
+                  type="text"
+                  variant="outlined"
+                  size="small"
+                  placeholder="Ingresa tus Apellidos"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Tooltip title="En el mundo hay varias personas sin apellidos, por ese motivo no es un campo requerido. De igual modo, te sugerimos que completes este campo si lo tienes.">
+                          <IconButton edge="end">
+                            <Icon
+                              name="Info"
+                              color={theme.palette.primary[300]}
+                            />
+                          </IconButton>
+                        </Tooltip>
+                      </InputAdornment>
+                    ),
                   }}
-                  onClick={handleTopButton}
-                >
-                  Usuarios
-                </Button>
-              )}
-              <Button
-                variant="contained"
+                  inputRef={surnamesInputValue}
+                  {...register("surnames", {
+                    pattern: PatternValidations.NAMES_AND_SURNAMES,
+                    onBlur: handleSurnamesBlur,
+                  })}
+                  error={!!errors.surnames}
+                  helperText={errors.surnames && UsersErrors.SURNAMES_INVALID}
+                />
+              </FormAuthName>
+            )}
+            {formType !== "dashboard" && (
+              <FormAuthEmail
                 sx={{
-                  width: "376px",
-                  fontSize: theme.spacing(3), //24px
-                  "&:hover": {
-                    backgroundColor: theme.palette.secondary[500],
-                    color: theme.palette.primary[500],
-                  },
+                  marginTop: formType === "login" && theme.spacing(4),
+                  marginBottom: formType === "login" && theme.spacing(2),
                 }}
-                onClick={handleBottomButton}
               >
-                Productos
-              </Button>
-              {/* {role === "admin" && (
+                <EmailInput
+                  name="email"
+                  type="email"
+                  variant="outlined"
+                  size="small"
+                  placeholder="Ingresa tu Email"
+                  required
+                  inputRef={emailInputValue}
+                  {...register("email", {
+                    required: true,
+                    pattern: PatternValidations.EMAIL,
+                    onBlur: handleEmailBlur,
+                  })}
+                  error={!!errors.email}
+                  helperText={
+                    watch("email")
+                      ? errors.email && UsersErrors.EMAIL_INVALID
+                      : errors.email && EmptyFieldError.EMPTY_ERROR
+                  }
+                />
+                <PasswordInput
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  variant="outlined"
+                  size="small"
+                  placeholder="Ingresa tu Contraseña"
+                  required
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showPassword ? (
+                            <Icon
+                              name="Visibility-off"
+                              color={theme.palette.primary[300]}
+                            />
+                          ) : (
+                            <Icon
+                              name="Visibility"
+                              color={theme.palette.primary[300]}
+                            />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  onCopy={handleCopyPaste}
+                  onCut={handleCopyPaste}
+                  onPaste={handleCopyPaste}
+                  {...register("password", {
+                    required: true,
+                    pattern: PatternValidations.PASSWORD,
+                  })}
+                  error={!!errors.password}
+                  helperText={
+                    watch("password")
+                      ? errors.password && UsersErrors.PASSWORD_INVALID
+                      : errors.password && EmptyFieldError.EMPTY_ERROR
+                  }
+                />
+              </FormAuthEmail>
+            )}
+            {formType === "login" && (
+              <Link
+                style={{
+                  marginBottom: theme.spacing(2),
+                  cursor: "pointer",
+                }}
+                onClick={handleChangePassword}
+              >
+                ¿Olvidaste tu contraseña?
+              </Link>
+            )}
+            {formType === "register" && (
+              <>
+                <Controller
+                  name="terms"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: props }) => (
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          {...props}
+                          onChange={(e) => props.onChange(e.target.checked)}
+                        />
+                      }
+                      label="Acepto los Términos y Condiciones"
+                    />
+                  )}
+                />
+                <FormHelperText error={!!errors.terms}>
+                  {!!errors.terms && UsersErrors.TERMS_ERROR}
+                </FormHelperText>
+              </>
+            )}
+            <ButtonsContainer
+              component={"section"}
+              sx={{
+                marginTop: formType !== "dashboard" && theme.spacing(2),
+                height: formType === "dashboard" ? "350px" : "auto",
+                justifyContent: formType === "dashboard" ? "center" : "initial",
+              }}
+            >
+              {formType === "login" || formType === "register" ? (
+                <>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    sx={{
+                      width: "376px",
+                      marginTop: formType === "register" && theme.spacing(2),
+                      marginBottom: theme.spacing(1.5),
+                      "&:hover": {
+                        backgroundColor: theme.palette.secondary[500],
+                        color: theme.palette.primary[500],
+                      },
+                    }}
+                  >
+                    Continuar
+                  </Button>
+                  <Button
+                    variant="text"
+                    sx={{
+                      width: "376px",
+                      "&:hover": {
+                        backgroundColor: theme.palette.secondary[500],
+                        color: theme.palette.primary[500],
+                      },
+                    }}
+                    onClick={handleBottomButton}
+                  >
+                    {formType === "login"
+                      ? "Crear Cuenta"
+                      : "Ingresa con tus datos"}
+                  </Button>
+                </>
+              ) : formType === "dashboard" ? (
+                <>
+                  {role === "admin" && (
+                    <Button
+                      variant="contained"
+                      sx={{
+                        width: "376px",
+                        marginBottom: theme.spacing(4),
+                        fontSize: theme.spacing(3), //24px
+                        "&:hover": {
+                          backgroundColor: theme.palette.secondary[500],
+                          color: theme.palette.primary[500],
+                        },
+                      }}
+                      onClick={handleTopButton}
+                    >
+                      Usuarios
+                    </Button>
+                  )}
+                  <Button
+                    variant="contained"
+                    sx={{
+                      width: "376px",
+                      fontSize: theme.spacing(3), //24px
+                      "&:hover": {
+                        backgroundColor: theme.palette.secondary[500],
+                        color: theme.palette.primary[500],
+                      },
+                    }}
+                    onClick={handleBottomButton}
+                  >
+                    Productos
+                  </Button>
+                  {/* {role === "admin" && (
                 <Link
                   style={{
                     textAlign: "center",
@@ -539,10 +554,12 @@ const FormAuth = ({ formType, role }) => {
                   Volver Base de Datos al Estado Inicial
                 </Link>
               )} */}
-            </>
-          ) : null}
-        </ButtonsContainer>
-      </FormAuthContainer>
+                </>
+              ) : null}
+            </ButtonsContainer>
+          </Box>
+        </FormAuthContainer>
+      </Grid>
       <ToastContainer />
     </main>
   );

@@ -49,7 +49,13 @@ const ForgetPassword = () => {
 
   return (
     <main>
-      <ForgetPasswordContainer>
+      <ForgetPasswordContainer
+        sx={{
+          width: { xs: "100%", sm: "450px" },
+          margin: { sm: `${theme.spacing(6.5)} auto` },
+          borderRadius: { sm: theme.spacing(1.5) },
+        }}
+      >
         <FormAuthTitle variant="h5">
           {changePassword
             ? "Modifica tu contraseña"
