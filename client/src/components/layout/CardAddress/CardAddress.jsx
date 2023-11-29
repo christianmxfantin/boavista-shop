@@ -4,7 +4,6 @@ import { useTheme } from "@emotion/react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
-  Box,
   Button,
   FormControl,
   FormControlLabel,
@@ -26,11 +25,6 @@ import { responseError, statusErrors } from "../../../utils/toastErrors";
 import useAddresses from "../../../hooks/api/useAddresses";
 import usePayments from "../../../hooks/api/usePayments";
 import CardAddressSkeleton from "../../skeleton/CardAddressSkeleton/CardAddressSkeleton";
-import {
-  getAddressTypeName,
-  getCityName,
-  getStateName,
-} from "./CardAddress.helpers";
 
 const CardAddress = ({
   formType,
@@ -62,9 +56,6 @@ const CardAddress = ({
   const [editBilling, setEditBilling] = useState(false);
   const [editID, setEditID] = useState();
   const [selectedValue, setSelectedValue] = useState(0);
-  const [addressData, setAddressData] = useState({});
-
-  const canShowData = Object.keys(addressData).length > 0;
 
   useEffect(() => {
     const getData = async () => {
@@ -93,46 +84,9 @@ const CardAddress = ({
     }
   }, [itemType, userID]);
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        let addressValues;
-        // console.log(editID);
-        if (itemType === "address") {
-          if (formType === "profile" && editID) {
-            const addressFilter = addresses.filter(
-              (address) => address.id === editID
-            )[0];
-            // console.log(addressFilter);
-            const addressType = await getAddressTypeName(
-              addressFilter.addressTypeId
-            );
-            const state = await getStateName(addressFilter.stateId);
-            const city = await getCityName(addressFilter.cityId);
-
-            addressValues = {
-              id: addressFilter.id,
-              addressType,
-              addressTypeId: addressFilter.addressTypeId,
-              address: addressFilter.address,
-              state,
-              city,
-              phone: addressFilter.phone,
-            };
-            setAddressData(addressValues);
-          }
-        }
-      } catch (error) {
-        statusErrors(error);
-        responseError(error);
-      }
-    };
-    getData();
-  }, [itemType, formType, editID]);
-
-  // let getAddressID;
+  let getAddressID;
   if (itemType === "address") {
-    // getAddressID = addresses.filter((address) => address.id === editID);
+    getAddressID = addresses.filter((address) => address.id === editID);
   }
 
   const handleChangeRadio = (id) => {
@@ -157,14 +111,9 @@ const CardAddress = ({
         setSelectedAddress={setSelectedAddress}
         isButtonDisabled={isButtonDisabled}
         setIsButtonDisabled={setIsButtonDisabled}
-        // addressData={canShowData && addressData}
-        editAddress={editBilling}
-        addressData={{
-          addressType: "Casa",
-          address: "La Plata 2023",
-          state: "Buenos Aires",
-          city: "La Plata",
-          phone: "11 2233-4455",
+        editProfileAddress={{
+          editAddress: editBilling,
+          editData: getAddressID[0],
         }}
       />
     ) : (

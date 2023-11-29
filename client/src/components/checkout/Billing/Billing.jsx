@@ -57,9 +57,14 @@ const Billing = ({
   editConfirmationData,
   setEditConfirmationData,
   setIsEditVisible,
-  editAddress,
-  addressData,
+  editProfileAddress,
 }) => {
+  let editAddress;
+  let editData;
+  if (formType === "profile") {
+    ({ editAddress, editData } = editProfileAddress);
+  }
+
   const theme = useTheme();
   const { createAddress, updateAddress } = useAddresses();
   const { user } = useSelector((state) => state.auth);
@@ -68,12 +73,9 @@ const Billing = ({
   const [showMyAddress, setShowMyAddress] = useState(false);
   const [editCheckoutMode, setEditCheckoutMode] = useState(false);
   const [stateData, setStateData] = useState("");
-  const [stateName, setStateName] = useState("");
-  const [cityName, setCityName] = useState("");
 
   const states = useStates();
   const cities = useCities({ stateData });
-  const canShowData = Object.keys(addressData).length > 0;
 
   const {
     register,
@@ -84,100 +86,95 @@ const Billing = ({
     formState: { errors },
   } = useForm({
     mode: "onBlur",
-    defaultValues: {
-      addressType: canShowData ? addressData.addressType : "",
-      address: canShowData ? addressData.address : "",
-      state: canShowData ? addressData.state : "",
-      city: canShowData ? addressData.city : "",
-      phone: canShowData ? addressData.phone : "",
-    },
   });
-  console.log(addressData);
 
-  // useEffect(() => {
-  // const getData = async () => {
-  //   try {
-  //     let myBilling = {};
-  //     if (formType === "billing") {
-  //       const myBillingData = await getAddressByUser(user.id);
-  //       if (myBillingData) {
-  //         const addressType = await getAddressTypeName(
-  //           myBillingData.addressTypeId
-  //         );
-  //         const state = await getStateName(myBillingData.stateId);
-  //         const city = await getCityName(myBillingData.cityId);
-  //         myBilling = {
-  //           id: myBillingData.id,
-  //           addressType,
-  //           address: myBillingData.address,
-  //           state,
-  //           city,
-  //           phone: myBillingData.phone,
-  //         };
-  //       }
-  //     }
-  //     if (confirmationData) {
-  //       myBilling = {
-  //         addressType: confirmationData.addressType,
-  //         address: confirmationData.address,
-  //         state: confirmationData.state,
-  //         city: confirmationData.city,
-  //         email: confirmationData.email,
-  //         phone: confirmationData.phone,
-  //       };
-  //     }
-  //     if (formType === "shipping-confirmation") {
-  //       const myBillingData = await getAddressById(
-  //         confirmationData.addressId
-  //       );
-  //       const addressType = await getAddressTypeName(
-  //         myBillingData.addressTypeId
-  //       );
-  //       const state = await getStateName(myBillingData.stateId);
-  //       const city = await getCityName(myBillingData.cityId);
-  //       myBilling = {
-  //         addressType,
-  //         address: myBillingData.address,
-  //         state,
-  //         city,
-  //         phone: myBillingData.phone,
-  //       };
-  //     }
-  //     if (editAddress) {
-  //       const myBillingData = editData;
-  //       const addressType = await getAddressTypeName(
-  //         myBillingData.addressTypeId
-  //       );
-  //       const state = await getStateName(myBillingData.stateId);
-  //       const city = await getCityName(myBillingData.cityId);
-  //       myBilling = {
-  //         addressType,
-  //         address: myBillingData.address,
-  //         state,
-  //         city,
-  //         phone: myBillingData.phone,
-  //       };
-  //       setStateData(myBilling.state);
-  //     }
-  //     setBillingData(myBilling);
-  //     setValue("state", myBilling.state);
-  //   } catch (error) {
-  //     statusErrors(error);
-  //     responseError(error);
-  //   }
-  // };
-  // getData();
-  // }, [formType, confirmationData, editAddress, editData, user.id]);
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        let myBilling = {};
+        if (formType === "billing") {
+          const myBillingData = await getAddressByUser(user.id);
+          if (myBillingData) {
+            const addressType = await getAddressTypeName(
+              myBillingData.addressTypeId
+            );
+            const state = await getStateName(myBillingData.stateId);
+            const city = await getCityName(myBillingData.cityId);
+            myBilling = {
+              id: myBillingData.id,
+              addressType,
+              address: myBillingData.address,
+              state,
+              city,
+              phone: myBillingData.phone,
+            };
+          }
+        }
+        if (confirmationData) {
+          myBilling = {
+            addressType: confirmationData.addressType,
+            address: confirmationData.address,
+            state: confirmationData.state,
+            city: confirmationData.city,
+            email: confirmationData.email,
+            phone: confirmationData.phone,
+          };
+        }
+        if (formType === "shipping-confirmation") {
+          const myBillingData = await getAddressById(
+            confirmationData.addressId
+          );
+          const addressType = await getAddressTypeName(
+            myBillingData.addressTypeId
+          );
+          const state = await getStateName(myBillingData.stateId);
+          const city = await getCityName(myBillingData.cityId);
+          myBilling = {
+            addressType,
+            address: myBillingData.address,
+            state,
+            city,
+            phone: myBillingData.phone,
+          };
+        }
+        if (editAddress) {
+          const myBillingData = editData;
+          const addressType = await getAddressTypeName(
+            myBillingData.addressTypeId
+          );
+          const state = await getStateName(myBillingData.stateId);
+          const city = await getCityName(myBillingData.cityId);
+          myBilling = {
+            addressType,
+            address: myBillingData.address,
+            state,
+            city,
+            phone: myBillingData.phone,
+          };
+        }
+        setBillingData(myBilling);
+        console.log(myBilling);
+      } catch (error) {
+        statusErrors(error);
+        responseError(error);
+      }
+    };
+    getData();
+  }, [formType, confirmationData, editAddress, editData, user.id]);
 
   useEffect(() => {
     if (formType === "shipping") {
       setEditCheckoutMode(true);
     }
-
-    if (canShowData) {
-      setStateData(addressData.state);
-    }
   }, [formType]);
+
+  useEffect(() => {
+    reset({
+      addressType: billingData.addressType,
+      address: billingData.address,
+      phone: billingData.phone,
+    });
+  }, [billingData, reset]);
 
   const handleCheckoutEdit = () => {
     setEditCheckoutMode(true);
@@ -231,10 +228,10 @@ const Billing = ({
     if (formType === "profile" && editAddress) {
       try {
         const createData = await createAddressData(formValues, user, {
-          id: addressData.addressTypeId,
-          name: addressData.addressType,
+          id: editData.addressTypeId,
+          name: editData.addressType,
         });
-        const response = await updateAddress(addressData.id, createData);
+        const response = await updateAddress(editData.id, createData);
         if (response) {
           toast.success(SuccessMessages.CHANGES_DONE, toastColor("success"));
         }
@@ -296,7 +293,6 @@ const Billing = ({
           setIsButtonDisabled={setIsButtonDisabled}
         />
       ) : (
-        // canShowLocationForm && (
         <BillingContainer sx={{ height: formType === "billing" && "70vh" }}>
           {formType === "billing" && (
             <BillingTitleContainer
@@ -349,7 +345,6 @@ const Billing = ({
                       (formType === "shipping-confirmation" &&
                         !editConfirmationData)
                     }
-                    // defaultValue={billingData.addressType}
                     required
                     {...register("addressType", {
                       required: true,
@@ -375,7 +370,6 @@ const Billing = ({
                       (formType === "shipping-confirmation" &&
                         !editConfirmationData)
                     }
-                    // defaultValue={billingData.address}
                     required
                     {...register("address", {
                       required: true,
@@ -388,105 +382,110 @@ const Billing = ({
                         : errors.address && EmptyFieldError.EMPTY_ERROR
                     }
                   />{" "}
-                  <StateSelectContainer>
-                    <Controller
-                      name="state"
-                      control={control}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field: { name, value, onChange } }) => (
-                        <>
-                          <StateSelect
-                            name={name}
-                            fullWidth
-                            disabled={
-                              (formType === "billing" && !editCheckoutMode) ||
-                              (formType === "billing-confirmation" &&
-                                !editConfirmationData) ||
-                              (formType === "shipping-confirmation" &&
-                                !editConfirmationData)
-                            }
-                            // defaultValue={
-                            //   formType === "billing" ||
-                            //   (formType === "profile" && !editAddress)
-                            //     ? 1
-                            //     : billingData.state
-                            // }
-                            defaultValue={addressData.state}
-                            onChange={(e) => {
-                              onChange(e.target.value);
-                              setStateData(e.target.value);
-                            }}
-                            error={!!errors.state}
-                          >
-                            <MenuItem disabled value={1}>
-                              Selecciona tu Provincia
-                            </MenuItem>
-                            {states.map((state, index) => (
-                              <MenuItem value={state} key={index}>
-                                {state}
-                              </MenuItem>
-                            ))}
-                          </StateSelect>
-                          <FormHelperText error={!!errors.state}>
-                            {errors.state &&
-                            value !== "Seleccione una Provincia"
-                              ? AddressesErrors.STATE_INVALID
-                              : ""}
-                          </FormHelperText>
-                        </>
-                      )}
-                    />
-                  </StateSelectContainer>
-                  <CitySelectContainer>
-                    <Controller
-                      name="city"
-                      control={control}
-                      rules={{ required: true }}
-                      render={({ field: { name, value, onChange } }) => (
-                        <>
-                          <CitySelect
-                            name={name}
-                            fullWidth
-                            disabled={
-                              (formType === "billing" && !editCheckoutMode) ||
-                              (formType === "billing-confirmation" &&
-                                !editConfirmationData) ||
-                              (formType === "shipping-confirmation" &&
-                                !editConfirmationData)
-                            }
-                            // defaultValue={
-                            //   formType === "billing" ||
-                            //   (formType === "profile" && !editAddress)
-                            //     ? 1
-                            //     : billingData.city
-                            // }
-                            defaultValue={addressData.city}
-                            required
-                            onChange={(e) => {
-                              onChange(e.target.value);
-                            }}
-                            error={!!errors.city}
-                          >
-                            <MenuItem disabled value={1}>
-                              Selecciona tu Localidad
-                            </MenuItem>
-                            {cities.map((city, index) => (
-                              <MenuItem value={city} key={index}>
-                                {city}
-                              </MenuItem>
-                            ))}
-                          </CitySelect>
-                          <FormHelperText error={!!errors.city}>
-                            {errors.city && value !== "Seleccione una Localidad"
-                              ? AddressesErrors.CITY_INVALID
-                              : ""}
-                          </FormHelperText>
-                        </>
-                      )}
-                    />
-                  </CitySelectContainer>
+                  {!editData && (
+                    <>
+                      <StateSelectContainer>
+                        <Controller
+                          name="state"
+                          control={control}
+                          rules={{
+                            required: true,
+                          }}
+                          render={({ field: { name, value, onChange } }) => (
+                            <>
+                              <StateSelect
+                                name={name}
+                                fullWidth
+                                disabled={
+                                  (formType === "billing" &&
+                                    !editCheckoutMode) ||
+                                  (formType === "billing-confirmation" &&
+                                    !editConfirmationData) ||
+                                  (formType === "shipping-confirmation" &&
+                                    !editConfirmationData)
+                                }
+                                defaultValue={
+                                  formType === "billing" ||
+                                  (formType === "profile" && !editAddress)
+                                    ? 1
+                                    : billingData.state
+                                }
+                                onChange={(e) => {
+                                  onChange(e.target.value);
+                                  setStateData(e.target.value);
+                                }}
+                                error={!!errors.state}
+                              >
+                                <MenuItem disabled value={1}>
+                                  Selecciona tu Provincia
+                                </MenuItem>
+                                {states.map((state, index) => (
+                                  <MenuItem value={state} key={index}>
+                                    {state}
+                                  </MenuItem>
+                                ))}
+                              </StateSelect>
+                              <FormHelperText error={!!errors.state}>
+                                {errors.state &&
+                                value !== "Seleccione una Provincia"
+                                  ? AddressesErrors.STATE_INVALID
+                                  : ""}
+                              </FormHelperText>
+                            </>
+                          )}
+                        />
+                      </StateSelectContainer>
+                      <CitySelectContainer>
+                        <Controller
+                          name="city"
+                          control={control}
+                          rules={{ required: true }}
+                          render={({ field: { name, value, onChange } }) => (
+                            <>
+                              <CitySelect
+                                name={name}
+                                fullWidth
+                                disabled={
+                                  (formType === "billing" &&
+                                    !editCheckoutMode) ||
+                                  (formType === "billing-confirmation" &&
+                                    !editConfirmationData) ||
+                                  (formType === "shipping-confirmation" &&
+                                    !editConfirmationData)
+                                }
+                                defaultValue={
+                                  formType === "billing" ||
+                                  (formType === "profile" && !editAddress)
+                                    ? 1
+                                    : billingData.city
+                                }
+                                required
+                                onChange={(e) => {
+                                  onChange(e.target.value);
+                                }}
+                                error={!!errors.city}
+                              >
+                                <MenuItem disabled value={1}>
+                                  Selecciona tu Localidad
+                                </MenuItem>
+                                {cities.map((city, index) => (
+                                  <MenuItem value={city} key={index}>
+                                    {city}
+                                  </MenuItem>
+                                ))}
+                              </CitySelect>
+                              <FormHelperText error={!!errors.city}>
+                                {errors.city &&
+                                value !== "Seleccione una Localidad"
+                                  ? AddressesErrors.CITY_INVALID
+                                  : ""}
+                              </FormHelperText>
+                            </>
+                          )}
+                        />
+                      </CitySelectContainer>
+                    </>
+                  )}
                 </>
               )}
               {(formType === "billing" ||
@@ -507,7 +506,6 @@ const Billing = ({
                     (formType === "shipping-confirmation" &&
                       !editConfirmationData)
                   }
-                  // defaultValue={billingData.phone}
                   required
                   {...register("phone", {
                     required: true,
@@ -552,7 +550,6 @@ const Billing = ({
             />
           </DataContainer>
         </BillingContainer>
-        // )
       )}
       <ToastContainer />
     </section>

@@ -31,6 +31,8 @@ const CartItem = ({ data, color }) => {
     dispatch(removeAllFromCart(id));
   };
 
+  console.log(url);
+
   return (
     <CartItemContainer
       component={"article"}

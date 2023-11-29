@@ -5,19 +5,58 @@ import {
 import {
   addressTypeByNameResponse,
   createAddressTypeResponse,
+  getAddressTypeByIdResponse,
 } from "../../../api/addressesTypes";
-import { cityByNameResponse, createCityResponse } from "../../../api/cities";
+import {
+  cityByNameResponse,
+  createCityResponse,
+  getCityByIdResponse,
+} from "../../../api/cities";
 import {
   countryByNameResponse,
   createCountryResponse,
 } from "../../../api/countries";
-import { createStateResponse, stateByNameResponse } from "../../../api/states";
+import {
+  createStateResponse,
+  getStateByIdResponse,
+  stateByNameResponse,
+} from "../../../api/states";
 import { capitalizeWords } from "../../../utils/capitalizeWords";
 import {
   conflictError,
   responseError,
   statusErrors,
 } from "../../../utils/toastErrors";
+
+export const getAddressTypeName = async (id) => {
+  try {
+    const res = await getAddressTypeByIdResponse(id);
+    return res.data.name;
+  } catch (error) {
+    statusErrors(error);
+    responseError(error);
+  }
+};
+
+export const getCityName = async (id) => {
+  try {
+    const res = await getCityByIdResponse(id);
+    return res.data.name;
+  } catch (error) {
+    statusErrors(error);
+    responseError(error);
+  }
+};
+
+export const getStateName = async (id) => {
+  try {
+    const res = await getStateByIdResponse(id);
+    return res.data.name;
+  } catch (error) {
+    statusErrors(error);
+    responseError(error);
+  }
+};
 
 export const getAddressByUser = async (userID) => {
   try {
