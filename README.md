@@ -3,8 +3,6 @@
   <img src="assets/images/logo.png" alt="Logotipo del Ecommerce">
 </p>
 
-![GitHub Gist last commit](https://img.shields.io/github/gist/last-commit/:gistId)
-
 <p style="text-align: justify;">Ecommerce web application with user login and registration, login with a Google account, product catalog and search, purchase checkout, profile management and administrative back office.</p>
 
 <h2 >🌐 Online Demo</h2>
