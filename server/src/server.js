@@ -8,6 +8,7 @@ const app = express();
 const logger = require("./utils/logger.js");
 
 const port = process.env.PORT || 4000;
+const hostname = "RENDER" in process.env ? "0.0.0.0" : "localhost";
 const routerAPI = require("./routes/index.js");
 const { SecurityMiddleware } = require("./middleware/security.middleware.js");
 
@@ -37,7 +38,7 @@ logger.info("Backend started succesfully");
 
 const main = async () => {
   try {
-    app.listen(port, () => {
+    app.listen(port, hostname, () => {
       logger.info(`Server running on: http://localhost:${port}`);
     });
   } catch (err) {
