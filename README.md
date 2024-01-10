@@ -5,9 +5,9 @@
 
 <p style="text-align: justify;">Ecommerce web application with user login and registration, login with a Google account, product catalog and search, purchase checkout, profile management and administrative back office.</p>
 
-<h2 >🌐 Online Demo</h2>
+<!-- <h2 >🌐 Online Demo</h2>
 
-<p style="text-align: justify;">You can access the online demo <a>here</a>.</p>
+<p style="text-align: justify;">You can access the online demo <a>here</a>.</p> -->
 
 <h2 >🚀 Technologies</h2>
 <p style="text-align: justify;">The Frontend <span style="font-size: 20px">🖥️</span> was made with: </p>
